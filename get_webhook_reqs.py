@@ -1,5 +1,7 @@
 import requests
 
+
+# note: use url-shorten api to shorten payload length. 
 # example url: https://webhook.site/#!/196c8880-7a6b-4909-a05f-b44617d86bba/cd958aa2-2483-45a5-8c3c-8050a7ab814c/1
 
 token_id = "196c8880-7a6b-4909-a05f-b44617d86bba"       # the first string
