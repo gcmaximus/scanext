@@ -1,2 +1,2 @@
 print('HELLO')
-print('testing git commit')
+print('testing git commit from WSL')
