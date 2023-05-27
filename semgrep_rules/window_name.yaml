@@ -1,0 +1,12 @@
+rules:
+  - id: window.name
+    pattern: |
+      $X = window.name
+      ...
+      $OBJECT.innerHTML = $X
+    message: |
+      Source: window.name
+      Sink: innerHTML
+    languages:
+      - javascript
+    severity: WARNING
