@@ -17,6 +17,7 @@ options = webdriver.ChromeOptions()
 options.add_experimental_option('detach', True)
 options.add_extension('./extension_2_0_13_0.crx')
 # options.add_argument('load-extension=../test/gtranslateext')
+options.add_argument('--headless')
 
 chrome_service = Service(executable_path=ChromeDriverManager().install())
 driver = Chrome(service=chrome_service, options=options)
