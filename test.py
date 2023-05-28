@@ -1,32 +1,53 @@
 # test codes for selenium
 
+import time
+
 from selenium import webdriver
+from selenium.webdriver import ActionChains, Chrome, ChromeOptions, Keys
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option('detach', True)
-# options.add_extension('C:/Users/pearl/Desktop/DISM/.DISM Y3/S1/extension_0_0_9_7.crx')
-options.add_argument('load-extension=C:/Users/pearl/AppData/Local/Google/Chrome/User Data/Default/Extensions/gighmmpiobklfepjocnamgkkbiglidom/5.4.1_0')
+options.add_extension('./extension_2_0_13_0.crx')
+# options.add_argument('load-extension=../test/gtranslateext')
 
-driver = webdriver.Chrome('./chromedriver', options=options)
+chrome_service = Service(executable_path=ChromeDriverManager().install())
+driver = Chrome(service=chrome_service, options=options)
 
-# driver.implicitly_wait(1000)
-driver.get("chrome://extensions")
+# driver = webdriver.Chrome('./chromedriver', options=options)
+
+# extensions = driver.execute_script("return chrome.runtime.getManifest();")
+
+# print(extensions)
+time.sleep(5)
+# id = driver.execute_script("return chrome.runtime.id;")
+# print(id)
+
+driver.get("chrome://system")
 
 
+# trust
+driver.get("chrome-extension://aapbdbdomjkkjkaonfhkkikfgjllcleb/popup.html")
 
-elem = driver.find_element(By.CLASS_NAME, 'chrome-extension-input')
-# elem.send_keys()
-# elem.submit()
+# driver.get("https://www.411-spyware.com/de/es-ist-die-ungesetzliche-tatigkeit-enthullt-bundespolizei-virus-entfernen")
 
-# element = WebDriverWait(driver,3600000).until(
-#     EC.presence_of_element_located((By.CLASS_NAME, 'manifest-dashboard'))
-# )
+input_field = driver.find_element(By.ID, 'text-input')
 
+time.sleep(5)
 
-# print (driver.title)
+input_field.send_keys('酒')
+
+time.sleep(5)
+# Find the button by its ID and click on it
+button = driver.find_element(By.CLASS_NAME, 'goog-inline-block')
+button.click()
+
+fun = driver.find_element(By.ID, 'funstuff')
 
