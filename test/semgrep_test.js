@@ -6,4 +6,4 @@ function pop(a) {
   document.getElementById('displayArea').outerHTML = a;
 }
 
-pop(window.name)
+pop('window.name')
