@@ -1,20 +1,14 @@
 rules:
-- id: window.name
-  mode: join
-  join: 
-    rules:
-
-      - id: source
-        pattern: $X = window.name
-        languages: [javascript]
-
-      - id: sink
-        pattern: $OBJECT.innerHTML = $X
-        languages: [javascript]
-    on:
-    - 'source.$X == sink.$X'
-  message: |
-    Source: window.name
-    Sink: innerHTML
-  severity: WARNING
-  
+  - id: window.name
+    message:
+      "Source:window.name;Sink:innerHTML;
+      window.name is vulnerable, which flows to innerHTML"
+    languages:
+      - javascript
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: $OBJECT.innerHTML
+      - pattern: $OBJECT.outerHTML
+    severity: WARNING

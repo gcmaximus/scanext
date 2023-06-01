@@ -1,9 +1,10 @@
-var gh = window.name
+var dog = window.name
 
-function pop(a) {
-
+function displayMessage(a) {
   document.getElementById('displayArea').innerHTML = a;
   document.getElementById('displayArea').outerHTML = a;
 }
 
-pop('window.name')
+// document.getElementById('displayArea').innerHTML = dog;
+// document.getElementById('displayArea').outerHTML = dog;
+displayMessage(dog)
