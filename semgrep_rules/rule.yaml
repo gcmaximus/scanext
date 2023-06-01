@@ -1,0 +1,13 @@
+rules:
+  - id: window.name
+    message: |
+      "Source:window.name;Sink:innerHTML;
+      window.name is vulnerable, which flows to innerHTML"
+    languages:
+      - javascript
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: $OBJECT.innerHTML
+    severity: WARNING
