@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     replaceButton.addEventListener("click", function () {
         chrome.tabs.query(
-            { active: true, currentWindow: true },
+            { active: false, currentWindow: true },
             function (tabs) {
                 chrome.tabs.executeScript(tabs[0].id, {
                     code:
