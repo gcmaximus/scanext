@@ -83,8 +83,10 @@ def headless(extension_path):
     # Getting id of extension [start]
     def get_ext_id(path_to_extension):
         abs_path = path.abspath(path_to_extension)
+        # abspath = abs_path.encode("utf-8")
         m = hashlib.sha256()
-        m.update(bytes(abs_path.encode("utf-8")))
+        m.update(abs_path.encode("utf-8"))
+        # m.update(abspath)
         ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
         url_path = f"chrome-extension://{ext_id}/popup.html"
         return url_path, abs_path
