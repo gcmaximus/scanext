@@ -18,7 +18,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from functools import partial
 
 
-
 def logs(driver, alert, result, extension_name, payload):
     # !! [Selenium cant take screenshot of alerts as it occurs outside the DOM] !!
     # driver.save_screenshot("alert_screenshot.png")
@@ -53,7 +52,10 @@ def process_payload(payloads,url_path, abs_path):
     driver.get('https://www.example.com')
     driver.switch_to.window(original)
 
+    time.sleep(3)
+
     for payload in payloads:
+        driver.get_screenshot_as_file("ss.png")
         a = driver.find_element(By.ID, 'replacementInput')
         a.clear()
         a.send_keys(payload)
@@ -82,7 +84,7 @@ def headless(extension_path):
     def get_ext_id(path_to_extension):
         abs_path = path.abspath(path_to_extension)
         m = hashlib.sha256()
-        m.update(abs_path.encode("utf-8"))
+        m.update(bytes(abs_path.encode("utf-8")))
         ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
         url_path = f"chrome-extension://{ext_id}/popup.html"
         return url_path, abs_path
@@ -108,7 +110,7 @@ def headless(extension_path):
 
         return payloads1, payloads2, payloads3
 
-    payloads1, payloads2, payloads3 = subset_payloads('payloads/small_payload.txt')
+    payloads1, payloads2, payloads3 = subset_payloads('dynamic/payloads/small_payload.txt')#subset_payloads('payloads/small_payload.txt')
 
     num_processes = 3  # Define the number of concurrent processes
     with Pool(num_processes) as pool:
@@ -119,7 +121,7 @@ def headless(extension_path):
 def main():
     # Configure logging
     logging.basicConfig(
-        filename='logs/penetration_log_headless.txt',
+        filename='dynamic/logs/penetration_log_headless.txt', #filename='dynamic/logs/penetration_log_headless.txt'
         level=logging.ERROR,
         format='%(asctime)s, %(message)s'
     )
@@ -127,7 +129,7 @@ def main():
     # Run program
     with Display() as disp:
         print(disp.is_alive())
-        headless('/h1-replacer')
+        headless('h1-replacer')
 
 
 
