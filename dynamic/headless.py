@@ -71,6 +71,7 @@ def process_payload(payloads,url_path, abs_path):
             logs(driver, alert, 'Success', url_path, payload)
             print('+ Alert Detected +')
         except TimeoutException:
+            driver.get_screenshot_as_file("ss.png")
             logs(driver, 'NIL', 'Fail', url_path, payload)
             print('= No alerts detected =')
 
