@@ -131,7 +131,7 @@ def main():
     # Run program
     with Display() as disp:
         print(disp.is_alive())
-        headless('h1-replacer')
+        headless('h1-replacer(v3)')
 
 
 
