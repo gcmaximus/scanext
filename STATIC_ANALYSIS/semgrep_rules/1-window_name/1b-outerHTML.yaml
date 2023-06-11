@@ -1,0 +1,23 @@
+rules:
+  - id: 1b-outerHTML
+    message: |
+      "Source:window.name;Sink:outerHTML;
+      window.name is vulnerable, which flows to outerHTML"
+    languages:
+      - javascript
+    pattern-either:
+      - pattern: |
+          $X = window.name
+          ...
+          $OBJECT.outerHTML = $X
+      - pattern: |
+          $X = window.name
+          ...
+          function $FUNC(...,$ARG,...) {
+            ...
+            $OBJECT.outerHTML = $ARG
+            ...
+          }
+          ...
+          $FUNC(...,$X,...)
+    severity: WARNING
