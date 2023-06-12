@@ -1,5 +1,6 @@
-print('HELLO')
-print('testing git commit from WSL')
-print('abcabcbacaadas')
+print('start of program')
 
-print('idsjiofsdjofijsf')
+# auto semgrep scan
+
+# auto selenium
+
