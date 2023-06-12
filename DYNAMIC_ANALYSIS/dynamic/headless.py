@@ -113,7 +113,7 @@ def headless(extension_path):
 
         return payloads1, payloads2, payloads3
 
-    payloads1, payloads2, payloads3 = subset_payloads('dynamic/payloads/small_payload.txt')#subset_payloads('payloads/small_payload.txt')
+    payloads1, payloads2, payloads3 = subset_payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')#subset_payloads('payloads/small_payload.txt')
 
     num_processes = 3  # Define the number of concurrent processes
     with Pool(num_processes) as pool:
@@ -124,7 +124,7 @@ def headless(extension_path):
 def main():
     # Configure logging
     logging.basicConfig(
-        filename='dynamic/logs/penetration_log_headless.txt', #filename='dynamic/logs/penetration_log_headless.txt'
+        filename='DYNAMIC_ANALYSIS/dynamic/logs/penetration_log_headless.txt', #filename='dynamic/logs/penetration_log_headless.txt'
         level=logging.ERROR,
         format='%(asctime)s, %(message)s'
     )
