@@ -8,15 +8,143 @@
     },
     "results": [
         {
-            "check_id": "semgrep_rules.window.name",
+            "check_id": "semgrep_rules.1-window_name.1-outerHTML",
             "end": {
                 "col": 55,
-                "line": 2,
-                "offset": 76
+                "line": 15,
+                "offset": 359
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "456761c652e648f6cd36252d3c0e618f8918f89f94af92b6c2a22c6c23c71cc21e369cf65758d3f6eb67f6bb6de7abfa70f2835f368fa89eeeabb49b56ab377d_0",
+                "fingerprint": "286ae8ffe08e003cc9a524d97815add38ebe5f728513b5465b1e32584950adf6a44540e76aa82f533251348c2dfb3ffa0b3b701d61761ab794482c1ded5428b9_0",
+                "is_ignored": false,
+                "lines": "var dog = window.name\ndocument.getElementById('displayArea').outerHTML = dog",
+                "message": "\"Source:window.name;Sink:outerHTML;\nwindow.name is vulnerable, which flows to outerHTML\"\n",
+                "metadata": {},
+                "metavars": {
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 39,
+                            "line": 15,
+                            "offset": 343
+                        },
+                        "start": {
+                            "col": 1,
+                            "line": 15,
+                            "offset": 305
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 8,
+                            "line": 14,
+                            "offset": 290
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 14,
+                            "offset": 287
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "semgrep_test.js",
+            "start": {
+                "col": 1,
+                "line": 14,
+                "offset": 283
+            }
+        },
+        {
+            "check_id": "semgrep_rules.1-window_name.1-outerHTML",
+            "end": {
+                "col": 28,
+                "line": 21,
+                "offset": 501
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "cb8c4ab866dd02002f8e811e8fa9b784608d7eea0e89c1129e01999849dae7669791e7a1f7cddd90457e0685ad31362e83832dbab91e8b09f8b080d419a632a9_0",
+                "is_ignored": false,
+                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').outerHTML = b;\n}\ndisplayMessage('l',dog,'k')",
+                "message": "\"Source:window.name;Sink:outerHTML;\nwindow.name is vulnerable, which flows to outerHTML\"\n",
+                "metadata": {},
+                "metavars": {
+                    "$ARG": {
+                        "abstract_content": "b",
+                        "end": {
+                            "col": 28,
+                            "line": 18,
+                            "offset": 410
+                        },
+                        "start": {
+                            "col": 27,
+                            "line": 18,
+                            "offset": 409
+                        }
+                    },
+                    "$FUNC": {
+                        "abstract_content": "displayMessage",
+                        "end": {
+                            "col": 24,
+                            "line": 18,
+                            "offset": 406
+                        },
+                        "start": {
+                            "col": 10,
+                            "line": 18,
+                            "offset": 392
+                        }
+                    },
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 41,
+                            "line": 19,
+                            "offset": 456
+                        },
+                        "start": {
+                            "col": 3,
+                            "line": 19,
+                            "offset": 418
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 8,
+                            "line": 17,
+                            "offset": 368
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 17,
+                            "offset": 365
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "semgrep_test.js",
+            "start": {
+                "col": 1,
+                "line": 17,
+                "offset": 361
+            }
+        },
+        {
+            "check_id": "semgrep_rules.1-window_name.1-innerHTML",
+            "end": {
+                "col": 55,
+                "line": 6,
+                "offset": 139
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "b1119e492fa9ee78debab950678254f63b0a73ca0323b7fe4a2f2cddbb129f1e9601ea66cb75d89d1159b815f6a09770eb03955f821434b3cb15d6bc26a083c0_0",
                 "is_ignored": false,
                 "lines": "var dog = window.name\ndocument.getElementById('displayArea').innerHTML = dog",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
@@ -26,26 +154,26 @@
                         "abstract_content": "document.getElementById('displayArea')",
                         "end": {
                             "col": 39,
-                            "line": 2,
-                            "offset": 60
+                            "line": 6,
+                            "offset": 123
                         },
                         "start": {
                             "col": 1,
-                            "line": 2,
-                            "offset": 22
+                            "line": 6,
+                            "offset": 85
                         }
                     },
                     "$X": {
                         "abstract_content": "dog",
                         "end": {
                             "col": 8,
-                            "line": 1,
-                            "offset": 7
+                            "line": 5,
+                            "offset": 70
                         },
                         "start": {
                             "col": 5,
-                            "line": 1,
-                            "offset": 4
+                            "line": 5,
+                            "offset": 67
                         }
                     }
                 },
@@ -54,22 +182,22 @@
             "path": "semgrep_test.js",
             "start": {
                 "col": 1,
-                "line": 1,
-                "offset": 0
+                "line": 5,
+                "offset": 63
             }
         },
         {
-            "check_id": "semgrep_rules.window.name",
+            "check_id": "semgrep_rules.1-window_name.1-innerHTML",
             "end": {
-                "col": 30,
-                "line": 8,
-                "offset": 220
+                "col": 28,
+                "line": 12,
+                "offset": 281
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "836bbb1854c1c2e4c553c5b8076be98ad27873498312340058fb0defd6a5ac2466bc917a51aa46593405c9ff2f7d6791ca62bf34f6dfc68b92db8efa9113531f_0",
+                "fingerprint": "920c95727e5c8446b35c4f7d0f7d14fa58e3414ae35753d0b5b54113d4e86d4bddebe58a6d711a67a16c53f030c74614a4813fb9c330bd17e51bfb13427821d8_0",
                 "is_ignored": false,
-                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l','aaa',dog)",
+                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l',dog,'k')",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
                 "metadata": {},
                 "metavars": {
@@ -77,52 +205,52 @@
                         "abstract_content": "b",
                         "end": {
                             "col": 28,
-                            "line": 5,
-                            "offset": 127
+                            "line": 9,
+                            "offset": 190
                         },
                         "start": {
                             "col": 27,
-                            "line": 5,
-                            "offset": 126
+                            "line": 9,
+                            "offset": 189
                         }
                     },
                     "$FUNC": {
                         "abstract_content": "displayMessage",
                         "end": {
                             "col": 24,
-                            "line": 5,
-                            "offset": 123
+                            "line": 9,
+                            "offset": 186
                         },
                         "start": {
                             "col": 10,
-                            "line": 5,
-                            "offset": 109
+                            "line": 9,
+                            "offset": 172
                         }
                     },
                     "$OBJECT": {
                         "abstract_content": "document.getElementById('displayArea')",
                         "end": {
                             "col": 41,
-                            "line": 6,
-                            "offset": 173
+                            "line": 10,
+                            "offset": 236
                         },
                         "start": {
                             "col": 3,
-                            "line": 6,
-                            "offset": 135
+                            "line": 10,
+                            "offset": 198
                         }
                     },
                     "$X": {
                         "abstract_content": "dog",
                         "end": {
                             "col": 8,
-                            "line": 4,
-                            "offset": 85
+                            "line": 8,
+                            "offset": 148
                         },
                         "start": {
                             "col": 5,
-                            "line": 4,
-                            "offset": 82
+                            "line": 8,
+                            "offset": 145
                         }
                     }
                 },
@@ -131,8 +259,8 @@
             "path": "semgrep_test.js",
             "start": {
                 "col": 1,
-                "line": 4,
-                "offset": 78
+                "line": 8,
+                "offset": 141
             }
         }
     ],

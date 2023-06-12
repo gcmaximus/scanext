@@ -1,0 +1,23 @@
+rules:
+  - id: 1-innerHTML
+    message: |
+      "Source:window.name;Sink:innerHTML;
+      window.name is vulnerable, which flows to innerHTML"
+    languages:
+      - javascript
+    pattern-either:
+      - pattern: |
+          $X = window.name
+          ...
+          $OBJECT.innerHTML = $X
+      - pattern: |
+          $X = window.name
+          ...
+          function $FUNC(...,$ARG,...) {
+            ...
+            $OBJECT.innerHTML = $ARG
+            ...
+          }
+          ...
+          $FUNC(...,$X,...)
+    severity: WARNING

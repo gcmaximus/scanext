@@ -1,21 +1,21 @@
 rules:
-  - id: window.name
+  - id: 1-outerHTML
     message: |
-      "Source:window.name;Sink:innerHTML;
-      window.name is vulnerable, which flows to innerHTML"
+      "Source:window.name;Sink:outerHTML;
+      window.name is vulnerable, which flows to outerHTML"
     languages:
       - javascript
     pattern-either:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.innerHTML = $X
+          $OBJECT.outerHTML = $X
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = $ARG
+            $OBJECT.outerHTML = $ARG
             ...
           }
           ...
