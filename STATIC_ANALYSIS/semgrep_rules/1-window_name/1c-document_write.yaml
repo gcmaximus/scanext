@@ -1,7 +1,7 @@
 rules:
-  - id: 1-innerHTML
+  - id: 1c-document_write
     message: |
-      "Source:window.name;Sink:innerHTML;
+      "Source:window.name;Sink:document.write;
       window.name is vulnerable, which flows to innerHTML"
     languages:
       - javascript
@@ -9,13 +9,13 @@ rules:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.innerHTML = $X
+          document.write($X)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = $ARG
+            document.write($X)
             ...
           }
           ...

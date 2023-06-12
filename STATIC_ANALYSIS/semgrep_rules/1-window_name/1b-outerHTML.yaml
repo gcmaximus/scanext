@@ -1,21 +1,21 @@
 rules:
-  - id: 2-innerHTML
+  - id: 1b-outerHTML
     message: |
-      "Source:location.hash;Sink:innerHTML;
-      location.hash is vulnerable, which flows to innerHTML"
+      "Source:window.name;Sink:outerHTML;
+      window.name is vulnerable, which flows to outerHTML"
     languages:
       - javascript
     pattern-either:
       - pattern: |
-          $X = location.hash
+          $X = window.name
           ...
-          $OBJECT.innerHTML = $X
+          $OBJECT.outerHTML = $X
       - pattern: |
-          $X = location.hash
+          $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = $ARG
+            $OBJECT.outerHTML = $ARG
             ...
           }
           ...
