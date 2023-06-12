@@ -1,0 +1,140 @@
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "semgrep_test.js"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "semgrep_rules.window.name",
+            "end": {
+                "col": 55,
+                "line": 2,
+                "offset": 76
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "456761c652e648f6cd36252d3c0e618f8918f89f94af92b6c2a22c6c23c71cc21e369cf65758d3f6eb67f6bb6de7abfa70f2835f368fa89eeeabb49b56ab377d_0",
+                "is_ignored": false,
+                "lines": "var dog = window.name\ndocument.getElementById('displayArea').innerHTML = dog",
+                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "metadata": {},
+                "metavars": {
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 39,
+                            "line": 2,
+                            "offset": 60
+                        },
+                        "start": {
+                            "col": 1,
+                            "line": 2,
+                            "offset": 22
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 8,
+                            "line": 1,
+                            "offset": 7
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 1,
+                            "offset": 4
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "semgrep_test.js",
+            "start": {
+                "col": 1,
+                "line": 1,
+                "offset": 0
+            }
+        },
+        {
+            "check_id": "semgrep_rules.window.name",
+            "end": {
+                "col": 30,
+                "line": 8,
+                "offset": 220
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "836bbb1854c1c2e4c553c5b8076be98ad27873498312340058fb0defd6a5ac2466bc917a51aa46593405c9ff2f7d6791ca62bf34f6dfc68b92db8efa9113531f_0",
+                "is_ignored": false,
+                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l','aaa',dog)",
+                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "metadata": {},
+                "metavars": {
+                    "$ARG": {
+                        "abstract_content": "b",
+                        "end": {
+                            "col": 28,
+                            "line": 5,
+                            "offset": 127
+                        },
+                        "start": {
+                            "col": 27,
+                            "line": 5,
+                            "offset": 126
+                        }
+                    },
+                    "$FUNC": {
+                        "abstract_content": "displayMessage",
+                        "end": {
+                            "col": 24,
+                            "line": 5,
+                            "offset": 123
+                        },
+                        "start": {
+                            "col": 10,
+                            "line": 5,
+                            "offset": 109
+                        }
+                    },
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 41,
+                            "line": 6,
+                            "offset": 173
+                        },
+                        "start": {
+                            "col": 3,
+                            "line": 6,
+                            "offset": 135
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 8,
+                            "line": 4,
+                            "offset": 85
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 4,
+                            "offset": 82
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "semgrep_test.js",
+            "start": {
+                "col": 1,
+                "line": 4,
+                "offset": 78
+            }
+        }
+    ],
+    "version": "1.22.0"
+}
