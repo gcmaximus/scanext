@@ -1,18 +1,23 @@
-console.log('line')
+// source: window.name
+// *******************
 var v = window.name
-// var s = `<img src=x onerror=${v}>`
-// document.write(s)
 var tags = document.getElementsByTagName('h1')
 
 for (let i=0; i<tags.length; i++) {
     tags[i].innerHTML = v
 }
 
+// source: input field
+// *******************
 
+// currently this script is in the actual webpage not the popup.html. trying to fix
 
-// var replacementInput = document.getElementById('replacementInput');
-// var tags = document.getElementsByTagName('h1')
+// var replacementInput = document.getElementById("replacementInput");
+// var replaceButton = document.getElementById("replaceButton");
 
-// semgrep test
-// var a = window.name
-// document.getElementById('id').outerHTML = a
+// replaceButton.addEventListener("click", function () {
+//     var tags = document.getElementsByTagName('h1')
+//     for (let i = 0; i < tags.length; i++) {
+//         tags[i].innerHTML = replacementInput
+//     }
+// })
