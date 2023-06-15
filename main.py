@@ -9,8 +9,8 @@ def run_semgrep():
         "semgrep",
         "scan",
         "--config=STATIC_ANALYSIS/semgrep_rules",
-        # "STATIC_ANALYSIS/semgrep_test.js",  # replace with chrome extension js files
-        "h1-replacer(v3)",
+        "STATIC_ANALYSIS/test_codes",  # replace 
+        # "h1-replacer(v3)",
         "--output",
         "STATIC_ANALYSIS/semgrep_results.json",
         "--json",
