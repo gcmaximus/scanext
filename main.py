@@ -9,8 +9,9 @@ def run_semgrep():
         "semgrep",
         "scan",
         "--config=STATIC_ANALYSIS/semgrep_rules",
-        "STATIC_ANALYSIS/test_codes",  # replace 
+        # "STATIC_ANALYSIS/test_codes",  # replace 
         # "h1-replacer(v3)",
+        "emailextractor",
         "--output",
         "STATIC_ANALYSIS/semgrep_results.json",
         "--json",
