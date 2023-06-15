@@ -3,12 +3,13 @@ import subprocess
 print("start of program")
 
 # Config rules
-rules = "STATIC_ANALYSIS/semgrep_rules/1-window_name/1a-innerHTML.yaml"
+rules = "STATIC_ANALYSIS/semgrep_rules/"
+# rules = "auto"
 
 # Codes to be scanned
-filename = "STATIC_ANALYSIS/test_codes/semgrep_test.js"
-# filename = "h1-replacer(v3)"
-# filename = "emailextractor"
+# filename = "STATIC_ANALYSIS/test_codes/semgrep_test.js"
+# filename = "EXTENSIONS/h1-replacer(v3)"
+filename = "EXTENSIONS/emailextractor"
 
 # Output file
 output_file = "STATIC_ANALYSIS/semgrep_results.json"
