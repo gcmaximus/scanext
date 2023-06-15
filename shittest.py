@@ -1,4 +1,0 @@
-"""
-prove jerald wrong
-"""
-
