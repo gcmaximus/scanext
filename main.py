@@ -24,7 +24,8 @@ def run_semgrep():
         print(f"Error running semgrep command: {e}")
 
 
-run_semgrep()
+if __name__ == "__main__":
+    run_semgrep()
 
 
 # auto selenium
