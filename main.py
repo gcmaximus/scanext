@@ -1,4 +1,4 @@
-import subprocess   
+import subprocess
 
 print("start of program")
 
