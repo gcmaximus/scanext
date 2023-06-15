@@ -1,0 +1,20 @@
+rules:
+- id: detect-location-href
+  languages:
+    - javascript
+  pattern-either: 
+    - pattern: |
+        $X = location.href
+        ...
+        $OBJECT.innerHTML = $X
+    - pattern: |
+        $X = location.href
+        ...
+        function $FUNC(...,$ARG,...) {
+          ...
+          $OBJECT.innerHTML = $ARG
+          ...
+        }
+        ...
+        $FUNC(...,$X,...)
+  message: "Source:location.href;Sink:innerHTML"
