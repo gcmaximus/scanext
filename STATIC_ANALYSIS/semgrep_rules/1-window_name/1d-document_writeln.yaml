@@ -1,7 +1,7 @@
 rules:
-  - id: 1c-document_write
+  - id: 1d-document_writeln
     message: |
-      "Source:window.name;Sink:document.write"
+      "Source:window.name;Sink:document.writeln"
     languages:
       - javascript
     pattern-either:
@@ -17,13 +17,13 @@ rules:
       - pattern: |
           $X = window.name
           ...
-          document.write(<...$X...>)
+          document.writeln(<...$X...>)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            document.write(<...$ARG...>)
+            document.writeln(<...$ARG...>)
             ...
           }
           ...
