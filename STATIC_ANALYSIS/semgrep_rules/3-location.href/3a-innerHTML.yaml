@@ -1,5 +1,5 @@
 rules:
-- id: detect-location-href
+- id: 3a-innerHTML
   languages:
     - javascript
   pattern-either: 
@@ -18,3 +18,4 @@ rules:
         ...
         $FUNC(...,$X,...)
   message: "Source:location.href;Sink:innerHTML"
+  severity: WARNING
