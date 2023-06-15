@@ -1,8 +1,7 @@
 rules:
   - id: 1b-outerHTML
     message: |
-      "Source:window.name;Sink:outerHTML;
-      window.name is vulnerable, which flows to outerHTML"
+      "Source:window.name;Sink:outerHTML"
     languages:
       - javascript
     pattern-either:

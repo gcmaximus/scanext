@@ -1,8 +1,7 @@
 rules:
   - id: 1c-document_write
     message: |
-      "Source:window.name;Sink:document.write;
-      window.name is vulnerable, which flows to innerHTML"
+      "Source:window.name;Sink:document.write"
     languages:
       - javascript
     pattern-either:

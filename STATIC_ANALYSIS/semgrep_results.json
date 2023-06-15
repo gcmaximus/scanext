@@ -3,7 +3,7 @@
     "paths": {
         "_comment": "<add --verbose for a list of skipped paths>",
         "scanned": [
-            "STATIC_ANALYSIS/semgrep_test.js"
+            "STATIC_ANALYSIS/test_codes/semgrep_test.js"
         ]
     },
     "results": [
@@ -16,7 +16,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "4506f15cfec2ca56f0df9aec2fa2541d4ba3c08434c3e198b4817f17b2bad6c40166e2791f07a0faf540f77480b6d317345046eb4d65ee86c5e4548739e4fcab_0",
+                "fingerprint": "606efe0d08dffb8a4692763e6c30d9aa6a3b1b408df1d5c60aa9d76662319a9ba0f1aab9589311674394ab931231407063a2a48360d0e62bd489e7144613be76_0",
                 "is_ignored": false,
                 "lines": "var dog = window.name\ndocument.getElementById('displayArea').innerHTML = dog",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
@@ -51,7 +51,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 1,
                 "line": 6,
@@ -67,7 +67,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "7e45da6dde70f9e136436cf8ea35390b8173e44a60ed3f91a8c07d2fe7cf208763b09f6c332c194e68f1e777399a69cada2ff2a65c70cf6ec5dd6078b643cb46_0",
+                "fingerprint": "fc14fc25bb9abb9a857ed4333569e4e5872e0b1cede55d4104f2bd5cc058b4e7aa818b9957c2ad8ba6644c8e4bc7cc2dc037e727c774ce789457a460cf64fce1_0",
                 "is_ignored": false,
                 "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l',dog,'k')",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
@@ -128,7 +128,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 1,
                 "line": 9,
@@ -144,7 +144,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "4dc404457296c6a0345660f885d3a9d848bd3583d5c66e78bdfde5e2b8a365b6760ed3c36058e737b9b13d8ffdd35eafed099d05b3b61f2710a0cd3f27b97092_0",
+                "fingerprint": "58d92f6fe7c16ae35f9be0e1d5be67fe5a2c02f72fd6df9e5b008448deb103f24d9ab2cf6e7277e196ca6e2f3a70c8cf7c7d0282dc7450042fed99ad868b8c1d_0",
                 "is_ignored": false,
                 "lines": "var button = document.getElementById('buttonId')\nbutton.addEventListener('click', function() {\n  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog\n})",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
@@ -179,7 +179,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 1,
                 "line": 16,
@@ -195,7 +195,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "69c934e6b519e79c600848e3cdd6af6446c47849c6d59634d1f100c273f3415575df82d3daf49fbc4dad07abfd05794775e049d15b1fd7720de3001bc4cf3134_0",
+                "fingerprint": "5edb9b1142363f6a7d25ce3514153e2d035e1dc5956569b22143e0eb40e86596c14425d0e148b42b372a0aabbc23a156779b87d735b919bb36f2decc6e8f70df_0",
                 "is_ignored": false,
                 "lines": "button.addEventListener('click', function() {\n  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog\n})",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
@@ -230,7 +230,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 1,
                 "line": 17,
@@ -246,7 +246,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "4506f15cfec2ca56f0df9aec2fa2541d4ba3c08434c3e198b4817f17b2bad6c40166e2791f07a0faf540f77480b6d317345046eb4d65ee86c5e4548739e4fcab_1",
+                "fingerprint": "606efe0d08dffb8a4692763e6c30d9aa6a3b1b408df1d5c60aa9d76662319a9ba0f1aab9589311674394ab931231407063a2a48360d0e62bd489e7144613be76_1",
                 "is_ignored": false,
                 "lines": "  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
@@ -281,7 +281,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 3,
                 "line": 18,
@@ -297,7 +297,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "859752e15ebc0f589681fb85c56d1739dbb5a22e62dcad64a0871b2f911b4f75f6c75744329b04450ed5494dbc2ac027e2cfa9ad7cca421cea07f1518016e0ad_0",
+                "fingerprint": "1a3bf7acc1e5732d074a59c1fd75261a9e41107feaffbf8ee125107a44571c3331106005d4fee70917b398250c98ce6ba62aa8c97eebe851a2631a76aa144b13_0",
                 "is_ignored": false,
                 "lines": "document.getElementById('buttonId').addEventListener('click', function() {\n  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog\n})",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
@@ -319,7 +319,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 1,
                 "line": 23,
@@ -335,7 +335,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "4506f15cfec2ca56f0df9aec2fa2541d4ba3c08434c3e198b4817f17b2bad6c40166e2791f07a0faf540f77480b6d317345046eb4d65ee86c5e4548739e4fcab_2",
+                "fingerprint": "606efe0d08dffb8a4692763e6c30d9aa6a3b1b408df1d5c60aa9d76662319a9ba0f1aab9589311674394ab931231407063a2a48360d0e62bd489e7144613be76_2",
                 "is_ignored": false,
                 "lines": "  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog",
                 "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
@@ -370,7 +370,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 3,
                 "line": 24,
@@ -386,7 +386,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "a71c3230ce5d93c8b3095a259dfeaf025998f696569018a18e40eeffdb2eba5cd12d47101afe8d0511e99939a49db5dcf5971253086fa916504a213d93db1ebe_0",
+                "fingerprint": "831d28cdcf177d85592441e4859e495c1b928eca6290c3e9eaf546b7acc5c28e7bb019305caf70c645c6d238a20ec95a5aefe567d8b1946b539528e0370b2ce4_0",
                 "is_ignored": false,
                 "lines": "var dog = window.name\ndocument.getElementById('displayArea').outerHTML = dog",
                 "message": "\"Source:window.name;Sink:outerHTML;\nwindow.name is vulnerable, which flows to outerHTML\"\n",
@@ -421,7 +421,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 1,
                 "line": 29,
@@ -437,7 +437,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "d5c3df421ff461fcd032071b93a8bd83e8253a7ac77d8efbdc14b8b186f4ff88cd651966608e0755fe1dd6a73aacb87a577cfb2970ea3de51d2a50078af55701_0",
+                "fingerprint": "ddd4fb40a5578d63054e7d3a8df998ea72f42a3fdcd7a94c0fc180eb1205d271c9761108bae51119f03b9cb8cd8570b38682a302427eb32dfd227c74c055eead_0",
                 "is_ignored": false,
                 "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').outerHTML = b;\n}\ndisplayMessage('l',dog,'k')",
                 "message": "\"Source:window.name;Sink:outerHTML;\nwindow.name is vulnerable, which flows to outerHTML\"\n",
@@ -498,7 +498,7 @@
                 },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
             "start": {
                 "col": 1,
                 "line": 32,

@@ -1,12 +1,9 @@
 rules:
   - id: 1a-innerHTML
     message: |
-      "Source:window.name;Sink:innerHTML;
-      window.name is vulnerable, which flows to innerHTML"
+      "Source:window.name;Sink:innerHTML"
     languages:
       - javascript
-
-
     pattern-either:
       - pattern-inside: |
           $Y.addEventListener('click', function() {
