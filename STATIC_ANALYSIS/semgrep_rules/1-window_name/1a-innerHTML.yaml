@@ -5,7 +5,18 @@ rules:
       window.name is vulnerable, which flows to innerHTML"
     languages:
       - javascript
+
+
     pattern-either:
+      - pattern-inside: |
+          $Y.addEventListener('click', function() {
+            ...
+          })
+      - pattern-inside: |
+          $Y = $OBJECT.getElementById(...)
+          $Y.addEventListener('click', function() {
+            ...
+          })
       - pattern: |
           $X = window.name
           ...

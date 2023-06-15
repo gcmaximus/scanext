@@ -2,6 +2,7 @@
   1. window.name  
 *******************/ 
 
+
 var dog = window.name
 document.getElementById('displayArea').innerHTML = dog
 
@@ -11,6 +12,20 @@ function displayMessage(a,b,c) {
 }
 displayMessage('l',dog,'k')
 
+
+var button = document.getElementById('buttonId')
+button.addEventListener('click', function() {
+  var dog = window.name
+  document.getElementById('displayArea').innerHTML = dog
+})
+
+
+document.getElementById('buttonId').addEventListener('click', function() {
+  var dog = window.name
+  document.getElementById('displayArea').innerHTML = dog
+})
+
+
 var dog = window.name
 document.getElementById('displayArea').outerHTML = dog
 
@@ -19,6 +34,7 @@ function displayMessage(a,b,c) {
   document.getElementById('displayArea').outerHTML = b;
 }
 displayMessage('l',dog,'k')
+
 
 /*******************
   2. location.hash  
