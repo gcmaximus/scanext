@@ -1,0 +1,9 @@
+rules:
+- id: scan-input-and-button
+  patterns:
+    - pattern-either:
+      - pattern: <input>
+      - pattern: type="button"
+  message: input or button field detected
+  languages: [html]
+  severity: WARNING

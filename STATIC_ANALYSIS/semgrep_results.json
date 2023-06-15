@@ -3,508 +3,1427 @@
     "paths": {
         "_comment": "<add --verbose for a list of skipped paths>",
         "scanned": [
+            "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "STATIC_ANALYSIS/test_codes/semgrep_test.js"
         ]
     },
     "results": [
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
-                "col": 55,
-                "line": 7,
-                "offset": 140
+                "col": 9,
+                "line": 128,
+                "offset": 6763
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "606efe0d08dffb8a4692763e6c30d9aa6a3b1b408df1d5c60aa9d76662319a9ba0f1aab9589311674394ab931231407063a2a48360d0e62bd489e7144613be76_0",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_0",
                 "is_ignored": false,
-                "lines": "var dog = window.name\ndocument.getElementById('displayArea').innerHTML = dog",
-                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "lines": "        <input type=\"hidden\" id=\"timezoneOffset\" name=\"timezoneOffset\" value=\"0\">\n        <input type=\"hidden\" id=\"ptmode\" name=\"ptmode\" value=\"f\">",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 39,
-                            "line": 7,
-                            "offset": 124
-                        },
-                        "start": {
-                            "col": 1,
-                            "line": 7,
-                            "offset": 86
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 8,
-                            "line": 6,
-                            "offset": 71
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 6,
-                            "offset": 68
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 1,
-                "line": 6,
-                "offset": 64
+                "col": 9,
+                "line": 127,
+                "offset": 6681
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
-                "col": 28,
-                "line": 13,
-                "offset": 282
+                "col": 9,
+                "line": 129,
+                "offset": 6829
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "fc14fc25bb9abb9a857ed4333569e4e5872e0b1cede55d4104f2bd5cc058b4e7aa818b9957c2ad8ba6644c8e4bc7cc2dc037e727c774ce789457a460cf64fce1_0",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_1",
                 "is_ignored": false,
-                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l',dog,'k')",
-                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "lines": "        <input type=\"hidden\" id=\"ptmode\" name=\"ptmode\" value=\"f\">\n        <input type=\"hidden\" id=\"ptlangcd\" name=\"ptlangcd\" value=\"ENG\">",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$ARG": {
-                        "abstract_content": "b",
-                        "end": {
-                            "col": 28,
-                            "line": 10,
-                            "offset": 191
-                        },
-                        "start": {
-                            "col": 27,
-                            "line": 10,
-                            "offset": 190
-                        }
-                    },
-                    "$FUNC": {
-                        "abstract_content": "displayMessage",
-                        "end": {
-                            "col": 24,
-                            "line": 10,
-                            "offset": 187
-                        },
-                        "start": {
-                            "col": 10,
-                            "line": 10,
-                            "offset": 173
-                        }
-                    },
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 41,
-                            "line": 11,
-                            "offset": 237
-                        },
-                        "start": {
-                            "col": 3,
-                            "line": 11,
-                            "offset": 199
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 8,
-                            "line": 9,
-                            "offset": 149
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 9,
-                            "offset": 146
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 1,
-                "line": 9,
-                "offset": 142
+                "col": 9,
+                "line": 128,
+                "offset": 6763
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 9,
+                "line": 130,
+                "offset": 6901
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_2",
+                "is_ignored": false,
+                "lines": "        <input type=\"hidden\" id=\"ptlangcd\" name=\"ptlangcd\" value=\"ENG\">\n        <input type=\"hidden\" id=\"ptinstalledlang\" name=\"ptinstalledlang\" value=\"ENG\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 9,
+                "line": 129,
+                "offset": 6829
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
                 "col": 3,
-                "line": 20,
-                "offset": 463
+                "line": 133,
+                "offset": 7032
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "58d92f6fe7c16ae35f9be0e1d5be67fe5a2c02f72fd6df9e5b008448deb103f24d9ab2cf6e7277e196ca6e2f3a70c8cf7c7d0282dc7450042fed99ad868b8c1d_0",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_3",
                 "is_ignored": false,
-                "lines": "var button = document.getElementById('buttonId')\nbutton.addEventListener('click', function() {\n  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog\n})",
-                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "lines": "        <input type=\"hidden\" id=\"ptinstalledlang\" name=\"ptinstalledlang\" value=\"ENG\">\n\t\t\n        <!-- Ryan Sena 22/03/2021 - CAPTCHA -->\n\t\t<input type=\"hidden\" id=\"origURL\" name=\"origURL\" value=\"\">",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$OBJECT": {
-                        "abstract_content": "document",
-                        "end": {
-                            "col": 22,
-                            "line": 16,
-                            "offset": 306
-                        },
-                        "start": {
-                            "col": 14,
-                            "line": 16,
-                            "offset": 298
-                        }
-                    },
-                    "$Y": {
-                        "abstract_content": "button",
-                        "end": {
-                            "col": 11,
-                            "line": 16,
-                            "offset": 295
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 16,
-                            "offset": 289
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 1,
-                "line": 16,
-                "offset": 285
+                "col": 9,
+                "line": 130,
+                "offset": 6901
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
                 "col": 3,
-                "line": 20,
-                "offset": 463
+                "line": 134,
+                "offset": 7093
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "5edb9b1142363f6a7d25ce3514153e2d035e1dc5956569b22143e0eb40e86596c14425d0e148b42b372a0aabbc23a156779b87d735b919bb36f2decc6e8f70df_0",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_4",
                 "is_ignored": false,
-                "lines": "button.addEventListener('click', function() {\n  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog\n})",
-                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "lines": "\t\t<input type=\"hidden\" id=\"origURL\" name=\"origURL\" value=\"\">\n\t\t<input type=\"hidden\" id=\"origURL1\" name=\"origURL1\" value=\"\">",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$Y": {
-                        "abstract_content": "button",
-                        "end": {
-                            "col": 7,
-                            "line": 17,
-                            "offset": 340
-                        },
-                        "propagated_value": {
-                            "svalue_abstract_content": "document.getElementById('buttonId')",
-                            "svalue_end": {
-                                "col": 49,
-                                "line": 16,
-                                "offset": 333
-                            },
-                            "svalue_start": {
-                                "col": 14,
-                                "line": 16,
-                                "offset": 298
-                            }
-                        },
-                        "start": {
-                            "col": 1,
-                            "line": 17,
-                            "offset": 334
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 1,
-                "line": 17,
-                "offset": 334
+                "col": 3,
+                "line": 133,
+                "offset": 7032
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 3,
+                "line": 135,
+                "offset": 7156
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_5",
+                "is_ignored": false,
+                "lines": "\t\t<input type=\"hidden\" id=\"origURL1\" name=\"origURL1\" value=\"\">\n\t\t<input type=\"hidden\" id=\"host\" name=\"host\" value=\"\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 3,
+                "line": 134,
+                "offset": 7093
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 9,
+                "line": 138,
+                "offset": 7269
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_6",
+                "is_ignored": false,
+                "lines": "\t\t<input type=\"hidden\" id=\"host\" name=\"host\" value=\"\">\n        <!-- Ryan Sena 22/03/2021 - CAPTCHA -->\n\t  \n        <div class=\"signonMain\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 3,
+                "line": 135,
+                "offset": 7156
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 19,
+                "line": 163,
+                "offset": 9090
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_7",
+                "is_ignored": false,
+                "lines": "\t\t\t           <input type=\"text\" id=\"userid\" name=\"userid\" value=\"\" title=\"User ID\">\n                  </div>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 15,
+                "line": 162,
+                "offset": 9001
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 19,
+                "line": 169,
+                "offset": 9409
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_8",
+                "is_ignored": false,
+                "lines": "                       <input type=\"password\" id=\"pwd\" name=\"pwd\" title=\"Password\" >\n                  </div>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 24,
+                "line": 168,
+                "offset": 9329
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 13,
+                "line": 182,
+                "offset": 10090
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_9",
+                "is_ignored": false,
+                "lines": "\t\t               <input type=\"text\" id=\"captchaText\" name=\"captchaText\" onkeypress=\"return toUpperCase(this)\" >\n\t\t          </div>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 18,
+                "line": 181,
+                "offset": 9983
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 7,
+                "line": 237,
+                "offset": 14623
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_10",
+                "is_ignored": false,
+                "lines": "                       <input name=\"Submit\" id=\"Submit\" type=\"submit\" class=\"ps-button\" value=\"Sign In\" aria-label='To enable screen reader mode, please check the checkbox \"Enable Screen Reader Mode\" before you sign in. Sign In'>\n                       <!-- SR-2021-3265 END -->\n\t\t\t\t  </div>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 24,
+                "line": 235,
+                "offset": 14361
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 42,
+                "line": 257,
+                "offset": 15478
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_11",
+                "is_ignored": false,
+                "lines": "                    <button type=\"button\">Click Me!</button>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 29,
+                "line": 257,
+                "offset": 15465
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 83,
+                "line": 485,
+                "offset": 36666
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_12",
+                "is_ignored": false,
+                "lines": "        <button aria-label=\"Toggle navigation\" aria-expanded=\"false\" type=\"button\" data-view-component=\"true\" class=\"Header-link js-details-target btn-link\">    <svg aria-hidden=\"true\" height=\"24\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"24\" data-view-component=\"true\" class=\"octicon octicon-three-bars\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 70,
+                "line": 485,
+                "offset": 36653
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 22,
+                "line": 572,
+                "offset": 44720
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_13",
+                "is_ignored": false,
+                "lines": "        type=\"button\"",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 9,
+                "line": 572,
+                "offset": 44707
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 1,
+                "line": 595,
+                "offset": 46150
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_14",
+                "is_ignored": false,
+                "lines": "    <input type=\"hidden\" name=\"type\" class=\"js-site-search-type-field\">\n\n    \n<div class=\"Overlay--hidden \" data-modal-dialog-overlay>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 5,
+                "line": 592,
+                "offset": 46076
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 104,
+                "line": 630,
+                "offset": 49181
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_15",
+                "is_ignored": false,
+                "lines": "            <input id=\"query-builder-test\" name=\"query-builder-test\" value=\"\" autocomplete=\"off\" type=\"text\" role=\"combobox\" spellcheck=\"false\" aria-expanded=\"false\" data-target=\"query-builder.input\" data-action=\"\n          input:query-builder#inputChange\n          blur:query-builder#inputBlur\n          keydown:query-builder#inputKeydown\n          focus:query-builder#inputFocus\n        \" data-view-component=\"true\" class=\"FormControl-input QueryBuilder-Input FormControl-medium\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 13,
+                "line": 625,
+                "offset": 48709
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 62,
+                "line": 639,
+                "offset": 49690
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_16",
+                "is_ignored": false,
+                "lines": "              \" variant=\"small\" hidden=\"hidden\" type=\"button\" data-view-component=\"true\" class=\"Button Button--iconOnly Button--invisible Button--medium mr-1 px-2 py-0 d-flex flex-items-center rounded-1 color-fg-muted\">    <svg aria-hidden=\"true\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-x-circle-fill Button-visual\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 49,
+                "line": 639,
+                "offset": 49677
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 90,
+                "line": 738,
+                "offset": 58145
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_17",
+                "is_ignored": false,
+                "lines": "              <button data-action=\"click:qbsearch-input#showFeedbackDialog\" type=\"button\" data-view-component=\"true\" class=\"Button--link Button--medium Button color-fg-accent text-normal ml-2\">    <span class=\"Button-content\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 77,
+                "line": 738,
+                "offset": 58132
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 86,
+                "line": 762,
+                "offset": 59491
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_18",
+                "is_ignored": false,
+                "lines": "      <button data-close-dialog-id=\"feedback-dialog\" aria-label=\"Close\" type=\"button\" data-view-component=\"true\" class=\"close-button Overlay-closeButton\"><svg aria-hidden=\"true\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-x\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 73,
+                "line": 762,
+                "offset": 59478
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 385,
+                "line": 768,
+                "offset": 60414
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_19",
+                "is_ignored": false,
+                "lines": "      <div data-view-component=\"true\" class=\"Overlay-body\">        <!-- '\"` --><!-- </textarea></xmp> --></option></form><form id=\"code-search-feedback-form\" data-turbo=\"false\" action=\"/search/feedback\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"authenticity_token\" value=\"BebmODaR7NGHi3gAz6NVZVhWp1DZhUWd-IxeVtAV8codfQuDCql9ul9EuwNsno1TT-CdQypcT34QngDM2gVNfA\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 241,
+                "line": 768,
+                "offset": 60270
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 11,
+                "line": 772,
+                "offset": 60792
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_20",
+                "is_ignored": false,
+                "lines": "          <input name=\"include_email\" id=\"include_email\" aria-label=\"Include my email address so I can be contacted\" class=\"form-control mr-2\" type=\"checkbox\">\n          <label for=\"include_email\" style=\"font-weight: normal\">Include my email address so I can be contacted</label>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 11,
+                "line": 771,
+                "offset": 60632
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 157,
+                "line": 774,
+                "offset": 61072
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_21",
+                "is_ignored": false,
+                "lines": "      <div data-view-component=\"true\" class=\"Overlay-footer Overlay-footer--alignEnd\">          <button data-close-dialog-id=\"feedback-dialog\" type=\"button\" data-view-component=\"true\" class=\"btn\">    Cancel",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 144,
+                "line": 774,
+                "offset": 61059
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 91,
+                "line": 794,
+                "offset": 62482
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_22",
+                "is_ignored": false,
+                "lines": "      <button data-close-dialog-id=\"custom-scopes-dialog\" aria-label=\"Close\" type=\"button\" data-view-component=\"true\" class=\"close-button Overlay-closeButton\"><svg aria-hidden=\"true\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-x\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 78,
+                "line": 794,
+                "offset": 62469
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 331,
+                "line": 803,
+                "offset": 63592
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_23",
+                "is_ignored": false,
+                "lines": "        <!-- '\"` --><!-- </textarea></xmp> --></option></form><form id=\"custom-scopes-dialog-form\" data-turbo=\"false\" action=\"/search/custom_scopes\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"authenticity_token\" value=\"GseTc6iW5f3KSwFCckfmSqz6fw9FJ0kDUXUg09Zj29sGX-J0tJNQt2MbyP9h-eLMCrW676Ok32n8w-S3HdrFFw\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 187,
+                "line": 803,
+                "offset": 63448
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 11,
+                "line": 808,
+                "offset": 63808
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_24",
+                "is_ignored": false,
+                "lines": "          <input type=\"hidden\" id=\"custom_scope_id\" name=\"custom_scope_id\" data-target=\"custom-scopes.customScopesIdField\">\n\n          <div class=\"form-group\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 11,
+                "line": 806,
+                "offset": 63683
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 15,
+                "line": 821,
+                "offset": 64342
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_25",
+                "is_ignored": false,
+                "lines": "              <input\n                type=\"text\"\n                name=\"custom_scope_name\"\n                id=\"custom_scope_name\"\n                data-target=\"custom-scopes.customScopesNameField\"\n                class=\"form-control\"\n                autocomplete=\"off\"\n                placeholder=\"github-ruby\"\n                required\n                maxlength=\"50\">\n              <input type=\"hidden\" value=\"exQadIUCOqoIbbNkcCNWI-WvV4G0EGsuOkFe8ciFpadUXvCXSi5_8Ij6mcmG5i8U3svQ61Fd_aNODezbil3Tsw\" data-csrf=\"true\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 15,
+                "line": 811,
+                "offset": 63976
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 150,
+                "line": 821,
+                "offset": 64477
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_26",
+                "is_ignored": false,
+                "lines": "              <input type=\"hidden\" value=\"exQadIUCOqoIbbNkcCNWI-WvV4G0EGsuOkFe8ciFpadUXvCXSi5_8Ij6mcmG5i8U3svQ61Fd_aNODezbil3Tsw\" data-csrf=\"true\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 15,
+                "line": 821,
+                "offset": 64342
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 11,
+                "line": 837,
+                "offset": 65008
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_27",
+                "is_ignored": false,
+                "lines": "            <input\n              type=\"text\"\n              name=\"custom_scope_query\"\n              id=\"custom_scope_query\"\n              data-target=\"custom-scopes.customScopesQueryField\"\n              class=\"form-control\"\n              autocomplete=\"off\"\n              placeholder=\"(repo:mona/a OR repo:mona/b) AND lang:python\"\n              required\n              maxlength=\"500\">\n          </div>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 13,
+                "line": 827,
+                "offset": 64627
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 195,
+                "line": 849,
+                "offset": 65621
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_28",
+                "is_ignored": false,
+                "lines": "      <div data-view-component=\"true\" class=\"Overlay-footer Overlay-footer--alignEnd Overlay-footer--divided\">          <button data-action=\"click:custom-scopes#customScopesCancel\" type=\"button\" data-view-component=\"true\" class=\"btn\">    Cancel",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 182,
+                "line": 849,
+                "offset": 65608
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 199,
+                "line": 857,
+                "offset": 66195
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_29",
+                "is_ignored": false,
+                "lines": "</qbsearch-input><input type=\"hidden\" value=\"OUNqkpnVN1Bz_EdagBSShYOIyl45l24hG8hz5yyDbYGmba3YNNv5SiihgsiMyhVLd0FpB8gte_HIUIVilgxqBg\" data-csrf=\"true\" class=\"js-data-jump-to-suggestions-path-csrf\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 18,
+                "line": 857,
+                "offset": 66014
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 282,
+                "line": 883,
+                "offset": 70147
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_30",
+                "is_ignored": false,
+                "lines": "    <!-- '\"` --><!-- </textarea></xmp> --></option></form><form data-turbo=\"false\" action=\"/logout\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"authenticity_token\" value=\"nIdXftnZ-HTbkexASQKwIdCnU59ng_ODjd4b4JLmhQcwUd7kAgO4w0Z9dFtPE1CeX-qQ43Q6aEmpAWK4dy_lAw\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 138,
+                "line": 883,
+                "offset": 70003
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 61,
+                "line": 1035,
+                "offset": 79150
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_31",
+                "is_ignored": false,
+                "lines": "    <button class=\"flash-close js-flash-close\" type=\"button\" aria-label=\"Close\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 48,
+                "line": 1035,
+                "offset": 79137
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 71,
+                "line": 1065,
+                "offset": 79968
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_32",
+                "is_ignored": false,
+                "lines": "    <button autofocus class=\"flash-close js-flash-close\" type=\"button\" aria-label=\"Dismiss this message\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 58,
+                "line": 1065,
+                "offset": 79955
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 11,
+                "line": 1233,
+                "offset": 87804
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_33",
+                "is_ignored": false,
+                "lines": "          <input\n            class=\"js-overlay-input typeahead-input d-none\"\n            disabled\n            tabindex=\"-1\"\n            aria-label=\"Hidden input for typeahead\"\n          >\n          <input",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 11,
+                "line": 1227,
+                "offset": 87616
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 9,
+                "line": 1251,
+                "offset": 88486
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_34",
+                "is_ignored": false,
+                "lines": "          <input\n            type=\"text\"\n            autocomplete=\"off\"\n            autocorrect=\"off\"\n            autocapitalize=\"off\"\n            spellcheck=\"false\"\n            class=\"js-input typeahead-input form-control border-0 box-shadow-none input-block width-full no-focus-indicator\"\n            aria-label=\"Command palette input\"\n            aria-haspopup=\"listbox\"\n            aria-expanded=\"false\"\n            aria-autocomplete=\"list\"\n            aria-controls=\"command-palette-page-stack\"\n            role=\"combobox\"\n            data-action=\"\n              input:command-palette-input#onInput\n              keydown:command-palette-input#onKeydown\n            \"\n          >\n        </div>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 11,
+                "line": 1233,
+                "offset": 87804
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 251,
+                "line": 1253,
+                "offset": 88827
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_35",
+                "is_ignored": false,
+                "lines": "    <button aria-keyshortcuts=\"Control+Backspace\" data-action=\"click:command-palette-input#onClear keypress:command-palette-input#onClear\" data-target=\"command-palette-input.clearButton\" id=\"command-palette-clear-button\" hidden=\"hidden\" type=\"button\" data-view-component=\"true\" class=\"btn-octicon command-palette-input-clear-button\">      <svg aria-hidden=\"true\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-x-circle-fill\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 238,
+                "line": 1253,
+                "offset": 88814
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 89,
+                "line": 2075,
+                "offset": 140446
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_36",
+                "is_ignored": false,
+                "lines": "            <button disabled=\"disabled\" aria-label=\"Watching a repository\" type=\"button\" data-view-component=\"true\" class=\"tooltipped tooltipped-n Button--secondary Button--small Button\">    <span class=\"Button-content\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 76,
+                "line": 2075,
+                "offset": 140433
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
                 "col": 57,
-                "line": 19,
-                "offset": 460
+                "line": 2093,
+                "offset": 142237
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "606efe0d08dffb8a4692763e6c30d9aa6a3b1b408df1d5c60aa9d76662319a9ba0f1aab9589311674394ab931231407063a2a48360d0e62bd489e7144613be76_1",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_37",
                 "is_ignored": false,
-                "lines": "  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog",
-                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "lines": "              <button data-retry-button=\"\" type=\"button\" data-view-component=\"true\" class=\"Button--link Button--medium Button\">    <span class=\"Button-content\">",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 41,
-                            "line": 19,
-                            "offset": 444
-                        },
-                        "start": {
-                            "col": 3,
-                            "line": 19,
-                            "offset": 406
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 10,
-                            "line": 18,
-                            "offset": 389
-                        },
-                        "start": {
-                            "col": 7,
-                            "line": 18,
-                            "offset": 386
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 3,
-                "line": 18,
-                "offset": 382
+                "col": 44,
+                "line": 2093,
+                "offset": 142224
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
-                "col": 3,
-                "line": 26,
-                "offset": 624
+                "col": 91,
+                "line": 2126,
+                "offset": 145184
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "1a3bf7acc1e5732d074a59c1fd75261a9e41107feaffbf8ee125107a44571c3331106005d4fee70917b398250c98ce6ba62aa8c97eebe851a2631a76aa144b13_0",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_38",
                 "is_ignored": false,
-                "lines": "document.getElementById('buttonId').addEventListener('click', function() {\n  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog\n})",
-                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "lines": "        <button class=\"SelectMenu-closeButton position-absolute right-0 m-2\" type=\"button\" aria-label=\"Close menu\" data-toggle-for=\"details-364521\">",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$Y": {
-                        "abstract_content": "document.getElementById('buttonId')",
-                        "end": {
-                            "col": 36,
-                            "line": 23,
-                            "offset": 501
-                        },
-                        "start": {
-                            "col": 1,
-                            "line": 23,
-                            "offset": 466
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 1,
-                "line": 23,
-                "offset": 466
+                "col": 78,
+                "line": 2126,
+                "offset": 145171
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
-                "col": 57,
-                "line": 25,
-                "offset": 621
+                "col": 9,
+                "line": 2165,
+                "offset": 147183
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "606efe0d08dffb8a4692763e6c30d9aa6a3b1b408df1d5c60aa9d76662319a9ba0f1aab9589311674394ab931231407063a2a48360d0e62bd489e7144613be76_2",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_39",
                 "is_ignored": false,
-                "lines": "  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog",
-                "message": "\"Source:window.name;Sink:innerHTML;\nwindow.name is vulnerable, which flows to innerHTML\"\n",
+                "lines": "        <input type=\"hidden\" name=\"authenticity_token\" value=\"{{ confirmCsrfToken }}\">\n        <input type=\"hidden\" name=\"confirm\" value=\"true\">",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 41,
-                            "line": 25,
-                            "offset": 605
-                        },
-                        "start": {
-                            "col": 3,
-                            "line": 25,
-                            "offset": 567
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 10,
-                            "line": 24,
-                            "offset": 550
-                        },
-                        "start": {
-                            "col": 7,
-                            "line": 24,
-                            "offset": 547
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 3,
-                "line": 24,
-                "offset": 543
+                "col": 9,
+                "line": 2164,
+                "offset": 147096
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1b-outerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
-                "col": 55,
-                "line": 30,
-                "offset": 703
+                "col": 11,
+                "line": 2166,
+                "offset": 147243
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "831d28cdcf177d85592441e4859e495c1b928eca6290c3e9eaf546b7acc5c28e7bb019305caf70c645c6d238a20ec95a5aefe567d8b1946b539528e0370b2ce4_0",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_40",
                 "is_ignored": false,
-                "lines": "var dog = window.name\ndocument.getElementById('displayArea').outerHTML = dog",
-                "message": "\"Source:window.name;Sink:outerHTML;\nwindow.name is vulnerable, which flows to outerHTML\"\n",
+                "lines": "        <input type=\"hidden\" name=\"confirm\" value=\"true\">\n          <button data-close-dialog=\"true\" type=\"submit\" data-view-component=\"true\" class=\"btn-danger btn width-full\">    Unstar",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 39,
-                            "line": 30,
-                            "offset": 687
-                        },
-                        "start": {
-                            "col": 1,
-                            "line": 30,
-                            "offset": 649
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 8,
-                            "line": 29,
-                            "offset": 634
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 29,
-                            "offset": 631
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 1,
-                "line": 29,
-                "offset": 627
+                "col": 9,
+                "line": 2165,
+                "offset": 147183
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1b-outerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
             "end": {
-                "col": 28,
-                "line": 36,
-                "offset": 845
+                "col": 424,
+                "line": 2174,
+                "offset": 148014
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "ddd4fb40a5578d63054e7d3a8df998ea72f42a3fdcd7a94c0fc180eb1205d271c9761108bae51119f03b9cb8cd8570b38682a302427eb32dfd227c74c055eead_0",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_41",
                 "is_ignored": false,
-                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').outerHTML = b;\n}\ndisplayMessage('l',dog,'k')",
-                "message": "\"Source:window.name;Sink:outerHTML;\nwindow.name is vulnerable, which flows to outerHTML\"\n",
+                "lines": "      <!-- '\"` --><!-- </textarea></xmp> --></option></form><form class=\"js-social-form BtnGroup-parent flex-auto js-deferred-toggler-target\" data-turbo=\"false\" action=\"/microsoft/Git-Credential-Manager-for-Windows/unstar\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"authenticity_token\" value=\"xl60rufsOs9nu1rZjoahF1lrL1mjPDIbS-RoZX1gLQM7YeJWJiVAZO9_DFhJgVPWmji4AO6BCiFzcOrwcsFcLA\" autocomplete=\"off\" />",
+                "message": "input or button field detected",
                 "metadata": {},
-                "metavars": {
-                    "$ARG": {
-                        "abstract_content": "b",
-                        "end": {
-                            "col": 28,
-                            "line": 33,
-                            "offset": 754
-                        },
-                        "start": {
-                            "col": 27,
-                            "line": 33,
-                            "offset": 753
-                        }
-                    },
-                    "$FUNC": {
-                        "abstract_content": "displayMessage",
-                        "end": {
-                            "col": 24,
-                            "line": 33,
-                            "offset": 750
-                        },
-                        "start": {
-                            "col": 10,
-                            "line": 33,
-                            "offset": 736
-                        }
-                    },
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 41,
-                            "line": 34,
-                            "offset": 800
-                        },
-                        "start": {
-                            "col": 3,
-                            "line": 34,
-                            "offset": 762
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 8,
-                            "line": 32,
-                            "offset": 712
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 32,
-                            "offset": 709
-                        }
-                    }
-                },
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
             "start": {
-                "col": 1,
-                "line": 32,
-                "offset": 705
+                "col": 261,
+                "line": 2174,
+                "offset": 147851
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 176,
+                "line": 2175,
+                "offset": 148190
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_42",
+                "is_ignored": false,
+                "lines": "          <input type=\"hidden\" value=\"olnNVdCxMjxhYmXpldHuquRSY2UmUCrK5sCD-3FXYf1fZputEXhIl-mmM2hS1hxrJwH0PGvtEvDeVAFufvYQ0g\" data-csrf=\"true\" class=\"js-confirm-csrf-token\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 11,
+                "line": 2175,
+                "offset": 148025
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 11,
+                "line": 2177,
+                "offset": 148265
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_43",
+                "is_ignored": false,
+                "lines": "        <input type=\"hidden\" name=\"context\" value=\"repository\">\n          <button data-hydro-click=\"{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:42456996,&quot;originating_url&quot;:&quot;https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/1.20.0&quot;,&quot;user_id&quot;:99269355}}\" data-hydro-click-hmac=\"233ccaa7cdfe9421dfe105b338a12778baf8fcd4f3557645a359137b8de193ad\" data-ga-click=\"Repository, click unstar button, action:releases#show; text:Unstar\" aria-label=\"Unstar this repository (2827)\" type=\"submit\" data-view-component=\"true\" class=\"rounded-left-2 btn-sm btn BtnGroup-item\">    <svg aria-hidden=\"true\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-star-fill starred-button-icon d-inline-block mr-2\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 9,
+                "line": 2176,
+                "offset": 148199
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 91,
+                "line": 2195,
+                "offset": 150673
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_44",
+                "is_ignored": false,
+                "lines": "        <button class=\"SelectMenu-closeButton position-absolute right-0 m-2\" type=\"button\" aria-label=\"Close menu\" data-toggle-for=\"details-99ecc1\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 78,
+                "line": 2195,
+                "offset": 150660
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 395,
+                "line": 2222,
+                "offset": 152497
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_45",
+                "is_ignored": false,
+                "lines": "      <!-- '\"` --><!-- </textarea></xmp> --></option></form><form class=\"js-social-form BtnGroup-parent flex-auto\" data-turbo=\"false\" action=\"/microsoft/Git-Credential-Manager-for-Windows/star\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"authenticity_token\" value=\"B0Onx1LD4opkugUVr9821ZXrqLYEr8625f5tpoZuPSunzEKbsN_1Ly94NRXZuiq0vAQCC3fWUfoRSV4yt-MgWQ\" autocomplete=\"off\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 232,
+                "line": 2222,
+                "offset": 152334
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 11,
+                "line": 2224,
+                "offset": 152572
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_46",
+                "is_ignored": false,
+                "lines": "        <input type=\"hidden\" name=\"context\" value=\"repository\">\n          <button data-hydro-click=\"{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:42456996,&quot;originating_url&quot;:&quot;https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/1.20.0&quot;,&quot;user_id&quot;:99269355}}\" data-hydro-click-hmac=\"9ef51375f777267b4e6f6089938a0d5c05ca83fb1c82358c81fe8159c9bb45fb\" data-ga-click=\"Repository, click star button, action:releases#show; text:Star\" aria-label=\"Star this repository (2827)\" type=\"submit\" data-view-component=\"true\" class=\"js-toggler-target rounded-left-2 btn-sm btn BtnGroup-item\">    <svg aria-hidden=\"true\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-star d-inline-block mr-2\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 9,
+                "line": 2223,
+                "offset": 152506
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 91,
+                "line": 2242,
+                "offset": 155184
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_47",
+                "is_ignored": false,
+                "lines": "        <button class=\"SelectMenu-closeButton position-absolute right-0 m-2\" type=\"button\" aria-label=\"Close menu\" data-toggle-for=\"details-161c7c\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 78,
+                "line": 2242,
+                "offset": 155171
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 61,
+                "line": 2478,
+                "offset": 176110
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_48",
+                "is_ignored": false,
+                "lines": "        <button class=\"SelectMenu-closeButton\" type=\"button\" data-toggle-for=\"tag-select-menu-7906928e-0b2d-11ee-88d1-d993edecf225\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 48,
+                "line": 2478,
+                "offset": 176097
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 7,
+                "line": 2494,
+                "offset": 176944
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_49",
+                "is_ignored": false,
+                "lines": "        <input\n          aria-label=\"Find a tag\"\n          autofocus\n          class=\"SelectMenu-input form-control\"\n          data-ref-filter\n          placeholder=\"Find a tag\"\n          type=\"text\"\n>\n      </div>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 9,
+                "line": 2486,
+                "offset": 176744
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 103,
+                "line": 2529,
+                "offset": 178725
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_50",
+                "is_ignored": false,
+                "lines": "          <input hidden=\"hidden\" type=\"radio\" value=\"{{ refName }}\" checked=\"checked\" name=\"\" id=\"\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 11,
+                "line": 2529,
+                "offset": 178633
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 294,
+                "line": 2623,
+                "offset": 186493
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_51",
+                "is_ignored": false,
+                "lines": "</summary>        <!-- '\"` --><!-- </textarea></xmp> --></option></form><form class=\"js-pick-reaction\" data-turbo=\"false\" action=\"/microsoft/Git-Credential-Manager-for-Windows/reactions\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"_method\" value=\"put\" autocomplete=\"off\" /><input type=\"hidden\" name=\"authenticity_token\" value=\"_5Vr5gM0IgoDfgq-S22K6kmGwTH_xzkmou89LZc7rk_yGvdZy1zPexoignAgPVGCj3Zvln_dfqLb6INaBlYG7w\" autocomplete=\"off\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 225,
+                "line": 2623,
+                "offset": 186424
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 457,
+                "line": 2623,
+                "offset": 186656
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_52",
+                "is_ignored": false,
+                "lines": "</summary>        <!-- '\"` --><!-- </textarea></xmp> --></option></form><form class=\"js-pick-reaction\" data-turbo=\"false\" action=\"/microsoft/Git-Credential-Manager-for-Windows/reactions\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"_method\" value=\"put\" autocomplete=\"off\" /><input type=\"hidden\" name=\"authenticity_token\" value=\"_5Vr5gM0IgoDfgq-S22K6kmGwTH_xzkmou89LZc7rk_yGvdZy1zPexoignAgPVGCj3Zvln_dfqLb6INaBlYG7w\" autocomplete=\"off\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 294,
+                "line": 2623,
+                "offset": 186493
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 5,
+                "line": 2625,
+                "offset": 186744
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_53",
+                "is_ignored": false,
+                "lines": "    <input type=\"hidden\" name=\"input[subjectId]\" value=\"MDc6UmVsZWFzZTE5ODEwNTA4\">\n    <ul class=\"dropdown-menu mt-2 d-flex mb-2 anim-scale-in dropdown-menu-reactions dropdown-menu-ne\" role=\"menu\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 5,
+                "line": 2624,
+                "offset": 186661
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 278,
+                "line": 2649,
+                "offset": 191129
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_54",
+                "is_ignored": false,
+                "lines": "  <!-- '\"` --><!-- </textarea></xmp> --></option></form><form class=\"js-pick-reaction\" data-turbo=\"false\" action=\"/microsoft/Git-Credential-Manager-for-Windows/reactions\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"_method\" value=\"put\" autocomplete=\"off\" /><input type=\"hidden\" name=\"authenticity_token\" value=\"xRJR1jehLIit9EsdKgLCzgDaxo8YDxWt4Unrza2gCq3Inc1p_8nB-bSow9NBUhmmxipoKJgVUimYTlW6PM2iDQ\" autocomplete=\"off\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 209,
+                "line": 2649,
+                "offset": 191060
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 441,
+                "line": 2649,
+                "offset": 191292
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_55",
+                "is_ignored": false,
+                "lines": "  <!-- '\"` --><!-- </textarea></xmp> --></option></form><form class=\"js-pick-reaction\" data-turbo=\"false\" action=\"/microsoft/Git-Credential-Manager-for-Windows/reactions\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"hidden\" name=\"_method\" value=\"put\" autocomplete=\"off\" /><input type=\"hidden\" name=\"authenticity_token\" value=\"xRJR1jehLIit9EsdKgLCzgDaxo8YDxWt4Unrza2gCq3Inc1p_8nB-bSow9NBUhmmxipoKJgVUimYTlW6PM2iDQ\" autocomplete=\"off\" />",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 278,
+                "line": 2649,
+                "offset": 191129
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 5,
+                "line": 2651,
+                "offset": 191380
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_56",
+                "is_ignored": false,
+                "lines": "    <input type=\"hidden\" name=\"input[subjectId]\" value=\"MDc6UmVsZWFzZTE5ODEwNTA4\">\n    <div  class=\"js-comment-reactions-options d-flex flex-items-center flex-row flex-wrap\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 5,
+                "line": 2650,
+                "offset": 191297
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 26,
+                "line": 2750,
+                "offset": 201417
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_57",
+                "is_ignored": false,
+                "lines": "    <button type=\"button\" class=\"flash-close js-ajax-error-dismiss\" aria-label=\"Dismiss error\">",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 13,
+                "line": 2750,
+                "offset": 201404
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input-and-button",
+            "end": {
+                "col": 100,
+                "line": 2762,
+                "offset": 202426
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "0001711f871ceae6b015218158e03250a945c950e64cc25a82e579f87db72d6496f87cb6889a99c029f1043e07ae4345f3a0d2136f88b7697020c2e43e921bf7_58",
+                "is_ignored": false,
+                "lines": "      <button class=\"Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0\" type=\"button\" aria-label=\"Close dialog\" data-close-dialog>",
+                "message": "input or button field detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/semgrep_test.html",
+            "start": {
+                "col": 87,
+                "line": 2762,
+                "offset": 202413
             }
         }
     ],
-    "version": "1.24.0"
+    "version": "1.27.0"
 }
