@@ -1,6 +1,7 @@
 import subprocess
 
-print('start of program')
+print("start of program")
+
 
 # auto semgrep scan
 def run_semgrep():
@@ -13,7 +14,7 @@ def run_semgrep():
         "--output",
         "STATIC_ANALYSIS/semgrep_results.json",
         "--json",
-        "--quiet"   #turn off verbose
+        "--quiet",  # turn off verbose
     ]
     try:
         subprocess.run(command, check=True)
@@ -22,8 +23,8 @@ def run_semgrep():
     except subprocess.CalledProcessError as e:
         print(f"Error running semgrep command: {e}")
 
+
 run_semgrep()
 
 
 # auto selenium
-
