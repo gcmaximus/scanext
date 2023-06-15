@@ -1,0 +1,31 @@
+rules:
+  - id: 1e-jQuery_html
+    message: |
+      "Source:window.name;Sink:jQuery.html"
+    languages:
+      - javascript
+    pattern-either:
+      - pattern-inside: |
+          $Y.addEventListener('click', function() {
+            ...
+          })
+      - pattern-inside: |
+          $Y = $OBJECT.getElementById(...)
+          $Y.addEventListener('click', function() {
+            ...
+          })
+      - pattern: |
+          $X = window.name
+          ...
+          document.writeln(<...$X...>)
+      - pattern: |
+          $X = window.name
+          ...
+          function $FUNC(...,$ARG,...) {
+            ...
+            document.writeln(<...$ARG...>)
+            ...
+          }
+          ...
+          $FUNC(...,$X,...)
+    severity: WARNING
