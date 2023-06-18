@@ -1,4 +1,3 @@
-"rules":
 - "id": 20a-innerHTML
   "languages":
   - javascript
@@ -51,110 +50,6 @@
           ...
           $OBJ.innerHTML = <... $X ...>
     - "pattern-not": |
-        $X = $INFO.srcUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.innerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-        ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.innerHTML = <... $INFO.srcUrl ...>
-      - "pattern": |
-          $X = $INFO.srcUrl
-          ...
-          $OBJ.innerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.pageUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.innerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.innerHTML = <... $INFO.srcUrl ...>
-      - "pattern": |
-          $X = $INFO.srcUrl
-          ...
-          $OBJ.innerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.frameUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.innerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-        ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.innerHTML = <... $INFO.pageUrl ...>
-      - "pattern": |
-          $X = $INFO.pageUrl
-          ...
-          $OBJ.innerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.selectionText
-        ...
-        $X = $Y
-        ...
-        $OBJ.innerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.innerHTML = <... $INFO.pageUrl ...>
-      - "pattern": |
-          $X = $INFO.pageUrl
-          ...
-          $OBJ.innerHTML = <... $X ...>
-    - "pattern-not": |
         $X = $INFO.linkUrl
         ...
         $X = $Y
@@ -175,13 +70,117 @@
         }
     - "pattern-either":
       - "pattern": |
+          $OBJ.innerHTML = <... $INFO.srcUrl ...>
+      - "pattern": |
+          $X = $INFO.srcUrl
+          ...
+          $OBJ.innerHTML = <... $X ...>
+    - "pattern-not": |
+        $X = $INFO.srcUrl
+        ...
+        $X = $Y
+        ...
+        $OBJ.innerHTML = <... $X ...>
+  - "patterns":
+    - "pattern-inside": |
+        chrome.contextMenus.create({
+          onclick: $FUNC
+        },...)
+        ...
+        function $FUNC($INFO, ...) {
+          ...
+        }
+    - "pattern-inside": |
+        function $FUNC($INFO, ...) {
+          ...
+        }
+    - "pattern-either":
+      - "pattern": |
+          $OBJ.innerHTML = <... $INFO.srcUrl ...>
+      - "pattern": |
+          $X = $INFO.srcUrl
+          ...
+          $OBJ.innerHTML = <... $X ...>
+    - "pattern-not": |
+        $X = $INFO.srcUrl
+        ...
+        $X = $Y
+        ...
+        $OBJ.innerHTML = <... $X ...>
+  - "patterns":
+    - "pattern-inside": |
+        function $FUNC($INFO, ...) {
+          ...
+        }
+        ...
+        chrome.contextMenus.create({
+          onclick: $FUNC
+        },...)
+    - "pattern-inside": |
+        function $FUNC($INFO, ...) {
+          ...
+        }
+    - "pattern-either":
+      - "pattern": |
+          $OBJ.innerHTML = <... $INFO.pageUrl ...>
+      - "pattern": |
+          $X = $INFO.pageUrl
+          ...
+          $OBJ.innerHTML = <... $X ...>
+    - "pattern-not": |
+        $X = $INFO.pageUrl
+        ...
+        $X = $Y
+        ...
+        $OBJ.innerHTML = <... $X ...>
+  - "patterns":
+    - "pattern-inside": |
+        chrome.contextMenus.create({
+          onclick: $FUNC
+        },...)
+        ...
+        function $FUNC($INFO, ...) {
+          ...
+        }
+    - "pattern-inside": |
+        function $FUNC($INFO, ...) {
+          ...
+        }
+    - "pattern-either":
+      - "pattern": |
+          $OBJ.innerHTML = <... $INFO.pageUrl ...>
+      - "pattern": |
+          $X = $INFO.pageUrl
+          ...
+          $OBJ.innerHTML = <... $X ...>
+    - "pattern-not": |
+        $X = $INFO.pageUrl
+        ...
+        $X = $Y
+        ...
+        $OBJ.innerHTML = <... $X ...>
+  - "patterns":
+    - "pattern-inside": |
+        function $FUNC($INFO, ...) {
+          ...
+        }
+        ...
+        chrome.contextMenus.create({
+          onclick: $FUNC
+        },...)
+    - "pattern-inside": |
+        function $FUNC($INFO, ...) {
+          ...
+        }
+    - "pattern-either":
+      - "pattern": |
           $OBJ.innerHTML = <... $INFO.frameUrl ...>
       - "pattern": |
           $X = $INFO.frameUrl
           ...
           $OBJ.innerHTML = <... $X ...>
     - "pattern-not": |
-        $X = $INFO.srcUrl
+        $X = $INFO.frameUrl
         ...
         $X = $Y
         ...
@@ -207,7 +206,7 @@
           ...
           $OBJ.innerHTML = <... $X ...>
     - "pattern-not": |
-        $X = $INFO.pageUrl
+        $X = $INFO.frameUrl
         ...
         $X = $Y
         ...
@@ -233,7 +232,7 @@
           ...
           $OBJ.innerHTML = <... $X ...>
     - "pattern-not": |
-        $X = $INFO.frameUrl
+        $X = $INFO.selectionText
         ...
         $X = $Y
         ...
