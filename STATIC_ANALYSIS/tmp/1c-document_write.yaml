@@ -1,0 +1,41 @@
+rules:
+  - id: 1c-document_write
+    message: |
+      "Source:window.name;Sink:document.write"
+    languages:
+      - javascript
+    pattern-either:
+      - pattern-inside: |
+          $Y.addEventListener('click', function() {
+            ...
+          })
+      - pattern-inside: |
+          $Y = $OBJECT.getElementById(...)
+          $Y.addEventListener('click', function() {
+            ...
+          })
+      - pattern: |
+          $X = window.name
+          ...
+          document.write(<...$X...>)
+      - pattern: |
+          $X = window.name
+          ...
+          function $FUNC(...,$ARG,...) {
+            ...
+            document.write(<...$ARG...>)
+            ...
+          }
+          ...
+          $FUNC(...,$X,...)
+      - pattern: |
+          function $FUNC(...,$ARG,...) {
+            ...
+            document.write(<...$ARG...>)
+            ...
+          }
+          ...
+          $X = window.name
+          ...
+          $FUNC(...,$X,...)
+    severity: WARNING
