@@ -359,10 +359,4 @@
         $X = $Y
         ...
         $OBJ.innerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.selectionText
-        ...
-        $X = $Y
-        ...
-        $OBJ.innerHTML = <... $X ...>
   "severity": WARNING
