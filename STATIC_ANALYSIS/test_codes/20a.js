@@ -2,29 +2,35 @@
 20a. chrome.contextMenus.create  
 *******************/
 
-// Expected total match: 30
+
+// Expected total matches: 30
+
 
 // case 1
 function kms(n, a) {
     console.log();
-    document.getElementById("f").innerHTML = n.linkUrl;
-    document.getElementById("f").innerHTML = n.srcUrl;
-    document.getElementById("f").innerHTML = n.pageUrl;
-    document.getElementById("f").innerHTML = n.frameUrl;
-    document.getElementById("f").innerHTML = n.selectionText;
+    document.getElementById("f").innerHTML = n.linkUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = n.srcUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = n.pageUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = n.frameUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = n.selectionText; // Expect 1 match here
 
     console.log();
 
-    let x = n.linkUrl;
-    document.getElementById("f").innerHTML = x;
-    x = n.srcUrl;
-    document.getElementById("f").innerHTML = x;
-    x = n.pageUrl;
-    document.getElementById("f").innerHTML = x;
-    x = n.frameUrl;
-    document.getElementById("f").innerHTML = x;
-    x = n.selectionText;
-    document.getElementById("f").innerHTML = x;
+    let x = n.linkUrl; // Expect 1 match here ...
+    document.getElementById("f").innerHTML = x; // ... end here
+    
+    x = n.srcUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = x; // ... end here
+    
+    x = n.pageUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = x; // ... end here
+    
+    x = n.frameUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = x; // ... end here
+    
+    x = n.selectionText; // Expect 1 match here
+    document.getElementById("f").innerHTML = x; // ... end here
     console.log();
 }
 
@@ -43,6 +49,7 @@ chrome.contextMenus.create(
     },
     "adfs"
 );
+
 
 // case 2
 chrome.contextMenus.create(
@@ -63,26 +70,31 @@ document.getElementById("f").innerHTML = x;
 
 function kms(n, a) {
     console.log();
-    document.getElementById("f").innerHTML = n.linkUrl;
-    document.getElementById("f").innerHTML = n.srcUrl;
-    document.getElementById("f").innerHTML = n.pageUrl;
-    document.getElementById("f").innerHTML = n.frameUrl;
-    document.getElementById("f").innerHTML = n.selectionText;
+    document.getElementById("f").innerHTML = n.linkUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = n.srcUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = n.pageUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = n.frameUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = n.selectionText; // Expect 1 match here
 
     console.log();
 
-    let x = n.linkUrl;
-    document.getElementById("f").innerHTML = x;
-    x = n.srcUrl;
-    document.getElementById("f").innerHTML = x;
-    x = n.pageUrl;
-    document.getElementById("f").innerHTML = x;
-    x = n.frameUrl;
-    document.getElementById("f").innerHTML = x;
-    x = n.selectionText;
-    document.getElementById("f").innerHTML = x;
+    let x = n.linkUrl; // Expect 1 match here ...
+    document.getElementById("f").innerHTML = x; // ... end here
+    
+    x = n.srcUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = x; // ... end here
+    
+    x = n.pageUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = x; // ... end here
+    
+    x = n.frameUrl; // Expect 1 match here
+    document.getElementById("f").innerHTML = x; // ... end here
+    
+    x = n.selectionText; // Expect 1 match here
+    document.getElementById("f").innerHTML = x; // ... end here
     console.log();
 }
+
 
 // case 3
 chrome.contextMenus.create(
@@ -94,29 +106,34 @@ chrome.contextMenus.create(
         },
         onclick: function (n, a) {
             console.log();
-            document.getElementById("f").innerHTML = n.linkUrl;
-            document.getElementById("f").innerHTML = n.srcUrl;
-            document.getElementById("f").innerHTML = n.pageUrl;
-            document.getElementById("f").innerHTML = n.frameUrl;
-            document.getElementById("f").innerHTML = n.selectionText;
+            document.getElementById("f").innerHTML = n.linkUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = n.srcUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = n.pageUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = n.frameUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = n.selectionText; // Expect 1 match here
             console.log();
 
-            let x = n.linkUrl;
-            document.getElementById("f").innerHTML = x;
-            x = n.srcUrl;
-            document.getElementById("f").innerHTML = x;
-            x = n.pageUrl;
-            document.getElementById("f").innerHTML = x;
-            x = n.frameUrl;
-            document.getElementById("f").innerHTML = x;
-            x = n.selectionText;
-            document.getElementById("f").innerHTML = x;
+            let x = n.linkUrl; // Expect 1 match here ...
+            document.getElementById("f").innerHTML = x; // ... end here
+            
+            x = n.srcUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = x; // ... end here
+            
+            x = n.pageUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = x; // ... end here
+            
+            x = n.frameUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = x; // ... end here
+            
+            x = n.selectionText; // Expect 1 match here
+            document.getElementById("f").innerHTML = x; // ... end here
             console.log();
         },
         test2: "sdfs",
     },
     "adfs"
 );
+
 
 // case 4
 chrome.contextMenus.create(
@@ -128,23 +145,27 @@ chrome.contextMenus.create(
         },
         onclick: function kms(n, a) {
             console.log();
-            document.getElementById("f").innerHTML = n.linkUrl;
-            document.getElementById("f").innerHTML = n.srcUrl;
-            document.getElementById("f").innerHTML = n.pageUrl;
-            document.getElementById("f").innerHTML = n.frameUrl;
-            document.getElementById("f").innerHTML = n.selectionText;
+            document.getElementById("f").innerHTML = n.linkUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = n.srcUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = n.pageUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = n.frameUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = n.selectionText; // Expect 1 match here
             console.log();
 
-            let x = n.linkUrl;
-            document.getElementById("f").innerHTML = x;
-            x = n.srcUrl;
-            document.getElementById("f").innerHTML = x;
-            x = n.pageUrl;
-            document.getElementById("f").innerHTML = x;
-            x = n.frameUrl;
-            document.getElementById("f").innerHTML = x;
-            x = n.selectionText;
-            document.getElementById("f").innerHTML = x;
+            let x = n.linkUrl; // Expect 1 match here ...
+            document.getElementById("f").innerHTML = x; // ... end here
+            
+            x = n.srcUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = x; // ... end here
+            
+            x = n.pageUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = x; // ... end here
+            
+            x = n.frameUrl; // Expect 1 match here
+            document.getElementById("f").innerHTML = x; // ... end here
+            
+            x = n.selectionText; // Expect 1 match here
+            document.getElementById("f").innerHTML = x; // ... end here
             console.log();
         },
         test2: "sdfs",
