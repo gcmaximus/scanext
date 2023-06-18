@@ -3,8 +3,8 @@
 *******************/ 
 
 // case 1
-// var dog = window.name
-// document.getElementById('displayArea').innerHTML = dog
+var dog = window.name
+document.getElementById('displayArea').innerHTML = dog
 
 // case 2
 // var dog = window.name
@@ -21,10 +21,10 @@
 // })
 
 // case 4
-document.getElementById('buttonId').addEventListener('click', function() {
-  var dog = window.name
-  document.getElementById('displayArea').innerHTML = dog
-})
+// document.getElementById('buttonId').addEventListener('click', function() {
+//   var dog = window.name
+//   document.getElementById('displayArea').innerHTML = dog
+// })
 
 // case 5
 // function displayMessage(a,b,c) {
@@ -33,12 +33,17 @@ document.getElementById('buttonId').addEventListener('click', function() {
 // var dog = window.name
 // displayMessage('l',dog,'k')
 
+// case 6
+document.getElementById('buttonId').addEventListener('click', function() {
+  var dog = window.name
+  document.getElementById('displayArea').outerHTML = dog
+})
 
 // case 7
-var dog = window.name
-$("button").click(function(){
-  $("p").html(dog);
-});
+// var dog = window.name
+// $("button").click(function(){
+//   $("p").html(dog);
+// });
 
 
 /*******************
