@@ -1,18 +1,18 @@
 /*******************
   1. window.name  
 *******************/ 
-// // innerHTML
-// // case 1
-// var case1 = window.name
-// document.getElementById('case1').innerHTML = case1
+// innerHTML
+// case 1
+var case1 = window.name
+document.getElementById('case1').innerHTML = case1
 
-// // case 2
-// var case2 = window.name
-// newcase2= case2 + " "
-// document.getElementById('case2').innerHTML = newcase2
+// case 2
+var case2 = window.name
+newcase2= case2 + " "
+document.getElementById('case2').innerHTML = newcase2
 
-// // case 3
-// document.getElementById('case3').innerHTML = window.name
+// case 3
+document.getElementById('case3').innerHTML = window.name
 
 //**************************************************************/
 
