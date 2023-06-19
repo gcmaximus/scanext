@@ -1,457 +1,62 @@
-"rules":
-- "id": 20b-outerHTML
-  "languages":
+rule:
+- id: 20b-outerHTML
+  languages:
   - javascript
-  "message": Source:chrome.contextMenus.create;Sink:outerHTML
-  "pattern-either":
-  - "patterns":
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
+  message: Source:chrome.contextMenus.create;Sink:outerHTML
+    mode: taint
+    pattern-sources:
+      - pattern: |
+          function $FUNC($INFO, ...) {
+            ...
+          }
+            ...
+          chrome.contextMenus.create({
+            onclick: $FUNC
+          },...)
+      - pattern: |
+          chrome.contextMenus.create({
+            onclick: $FUNC
+          },...)
           ...
-        }
-        ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.linkUrl ...>
+          function $FUNC($INFO, ...) {
+            ...
+          }
+      - pattern: |
+          chrome.contextMenus.create({
+            onclick: function($INFO, ...) {...}
+          },...)
+      - pattern: |
+          chrome.contextMenus.create({
+            onclick: function $FUNC($INFO, ...) {...}
+          },...)
+      - pattern: |
+          chrome.contextMenus.create({
+            onclick: function $FUNC($INFO, ...) {...}
+          },...)
+    pattern-sinks:
+      - pattern: $OBJ.outerHTML = <... $INFO.linkUrl ...>
+      - pattern: $OBJ.outerHTML = <... $INFO.srcUrl ...>
+      - pattern: $OBJ.outerHTML = <... $INFO.pageUrl ...>
+      - pattern: $OBJ.outerHTML = <... $INFO.frameUrl ...>
+      - pattern: $OBJ.outerHTML = <... $INFO.selectionText ...>
       - "pattern": |
           $X = $INFO.linkUrl
           ...
           $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.linkUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.linkUrl ...>
-      - "pattern": |
-          $X = $INFO.linkUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.linkUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-        ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.srcUrl ...>
       - "pattern": |
           $X = $INFO.srcUrl
           ...
           $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.srcUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.srcUrl ...>
-      - "pattern": |
-          $X = $INFO.srcUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.srcUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-        ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.pageUrl ...>
       - "pattern": |
           $X = $INFO.pageUrl
           ...
           $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.pageUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.pageUrl ...>
-      - "pattern": |
-          $X = $INFO.pageUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.pageUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-        ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.frameUrl ...>
       - "pattern": |
           $X = $INFO.frameUrl
           ...
           $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.frameUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.frameUrl ...>
-      - "pattern": |
-          $X = $INFO.frameUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.frameUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-        ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.selectionText ...>
       - "pattern": |
           $X = $INFO.selectionText
           ...
           $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.selectionText
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-inside": |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.selectionText ...>
-      - "pattern": |
-          $X = $INFO.selectionText
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.selectionText
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.linkUrl ...>
-      - "pattern": |
-          $X = $INFO.linkUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.linkUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.srcUrl ...>
-      - "pattern": |
-          $X = $INFO.srcUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.srcUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.pageUrl ...>
-      - "pattern": |
-          $X = $INFO.pageUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.pageUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.frameUrl ...>
-      - "pattern": |
-          $X = $INFO.frameUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.frameUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.selectionText ...>
-      - "pattern": |
-          $X = $INFO.selectionText
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.selectionText
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.linkUrl ...>
-      - "pattern": |
-          $X = $INFO.linkUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.linkUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.srcUrl ...>
-      - "pattern": |
-          $X = $INFO.srcUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.srcUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.pageUrl ...>
-      - "pattern": |
-          $X = $INFO.pageUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.pageUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.frameUrl ...>
-      - "pattern": |
-          $X = $INFO.frameUrl
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.frameUrl
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  - "patterns":
-    - "pattern-inside": |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...){
-            ...
-        }},...)
-    - "pattern-either":
-      - "pattern": |
-          $OBJ.outerHTML = <... $INFO.selectionText ...>
-      - "pattern": |
-          $X = $INFO.selectionText
-          ...
-          $OBJ.outerHTML = <... $X ...>
-    - "pattern-not": |
-        $X = $INFO.selectionText
-        ...
-        $X = $Y
-        ...
-        $OBJ.outerHTML = <... $X ...>
-  "severity": WARNING
+    severity: WARNING
