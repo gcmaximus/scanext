@@ -1,62 +1,62 @@
-rule:
-- id: 20a-innerHTML
+rules:
+- id: chrome_contextMenus_create-innerHTML
   languages:
-  - javascript
+    - javascript
   message: Source:chrome.contextMenus.create;Sink:innerHTML
-    mode: taint
-    pattern-sources:
-      - pattern: |
-          function $FUNC($INFO, ...) {
-            ...
-          }
-            ...
-          chrome.contextMenus.create({
-            onclick: $FUNC
-          },...)
-      - pattern: |
-          chrome.contextMenus.create({
-            onclick: $FUNC
-          },...)
+  mode: taint
+  pattern-sources:
+    - pattern: |
+        function $FUNC($INFO, ...) {
           ...
-          function $FUNC($INFO, ...) {
-            ...
-          }
-      - pattern: |
-          chrome.contextMenus.create({
-            onclick: function($INFO, ...) {...}
-          },...)
-      - pattern: |
-          chrome.contextMenus.create({
-            onclick: function $FUNC($INFO, ...) {...}
-          },...)
-      - pattern: |
-          chrome.contextMenus.create({
-            onclick: function $FUNC($INFO, ...) {...}
-          },...)
-    pattern-sinks:
-      - pattern: $OBJ.innerHTML = <... $INFO.linkUrl ...>
-      - pattern: $OBJ.innerHTML = <... $INFO.srcUrl ...>
-      - pattern: $OBJ.innerHTML = <... $INFO.pageUrl ...>
-      - pattern: $OBJ.innerHTML = <... $INFO.frameUrl ...>
-      - pattern: $OBJ.innerHTML = <... $INFO.selectionText ...>
-      - "pattern": |
-          $X = $INFO.linkUrl
+        }
           ...
-          $OBJ.innerHTML = <... $X ...>
-      - "pattern": |
-          $X = $INFO.srcUrl
+        chrome.contextMenus.create({
+          onclick: $FUNC
+        },...)
+    - pattern: |
+        chrome.contextMenus.create({
+          onclick: $FUNC
+        },...)
+        ...
+        function $FUNC($INFO, ...) {
           ...
-          $OBJ.innerHTML = <... $X ...>
-      - "pattern": |
-          $X = $INFO.pageUrl
-          ...
-          $OBJ.innerHTML = <... $X ...>
-      - "pattern": |
-          $X = $INFO.frameUrl
-          ...
-          $OBJ.innerHTML = <... $X ...>
-      - "pattern": |
-          $X = $INFO.selectionText
-          ...
-          $OBJ.innerHTML = <... $X ...>
-    severity: WARNING
+        }
+    - pattern: |
+        chrome.contextMenus.create({
+          onclick: function($INFO, ...) {...}
+        },...)
+    - pattern: |
+        chrome.contextMenus.create({
+          onclick: function $FUNC($INFO, ...) {...}
+        },...)
+    - pattern: |
+        chrome.contextMenus.create({
+          onclick: function $FUNC($INFO, ...) {...}
+        },...)
+  pattern-sinks:
+    - pattern: $OBJ.innerHTML = <... $INFO.linkUrl ...>
+    - pattern: $OBJ.innerHTML = <... $INFO.srcUrl ...>
+    - pattern: $OBJ.innerHTML = <... $INFO.pageUrl ...>
+    - pattern: $OBJ.innerHTML = <... $INFO.frameUrl ...>
+    - pattern: $OBJ.innerHTML = <... $INFO.selectionText ...>
+    - pattern: |
+        $X = $INFO.linkUrl
+        ...
+        $OBJ.innerHTML = <... $X ...>
+    - pattern: |
+        $X = $INFO.srcUrl
+        ...
+        $OBJ.innerHTML = <... $X ...>
+    - pattern: |
+        $X = $INFO.pageUrl
+        ...
+        $OBJ.innerHTML = <... $X ...>
+    - pattern: |
+        $X = $INFO.frameUrl
+        ...
+        $OBJ.innerHTML = <... $X ...>
+    - pattern: |
+        $X = $INFO.selectionText
+        ...
+        $OBJ.innerHTML = <... $X ...>
+  severity: WARNING
