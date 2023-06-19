@@ -1,21 +1,23 @@
 rules:
-- id: 3a-innerHTML
-  languages:
-    - javascript
-  pattern-either: 
-    - pattern: |
-        $X = location.href
-        ...
-        $OBJECT.innerHTML = $X
-    - pattern: |
-        $X = location.href
-        ...
-        function $FUNC(...,$ARG,...) {
+  - id: 3a-innerHTML
+    languages:
+      - javascript
+    pattern-either:
+      - pattern: |
+          location.href
+      - pattern: |
+          $X = location.href
           ...
-          $OBJECT.innerHTML = $ARG
+          $OBJECT.innerHTML = $X
+      - pattern: |
+          $X = location.href
           ...
-        }
-        ...
-        $FUNC(...,$X,...)
-  message: "Source:location.href;Sink:innerHTML"
-  severity: WARNING
+          function $FUNC(...,$ARG,...) {
+            ...
+            $OBJECT.innerHTML = $ARG
+            ...
+          }
+          ...
+          $FUNC(...,$X,...)
+    message: Source:location.href;Sink:innerHTML
+    severity: WARNING
