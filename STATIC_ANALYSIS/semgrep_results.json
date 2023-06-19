@@ -3,315 +3,90 @@
     "paths": {
         "_comment": "<add --verbose for a list of skipped paths>",
         "scanned": [
-            "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js"
+            "STATIC_ANALYSIS/test_codes/test2.py"
         ]
     },
     "results": [
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.taint-example",
             "end": {
-                "col": 55,
-                "line": 7,
-                "offset": 149
-            },
-            "extra": {
-                "engine_kind": "OSS",
-                "fingerprint": "2d0b86250bc33ab5be519b5c0e945cc5854780eb79e0e11502324f1d446646527ead99688675a5cfbe31bcfa98cc7176238b7c61d7639269bb3ac69469b98d10_0",
-                "is_ignored": false,
-                "lines": "var dog = window.name\ndocument.getElementById('displayArea').innerHTML = dog",
-                "message": "\"Source:window.name;Sink:innerHTML\"\n",
-                "metadata": {},
-                "metavars": {
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 39,
-                            "line": 7,
-                            "offset": 133
-                        },
-                        "start": {
-                            "col": 1,
-                            "line": 7,
-                            "offset": 95
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 8,
-                            "line": 6,
-                            "offset": 80
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 6,
-                            "offset": 77
-                        }
-                    }
-                },
-                "severity": "WARNING"
-            },
-            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
-            "start": {
-                "col": 1,
-                "line": 6,
-                "offset": 73
-            }
-        },
-        {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
-            "end": {
-                "col": 28,
-                "line": 14,
-                "offset": 301
-            },
-            "extra": {
-                "engine_kind": "OSS",
-                "fingerprint": "fb61cd21ab1613d1646f56560bf8e2c9d6a5d6d35ec15a8250632405ff5e48387529aff91506d355c1ce7dc9b887bab96f147bb04577dfc887ce9dbad9675dbc_0",
-                "is_ignored": false,
-                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l',dog,'k')",
-                "message": "\"Source:window.name;Sink:innerHTML\"\n",
-                "metadata": {},
-                "metavars": {
-                    "$ARG": {
-                        "abstract_content": "b",
-                        "end": {
-                            "col": 28,
-                            "line": 11,
-                            "offset": 210
-                        },
-                        "start": {
-                            "col": 27,
-                            "line": 11,
-                            "offset": 209
-                        }
-                    },
-                    "$FUNC": {
-                        "abstract_content": "displayMessage",
-                        "end": {
-                            "col": 24,
-                            "line": 11,
-                            "offset": 206
-                        },
-                        "start": {
-                            "col": 10,
-                            "line": 11,
-                            "offset": 192
-                        }
-                    },
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 41,
-                            "line": 12,
-                            "offset": 256
-                        },
-                        "start": {
-                            "col": 3,
-                            "line": 12,
-                            "offset": 218
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 8,
-                            "line": 10,
-                            "offset": 168
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 10,
-                            "offset": 165
-                        }
-                    }
-                },
-                "severity": "WARNING"
-            },
-            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
-            "start": {
-                "col": 1,
+                "col": 29,
                 "line": 10,
-                "offset": 161
-            }
-        },
-        {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
-            "end": {
-                "col": 3,
-                "line": 20,
-                "offset": 475
+                "offset": 226
             },
             "extra": {
-                "engine_kind": "OSS",
-                "fingerprint": "2d0b86250bc33ab5be519b5c0e945cc5854780eb79e0e11502324f1d446646527ead99688675a5cfbe31bcfa98cc7176238b7c61d7639269bb3ac69469b98d10_1",
-                "is_ignored": false,
-                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l',dog,'k')\n\n// case 3\nvar button = document.getElementById('buttonId')\nbutton.addEventListener('click', function CaoNiMa() {\n  document.getElementById('displayArea').innerHTML = dog\n})",
-                "message": "\"Source:window.name;Sink:innerHTML\"\n",
-                "metadata": {},
-                "metavars": {
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 41,
-                            "line": 19,
-                            "offset": 456
-                        },
-                        "start": {
-                            "col": 3,
-                            "line": 19,
-                            "offset": 418
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "data",
+                            "location": {
+                                "end": {
+                                    "col": 9,
+                                    "line": 8,
+                                    "offset": 150
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/test2.py",
+                                "start": {
+                                    "col": 5,
+                                    "line": 8,
+                                    "offset": 146
+                                }
+                            }
                         }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 8,
-                            "line": 10,
-                            "offset": 168
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 10,
-                            "offset": 165
-                        }
-                    }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 29,
+                                    "line": 10,
+                                    "offset": 226
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/test2.py",
+                                "start": {
+                                    "col": 12,
+                                    "line": 10,
+                                    "offset": 209
+                                }
+                            },
+                            "html_output(data)"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 28,
+                                    "line": 8,
+                                    "offset": 169
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/test2.py",
+                                "start": {
+                                    "col": 12,
+                                    "line": 8,
+                                    "offset": 153
+                                }
+                            },
+                            "get_user_input()"
+                        ]
+                    ]
                 },
+                "engine_kind": "OSS",
+                "fingerprint": "7e5109483a34027fcf3b03b2c5bff33eff3cbdee20fc41df6a2bab30bb3cefdac30256128e9645a0685fd82779ce6325727f998515bd090fa601b77760cac60a_0",
+                "is_ignored": false,
+                "lines": "    return html_output(data)",
+                "message": "Found dangerous HTML output",
+                "metadata": {},
+                "metavars": {},
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "path": "STATIC_ANALYSIS/test_codes/test2.py",
             "start": {
-                "col": 1,
+                "col": 12,
                 "line": 10,
-                "offset": 161
-            }
-        },
-        {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
-            "end": {
-                "col": 57,
-                "line": 31,
-                "offset": 781
-            },
-            "extra": {
-                "engine_kind": "OSS",
-                "fingerprint": "2d0b86250bc33ab5be519b5c0e945cc5854780eb79e0e11502324f1d446646527ead99688675a5cfbe31bcfa98cc7176238b7c61d7639269bb3ac69469b98d10_2",
-                "is_ignored": false,
-                "lines": "  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog",
-                "message": "\"Source:window.name;Sink:innerHTML\"\n",
-                "metadata": {},
-                "metavars": {
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 41,
-                            "line": 31,
-                            "offset": 765
-                        },
-                        "start": {
-                            "col": 3,
-                            "line": 31,
-                            "offset": 727
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 10,
-                            "line": 30,
-                            "offset": 710
-                        },
-                        "start": {
-                            "col": 7,
-                            "line": 30,
-                            "offset": 707
-                        }
-                    }
-                },
-                "severity": "WARNING"
-            },
-            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
-            "start": {
-                "col": 3,
-                "line": 30,
-                "offset": 703
-            }
-        },
-        {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
-            "end": {
-                "col": 28,
-                "line": 39,
-                "offset": 936
-            },
-            "extra": {
-                "engine_kind": "OSS",
-                "fingerprint": "fb61cd21ab1613d1646f56560bf8e2c9d6a5d6d35ec15a8250632405ff5e48387529aff91506d355c1ce7dc9b887bab96f147bb04577dfc887ce9dbad9675dbc_1",
-                "is_ignored": false,
-                "lines": "function displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\nvar dog = window.name\ndisplayMessage('l',dog,'k')",
-                "message": "\"Source:window.name;Sink:innerHTML\"\n",
-                "metadata": {},
-                "metavars": {
-                    "$ARG": {
-                        "abstract_content": "b",
-                        "end": {
-                            "col": 28,
-                            "line": 35,
-                            "offset": 823
-                        },
-                        "start": {
-                            "col": 27,
-                            "line": 35,
-                            "offset": 822
-                        }
-                    },
-                    "$FUNC": {
-                        "abstract_content": "displayMessage",
-                        "end": {
-                            "col": 24,
-                            "line": 35,
-                            "offset": 819
-                        },
-                        "start": {
-                            "col": 10,
-                            "line": 35,
-                            "offset": 805
-                        }
-                    },
-                    "$OBJECT": {
-                        "abstract_content": "document.getElementById('displayArea')",
-                        "end": {
-                            "col": 41,
-                            "line": 36,
-                            "offset": 869
-                        },
-                        "start": {
-                            "col": 3,
-                            "line": 36,
-                            "offset": 831
-                        }
-                    },
-                    "$X": {
-                        "abstract_content": "dog",
-                        "end": {
-                            "col": 8,
-                            "line": 38,
-                            "offset": 894
-                        },
-                        "start": {
-                            "col": 5,
-                            "line": 38,
-                            "offset": 891
-                        }
-                    }
-                },
-                "severity": "WARNING"
-            },
-            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
-            "start": {
-                "col": 1,
-                "line": 35,
-                "offset": 796
+                "offset": 209
             }
         }
     ],

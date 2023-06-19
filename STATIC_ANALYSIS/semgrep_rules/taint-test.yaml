@@ -1,0 +1,14 @@
+rules:
+  - id: taint-example
+    languages:
+      - python
+    message: Found dangerous HTML output
+    mode: taint
+    pattern-sources:
+      - pattern: get_user_input(...)
+    pattern-sanitizers:
+      - pattern: sanitize_input(...)
+    pattern-sinks:
+      - pattern: html_output(...)
+      - pattern: eval(...)
+    severity: WARNING
