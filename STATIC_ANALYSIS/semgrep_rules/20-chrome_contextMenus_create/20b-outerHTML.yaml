@@ -1,5 +1,5 @@
 "rules":
-- "id": 20a-outerHTML
+- "id": 20b-outerHTML
   "languages":
   - javascript
   "message": Source:chrome.contextMenus.create;Sink:outerHTML
