@@ -1,20 +1,20 @@
 rules:
-  - id: 1a-innerHTML
+  - id: 1c-document_write
     message: |
-      "Source:window.name;Sink:innerHTML"
+      "Source:window.name;Sink:document.write"
     languages:
       - javascript
     pattern-either:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.innerHTML = <...$X...>
+          document.write(<...$X...>)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = <...$ARG...>
+            document.write(<...$ARG...>)
             ...
           }
           ...
@@ -22,7 +22,7 @@ rules:
       - pattern: |
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = <...$ARG...>
+            document.write(<...$ARG...>)
             ...
           }
           ...

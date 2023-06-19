@@ -1,20 +1,20 @@
 rules:
-  - id: 1a-innerHTML
+  - id: 1g-jQuery_insertBefore
     message: |
-      "Source:window.name;Sink:innerHTML"
+      "Source:window.name;Sink:jQuery.insertBefore"
     languages:
       - javascript
     pattern-either:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.innerHTML = <...$X...>
+          $OBJECT.insertBefore($X)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = <...$ARG...>
+            $OBJECT.insertBefore($X)
             ...
           }
           ...
@@ -22,7 +22,7 @@ rules:
       - pattern: |
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = <...$ARG...>
+            $OBJECT.insertBefore($X)
             ...
           }
           ...

@@ -3,56 +3,315 @@
     "paths": {
         "_comment": "<add --verbose for a list of skipped paths>",
         "scanned": [
-            "STATIC_ANALYSIS/test_codes/abc/semgrep_test.html"
+            "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js"
         ]
     },
     "results": [
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs-and-buttons.scan-button",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
             "end": {
-                "col": 60,
-                "line": 11,
-                "offset": 327
+                "col": 55,
+                "line": 7,
+                "offset": 149
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "96642f48da6d97dd23674e499c182a89bbc85814fa3e770177cc3c62d1ae479d3d935d4c48de4e9ce609ba81357524713515bdbeed2ef0239f728da9b5611228_0",
+                "fingerprint": "2d0b86250bc33ab5be519b5c0e945cc5854780eb79e0e11502324f1d446646527ead99688675a5cfbe31bcfa98cc7176238b7c61d7639269bb3ac69469b98d10_0",
                 "is_ignored": false,
-                "lines": "        <button type=\"submit\" id=\"buttonId\">Submit</button>",
-                "message": "<button> detected",
+                "lines": "var dog = window.name\ndocument.getElementById('displayArea').innerHTML = dog",
+                "message": "\"Source:window.name;Sink:innerHTML\"\n",
                 "metadata": {},
-                "metavars": {},
+                "metavars": {
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 39,
+                            "line": 7,
+                            "offset": 133
+                        },
+                        "start": {
+                            "col": 1,
+                            "line": 7,
+                            "offset": 95
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 8,
+                            "line": 6,
+                            "offset": 80
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 6,
+                            "offset": 77
+                        }
+                    }
+                },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.html",
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
             "start": {
-                "col": 9,
-                "line": 11,
-                "offset": 276
+                "col": 1,
+                "line": 6,
+                "offset": 73
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs-and-buttons.scan-input",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
             "end": {
-                "col": 60,
-                "line": 9,
-                "offset": 250
+                "col": 28,
+                "line": 14,
+                "offset": 301
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "bf1ccce1fe4617e94ef7d496848a4956b68bb4a973c963d6a391d0616761439473be686b3c84e35076b72e1cff61ddc89585bdc89586d8523afe67d0160ac40a_0",
+                "fingerprint": "fb61cd21ab1613d1646f56560bf8e2c9d6a5d6d35ec15a8250632405ff5e48387529aff91506d355c1ce7dc9b887bab96f147bb04577dfc887ce9dbad9675dbc_0",
                 "is_ignored": false,
-                "lines": "        <input type=\"text\" id=\"userinput\" name=\"userinput\">",
-                "message": "<input> detected",
+                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l',dog,'k')",
+                "message": "\"Source:window.name;Sink:innerHTML\"\n",
                 "metadata": {},
-                "metavars": {},
+                "metavars": {
+                    "$ARG": {
+                        "abstract_content": "b",
+                        "end": {
+                            "col": 28,
+                            "line": 11,
+                            "offset": 210
+                        },
+                        "start": {
+                            "col": 27,
+                            "line": 11,
+                            "offset": 209
+                        }
+                    },
+                    "$FUNC": {
+                        "abstract_content": "displayMessage",
+                        "end": {
+                            "col": 24,
+                            "line": 11,
+                            "offset": 206
+                        },
+                        "start": {
+                            "col": 10,
+                            "line": 11,
+                            "offset": 192
+                        }
+                    },
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 41,
+                            "line": 12,
+                            "offset": 256
+                        },
+                        "start": {
+                            "col": 3,
+                            "line": 12,
+                            "offset": 218
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 8,
+                            "line": 10,
+                            "offset": 168
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 10,
+                            "offset": 165
+                        }
+                    }
+                },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.html",
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
             "start": {
-                "col": 9,
-                "line": 9,
-                "offset": 199
+                "col": 1,
+                "line": 10,
+                "offset": 161
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "end": {
+                "col": 3,
+                "line": 20,
+                "offset": 475
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "2d0b86250bc33ab5be519b5c0e945cc5854780eb79e0e11502324f1d446646527ead99688675a5cfbe31bcfa98cc7176238b7c61d7639269bb3ac69469b98d10_1",
+                "is_ignored": false,
+                "lines": "var dog = window.name\nfunction displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\ndisplayMessage('l',dog,'k')\n\n// case 3\nvar button = document.getElementById('buttonId')\nbutton.addEventListener('click', function CaoNiMa() {\n  document.getElementById('displayArea').innerHTML = dog\n})",
+                "message": "\"Source:window.name;Sink:innerHTML\"\n",
+                "metadata": {},
+                "metavars": {
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 41,
+                            "line": 19,
+                            "offset": 456
+                        },
+                        "start": {
+                            "col": 3,
+                            "line": 19,
+                            "offset": 418
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 8,
+                            "line": 10,
+                            "offset": 168
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 10,
+                            "offset": 165
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "start": {
+                "col": 1,
+                "line": 10,
+                "offset": 161
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "end": {
+                "col": 57,
+                "line": 31,
+                "offset": 781
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "2d0b86250bc33ab5be519b5c0e945cc5854780eb79e0e11502324f1d446646527ead99688675a5cfbe31bcfa98cc7176238b7c61d7639269bb3ac69469b98d10_2",
+                "is_ignored": false,
+                "lines": "  var dog = window.name\n  document.getElementById('displayArea').innerHTML = dog",
+                "message": "\"Source:window.name;Sink:innerHTML\"\n",
+                "metadata": {},
+                "metavars": {
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 41,
+                            "line": 31,
+                            "offset": 765
+                        },
+                        "start": {
+                            "col": 3,
+                            "line": 31,
+                            "offset": 727
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 10,
+                            "line": 30,
+                            "offset": 710
+                        },
+                        "start": {
+                            "col": 7,
+                            "line": 30,
+                            "offset": 707
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "start": {
+                "col": 3,
+                "line": 30,
+                "offset": 703
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML",
+            "end": {
+                "col": 28,
+                "line": 39,
+                "offset": 936
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "fb61cd21ab1613d1646f56560bf8e2c9d6a5d6d35ec15a8250632405ff5e48387529aff91506d355c1ce7dc9b887bab96f147bb04577dfc887ce9dbad9675dbc_1",
+                "is_ignored": false,
+                "lines": "function displayMessage(a,b,c) {\n  document.getElementById('displayArea').innerHTML = b;\n}\nvar dog = window.name\ndisplayMessage('l',dog,'k')",
+                "message": "\"Source:window.name;Sink:innerHTML\"\n",
+                "metadata": {},
+                "metavars": {
+                    "$ARG": {
+                        "abstract_content": "b",
+                        "end": {
+                            "col": 28,
+                            "line": 35,
+                            "offset": 823
+                        },
+                        "start": {
+                            "col": 27,
+                            "line": 35,
+                            "offset": 822
+                        }
+                    },
+                    "$FUNC": {
+                        "abstract_content": "displayMessage",
+                        "end": {
+                            "col": 24,
+                            "line": 35,
+                            "offset": 819
+                        },
+                        "start": {
+                            "col": 10,
+                            "line": 35,
+                            "offset": 805
+                        }
+                    },
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('displayArea')",
+                        "end": {
+                            "col": 41,
+                            "line": 36,
+                            "offset": 869
+                        },
+                        "start": {
+                            "col": 3,
+                            "line": 36,
+                            "offset": 831
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "dog",
+                        "end": {
+                            "col": 8,
+                            "line": 38,
+                            "offset": 894
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 38,
+                            "offset": 891
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "start": {
+                "col": 1,
+                "line": 35,
+                "offset": 796
             }
         }
     ],

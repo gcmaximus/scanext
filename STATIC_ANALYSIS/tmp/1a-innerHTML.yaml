@@ -1,0 +1,72 @@
+rules:
+  - id: 1a-innerHTML
+    message: |
+      "Source:window.name;Sink:innerHTML"
+    languages:
+      - javascript
+
+    pattern-either:
+      - patterns:
+        - pattern-either:
+          - pattern-inside: |
+              $Y.addEventListener('click', function() {
+                ...
+              })
+          - pattern-inside: |
+              $Y = $OBJECT.getElementById(...)
+              $Y.addEventListener('click', function() {
+                ...
+              })
+        - pattern-either: 
+          - pattern: |
+              $X = window.name
+              ...
+              $OBJECT.innerHTML = <...$X...>
+          - pattern: |
+              $X = window.name
+              ...
+              function $FUNC(...,$ARG,...) {
+                ...
+                $OBJECT.innerHTML = <...$ARG...>
+                ...
+              }
+              ...
+              $FUNC(...,$X,...)
+          - pattern: |
+              function $FUNC(...,$ARG,...) {
+                ...
+                $OBJECT.innerHTML = <...$ARG...>
+                ...
+              }
+              ...
+              $X = window.name
+              ...
+              $FUNC(...,$X,...)
+
+      - pattern-either:
+        - pattern: |
+            $X = window.name
+            ...
+            $OBJECT.innerHTML = <...$X...>
+        - pattern: |
+            $X = window.name
+            ...
+            function $FUNC(...,$ARG,...) {
+              ...
+              $OBJECT.innerHTML = <...$ARG...>
+              ...
+            }
+            ...
+            $FUNC(...,$X,...)
+        - pattern: |
+            function $FUNC(...,$ARG,...) {
+              ...
+              $OBJECT.innerHTML = <...$ARG...>
+              ...
+            }
+            ...
+            $X = window.name
+            ...
+            $FUNC(...,$X,...)
+              
+    severity: WARNING

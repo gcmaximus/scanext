@@ -1,20 +1,20 @@
 rules:
-  - id: 1a-innerHTML
+  - id: 1e-jQuery_html
     message: |
-      "Source:window.name;Sink:innerHTML"
+      "Source:window.name;Sink:jQuery.html"
     languages:
       - javascript
     pattern-either:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.innerHTML = <...$X...>
+          $OBJECT.html($X)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = <...$ARG...>
+            $OBJECT.html($X)
             ...
           }
           ...
@@ -22,7 +22,7 @@ rules:
       - pattern: |
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.innerHTML = <...$ARG...>
+            $OBJECT.html($X)
             ...
           }
           ...
