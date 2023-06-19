@@ -6,9 +6,7 @@ rules:
   mode: taint
   pattern-sources:
     - pattern: |
-        function $FUNC($INFO, ...) {
-          ...
-        }
+        function $FUNC(...) {...}
           ...
         chrome.contextMenus.create({
           onclick: $FUNC
@@ -18,20 +16,18 @@ rules:
           onclick: $FUNC
         },...)
         ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
+        function $FUNC(...) {...}
     - pattern: |
         chrome.contextMenus.create({
-          onclick: function($INFO, ...) {...}
+          onclick: function(...) {...}
         },...)
     - pattern: |
         chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...) {...}
+          onclick: function $FUNC(...) {...}
         },...)
     - pattern: |
         chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...) {...}
+          onclick: function $FUNC(...) {...}
         },...)
   pattern-sinks:
     - pattern: $OBJ.innerHTML = <... $INFO.linkUrl ...>
