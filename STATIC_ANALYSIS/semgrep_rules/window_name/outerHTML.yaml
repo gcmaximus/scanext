@@ -1,5 +1,5 @@
 rules:
-  - id: 1b-outerHTML
+  - id: window_name-outerHTML
     languages: [javascript]
     message: "Source:window.name;Sink:outerHTML"
     mode: taint

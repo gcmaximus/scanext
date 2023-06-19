@@ -1,5 +1,5 @@
 rules:
-  - id: 1q-jQuery_attr_href
+  - id: window_name-jQuery_attr_href
     languages: [javascript]
     message: "Source:window.name;Sink:jQuery.attr('href')"
     mode: taint

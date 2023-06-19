@@ -300,7 +300,7 @@ chrome.tabs.update({ url: newcase59 });
 chrome.tabs.update({ url: "javascript:" + window.name });
 
 //**************************************************************/
-
+// XXXXXXXXXXXXXXXXXXXXXXXXXXX DEPRECATED XXXXXXXXXXXXXXXXXX
 // // chrome.tabs.executeScript
 // // Case 61
 // var case61 = window.name;
@@ -313,7 +313,7 @@ chrome.tabs.update({ url: "javascript:" + window.name });
 
 // // Case 63
 // chrome.tabs.executeScript(null, { code: "javascript:" + window.name });
-
+// XXXXXXXXXXXXXXXXXXXXXXXXXXX DEPRECATED XXXXXXXXXXXXXXXXXX
 //**************************************************************/
 
 // // eval()

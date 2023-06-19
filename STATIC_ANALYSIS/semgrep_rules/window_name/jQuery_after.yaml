@@ -1,5 +1,5 @@
 rules:
-  - id: 1i-jQuery_after
+  - id: window_name-jQuery_after
     languages: [javascript]
     message: "Source:window.name;Sink:jQuery.after"
     mode: taint

@@ -1,5 +1,5 @@
 rules:
-  - id: 1p-jQuery_prependTo
+  - id: window_name-jQuery_prependTo
     languages: [javascript]
     message: "Source:window.name;Sink:jQuery.prependTo"
     mode: taint

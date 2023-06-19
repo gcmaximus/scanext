@@ -1,5 +1,5 @@
 rules:
-  - id: 1d-document_writeln
+  - id: window_name-document_writeln
     languages: [javascript]
     message: "Source:window.name;Sink:document.writeln"
     mode: taint

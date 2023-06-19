@@ -1,5 +1,5 @@
 rules:
-  - id: 1e-jQuery_html
+  - id: window_name-jQuery_html
     languages: [javascript]
     message: "Source:window.name;Sink:jQuery.html"
     mode: taint

@@ -1,5 +1,5 @@
 rules:
-  - id: 1a-innerHTML
+  - id: window_name-innerHTML
     languages: [javascript]
     message: "Source:window.name;Sink:innerHTML"
     mode: taint

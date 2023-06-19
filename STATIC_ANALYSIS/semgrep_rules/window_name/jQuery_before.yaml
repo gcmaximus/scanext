@@ -1,5 +1,5 @@
 rules:
-  - id: 1f-jQuery_before
+  - id: window_name-jQuery_before
     languages: [javascript]
     message: "Source:window.name;Sink:jQuery.before"
     mode: taint

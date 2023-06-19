@@ -1,5 +1,5 @@
 rules:
-  - id: 1g-jQuery_insertBefore
+  - id: window_name-jQuery_insertBefore
     languages: [javascript]
     message: "Source:window.name;Sink:jQuery.insertBefore"
     mode: taint

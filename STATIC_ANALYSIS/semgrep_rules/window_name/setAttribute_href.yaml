@@ -1,5 +1,5 @@
 rules:
-  - id: 1r-setAttribute_href
+  - id: window_name-setAttribute_href
     languages: [javascript]
     message: "Source:window.name;Sink:setAttribute('href')"
     mode: taint
