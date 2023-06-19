@@ -49,4 +49,3 @@ document.getElementById('buttonId').addEventListener('click', function() {
 /*******************
   2. location.hash  
 *******************/ 
-
