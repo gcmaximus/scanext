@@ -1,5 +1,5 @@
 rules:
-  - id: 1g-jQuery_insertAfter
+  - id: 1h-jQuery_insertAfter
     message: |
       "Source:window.name;Sink:jQuery.insertAfter"
     languages:
@@ -8,13 +8,13 @@ rules:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.insertAfter($X)
+          $OBJECT.insertAfter(<...$X...>)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.insertAfter($X)
+            $OBJECT.insertAfter(<...$ARG...>)
             ...
           }
           ...
@@ -22,7 +22,7 @@ rules:
       - pattern: |
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.insertAfter($X)
+            $OBJECT.insertAfter(<...$ARG...>)
             ...
           }
           ...

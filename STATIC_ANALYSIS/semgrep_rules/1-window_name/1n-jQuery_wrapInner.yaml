@@ -1,20 +1,20 @@
 rules:
-  - id: 1e-jQuery_html
+  - id: 1n-jQuery_wrapInner
     message: |
-      "Source:window.name;Sink:jQuery.html"
+      "Source:window.name;Sink:jQuery.wrapInner"
     languages:
       - javascript
     pattern-either:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.html(<...$X...>)
+          $OBJECT.wrapInner(<...$X...>)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.html(<...$ARG...>)
+            $OBJECT.wrapInner(<...$ARG...>)
             ...
           }
           ...
@@ -22,7 +22,7 @@ rules:
       - pattern: |
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.html(<...$ARG...>)
+            $OBJECT.wrapInner(<...$ARG...>)
             ...
           }
           ...

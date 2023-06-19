@@ -1,20 +1,20 @@
 rules:
-  - id: 1e-jQuery_html
+  - id: 1j-jQuery_append
     message: |
-      "Source:window.name;Sink:jQuery.html"
+      "Source:window.name;Sink:jQuery.append"
     languages:
       - javascript
     pattern-either:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.html(<...$X...>)
+          $OBJECT.append(<...$X...>)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.html(<...$ARG...>)
+            $OBJECT.append(<...$ARG...>)
             ...
           }
           ...
@@ -22,7 +22,7 @@ rules:
       - pattern: |
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.html(<...$ARG...>)
+            $OBJECT.append(<...$ARG...>)
             ...
           }
           ...

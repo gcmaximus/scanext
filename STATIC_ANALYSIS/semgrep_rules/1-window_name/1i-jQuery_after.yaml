@@ -1,5 +1,5 @@
 rules:
-  - id: 1f-jQuery_after
+  - id: 1i-jQuery_after
     message: |
       "Source:window.name;Sink:jQuery.after"
     languages:
@@ -8,13 +8,13 @@ rules:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.after($X)
+          $OBJECT.after(<...$X...>)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.after($X)
+            $OBJECT.after(<...$ARG...>)
             ...
           }
           ...
@@ -22,7 +22,7 @@ rules:
       - pattern: |
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.after($X)
+            $OBJECT.after(<...$ARG...>)
             ...
           }
           ...

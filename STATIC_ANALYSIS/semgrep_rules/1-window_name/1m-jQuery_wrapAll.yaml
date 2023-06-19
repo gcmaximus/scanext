@@ -1,20 +1,20 @@
 rules:
-  - id: 1e-jQuery_html
+  - id: 1m-jQuery_wrapAll
     message: |
-      "Source:window.name;Sink:jQuery.html"
+      "Source:window.name;Sink:jQuery.wrapAll"
     languages:
       - javascript
     pattern-either:
       - pattern: |
           $X = window.name
           ...
-          $OBJECT.html(<...$X...>)
+          $OBJECT.wrapAll(<...$X...>)
       - pattern: |
           $X = window.name
           ...
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.html(<...$ARG...>)
+            $OBJECT.wrapAll(<...$ARG...>)
             ...
           }
           ...
@@ -22,7 +22,7 @@ rules:
       - pattern: |
           function $FUNC(...,$ARG,...) {
             ...
-            $OBJECT.html(<...$ARG...>)
+            $OBJECT.wrapAll(<...$ARG...>)
             ...
           }
           ...
