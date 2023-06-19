@@ -15,7 +15,7 @@ displayMessage('l',dog,'k')
 
 // case 3
 var button = document.getElementById('buttonId')
-button.addEventListener('click', function() {
+button.addEventListener('click', function CaoNiMa() {
   var dog = window.name
   document.getElementById('displayArea').innerHTML = dog
 })
@@ -34,10 +34,10 @@ var dog = window.name
 displayMessage('l',dog,'k')
 
 // case 6
-document.getElementById('buttonId').addEventListener('click', function() {
-  var dog = window.name
-  document.getElementById('displayArea').outerHTML = dog
-})
+// document.getElementById('buttonId').addEventListener('click', function() {
+//   var dog = window.name
+//   document.getElementById('displayArea').outerHTML = dog
+// })
 
 // case 7
 // var dog = window.name

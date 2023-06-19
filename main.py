@@ -26,7 +26,7 @@ def run_semgrep():
         "--output",
         output_file,
         "--json",
-        "--quiet",  # turn off verbose
+        # "--quiet",  # turn off verbose
     ]
     try:
         subprocess.run(command, check=True)

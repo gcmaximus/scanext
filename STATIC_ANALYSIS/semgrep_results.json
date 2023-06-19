@@ -8,7 +8,7 @@
     },
     "results": [
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-button",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs-and-buttons.scan-button",
             "end": {
                 "col": 60,
                 "line": 11,
@@ -16,7 +16,7 @@
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "d9f083f2e7c9cf216d1053ca69485fe04dcd1e47efd01013b79d44ff04fad0d684c09dba8e1d4da509c1779dbc2a457779739abef1b0c54180a07c0180d955df_0",
+                "fingerprint": "96642f48da6d97dd23674e499c182a89bbc85814fa3e770177cc3c62d1ae479d3d935d4c48de4e9ce609ba81357524713515bdbeed2ef0239f728da9b5611228_0",
                 "is_ignored": false,
                 "lines": "        <button type=\"submit\" id=\"buttonId\">Submit</button>",
                 "message": "<button> detected",
@@ -32,18 +32,18 @@
             }
         },
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs.scan-input",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.26-html-inputs-and-buttons.scan-input",
             "end": {
-                "col": 9,
-                "line": 10,
-                "offset": 259
+                "col": 60,
+                "line": 9,
+                "offset": 250
             },
             "extra": {
                 "engine_kind": "OSS",
-                "fingerprint": "31198f0450ee5a5969dc64353e8bb48f57277854f2e3b84a773a34d663d76264dee59ac2c2a4df5ea05d87e455df430029f32678f1ff4f4780bc6127b34124a1_0",
+                "fingerprint": "bf1ccce1fe4617e94ef7d496848a4956b68bb4a973c963d6a391d0616761439473be686b3c84e35076b72e1cff61ddc89585bdc89586d8523afe67d0160ac40a_0",
                 "is_ignored": false,
-                "lines": "        <input type=\"text\" id=\"userinput\" name=\"userinput\">\n        <p>1</p>",pu
-                "message": "<int> detected",
+                "lines": "        <input type=\"text\" id=\"userinput\" name=\"userinput\">",
+                "message": "<input> detected",
                 "metadata": {},
                 "metavars": {},
                 "severity": "WARNING"
