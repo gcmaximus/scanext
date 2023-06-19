@@ -3,7 +3,7 @@
 *******************/
 
 
-// Expected total matches: 30
+// Expected total matches: 40
 
 
 // case 1
@@ -59,7 +59,7 @@ chrome.contextMenus.create(
             let v = x;
             document.getElementById("f").innerHTML = v;
         },
-        onclick: kms,
+        onclick: aaa,
         test2: "sdfs",
     },
     "adfs"
@@ -68,7 +68,7 @@ chrome.contextMenus.create(
 let b = n.linkUrl;
 document.getElementById("f").innerHTML = x;
 
-function kms(n, a) {
+function aaa(n, a) {
     console.log();
     document.getElementById("f").innerHTML = n.linkUrl; // Expect 1 match here
     document.getElementById("f").innerHTML = n.srcUrl; // Expect 1 match here

@@ -1,9 +1,9 @@
 /*******************
-20b. chrome.contextMenus.create | outerHTML 
+20b. chrome.contextMenus.create | outerHTML
 *******************/
 
 
-// Expected total matches: 30
+// Expected total matches: 40
 
 
 // case 1
@@ -59,7 +59,7 @@ chrome.contextMenus.create(
             let v = x;
             document.getElementById("f").outerHTML = v;
         },
-        onclick: kms,
+        onclick: aaa,
         test2: "sdfs",
     },
     "adfs"
@@ -68,7 +68,7 @@ chrome.contextMenus.create(
 let b = n.linkUrl;
 document.getElementById("f").outerHTML = x;
 
-function kms(n, a) {
+function aaa(n, a) {
     console.log();
     document.getElementById("f").outerHTML = n.linkUrl; // Expect 1 match here
     document.getElementById("f").outerHTML = n.srcUrl; // Expect 1 match here
