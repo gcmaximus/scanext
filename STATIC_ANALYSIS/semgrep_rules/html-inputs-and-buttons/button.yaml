@@ -1,0 +1,8 @@
+rules:
+- id: scan-button
+  pattern: <button></button>
+  message: <button> detected
+  languages: [html]
+  severity: WARNING
+
+      

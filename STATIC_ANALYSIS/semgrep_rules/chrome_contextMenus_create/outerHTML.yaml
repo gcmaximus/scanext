@@ -1,0 +1,62 @@
+rule:
+- id: 20b-outerHTML
+  languages:
+  - javascript
+  message: Source:chrome.contextMenus.create;Sink:outerHTML
+    mode: taint
+    pattern-sources:
+      - pattern: |
+          function $FUNC($INFO, ...) {
+            ...
+          }
+            ...
+          chrome.contextMenus.create({
+            onclick: $FUNC
+          },...)
+      - pattern: |
+          chrome.contextMenus.create({
+            onclick: $FUNC
+          },...)
+          ...
+          function $FUNC($INFO, ...) {
+            ...
+          }
+      - pattern: |
+          chrome.contextMenus.create({
+            onclick: function($INFO, ...) {...}
+          },...)
+      - pattern: |
+          chrome.contextMenus.create({
+            onclick: function $FUNC($INFO, ...) {...}
+          },...)
+      - pattern: |
+          chrome.contextMenus.create({
+            onclick: function $FUNC($INFO, ...) {...}
+          },...)
+    pattern-sinks:
+      - pattern: $OBJ.outerHTML = <... $INFO.linkUrl ...>
+      - pattern: $OBJ.outerHTML = <... $INFO.srcUrl ...>
+      - pattern: $OBJ.outerHTML = <... $INFO.pageUrl ...>
+      - pattern: $OBJ.outerHTML = <... $INFO.frameUrl ...>
+      - pattern: $OBJ.outerHTML = <... $INFO.selectionText ...>
+      - "pattern": |
+          $X = $INFO.linkUrl
+          ...
+          $OBJ.outerHTML = <... $X ...>
+      - "pattern": |
+          $X = $INFO.srcUrl
+          ...
+          $OBJ.outerHTML = <... $X ...>
+      - "pattern": |
+          $X = $INFO.pageUrl
+          ...
+          $OBJ.outerHTML = <... $X ...>
+      - "pattern": |
+          $X = $INFO.frameUrl
+          ...
+          $OBJ.outerHTML = <... $X ...>
+      - "pattern": |
+          $X = $INFO.selectionText
+          ...
+          $OBJ.outerHTML = <... $X ...>
+    severity: WARNING
