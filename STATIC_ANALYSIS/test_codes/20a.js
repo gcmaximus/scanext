@@ -1,5 +1,5 @@
 /*******************
-20a. chrome.contextMenus.create  
+20a. chrome.contextMenus.create | innerHTML
 *******************/
 
 
