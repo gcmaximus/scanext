@@ -1,32 +1,10 @@
 rules:
-  - id: 1a-innerHTML
-    message: |
-      "Source:window.name;Sink:innerHTML"
-    languages:
-      - javascript
-    pattern-either:
-      - pattern: |
-          $X = window.name
-          ...
-          $OBJECT.innerHTML = <...$X...>
-      - pattern: |
-          $X = window.name
-          ...
-          function $FUNC(...,$ARG,...) {
-            ...
-            $OBJECT.innerHTML = <...$ARG...>
-            ...
-          }
-          ...
-          $FUNC(...,$X,...)
-      - pattern: |
-          function $FUNC(...,$ARG,...) {
-            ...
-            $OBJECT.innerHTML = <...$ARG...>
-            ...
-          }
-          ...
-          $X = window.name
-          ...
-          $FUNC(...,$X,...)
+  - id: 1a-innerHTML.yaml
+    languages: [javascript]
+    message: "Source:window.name;Sink:innerHTML"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: $OBJECT.innerHTML = ...
     severity: WARNING

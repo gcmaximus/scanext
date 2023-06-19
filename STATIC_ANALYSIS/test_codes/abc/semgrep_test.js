@@ -1,60 +1,31 @@
 /*******************
   1. window.name  
 *******************/ 
-
+// innerHTML
 // case 1
-// var dog = window.name
-// document.getElementById('displayArea').innerHTML = dog
+var case1 = window.name
+document.getElementById('case1').innerHTML = case1
 
 // case 2
-// var dog = window.name
-// function displayMessage(a,b,c) {
-//   document.getElementById('displayArea').innerHTML = b;
-// }
-// displayMessage('l',dog,'k')
+document.getElementById('case2').innerHTML = window.name
 
 // case 3
-// var button = document.getElementById('buttonId')
-// button.addEventListener('click', function CaoNiMa() {
-//   document.getElementById('displayArea').innerHTML = dog
-// })
+var case3 = window.name
+newcase3 = case3 + " "
+document.getElementById('case3').innerHTML = newcase3
 
-// case 3.5
-// var button = document.getElementById('buttonId')
-// button.addEventListener('click', function CaoNiMa() {
-//   console.log('hi')
-// })
-
+//outerHTML
 // case 4
-// document.getElementById('buttonId').addEventListener('click', function() {
-//   var dog = window.name
-//   document.getElementById('displayArea').innerHTML = dog
-// })
+var case4 = window.name
+document.getElementById('case4').innerHTML = case4
 
 // case 5
-// function displayMessage(a,b,c) {
-//   document.getElementById('displayArea').innerHTML = b;
-// }
-// var dog = window.name
-// displayMessage('l',dog,'k')
+document.getElementById('case5').innerHTML = window.name
 
 // case 6
-// document.getElementById('buttonId').addEventListener('click', function() {
-//   var dog = window.name
-//   document.getElementById('displayArea').outerHTML = dog
-// })
-
-// case 7
-// var dog = window.name
-// $("button").click(function(){
-//   $("p").html(dog);
-// });
-
-// case 8
-var dog = window.name
-$("button").click(function(){
-    $(dog).appendTo("p");
-})
+var case6 = window.name
+newcase6 = case6 + " "
+document.getElementById('case6').innerHTML = newcase6
 
 /*******************
   2. location.hash  

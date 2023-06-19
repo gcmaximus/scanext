@@ -4,11 +4,11 @@ print("start of program")
 
 # Config rules
 # rules = "STATIC_ANALYSIS/semgrep_rules/"
-rules = "STATIC_ANALYSIS/semgrep_rules/taint-test.yaml"
+rules = "STATIC_ANALYSIS/semgrep_rules/1-window_name/1a-innerHTML.yaml"
 # rules = "auto"
 
 # Codes to be scanned
-filename = "STATIC_ANALYSIS/test_codes/test2.py"
+filename = "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js"
 # filename = "EXTENSIONS/h1-replacer(v3)"
 # filename = "EXTENSIONS/emailextractor"
 

@@ -3,33 +3,33 @@
     "paths": {
         "_comment": "<add --verbose for a list of skipped paths>",
         "scanned": [
-            "STATIC_ANALYSIS/test_codes/test2.py"
+            "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js"
         ]
     },
     "results": [
         {
-            "check_id": "STATIC_ANALYSIS.semgrep_rules.taint-example",
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML.yaml",
             "end": {
-                "col": 29,
-                "line": 10,
-                "offset": 226
+                "col": 51,
+                "line": 7,
+                "offset": 147
             },
             "extra": {
                 "dataflow_trace": {
                     "intermediate_vars": [
                         {
-                            "content": "data",
+                            "content": "case1",
                             "location": {
                                 "end": {
-                                    "col": 9,
-                                    "line": 8,
-                                    "offset": 150
+                                    "col": 10,
+                                    "line": 6,
+                                    "offset": 82
                                 },
-                                "path": "STATIC_ANALYSIS/test_codes/test2.py",
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
                                 "start": {
                                     "col": 5,
-                                    "line": 8,
-                                    "offset": 146
+                                    "line": 6,
+                                    "offset": 77
                                 }
                             }
                         }
@@ -39,18 +39,18 @@
                         [
                             {
                                 "end": {
-                                    "col": 29,
-                                    "line": 10,
-                                    "offset": 226
+                                    "col": 51,
+                                    "line": 7,
+                                    "offset": 147
                                 },
-                                "path": "STATIC_ANALYSIS/test_codes/test2.py",
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
                                 "start": {
-                                    "col": 12,
-                                    "line": 10,
-                                    "offset": 209
+                                    "col": 1,
+                                    "line": 7,
+                                    "offset": 97
                                 }
                             },
-                            "html_output(data)"
+                            "document.getElementById('case1').innerHTML = case1"
                         ]
                     ],
                     "taint_source": [
@@ -58,35 +58,239 @@
                         [
                             {
                                 "end": {
-                                    "col": 28,
-                                    "line": 8,
-                                    "offset": 169
+                                    "col": 24,
+                                    "line": 6,
+                                    "offset": 96
                                 },
-                                "path": "STATIC_ANALYSIS/test_codes/test2.py",
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
                                 "start": {
-                                    "col": 12,
-                                    "line": 8,
-                                    "offset": 153
+                                    "col": 13,
+                                    "line": 6,
+                                    "offset": 85
                                 }
                             },
-                            "get_user_input()"
+                            "window.name"
                         ]
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "7e5109483a34027fcf3b03b2c5bff33eff3cbdee20fc41df6a2bab30bb3cefdac30256128e9645a0685fd82779ce6325727f998515bd090fa601b77760cac60a_0",
+                "fingerprint": "7df81578cf0b874fdd789639dee909e366d536f4be48386290e880ae72454c0403eaf23c10b808be562b28c9afb5083127190d5a97b7f7cdca734fb53950239e_0",
                 "is_ignored": false,
-                "lines": "    return html_output(data)",
-                "message": "Found dangerous HTML output",
+                "lines": "document.getElementById('case1').innerHTML = case1",
+                "message": "Source:window.name;Sink:innerHTML",
                 "metadata": {},
-                "metavars": {},
+                "metavars": {
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('case1')",
+                        "end": {
+                            "col": 33,
+                            "line": 7,
+                            "offset": 129
+                        },
+                        "start": {
+                            "col": 1,
+                            "line": 7,
+                            "offset": 97
+                        }
+                    }
+                },
                 "severity": "WARNING"
             },
-            "path": "STATIC_ANALYSIS/test_codes/test2.py",
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
             "start": {
-                "col": 12,
+                "col": 1,
+                "line": 7,
+                "offset": 97
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML.yaml",
+            "end": {
+                "col": 57,
                 "line": 10,
-                "offset": 209
+                "offset": 215
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 57,
+                                    "line": 10,
+                                    "offset": 215
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 10,
+                                    "offset": 159
+                                }
+                            },
+                            "document.getElementById('case2').innerHTML = window.name"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 57,
+                                    "line": 10,
+                                    "offset": 215
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 46,
+                                    "line": 10,
+                                    "offset": 204
+                                }
+                            },
+                            "window.name"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "3cf917f3e008d01e64c970e928e5c55083e0eb350bb73e26cf25df07f594fd45d20c2eefd89441a3749c990dc5aa77cba6d52d3ba015d9bd45b68a559e7f1c8d_0",
+                "is_ignored": false,
+                "lines": "document.getElementById('case2').innerHTML = window.name",
+                "message": "Source:window.name;Sink:innerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('case2')",
+                        "end": {
+                            "col": 33,
+                            "line": 10,
+                            "offset": 191
+                        },
+                        "start": {
+                            "col": 1,
+                            "line": 10,
+                            "offset": 159
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "start": {
+                "col": 1,
+                "line": 10,
+                "offset": 159
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.1-window_name.1a-innerHTML.yaml",
+            "end": {
+                "col": 54,
+                "line": 15,
+                "offset": 327
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "case3",
+                            "location": {
+                                "end": {
+                                    "col": 10,
+                                    "line": 13,
+                                    "offset": 236
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 13,
+                                    "offset": 231
+                                }
+                            }
+                        },
+                        {
+                            "content": "newcase3",
+                            "location": {
+                                "end": {
+                                    "col": 9,
+                                    "line": 14,
+                                    "offset": 259
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 14,
+                                    "offset": 251
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 54,
+                                    "line": 15,
+                                    "offset": 327
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 15,
+                                    "offset": 274
+                                }
+                            },
+                            "document.getElementById('case3').innerHTML = newcase3"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 24,
+                                    "line": 13,
+                                    "offset": 250
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 13,
+                                    "line": 13,
+                                    "offset": 239
+                                }
+                            },
+                            "window.name"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "aa3756d718138430c6c6840b7198daee41e5e5d18cc98b89bdd6ecbf1af2e7b14c851cf729e3a67a97d31fbb58b7895bd13bde46c161d0460030d446b0653a62_0",
+                "is_ignored": false,
+                "lines": "document.getElementById('case3').innerHTML = newcase3",
+                "message": "Source:window.name;Sink:innerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$OBJECT": {
+                        "abstract_content": "document.getElementById('case3')",
+                        "end": {
+                            "col": 33,
+                            "line": 15,
+                            "offset": 306
+                        },
+                        "start": {
+                            "col": 1,
+                            "line": 15,
+                            "offset": 274
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "start": {
+                "col": 1,
+                "line": 15,
+                "offset": 274
             }
         }
     ],
