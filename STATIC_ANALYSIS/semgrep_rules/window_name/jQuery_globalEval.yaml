@@ -1,10 +1,10 @@
 rules:
-  - id: window_name-eval
+  - id: window_name-jQuery_globalEval
     languages: [javascript]
-    message: "Source:window.name;Sink:eval"
+    message: "Source:window.name;Sink:jQuery.globalEval"
     mode: taint
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
-      - pattern: "eval(...)"
+      - pattern: "jQuery.globalEval(...)"
     severity: WARNING

@@ -4,7 +4,7 @@ print("start of program")
 
 # Config rules
 # rules = "STATIC_ANALYSIS/semgrep_rules/"
-rules = "STATIC_ANALYSIS/semgrep_rules/1-window_name"
+rules = "STATIC_ANALYSIS/semgrep_rules/window_name"
 # rules = "auto"
 
 # Codes to be scanned

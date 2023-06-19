@@ -256,48 +256,48 @@
 
 //**************************************************************/
 
-// setAttribute("href")
-// Case 52
-var case52 = window.name;
-document.getElementById("link").setAttribute("href", case52);
+// // setAttribute("href")
+// // Case 52
+// var case52 = window.name;
+// document.getElementById("link").setAttribute("href", case52);
 
-// Case 53
-var case53 = window.name;
-newcase53 = "javascript:" + case53;
-document.getElementById("link").setAttribute("href", newcase53);
+// // Case 53
+// var case53 = window.name;
+// newcase53 = "javascript:" + case53;
+// document.getElementById("link").setAttribute("href", newcase53);
 
-// Case 54
-document.getElementById("link").setAttribute("href", "javascript:" + window.name);
-
-//**************************************************************/
-
-// setAttribute("src")
-// Case 55
-var case55 = window.name;
-document.getElementById("iframe").setAttribute("src", case55);
-
-// Case 56
-var case56 = window.name;
-newcase56 = "javascript:" + case56;
-document.getElementById("iframe").setAttribute("src", newcase56);
-
-// Case 57
-document.getElementById("iframe").setAttribute("src", "javascript:" + window.name);
+// // Case 54
+// document.getElementById("link").setAttribute("href", "javascript:" + window.name);
 
 //**************************************************************/
 
-// chrome.tabs.update
-// Case 58
-var case58 = window.name;
-chrome.tabs.update({ url: case58 });
+// // setAttribute("src")
+// // Case 55
+// var case55 = window.name;
+// document.getElementById("iframe").setAttribute("src", case55);
 
-// Case 59
-var case59 = window.name;
-newcase59 = "javascript:" + case59;
-chrome.tabs.update({ url: newcase59 });
+// // Case 56
+// var case56 = window.name;
+// newcase56 = "javascript:" + case56;
+// document.getElementById("iframe").setAttribute("src", newcase56);
 
-// Case 60
-chrome.tabs.update({ url: "javascript:" + window.name });
+// // Case 57
+// document.getElementById("iframe").setAttribute("src", "javascript:" + window.name);
+
+//**************************************************************/
+
+// // chrome.tabs.update
+// // Case 58
+// var case58 = window.name;
+// chrome.tabs.update({ url: case58 });
+
+// // Case 59
+// var case59 = window.name;
+// newcase59 = "javascript:" + case59;
+// chrome.tabs.update({ url: newcase59 });
+
+// // Case 60
+// chrome.tabs.update({ url: "javascript:" + window.name });
 
 //**************************************************************/
 // XXXXXXXXXXXXXXXXXXXXXXXXXXX DEPRECATED XXXXXXXXXXXXXXXXXX
@@ -331,15 +331,15 @@ chrome.tabs.update({ url: "javascript:" + window.name });
 
 //**************************************************************/
 
-// // jQuery globalEval()
-// // Case 67
-// var case67 = window.name;
-// jQuery.globalEval(case67);
+// jQuery globalEval()
+// Case 67
+var case67 = window.name;
+jQuery.globalEval(case67);
 
-// // Case 68
-// var case68 = window.name;
-// newcase68 = "javascript:" + case68;
-// jQuery.globalEval(newcase68);
+// Case 68
+var case68 = window.name;
+newcase68 = "javascript:" + case68;
+jQuery.globalEval(newcase68);
 
-// // Case 69
-// jQuery.globalEval("javascript:" + window.name);
+// Case 69
+jQuery.globalEval("javascript:" + window.name);
