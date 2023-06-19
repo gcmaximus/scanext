@@ -1,0 +1,10 @@
+rules:
+  - id: 1c-document_write
+    languages: [javascript]
+    message: "Source:window.name;Sink:document.write"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: document.write(...)
+    severity: WARNING

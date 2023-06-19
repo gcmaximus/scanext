@@ -1,0 +1,10 @@
+rules:
+  - id: 1l-jQuery_wrap
+    languages: [javascript]
+    message: "Source:window.name;Sink:jQuery.wrap"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: "$(...).wrap(...)"
+    severity: WARNING

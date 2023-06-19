@@ -1,10 +1,10 @@
 rules:
-  - id: 1g-jQuery_insertBefore
+  - id: 1p-jQuery_prependTo
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.insertBefore"
+    message: "Source:window.name;Sink:jQuery.prependTo"
     mode: taint
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
-      - pattern: "$(...).insertBefore(...)"
+      - pattern: "$(...).prependTo(...)"
     severity: WARNING

@@ -1,0 +1,10 @@
+rules:
+  - id: 1f-jQuery_before
+    languages: [javascript]
+    message: "Source:window.name;Sink:jQuery.before"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: $OBJECT.before(...)
+    severity: WARNING

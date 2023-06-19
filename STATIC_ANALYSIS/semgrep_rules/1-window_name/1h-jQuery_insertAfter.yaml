@@ -1,0 +1,10 @@
+rules:
+  - id: 1h-jQuery_insertAfter
+    languages: [javascript]
+    message: "Source:window.name;Sink:jQuery.insertAfter"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: "$(...).insertAfter(...)"
+    severity: WARNING

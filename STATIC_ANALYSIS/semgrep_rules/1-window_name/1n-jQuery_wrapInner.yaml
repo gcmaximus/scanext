@@ -1,0 +1,10 @@
+rules:
+  - id: 1n-jQuery_wrapInner
+    languages: [javascript]
+    message: "Source:window.name;Sink:jQuery.wrapInner"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: "$(...).wrapInner(...)"
+    severity: WARNING

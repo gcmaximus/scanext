@@ -1,0 +1,10 @@
+rules:
+  - id: 1t-chrome_tabs_update
+    languages: [javascript]
+    message: "Source:window.name;Sink:chrome.tabs.update"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: "chrome.tabs.update({ ..., url: ... })"
+    severity: WARNING

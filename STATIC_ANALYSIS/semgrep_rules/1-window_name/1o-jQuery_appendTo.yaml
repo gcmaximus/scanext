@@ -1,0 +1,10 @@
+rules:
+  - id: 1o-jQuery_appendTo
+    languages: [javascript]
+    message: "Source:window.name;Sink:jQuery.appendTo"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: "$(...).appendTo(...)"
+    severity: WARNING

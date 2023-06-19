@@ -1,0 +1,10 @@
+rules:
+  - id: 1e-jQuery_html
+    languages: [javascript]
+    message: "Source:window.name;Sink:jQuery.html"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: $OBJECT.html(...)
+    severity: WARNING

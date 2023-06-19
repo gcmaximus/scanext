@@ -1,0 +1,10 @@
+rules:
+  - id: 1k-jQuery_prepend
+    languages: [javascript]
+    message: "Source:window.name;Sink:jQuery.prepend"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: "$(...).prepend(...)"
+    severity: WARNING

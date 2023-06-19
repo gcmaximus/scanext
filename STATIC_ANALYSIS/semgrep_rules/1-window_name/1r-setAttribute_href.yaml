@@ -1,10 +1,10 @@
 rules:
-  - id: 1g-jQuery_insertBefore
+  - id: 1r-setAttribute_href
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.insertBefore"
+    message: "Source:window.name;Sink:setAttribute('href')"
     mode: taint
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
-      - pattern: "$(...).insertBefore(...)"
+      - pattern: "$OBJECT.setAttribute('href', ...)"
     severity: WARNING
