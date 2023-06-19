@@ -1,1 +1,240 @@
-{"errors": [], "paths": {"_comment": "<add --verbose for a list of skipped paths>", "scanned": ["STATIC_ANALYSIS/test_codes/abc/semgrep_test.js"]}, "results": [{"check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-jQuery_globalEval", "end": {"col": 26, "line": 337, "offset": 8746}, "extra": {"dataflow_trace": {"intermediate_vars": [{"content": "case67", "location": {"end": {"col": 11, "line": 336, "offset": 8705}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 5, "line": 336, "offset": 8699}}}], "taint_sink": ["CliLoc", [{"end": {"col": 26, "line": 337, "offset": 8746}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 1, "line": 337, "offset": 8721}}, "jQuery.globalEval(case67)"]], "taint_source": ["CliLoc", [{"end": {"col": 25, "line": 336, "offset": 8719}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 14, "line": 336, "offset": 8708}}, "window.name"]]}, "engine_kind": "OSS", "fingerprint": "9104ac314990fba36c9d348ca71897e568c36f9deca698161789d088f6864fea3735c7a5e2ef61c2842e223b926687777a6cae27657d3ef5b6934d18546379ec_0", "is_ignored": false, "lines": "jQuery.globalEval(case67);", "message": "Source:window.name;Sink:jQuery.globalEval", "metadata": {}, "metavars": {}, "severity": "WARNING"}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 1, "line": 337, "offset": 8721}}, {"check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-jQuery_globalEval", "end": {"col": 29, "line": 342, "offset": 8850}, "extra": {"dataflow_trace": {"intermediate_vars": [{"content": "case68", "location": {"end": {"col": 11, "line": 340, "offset": 8770}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 5, "line": 340, "offset": 8764}}}, {"content": "newcase68", "location": {"end": {"col": 10, "line": 341, "offset": 8795}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 1, "line": 341, "offset": 8786}}}], "taint_sink": ["CliLoc", [{"end": {"col": 29, "line": 342, "offset": 8850}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 1, "line": 342, "offset": 8822}}, "jQuery.globalEval(newcase68)"]], "taint_source": ["CliLoc", [{"end": {"col": 25, "line": 340, "offset": 8784}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 14, "line": 340, "offset": 8773}}, "window.name"]]}, "engine_kind": "OSS", "fingerprint": "9104ac314990fba36c9d348ca71897e568c36f9deca698161789d088f6864fea3735c7a5e2ef61c2842e223b926687777a6cae27657d3ef5b6934d18546379ec_1", "is_ignored": false, "lines": "jQuery.globalEval(newcase68);", "message": "Source:window.name;Sink:jQuery.globalEval", "metadata": {}, "metavars": {}, "severity": "WARNING"}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 1, "line": 342, "offset": 8822}}, {"check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-jQuery_globalEval", "end": {"col": 47, "line": 345, "offset": 8910}, "extra": {"dataflow_trace": {"taint_sink": ["CliLoc", [{"end": {"col": 47, "line": 345, "offset": 8910}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 1, "line": 345, "offset": 8864}}, "jQuery.globalEval(\"javascript:\" + window.name)"]], "taint_source": ["CliLoc", [{"end": {"col": 46, "line": 345, "offset": 8909}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 35, "line": 345, "offset": 8898}}, "window.name"]]}, "engine_kind": "OSS", "fingerprint": "9104ac314990fba36c9d348ca71897e568c36f9deca698161789d088f6864fea3735c7a5e2ef61c2842e223b926687777a6cae27657d3ef5b6934d18546379ec_2", "is_ignored": false, "lines": "jQuery.globalEval(\"javascript:\" + window.name);", "message": "Source:window.name;Sink:jQuery.globalEval", "metadata": {}, "metavars": {}, "severity": "WARNING"}, "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js", "start": {"col": 1, "line": 345, "offset": 8864}}], "version": "1.22.0"}
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-Handlebars_SafeString",
+            "end": {
+                "col": 51,
+                "line": 337,
+                "offset": 8575
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "case67",
+                            "location": {
+                                "end": {
+                                    "col": 11,
+                                    "line": 336,
+                                    "offset": 8509
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 336,
+                                    "offset": 8503
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 51,
+                                    "line": 337,
+                                    "offset": 8575
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 18,
+                                    "line": 337,
+                                    "offset": 8542
+                                }
+                            },
+                            "new Handlebars.SafeString(case67)"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 25,
+                                    "line": 336,
+                                    "offset": 8523
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 14,
+                                    "line": 336,
+                                    "offset": 8512
+                                }
+                            },
+                            "window.name"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "2fb599f074d51fee462eeb1e52529fd47f3bc65fed436d389c3c8c191e3b6114c6b36c36dde487daa5e52e29d81713913c2116e9bf738722b70eab69a9cbe840_0",
+                "is_ignored": false,
+                "lines": "var safeString = new Handlebars.SafeString(case67);",
+                "message": "Source:window.name;Sink:Handlebars.SafeString",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "start": {
+                "col": 18,
+                "line": 337,
+                "offset": 8542
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-Handlebars_SafeString",
+            "end": {
+                "col": 56,
+                "line": 340,
+                "offset": 8644
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 56,
+                                    "line": 340,
+                                    "offset": 8644
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 18,
+                                    "line": 340,
+                                    "offset": 8606
+                                }
+                            },
+                            "new Handlebars.SafeString(window.name)"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 55,
+                                    "line": 340,
+                                    "offset": 8643
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 44,
+                                    "line": 340,
+                                    "offset": 8632
+                                }
+                            },
+                            "window.name"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "2fb599f074d51fee462eeb1e52529fd47f3bc65fed436d389c3c8c191e3b6114c6b36c36dde487daa5e52e29d81713913c2116e9bf738722b70eab69a9cbe840_1",
+                "is_ignored": false,
+                "lines": "var safeString = new Handlebars.SafeString(window.name);",
+                "message": "Source:window.name;Sink:Handlebars.SafeString",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "start": {
+                "col": 18,
+                "line": 340,
+                "offset": 8606
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-Handlebars_SafeString",
+            "end": {
+                "col": 45,
+                "line": 348,
+                "offset": 8852
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "case69",
+                            "location": {
+                                "end": {
+                                    "col": 11,
+                                    "line": 344,
+                                    "offset": 8756
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 344,
+                                    "offset": 8750
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 45,
+                                    "line": 348,
+                                    "offset": 8852
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 12,
+                                    "line": 348,
+                                    "offset": 8819
+                                }
+                            },
+                            "new Handlebars.SafeString(case69)"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 25,
+                                    "line": 344,
+                                    "offset": 8770
+                                },
+                                "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+                                "start": {
+                                    "col": 14,
+                                    "line": 344,
+                                    "offset": 8759
+                                }
+                            },
+                            "window.name"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "2fb599f074d51fee462eeb1e52529fd47f3bc65fed436d389c3c8c191e3b6114c6b36c36dde487daa5e52e29d81713913c2116e9bf738722b70eab69a9cbe840_2",
+                "is_ignored": false,
+                "lines": "  content: new Handlebars.SafeString(case69)",
+                "message": "Source:window.name;Sink:Handlebars.SafeString",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js",
+            "start": {
+                "col": 12,
+                "line": 348,
+                "offset": 8819
+            }
+        }
+    ],
+    "version": "1.22.0"
+}

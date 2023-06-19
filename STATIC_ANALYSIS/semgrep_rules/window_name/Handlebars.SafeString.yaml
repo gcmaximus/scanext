@@ -1,0 +1,10 @@
+rules:
+  - id: window_name-Handlebars_SafeString
+    languages: [javascript]
+    message: "Source:window.name;Sink:Handlebars.SafeString"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+    pattern-sinks:
+      - pattern: new Handlebars.SafeString(...)
+    severity: WARNING

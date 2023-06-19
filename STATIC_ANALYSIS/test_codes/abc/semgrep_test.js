@@ -300,46 +300,55 @@
 // chrome.tabs.update({ url: "javascript:" + window.name });
 
 //**************************************************************/
-// XXXXXXXXXXXXXXXXXXXXXXXXXXX DEPRECATED XXXXXXXXXXXXXXXXXX
-// // chrome.tabs.executeScript
+
+// // eval()
 // // Case 61
 // var case61 = window.name;
-// chrome.tabs.executeScript(null, { code: case61 });
+// eval(case61);
 
 // // Case 62
 // var case62 = window.name;
 // newcase62 = "javascript:" + case62;
-// chrome.tabs.executeScript(null, { code: newcase62 });
+// eval(newcase62);
 
 // // Case 63
-// chrome.tabs.executeScript(null, { code: "javascript:" + window.name });
-// XXXXXXXXXXXXXXXXXXXXXXXXXXX DEPRECATED XXXXXXXXXXXXXXXXXX
-//**************************************************************/
-
-// // eval()
-// // Case 64
-// var case64 = window.name;
-// eval(case64);
-
-// // Case 65
-// var case65 = window.name;
-// newcase65 = "javascript:" + case65;
-// eval(newcase65);
-
-// // Case 66
 // eval("javascript:" + window.name);
 
 //**************************************************************/
 
-// jQuery globalEval()
-// Case 67
-var case67 = window.name;
-jQuery.globalEval(case67);
+// // jQuery globalEval()
+// // Case 64
+// var case64 = window.name;
+// jQuery.globalEval(case64);
 
-// Case 68
-var case68 = window.name;
-newcase68 = "javascript:" + case68;
-jQuery.globalEval(newcase68);
+// // Case 65
+// var case65 = window.name;
+// newcase65 = "javascript:" + case65;
+// jQuery.globalEval(newcase65);
 
-// Case 69
-jQuery.globalEval("javascript:" + window.name);
+// // Case 66
+// jQuery.globalEval("javascript:" + window.name);
+
+//**************************************************************/
+
+// // Handlebars.SafeString
+// // Case 67
+// var case67 = window.name;
+// var safeString = new Handlebars.SafeString(case67);
+
+// // Case 68
+// var safeString = new Handlebars.SafeString(window.name);
+
+// // Case 69
+// const template = Handlebars.compile('{{#if showContent}}<div>{{content}}</div>{{/if}}')
+// var case69 = window.name
+
+// const data = {
+//   showContent: true,
+//   content: new Handlebars.SafeString(case69)
+// }
+
+// const result = template(data)
+// console.log(result)
+
+//**************************************************************/
