@@ -6,7 +6,7 @@ rules:
       - javascript
 
     pattern-either:
-      - pattern-either:
+      - pattern:
         - patterns: 
           - pattern-either:
             - pattern-inside: |
@@ -44,7 +44,7 @@ rules:
                 ...
                 $FUNC(...,$X,...)
 
-      - pattern-either:
+      - pattern:
         - pattern: |
             $X = window.name
             ...

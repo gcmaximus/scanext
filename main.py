@@ -8,7 +8,7 @@ rules = "STATIC_ANALYSIS/semgrep_rules/"
 # rules = "auto"
 
 # Codes to be scanned
-filename = "STATIC_ANALYSIS/test_codes/abc/semgrep_test.html"
+filename = "STATIC_ANALYSIS/test_codes/abc/semgrep_test.js"
 # filename = "EXTENSIONS/h1-replacer(v3)"
 # filename = "EXTENSIONS/emailextractor"
 
