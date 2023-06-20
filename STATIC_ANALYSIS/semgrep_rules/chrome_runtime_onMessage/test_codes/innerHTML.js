@@ -62,3 +62,5 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     targetElement.innerHTML = message.content;
   }
 });
+
+// 7 matches to be found

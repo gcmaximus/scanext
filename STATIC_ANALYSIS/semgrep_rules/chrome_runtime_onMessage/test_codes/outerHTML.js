@@ -13,3 +13,5 @@ chrome.runtime.sendMessage({ action: 'doSomething' }, function(response) {
     document.getElementById('content').outerHTML = response;
     // Handle response from background script
 });
+
+// 2 matches to be found
