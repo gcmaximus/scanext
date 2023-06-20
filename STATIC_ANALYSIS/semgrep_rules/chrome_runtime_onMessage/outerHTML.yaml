@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onMessage-innerHTML
+  - id: chrome_runtime_onMessage-outerHTML
     mode: taint
     pattern-sources:
       - patterns:
@@ -9,7 +9,7 @@ rules:
               });
     pattern-sinks:
       - pattern: $OBJ.outerHTML = ...
-    message: Source:chrome.runtime.onMessage;Sink:innerHTML
+    message: Source:chrome.runtime.onMessage;Sink:outerHTML
     languages:
       - js
     severity: WARNING
