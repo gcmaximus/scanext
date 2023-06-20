@@ -34,7 +34,7 @@ chrome.runtime.sendMessage({ message: 'Hello from content script 1!' });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   document.getElementById('content').innerHTML = message;
 });
-// LINES is 39-51 example of using message passing to trigger actions
+// LINES is 39-50 example of using message passing to trigger actions
 // Background Script
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === 'doSomething') {
@@ -43,9 +43,22 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     // Perform the desired action
   }
 });
-
 // Content Script / Popup Script
 chrome.runtime.sendMessage({ action: 'doSomething' }, function(response) {
   console.log(response); // Output: "Response from background script!"
   // Handle response from background script
+});
+//LINES 52-57 is example of appending the received message content to a specific element in the document
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.action === "appendToElement") {
+    var targetElement = document.getElementById("myElement");
+    targetElement.innerHTML += message.content;
+  }
+});
+//LINES 59-64 is example of writing a formatted message to a specific element in the document
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.action === "writeToElement") {
+    var targetElement = document.getElementById("myElement");
+    targetElement.innerHTML = message.content;
+  }
 });
