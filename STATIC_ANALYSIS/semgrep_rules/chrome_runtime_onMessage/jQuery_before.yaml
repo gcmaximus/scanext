@@ -1,0 +1,17 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_before
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: ... .before(...)
+    message: Source:chrome.runtime.onMessage;Sink:jQuery.before
+    languages:
+      - js
+    severity: WARNING
