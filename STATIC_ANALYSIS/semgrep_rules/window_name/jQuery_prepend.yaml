@@ -6,5 +6,5 @@ rules:
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
-      - pattern: "$(...).prepend(...)"
+      - pattern: "$($X).prepend(...)"
     severity: WARNING
