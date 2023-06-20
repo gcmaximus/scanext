@@ -1,0 +1,15 @@
+rules:
+  - id: chrome_runtime_onMessage-innerHTML
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - pattern: $OBJ.innerHTML = ...
+    message: Source:chrome.runtime.onMessage;Sink:innerHTML
+    languages:
+      - js
+    severity: WARNING
