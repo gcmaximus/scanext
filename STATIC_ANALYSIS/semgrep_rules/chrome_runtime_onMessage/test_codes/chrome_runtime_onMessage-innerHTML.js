@@ -34,18 +34,7 @@ chrome.runtime.sendMessage({ message: 'Hello from content script 1!' });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   document.getElementById('content').innerHTML = message;
 });
-// LINES 39-47 is example of communication between popup scripts and background scripts
-// Popup Script
-chrome.runtime.sendMessage({ message: 'Hello from popup script!' }, function(response) {
-  document.getElementById('content').innerHTML = response;
-});
-
-// Background Script
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-  console.log(message); // Output: "Hello from popup script!"
-  sendResponse('Response from background script!');
-});
-// LINES is 50-62 example of using message passing to trigger actions
+// LINES is 39-51 example of using message passing to trigger actions
 // Background Script
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === 'doSomething') {
