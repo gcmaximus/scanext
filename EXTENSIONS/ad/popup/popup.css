@@ -1,0 +1,106 @@
+body{
+    width: 400px;
+}
+
+.title{
+    text-align: center;
+}
+
+.title img{
+    height: 22px;
+}
+
+.togglediv {
+    display: flex;
+    justify-content: center;
+    padding: 0px 5px;
+    margin-bottom: 20px;
+    background: #e0e8fc87;
+    padding: 5px 0;
+}
+
+.toggle {
+    font-size: 15px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.toggle small {
+    font-size: 12px;
+    color: grey;
+}
+
+.toggle p{
+    margin: 0px 5px;
+    color: #406fe9;
+    cursor: pointer;
+}
+
+.toggle h3{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.content{
+    display: flex;
+    justify-content: space-around;
+    height: 70px;
+    background: #406fe929;
+    align-items: center;
+}
+
+.left{
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+}
+
+.right{
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+}
+
+.left span{
+    color: black;
+    font-size: 20px;
+}
+
+.right span{
+    color: black;
+    font-size: 20px;
+}
+
+.stats{
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.stats h2{
+    text-align: center;
+}
+
+.bottom{
+    text-align: center;
+}
+
+.bottom button{
+    border: none;
+    background: #406fe9;
+    color: white;
+    height: 30px;
+    outline: none;
+    padding: 4px 15px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px 0px grey;
+    cursor: pointer;
+}

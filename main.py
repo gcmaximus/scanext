@@ -11,6 +11,7 @@ rules = "STATIC_ANALYSIS/semgrep_rules/window_name"
 filename = "STATIC_ANALYSIS/test_codes/semgrep_test.js"
 # filename = "EXTENSIONS/h1-replacer(v3)"
 # filename = "EXTENSIONS/emailextractor"
+# filename = "EXTENSIONS/google
 
 # Output file
 output_file = "STATIC_ANALYSIS/semgrep_results.json"
