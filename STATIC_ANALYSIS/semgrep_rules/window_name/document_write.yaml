@@ -6,5 +6,5 @@ rules:
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
-      - pattern: document.write(...)
+      - pattern: "document.write(...)"
     severity: WARNING
