@@ -1,0 +1,17 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_prepend
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: ... .prepend(...)
+    message: Source:chrome.runtime.onMessage;Sink:jQuery.prepend
+    languages:
+      - js
+    severity: WARNING

@@ -1,0 +1,17 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_append
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: ... .append(...)
+    message: Source:chrome.runtime.onMessage;Sink:jQuery.append
+    languages:
+      - js
+    severity: WARNING

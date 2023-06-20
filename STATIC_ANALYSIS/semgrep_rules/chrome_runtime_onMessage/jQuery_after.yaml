@@ -1,0 +1,17 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_after
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: ... .after(...)
+    message: Source:chrome.runtime.onMessage;Sink:jQuery.after
+    languages:
+      - js
+    severity: WARNING
