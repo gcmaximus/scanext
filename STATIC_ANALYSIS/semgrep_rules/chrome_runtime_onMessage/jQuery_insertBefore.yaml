@@ -1,0 +1,17 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_insertBefore
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: ... .insertBefore(...)
+    message: Source:chrome.runtime.onMessage;Sink:jQuery.insertBefore
+    languages:
+      - js
+    severity: WARNING
