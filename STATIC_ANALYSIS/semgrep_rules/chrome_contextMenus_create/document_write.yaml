@@ -1,62 +1,46 @@
 rules:
-- id: chrome_contextMenus_create-document_write
-  languages:
-    - javascript
-  message: Source:chrome.contextMenus.create;Sink:document_write
-  mode: taint
-  pattern-sources:
-    - pattern: |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-          ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function($INFO, ...) {...}
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...) {...}
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...) {...}
-        },...)
-  pattern-sinks:
-    - pattern: document_write(<... $INFO.linkUrl ...>)
-    - pattern: document_write(<... $INFO.srcUrl ...>)
-    - pattern: document_write(<... $INFO.pageUrl ...>)
-    - pattern: document_write(<... $INFO.frameUrl ...>)
-    - pattern: document_write(<... $INFO.selectionText ...>)
-    - pattern: |
-        $X = $INFO.linkUrl
-        ...
-        document_write(<... $X ...>)
-    - pattern: |
-        $X = $INFO.srcUrl
-        ...
-        document_write(<... $X ...>)
-    - pattern: |
-        $X = $INFO.pageUrl
-        ...
-        document_write(<... $X ...>)
-    - pattern: |
-        $X = $INFO.frameUrl
-        ...
-        document_write(<... $X ...>)
-    - pattern: |
-        $X = $INFO.selectionText
-        ...
-        document_write(<... $X ...>)
-  severity: WARNING
+  - id: chrome_contextMenus_create-document_write
+    languages:
+      - javascript
+    message: Source:chrome.contextMenus.create;Sink:document_write
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($INFO, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.contextMenus.create({
+                    onclick: $FUNC
+                  }, ...)
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: $FUNC
+                  }, ...)
+                  ...
+                  function $FUNC($INFO, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: function($INFO, ...) {
+                      ...
+                    }
+                  }, ...)
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: function $FUNC($INFO, ...) {
+                      ...
+                    }
+                  }, ...)
+          - pattern-either:
+              - pattern: $INFO.linkUrl
+              - pattern: $INFO.srcUrl
+              - pattern: $INFO.pageUrl
+              - pattern: $INFO.frameUrl
+              - pattern: $INFO.selectionText
+    pattern-sinks:
+      - pattern: document.write(...)
+    severity: WARNING
