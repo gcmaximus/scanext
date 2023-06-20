@@ -6,5 +6,5 @@ rules:
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
-      - pattern: "$($X).outerHTML = ..."
+      - pattern: $OBJECT.outerHTML = ...
     severity: WARNING
