@@ -1,62 +1,46 @@
 rules:
 - id: chrome_contextMenus_create-outerHTML
   languages:
-  - javascript
+    - javascript
   message: Source:chrome.contextMenus.create;Sink:outerHTML
   mode: taint
   pattern-sources:
-    - pattern: |
-        function $FUNC($INFO, ...) {
-          ...
-        }
-          ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC($INFO, ...) {
-          ...
-        }
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function($INFO, ...) {...}
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...) {...}
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function $FUNC($INFO, ...) {...}
-        },...)
+    - patterns:
+      - pattern-either:
+        - pattern-inside: |
+            function $FUNC($INFO, ...) {
+              ...
+            }
+            ...
+            chrome.contextMenus.create({
+              onclick: $FUNC
+            }, ...)
+        - pattern-inside: |
+            chrome.contextMenus.create({
+              onclick: $FUNC
+            }, ...)
+            ...
+            function $FUNC($INFO, ...) {
+              ...
+            }
+        - pattern-inside: |
+            chrome.contextMenus.create({
+              onclick: function($INFO, ...) {
+                ...
+              }
+            }, ...)
+        - pattern-inside: |
+            chrome.contextMenus.create({
+              onclick: function $FUNC($INFO, ...) {
+                ...
+              }
+            }, ...)
+      - pattern-either: 
+        - pattern: $INFO.linkUrl
+        - pattern: $INFO.srcUrl
+        - pattern: $INFO.pageUrl
+        - pattern: $INFO.frameUrl
+        - pattern: $INFO.selectionText
   pattern-sinks:
-    - pattern: $OBJ.outerHTML = <... $INFO.linkUrl ...>
-    - pattern: $OBJ.outerHTML = <... $INFO.srcUrl ...>
-    - pattern: $OBJ.outerHTML = <... $INFO.pageUrl ...>
-    - pattern: $OBJ.outerHTML = <... $INFO.frameUrl ...>
-    - pattern: $OBJ.outerHTML = <... $INFO.selectionText ...>
-    - "pattern": |
-        $X = $INFO.linkUrl
-        ...
-        $OBJ.outerHTML = <... $X ...>
-    - "pattern": |
-        $X = $INFO.srcUrl
-        ...
-        $OBJ.outerHTML = <... $X ...>
-    - "pattern": |
-        $X = $INFO.pageUrl
-        ...
-        $OBJ.outerHTML = <... $X ...>
-    - "pattern": |
-        $X = $INFO.frameUrl
-        ...
-        $OBJ.outerHTML = <... $X ...>
-    - "pattern": |
-        $X = $INFO.selectionText
-        ...
-        $OBJ.outerHTML = <... $X ...>
+    - pattern: $OBJ.outerHTML = ...
   severity: WARNING

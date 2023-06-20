@@ -5,54 +5,42 @@ rules:
   message: Source:chrome.contextMenus.create;Sink:innerHTML
   mode: taint
   pattern-sources:
-    - pattern: |
-        function $FUNC(...) {...}
-          ...
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: $FUNC
-        },...)
-        ...
-        function $FUNC(...) {...}
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function(...) {...}
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function $FUNC(...) {...}
-        },...)
-    - pattern: |
-        chrome.contextMenus.create({
-          onclick: function $FUNC(...) {...}
-        },...)
+    - patterns:
+      - pattern-either:
+        - pattern-inside: |
+            function $FUNC($INFO, ...) {
+              ...
+            }
+            ...
+            chrome.contextMenus.create({
+              onclick: $FUNC
+            }, ...)
+        - pattern-inside: |
+            chrome.contextMenus.create({
+              onclick: $FUNC
+            }, ...)
+            ...
+            function $FUNC($INFO, ...) {
+              ...
+            }
+        - pattern-inside: |
+            chrome.contextMenus.create({
+              onclick: function($INFO, ...) {
+                ...
+              }
+            }, ...)
+        - pattern-inside: |
+            chrome.contextMenus.create({
+              onclick: function $FUNC($INFO, ...) {
+                ...
+              }
+            }, ...)
+      - pattern-either: 
+        - pattern: $INFO.linkUrl
+        - pattern: $INFO.srcUrl
+        - pattern: $INFO.pageUrl
+        - pattern: $INFO.frameUrl
+        - pattern: $INFO.selectionText
   pattern-sinks:
-    - pattern: $OBJ.innerHTML = <... $INFO.linkUrl ...>
-    - pattern: $OBJ.innerHTML = <... $INFO.srcUrl ...>
-    - pattern: $OBJ.innerHTML = <... $INFO.pageUrl ...>
-    - pattern: $OBJ.innerHTML = <... $INFO.frameUrl ...>
-    - pattern: $OBJ.innerHTML = <... $INFO.selectionText ...>
-    - pattern: |
-        $X = $INFO.linkUrl
-        ...
-        $OBJ.innerHTML = <... $X ...>
-    - pattern: |
-        $X = $INFO.srcUrl
-        ...
-        $OBJ.innerHTML = <... $X ...>
-    - pattern: |
-        $X = $INFO.pageUrl
-        ...
-        $OBJ.innerHTML = <... $X ...>
-    - pattern: |
-        $X = $INFO.frameUrl
-        ...
-        $OBJ.innerHTML = <... $X ...>
-    - pattern: |
-        $X = $INFO.selectionText
-        ...
-        $OBJ.innerHTML = <... $X ...>
+    - pattern: $OBJ.innerHTML = ...
   severity: WARNING

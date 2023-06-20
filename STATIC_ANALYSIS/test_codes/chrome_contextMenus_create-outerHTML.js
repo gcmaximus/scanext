@@ -2,9 +2,7 @@
 chrome_contextMenus_create-outerHTML
 *******************/
 
-
 // Expected total matches: 40
-
 
 // case 1
 function kms(n, a) {
@@ -17,20 +15,20 @@ function kms(n, a) {
 
     console.log();
 
-    let x = n.linkUrl; // Expect 1 match here ...
-    document.getElementById("f").outerHTML = x; // ... end here
-    
-    x = n.srcUrl; // Expect 1 match here
-    document.getElementById("f").outerHTML = x; // ... end here
-    
-    x = n.pageUrl; // Expect 1 match here
-    document.getElementById("f").outerHTML = x; // ... end here
-    
-    x = n.frameUrl; // Expect 1 match here
-    document.getElementById("f").outerHTML = x; // ... end here
-    
-    x = n.selectionText; // Expect 1 match here
-    document.getElementById("f").outerHTML = x; // ... end here
+    let x = n.linkUrl;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+    x = n.srcUrl;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+    x = n.pageUrl;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+    x = n.frameUrl;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+    x = n.selectionText;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
     console.log();
 }
 
@@ -49,7 +47,6 @@ chrome.contextMenus.create(
     },
     "adfs"
 );
-
 
 // case 2
 chrome.contextMenus.create(
@@ -76,25 +73,25 @@ function aaa(n, a) {
     document.getElementById("f").outerHTML = n.frameUrl; // Expect 1 match here
     document.getElementById("f").outerHTML = n.selectionText; // Expect 1 match here
 
+    document.getElementById("f").outerHTML = a.linkUrl;
     console.log();
 
-    let x = n.linkUrl; // Expect 1 match here ...
-    document.getElementById("f").outerHTML = x; // ... end here
-    
-    x = n.srcUrl; // Expect 1 match here
-    document.getElementById("f").outerHTML = x; // ... end here
-    
-    x = n.pageUrl; // Expect 1 match here
-    document.getElementById("f").outerHTML = x; // ... end here
-    
-    x = n.frameUrl; // Expect 1 match here
-    document.getElementById("f").outerHTML = x; // ... end here
-    
-    x = n.selectionText; // Expect 1 match here
-    document.getElementById("f").outerHTML = x; // ... end here
+    let x = n.linkUrl;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+    x = n.srcUrl;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+    x = n.pageUrl;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+    x = n.frameUrl;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+    x = n.selectionText;
+    document.getElementById("f").outerHTML = x; // Expect 1 match here
     console.log();
 }
-
 
 // case 3
 chrome.contextMenus.create(
@@ -113,27 +110,27 @@ chrome.contextMenus.create(
             document.getElementById("f").outerHTML = n.selectionText; // Expect 1 match here
             console.log();
 
-            let x = n.linkUrl; // Expect 1 match here ...
-            document.getElementById("f").outerHTML = x; // ... end here
-            
-            x = n.srcUrl; // Expect 1 match here
-            document.getElementById("f").outerHTML = x; // ... end here
-            
-            x = n.pageUrl; // Expect 1 match here
-            document.getElementById("f").outerHTML = x; // ... end here
-            
-            x = n.frameUrl; // Expect 1 match here
-            document.getElementById("f").outerHTML = x; // ... end here
-            
-            x = n.selectionText; // Expect 1 match here
-            document.getElementById("f").outerHTML = x; // ... end here
+            let x = n.linkUrl;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+            x = n.srcUrl;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+            x = n.pageUrl;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+            x = n.frameUrl;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+            x = n.selectionText;
+            document.write(`a${x}`);
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
             console.log();
         },
         test2: "sdfs",
     },
     "adfs"
 );
-
 
 // case 4
 chrome.contextMenus.create(
@@ -152,20 +149,20 @@ chrome.contextMenus.create(
             document.getElementById("f").outerHTML = n.selectionText; // Expect 1 match here
             console.log();
 
-            let x = n.linkUrl; // Expect 1 match here ...
-            document.getElementById("f").outerHTML = x; // ... end here
-            
-            x = n.srcUrl; // Expect 1 match here
-            document.getElementById("f").outerHTML = x; // ... end here
-            
-            x = n.pageUrl; // Expect 1 match here
-            document.getElementById("f").outerHTML = x; // ... end here
-            
-            x = n.frameUrl; // Expect 1 match here
-            document.getElementById("f").outerHTML = x; // ... end here
-            
-            x = n.selectionText; // Expect 1 match here
-            document.getElementById("f").outerHTML = x; // ... end here
+            let x = n.linkUrl;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+            x = n.srcUrl;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+            x = n.pageUrl;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+            x = n.frameUrl;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
+
+            x = n.selectionText;
+            document.getElementById("f").outerHTML = x; // Expect 1 match here
             console.log();
         },
         test2: "sdfs",
