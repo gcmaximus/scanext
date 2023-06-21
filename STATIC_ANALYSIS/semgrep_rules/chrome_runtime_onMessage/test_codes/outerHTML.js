@@ -1,4 +1,4 @@
-// LINES 3-15 is example of using message passing to trigger actions
+// LINES 3-9 is example of using message passing to trigger actions
 // Background Script
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.action === 'doSomething') {
@@ -7,11 +7,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         // Perform the desired action
     }
 });
-// Content Script / Popup Script
-chrome.runtime.sendMessage({ action: 'doSomething' }, function(response) {
-    console.log(response); // Output: "Response from background script!"
-    document.getElementById('content').outerHTML = response;
-    // Handle response from background script
-});
-
+//LINES 11-16 is example of writing a formatted message to a specific element in the document
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.action === "writeToElement") {
+      var targetElement = document.getElementById("myElement");
+      targetElement.outerHTML = message.content;
+    }
+  });
 // 2 matches to be found
