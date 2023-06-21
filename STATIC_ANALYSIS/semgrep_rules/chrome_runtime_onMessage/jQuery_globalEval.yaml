@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_globalEval
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  globalEval(...)
+    message: Source:chrome.runtime.onMessage;Sink:jQuery_jQuery_globalEval
+    languages:
+      - js
+    severity: WARNING
