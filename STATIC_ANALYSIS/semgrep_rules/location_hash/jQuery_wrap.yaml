@@ -7,6 +7,8 @@ rules:
       - pattern: location.hash
       - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$(...).wrap(<... location.hash ...>)"
-      - pattern: "$(...).wrap(<... $X ...>)"
+      - pattern: "$OBJECT.wrap(<... location.hash ...>)"
+      - patterns:
+        - pattern: "$OBJECT.wrap(<... $X ...>)"
+        - focus-metavariable: $X
     severity: WARNING

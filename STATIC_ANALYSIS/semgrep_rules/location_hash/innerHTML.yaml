@@ -8,5 +8,7 @@ rules:
       - pattern: $X = location.hash
     pattern-sinks:
       - pattern: "$OBJECT.innerHTML = <... location.hash ...>"
-      - pattern: "$OBJECT.innerHTML = <... $X ...>"
+      - patterns:
+        - pattern: "$OBJECT.innerHTML = <... $X ...>"
+        - focus-metavariable: $X
     severity: WARNING

@@ -20,6 +20,11 @@ function updateBookmarkDetailsBasedOnHash() {
     <p>URL: <a href="${bookmarkDetails.url}" target="_blank">${bookmarkDetails.url}</a></p>
     <p>Tags: ${bookmarkDetails.tags.join(', ')}</p>
   `;
+
+  bookmarkId.innerHTML = 'abc'
+
+  $('.marker').innerHTML = "this is ID: " + bookmarkId
+
 }
 
 // Call the function when the hash changes or on initial page load
