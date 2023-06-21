@@ -15,8 +15,16 @@ document.getElementById('case2').innerHTML = newcase2
 document.getElementById('case3').innerHTML = window.name
 
 // case 3.5
-// var abc = "window name is " + window.name
-// document.getElementById('abc').innerHTML = abc
+var abc = "window name is " + window.name
+document.getElementById('abc').innerHTML = abc
+
+// case 3.6
+function boop(x) {
+    document.getElementById('x').innerHTML = x
+    console.log(x)
+}
+var caonima =  window.name
+boop(caonima)
 
 // //**************************************************************/
 
