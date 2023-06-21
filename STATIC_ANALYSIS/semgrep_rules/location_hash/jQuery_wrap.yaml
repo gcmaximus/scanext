@@ -5,7 +5,6 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: location.hash
-      - pattern: $X = location.hash
     pattern-sinks:
       - patterns:
         - pattern: "$OBJECT.wrap(<... $X ...>)"

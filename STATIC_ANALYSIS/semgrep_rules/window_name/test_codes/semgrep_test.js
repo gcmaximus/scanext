@@ -19,11 +19,11 @@ var abc = "window name is " + window.name
 document.getElementById('abc').innerHTML = abc
 
 // case 3.6
+var caonima = window.name
 function boop(x) {
     document.getElementById('x').innerHTML = x
-    console.log(x)
 }
-var caonima =  window.name
+
 boop(caonima)
 
 // //**************************************************************/

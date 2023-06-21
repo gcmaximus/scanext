@@ -5,7 +5,6 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: window.name
-      - pattern: $X = window.name
     pattern-sinks:
       - patterns:
         - pattern: "$OBJECT.innerHTML = <... $X ...>"
