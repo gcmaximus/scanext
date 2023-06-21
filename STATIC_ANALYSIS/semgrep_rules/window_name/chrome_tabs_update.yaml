@@ -5,6 +5,8 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: window.name
+      - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "chrome.tabs.update({ ..., url: ... })"
+      - pattern: "chrome.tabs.update({ ..., url: <... window.name ...> })"
+      - pattern: "chrome.tabs.update({ ..., url: <... $X ...> })"
     severity: WARNING
