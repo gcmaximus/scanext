@@ -7,5 +7,6 @@ rules:
       - pattern: window.name
       - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "$($X).attr('href', ...)"
+      - pattern: "$(...).attr('href', <... window.name ...>)"
+      - pattern: "$(...).attr('href', <... $X ...>)"
     severity: WARNING

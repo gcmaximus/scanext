@@ -12,7 +12,7 @@
             "end": {
                 "col": 51,
                 "line": 7,
-                "offset": 158
+                "offset": 170
             },
             "extra": {
                 "dataflow_trace": {
@@ -23,13 +23,13 @@
                                 "end": {
                                     "col": 10,
                                     "line": 6,
-                                    "offset": 93
+                                    "offset": 105
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 5,
                                     "line": 6,
-                                    "offset": 88
+                                    "offset": 100
                                 }
                             }
                         }
@@ -41,13 +41,13 @@
                                 "end": {
                                     "col": 51,
                                     "line": 7,
-                                    "offset": 158
+                                    "offset": 170
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 1,
                                     "line": 7,
-                                    "offset": 108
+                                    "offset": 120
                                 }
                             },
                             "document.getElementById('case1').innerHTML = case1"
@@ -60,13 +60,13 @@
                                 "end": {
                                     "col": 24,
                                     "line": 6,
-                                    "offset": 107
+                                    "offset": 119
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 13,
                                     "line": 6,
-                                    "offset": 96
+                                    "offset": 108
                                 }
                             },
                             "window.name"
@@ -74,7 +74,7 @@
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "344c91ab3f3926f7fe114c5b8303d1ad9a078044e002a4602304be563308607ca159e2b1880499fced8351194eb7db8c126f36717eeb9128fcc389d98c19ebdc_0",
+                "fingerprint": "fb4f34c7bfd73a5485b75faa92dc1fdb3ab21d4ef0226d0a81930b29db1059ba72587d695b3ca3fa002af32eb13a8c756aa286fcf2c88013cf9e2bc2ce23fd43_0",
                 "is_ignored": false,
                 "lines": "document.getElementById('case1').innerHTML = case1",
                 "message": "Source:window.name;Sink:innerHTML",
@@ -85,12 +85,38 @@
                         "end": {
                             "col": 33,
                             "line": 7,
-                            "offset": 140
+                            "offset": 152
                         },
                         "start": {
                             "col": 1,
                             "line": 7,
-                            "offset": 108
+                            "offset": 120
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "case1",
+                        "end": {
+                            "col": 51,
+                            "line": 7,
+                            "offset": 170
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "window.name",
+                            "svalue_end": {
+                                "col": 24,
+                                "line": 6,
+                                "offset": 119
+                            },
+                            "svalue_start": {
+                                "col": 13,
+                                "line": 6,
+                                "offset": 108
+                            }
+                        },
+                        "start": {
+                            "col": 46,
+                            "line": 7,
+                            "offset": 165
                         }
                     }
                 },
@@ -100,7 +126,7 @@
             "start": {
                 "col": 1,
                 "line": 7,
-                "offset": 108
+                "offset": 120
             }
         },
         {
@@ -108,7 +134,7 @@
             "end": {
                 "col": 54,
                 "line": 12,
-                "offset": 270
+                "offset": 282
             },
             "extra": {
                 "dataflow_trace": {
@@ -119,13 +145,13 @@
                                 "end": {
                                     "col": 10,
                                     "line": 10,
-                                    "offset": 179
+                                    "offset": 191
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 5,
                                     "line": 10,
-                                    "offset": 174
+                                    "offset": 186
                                 }
                             }
                         },
@@ -135,13 +161,13 @@
                                 "end": {
                                     "col": 9,
                                     "line": 11,
-                                    "offset": 202
+                                    "offset": 214
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 1,
                                     "line": 11,
-                                    "offset": 194
+                                    "offset": 206
                                 }
                             }
                         }
@@ -153,13 +179,13 @@
                                 "end": {
                                     "col": 54,
                                     "line": 12,
-                                    "offset": 270
+                                    "offset": 282
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 1,
                                     "line": 12,
-                                    "offset": 217
+                                    "offset": 229
                                 }
                             },
                             "document.getElementById('case2').innerHTML = newcase2"
@@ -172,13 +198,13 @@
                                 "end": {
                                     "col": 24,
                                     "line": 10,
-                                    "offset": 193
+                                    "offset": 205
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 13,
                                     "line": 10,
-                                    "offset": 182
+                                    "offset": 194
                                 }
                             },
                             "window.name"
@@ -186,7 +212,7 @@
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "3dbc8766a695f26525aa45d895e4cbd33e776618faf692c0897ed00a00f9a83d09211c4e3569d9a4ba44d85f1da4e8b299cdddd9b2872ca59049583993f02d8b_0",
+                "fingerprint": "47887ba7ab08b77a58320a009053d434ad6b39d3d9288254c6370ce399259876834c88cd66a9a28f68e7f0cd65c2c971c87ac2fc07adbf83d672c5608c61741a_0",
                 "is_ignored": false,
                 "lines": "document.getElementById('case2').innerHTML = newcase2",
                 "message": "Source:window.name;Sink:innerHTML",
@@ -197,12 +223,38 @@
                         "end": {
                             "col": 33,
                             "line": 12,
-                            "offset": 249
+                            "offset": 261
                         },
                         "start": {
                             "col": 1,
                             "line": 12,
-                            "offset": 217
+                            "offset": 229
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "newcase2",
+                        "end": {
+                            "col": 54,
+                            "line": 12,
+                            "offset": 282
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "case2+\" \"",
+                            "svalue_end": {
+                                "col": 23,
+                                "line": 11,
+                                "offset": 228
+                            },
+                            "svalue_start": {
+                                "col": 12,
+                                "line": 11,
+                                "offset": 217
+                            }
+                        },
+                        "start": {
+                            "col": 46,
+                            "line": 12,
+                            "offset": 274
                         }
                     }
                 },
@@ -212,7 +264,7 @@
             "start": {
                 "col": 1,
                 "line": 12,
-                "offset": 217
+                "offset": 229
             }
         },
         {
@@ -220,7 +272,7 @@
             "end": {
                 "col": 57,
                 "line": 15,
-                "offset": 338
+                "offset": 350
             },
             "extra": {
                 "dataflow_trace": {
@@ -231,13 +283,13 @@
                                 "end": {
                                     "col": 57,
                                     "line": 15,
-                                    "offset": 338
+                                    "offset": 350
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 1,
                                     "line": 15,
-                                    "offset": 282
+                                    "offset": 294
                                 }
                             },
                             "document.getElementById('case3').innerHTML = window.name"
@@ -250,13 +302,13 @@
                                 "end": {
                                     "col": 57,
                                     "line": 15,
-                                    "offset": 338
+                                    "offset": 350
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js",
                                 "start": {
                                     "col": 46,
                                     "line": 15,
-                                    "offset": 327
+                                    "offset": 339
                                 }
                             },
                             "window.name"
@@ -264,7 +316,7 @@
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "733f34323fe70fc2f488dafe66c59c9a8e74b1e7bdd5bb3199d89fc7508a25ed44df7f09d369627445f0957e9d4b792200ea8f35880ba12d99914d03cb8aaca5_0",
+                "fingerprint": "f94526ff8c09e7a5e52a63228d86906cde7b9b460a151a072bf3a33a64044ca57dfb29e241f9b15438b243177bfff4dc64d5ebc5773ec9681f39378eab1b8873_0",
                 "is_ignored": false,
                 "lines": "document.getElementById('case3').innerHTML = window.name",
                 "message": "Source:window.name;Sink:innerHTML",
@@ -275,12 +327,12 @@
                         "end": {
                             "col": 33,
                             "line": 15,
-                            "offset": 314
+                            "offset": 326
                         },
                         "start": {
                             "col": 1,
                             "line": 15,
-                            "offset": 282
+                            "offset": 294
                         }
                     }
                 },
@@ -290,7 +342,7 @@
             "start": {
                 "col": 1,
                 "line": 15,
-                "offset": 282
+                "offset": 294
             }
         }
     ],

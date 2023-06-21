@@ -1,7 +1,7 @@
-/*******************
-  1. window.name  
-*******************/
-// innerHTML
+// /*******************
+//   1. window.name  
+// *******************/
+// // innerHTML
 // case 1
 var case1 = window.name
 document.getElementById('case1').innerHTML = case1
@@ -14,24 +14,28 @@ document.getElementById('case2').innerHTML = newcase2
 // case 3
 document.getElementById('case3').innerHTML = window.name
 
-//**************************************************************/
+// case 3.5
+// var abc = "window name is " + window.name
+// document.getElementById('abc').innerHTML = abc
 
-// //outerHTML
+// //**************************************************************/
+
+// // //outerHTML
 // // case 4
 // var case4 = window.name
-// document.getElementById('case4').innerHTML = case4
+// document.getElementById('case4').outerHTML = case4
 
 // // case 5
 // var case5 = window.name
 // newcase5 = case5 + " "
-// document.getElementById('case5').innerHTML = newcase5
+// document.getElementById('case5').outerHTML = newcase5
 
 // // case 6
-// document.getElementById('case6').innerHTML = window.name
+// document.getElementById('case6').outerHTML = window.name
 
-//**************************************************************/
+// //**************************************************************/
 
-// // document.write
+// // // document.write
 // // case 7
 // var case7 = window.name
 // document.write(case7)
@@ -44,9 +48,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 9
 // document.write(window.name)
 
-//**************************************************************/
+// //**************************************************************/
 
-// // document.writeln
+// // // document.writeln
 // // Case 10
 // var case10 = window.name
 // document.writeln(case10)
@@ -59,9 +63,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 12
 // document.writeln(window.name)
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery.html()
+// // // jQuery.html()
 // // Case 13
 // var case13 = window.name;
 // $("#case13").html(case13);
@@ -74,9 +78,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 15
 // $("#case15").html(window.name);
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery.before()
+// // // jQuery.before()
 // // Case 16
 // var case16 = window.name;
 // $("#case16").before(case16);
@@ -89,9 +93,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 18
 // $("#case18").before(window.name);
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .insertBefore()
+// // // jQuery .insertBefore()
 // // Case 19
 // var case19 = window.name;
 // $("<div>" + case19 + "</div>").insertBefore("#element");
@@ -104,9 +108,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 21
 // $("<div>" + window.name + "</div>").insertBefore("#element");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .insertAfter()
+// // // jQuery .insertAfter()
 // // Case 22
 // var case22 = window.name;
 // $("<div>" + case22 + "</div>").insertAfter("#element");
@@ -119,9 +123,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 24
 // $("<div>" + window.name + "</div>").insertAfter("#element");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .after()
+// // // jQuery .after()
 // // Case 25
 // var case25 = window.name;
 // $("#element").after("<div>" + case25 + "</div>");
@@ -134,9 +138,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 27
 // $("#element").after("<p>" + window.name + "</p>");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .append()
+// // // jQuery .append()
 // // Case 28
 // var case28 = window.name;
 // $("#element").append("<div>" + case28 + "</div>");
@@ -149,9 +153,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 30
 // $("#element").append("<p>" + window.name + "</p>");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .prepend()
+// // // jQuery .prepend()
 // // Case 31
 // var case31 = window.name;
 // $("#element").prepend("<div>" + case31 + "</div>");
@@ -164,9 +168,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 33
 // $("#element").prepend("<p>" + window.name + "</p>");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .wrap()
+// // // jQuery .wrap()
 // // Case 34
 // var case34 = window.name;
 // $("#element").wrap("<div class='wrapper'>" + case34 + "</div>");
@@ -179,9 +183,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 36
 // $("#element").wrap("<p class='wrapper'>" + window.name + "</p>");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .wrapAll()
+// // // jQuery .wrapAll()
 // // Case 37
 // var case37 = window.name;
 // $(".elements").wrapAll("<div class='wrapper'>" + case37 + "</div>");
@@ -194,9 +198,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 39
 // $(".elements").wrapAll("<p class='wrapper'>" + window.name + "</p>");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .wrapInner()
+// // // jQuery .wrapInner()
 // // Case 40
 // var case40 = window.name;
 // $("#element").wrapInner("<div class='wrapper'>" + case40 + "</div>");
@@ -209,9 +213,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 42
 // $("#element").wrapInner("<p class='wrapper'>" + window.name + "</p>");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .appendTo()
+// // // jQuery .appendTo()
 // // Case 43
 // var case43 = window.name;
 // $("<div>" + case43 + "</div>").appendTo("#target");
@@ -224,9 +228,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 45
 // $("<p>" + window.name + "</p>").appendTo("#target");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .prependTo()
+// // // jQuery .prependTo()
 // // Case 46
 // var case46 = window.name;
 // $("<div>" + case46 + "</div>").prependTo("#target");
@@ -239,9 +243,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 48
 // $("<p>" + window.name + "</p>").prependTo("#target");
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery .attr("href")
+// // // jQuery .attr("href")
 // // Case 49
 // var case49 = window.name;
 // $("a").attr("href", case49);
@@ -254,9 +258,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 51
 // $("a").attr("href", "javascript:" + window.name);
 
-//**************************************************************/
+// //**************************************************************/
 
-// // setAttribute("href")
+// // // setAttribute("href")
 // // Case 52
 // var case52 = window.name;
 // document.getElementById("link").setAttribute("href", case52);
@@ -269,9 +273,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 54
 // document.getElementById("link").setAttribute("href", "javascript:" + window.name);
 
-//**************************************************************/
+// //**************************************************************/
 
-// // setAttribute("src")
+// // // setAttribute("src")
 // // Case 55
 // var case55 = window.name;
 // document.getElementById("iframe").setAttribute("src", case55);
@@ -284,9 +288,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 57
 // document.getElementById("iframe").setAttribute("src", "javascript:" + window.name);
 
-//**************************************************************/
+// //**************************************************************/
 
-// // chrome.tabs.update
+// // // chrome.tabs.update
 // // Case 58
 // var case58 = window.name;
 // chrome.tabs.update({ url: case58 });
@@ -299,9 +303,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 60
 // chrome.tabs.update({ url: "javascript:" + window.name });
 
-//**************************************************************/
+// //**************************************************************/
 
-// // eval()
+// // // eval()
 // // Case 61
 // var case61 = window.name;
 // eval(case61);
@@ -314,9 +318,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 63
 // eval("javascript:" + window.name);
 
-//**************************************************************/
+// //**************************************************************/
 
-// // jQuery globalEval()
+// // // jQuery globalEval()
 // // Case 64
 // var case64 = window.name;
 // jQuery.globalEval(case64);
@@ -329,9 +333,9 @@ document.getElementById('case3').innerHTML = window.name
 // // Case 66
 // jQuery.globalEval("javascript:" + window.name);
 
-//**************************************************************/
+// //**************************************************************/
 
-// // Handlebars.SafeString
+// // // Handlebars.SafeString
 // // Case 67
 // var case67 = window.name;
 // var safeString = new Handlebars.SafeString(case67);
@@ -351,4 +355,4 @@ document.getElementById('case3').innerHTML = window.name
 // const result = template(data)
 // console.log(result)
 
-//**************************************************************/
+// //**************************************************************/

@@ -7,5 +7,6 @@ rules:
       - pattern: window.name
       - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "$($X).wrap(...)"
+      - pattern: "$(...).wrap(<... window.name ...>)"
+      - pattern: "$(...).wrap(<... $X ...>)"
     severity: WARNING

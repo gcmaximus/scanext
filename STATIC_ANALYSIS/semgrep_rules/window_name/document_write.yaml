@@ -7,5 +7,6 @@ rules:
       - pattern: window.name
       - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "document.write(...)"
+      - pattern: "document.write(<... window.name ...>)"
+      - pattern: "document.write(<... $X ...>)"
     severity: WARNING

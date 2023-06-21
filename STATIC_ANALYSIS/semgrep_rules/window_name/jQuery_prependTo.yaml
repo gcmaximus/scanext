@@ -7,5 +7,6 @@ rules:
       - pattern: window.name
       - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "$($X).prependTo(...)"
+      - pattern: "$(<... window.name ...>).prependTo(...)"
+      - pattern: "$(<... $X ...>).prependTo(...)"
     severity: WARNING

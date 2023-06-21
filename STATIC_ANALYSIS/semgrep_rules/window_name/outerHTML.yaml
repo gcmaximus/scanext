@@ -7,5 +7,6 @@ rules:
       - pattern: window.name
       - pattern: $X = window.name
     pattern-sinks:
-      - pattern: $OBJECT.outerHTML = ...
+      - pattern: "$OBJECT.outerHTML = <... window.name ...>"
+      - pattern: "$OBJECT.outerHTML = <... $X ...>"
     severity: WARNING
