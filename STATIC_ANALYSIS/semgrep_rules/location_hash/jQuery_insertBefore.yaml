@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-jQuery_insertBefore
+  - id: location_hash-jQuery_insertBefore
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.insertBefore"
+    message: "Source:location.hash;Sink:jQuery.insertBefore"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$(<... window.name ...>).insertBefore(...)"
+      - pattern: "$(<... location.hash ...>).insertBefore(...)"
       - pattern: "$(<... $X ...>).insertBefore(...)"
     severity: WARNING

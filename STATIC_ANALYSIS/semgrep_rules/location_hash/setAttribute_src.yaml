@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-setAttribute_src
+  - id: location_hash-setAttribute_src
     languages: [javascript]
-    message: "Source:window.name;Sink:setAttribute('src')"
+    message: "Source:location.hash;Sink:setAttribute('src')"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$OBJECT.setAttribute('src', <... window.name ...>)"
+      - pattern: "$OBJECT.setAttribute('src', <... location.hash ...>)"
       - pattern: "$OBJECT.setAttribute('src', <... $X ...>)"
     severity: WARNING

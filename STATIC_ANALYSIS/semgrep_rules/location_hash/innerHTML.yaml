@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-innerHTML
+  - id: location_hash-innerHTML
     languages: [javascript]
-    message: "Source:window.name;Sink:innerHTML"
+    message: "Source:location.hash;Sink:innerHTML"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$OBJECT.innerHTML = <... window.name ...>"
+      - pattern: "$OBJECT.innerHTML = <... location.hash ...>"
       - pattern: "$OBJECT.innerHTML = <... $X ...>"
     severity: WARNING

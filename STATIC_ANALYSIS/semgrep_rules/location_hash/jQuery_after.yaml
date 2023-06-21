@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-jQuery_after
+  - id: location_hash-jQuery_after
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.after"
+    message: "Source:location.hash;Sink:jQuery.after"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$(...).after(<... window.name ...>)"
+      - pattern: "$(...).after(<... location.hash ...>)"
       - pattern: "$(...).after(<... $X ...>)"
     severity: WARNING

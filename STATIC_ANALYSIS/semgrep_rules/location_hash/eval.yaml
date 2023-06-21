@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-eval
+  - id: location_hash-eval
     languages: [javascript]
-    message: "Source:window.name;Sink:eval"
+    message: "Source:location.hash;Sink:eval"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "eval(<... window.name ...>)"
+      - pattern: "eval(<... location.hash ...>)"
       - pattern: "eval(<... $X ...>)"
     severity: WARNING

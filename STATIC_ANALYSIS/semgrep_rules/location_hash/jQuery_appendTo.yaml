@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-jQuery_appendTo
+  - id: location_hash-jQuery_appendTo
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.appendTo"
+    message: "Source:location.hash;Sink:jQuery.appendTo"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$(<... window.name ...>).appendTo(...)"
+      - pattern: "$(<... location.hash ...>).appendTo(...)"
       - pattern: "$(<... $X ...>).appendTo(...)"
     severity: WARNING

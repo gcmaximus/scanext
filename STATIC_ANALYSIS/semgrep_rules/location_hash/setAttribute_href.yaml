@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-setAttribute_href
+  - id: location_hash-setAttribute_href
     languages: [javascript]
-    message: "Source:window.name;Sink:setAttribute('href')"
+    message: "Source:location.hash;Sink:setAttribute('href')"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$OBJECT.setAttribute('href', <... window.name ...>)"
+      - pattern: "$OBJECT.setAttribute('href', <... location.hash ...>)"
       - pattern: "$OBJECT.setAttribute('href', <... $X ...>)"
     severity: WARNING

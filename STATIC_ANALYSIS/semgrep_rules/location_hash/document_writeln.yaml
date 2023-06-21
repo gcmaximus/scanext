@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-document_writeln
+  - id: location_hash-document_writeln
     languages: [javascript]
-    message: "Source:window.name;Sink:document.writeln"
+    message: "Source:location.hash;Sink:document.writeln"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "document.writeln(<... window.name ...>)"
+      - pattern: "document.writeln(<... location.hash ...>)"
       - pattern: "document.writeln(<... $X ...>)"
     severity: WARNING

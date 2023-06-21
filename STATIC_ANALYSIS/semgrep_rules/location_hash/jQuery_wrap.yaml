@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-jQuery_wrap
+  - id: location_hash-jQuery_wrap
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.wrap"
+    message: "Source:location.hash;Sink:jQuery.wrap"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$(...).wrap(<... window.name ...>)"
+      - pattern: "$(...).wrap(<... location.hash ...>)"
       - pattern: "$(...).wrap(<... $X ...>)"
     severity: WARNING

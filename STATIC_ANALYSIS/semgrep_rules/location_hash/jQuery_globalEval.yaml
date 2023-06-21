@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-jQuery_globalEval
+  - id: location_hash-jQuery_globalEval
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.globalEval"
+    message: "Source:location.hash;Sink:jQuery.globalEval"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "jQuery.globalEval(<... window.name ...>)"
+      - pattern: "jQuery.globalEval(<... location.hash ...>)"
       - pattern: "jQuery.globalEval(<... $X ...>)"
     severity: WARNING

@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-jQuery_prepend
+  - id: location_hash-jQuery_prepend
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.prepend"
+    message: "Source:location.hash;Sink:jQuery.prepend"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$(...).prepend(<... window.name ...>)"
+      - pattern: "$(...).prepend(<... location.hash ...>)"
       - pattern: "$(...).prepend(<... $X ...>)"
     severity: WARNING

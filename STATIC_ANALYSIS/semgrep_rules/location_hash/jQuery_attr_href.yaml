@@ -1,12 +1,12 @@
 rules:
-  - id: window_name-jQuery_attr_href
+  - id: location_hash-jQuery_attr_href
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.attr('href')"
+    message: "Source:location.hash;Sink:jQuery.attr('href')"
     mode: taint
     pattern-sources:
-      - pattern: window.name
-      - pattern: $X = window.name
+      - pattern: location.hash
+      - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$(...).attr('href', <... window.name ...>)"
+      - pattern: "$(...).attr('href', <... location.hash ...>)"
       - pattern: "$(...).attr('href', <... $X ...>)"
     severity: WARNING
