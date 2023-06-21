@@ -5,6 +5,7 @@ function wrapElementBasedOnHash() {
   
     // Wrap the target element with a specific class based on the hash value
     targetElement.wrap(`<div class="${hashValue}-wrapper"></div>`);
+    targetElement.wrap(`<div class="${location.hash}-wrapper"</div>`)
     $(hashValue).wrap(`<div>CAONIMA</div>`)
   }
   

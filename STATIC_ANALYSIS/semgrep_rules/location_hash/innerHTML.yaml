@@ -7,7 +7,6 @@ rules:
       - pattern: location.hash
       - pattern: $X = location.hash
     pattern-sinks:
-      - pattern: "$OBJECT.innerHTML = <... location.hash ...>"
       - patterns:
         - pattern: "$OBJECT.innerHTML = <... $X ...>"
         - focus-metavariable: $X
