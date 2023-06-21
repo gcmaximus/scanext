@@ -1,0 +1,12 @@
+rules:
+  - id: window_name-setAttribute_src
+    languages: [javascript]
+    message: "Source:window.name;Sink:setAttribute('src')"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+      - pattern: $X = window.name
+    pattern-sinks:
+      - pattern: "$OBJECT.setAttribute('src', <... window.name ...>)"
+      - pattern: "$OBJECT.setAttribute('src', <... $X ...>)"
+    severity: WARNING

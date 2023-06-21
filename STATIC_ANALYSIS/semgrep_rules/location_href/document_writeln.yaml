@@ -1,0 +1,12 @@
+rules:
+  - id: window_name-document_writeln
+    languages: [javascript]
+    message: "Source:window.name;Sink:document.writeln"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+      - pattern: $X = window.name
+    pattern-sinks:
+      - pattern: "document.writeln(<... window.name ...>)"
+      - pattern: "document.writeln(<... $X ...>)"
+    severity: WARNING
