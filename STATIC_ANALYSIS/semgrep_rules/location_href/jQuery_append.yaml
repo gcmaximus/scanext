@@ -1,0 +1,18 @@
+rules:
+  - id: location_href-jQuery_append
+    languages: [javascript]
+    message: "Source:location.href;Sink:jQuery.append"
+    mode: taint
+    pattern-sources:
+      - pattern: location.href
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).append($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.append($X)
+        - focus-metavariable: $X
+    severity: WARNING

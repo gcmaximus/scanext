@@ -1,10 +1,10 @@
 rules:
-  - id: location_hash-innerHTML
+  - id: location_href-innerHTML
     languages: [javascript]
-    message: "Source:location.hash;Sink:innerHTML"
+    message: "Source:location.href;Sink:innerHTML"
     mode: taint
     pattern-sources:
-      - pattern: location.hash
+      - pattern: location.href
     pattern-sinks:
       - patterns:
           - pattern: ... .innerHTML = $X

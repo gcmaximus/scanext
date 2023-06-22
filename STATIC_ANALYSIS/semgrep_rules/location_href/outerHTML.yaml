@@ -1,12 +1,12 @@
 rules:
-  - id: location_hash-innerHTML
+  - id: location_href-outerHTML
     languages: [javascript]
-    message: "Source:location.hash;Sink:innerHTML"
+    message: "Source:location.href;Sink:outerHTML"
     mode: taint
     pattern-sources:
-      - pattern: location.hash
+      - pattern: location.href
     pattern-sinks:
       - patterns:
-          - pattern: ... .innerHTML = $X
+          - pattern: ... .outerHTML = $X
           - focus-metavariable: $X
     severity: WARNING

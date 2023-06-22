@@ -7,12 +7,6 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "... .innerHTML = $X"
-        - focus-metavariable: $X
-      - patterns:
-          - pattern: |
-              $Y = ...
-              ...
-              $Y. ... .innerHTML = $X
+          - pattern: ... .innerHTML = $X
           - focus-metavariable: $X
     severity: WARNING

@@ -1,0 +1,12 @@
+rules:
+  - id: location_href-chrome_tabs_update
+    languages: [javascript]
+    message: "Source:location.href;Sink:chrome.tabs.update"
+    mode: taint
+    pattern-sources:
+      - pattern: location.href
+    pattern-sinks:
+      - patterns:
+        - pattern: "chrome.tabs.update({ ..., url: $X })"
+        - focus-metavariable: $X
+    severity: WARNING

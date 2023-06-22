@@ -1,0 +1,18 @@
+rules:
+  - id: location_href-jQuery_wrapAll
+    languages: [javascript]
+    message: "Source:location.href;Sink:jQuery.wrapAll"
+    mode: taint
+    pattern-sources:
+      - pattern: location.href
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).wrapAll($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.wrapAll($X)
+        - focus-metavariable: $X
+    severity: WARNING
