@@ -45,10 +45,4 @@ rules:
       - patterns:
         - pattern: "$($X).appendTo(...)"
         - focus-metavariable: $X
-      - patterns:
-        - pattern: |
-            $Y = $(...)
-            ...
-            $($X).appendTo($Y)
-        - focus-metavariable: $X
     severity: WARNING
