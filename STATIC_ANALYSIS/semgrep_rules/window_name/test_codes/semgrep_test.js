@@ -1,18 +1,21 @@
 // // /*******************
 // //   1. window.name  
 // // *******************/
-// // // innerHTML
-// // case 1
-// var case1 = window.name
-// document.getElementById('case1').innerHTML = case1
+// // innerHTML
+// case 1
+var case1 = window.name
+document.getElementById('case1').innerHTML = case1
 
-// // case 2
-// var case2 = window.name
-// newcase2 = case2 + " "
-// document.getElementById('case2').innerHTML = newcase2
+// case 2
+var case2 = window.name
+newcase2 = case2 + " "
+document.getElementById('case2').innerHTML = newcase2
 
-// // case 3
-// document.getElementById('case3').innerHTML = window.name
+// case 3
+document.getElementById('case3').innerHTML = window.name
+
+// case 3.1
+$('#hello').innerHTML = window.name
 
 // // case 3.6 (only Pro engine can get. pay2win software)
 // var caonima = window.name
@@ -204,18 +207,18 @@
 
 // //**************************************************************/
 
-// // jQuery .wrapInner()
-// Case 40
-var case40 = window.name;
-$("#element").wrapInner("<div class='wrapper'>" + case40 + "</div>");
+// // // jQuery .wrapInner()
+// // Case 40
+// var case40 = window.name;
+// $("#element").wrapInner("<div class='wrapper'>" + case40 + "</div>");
 
-// Case 41
-var case41 = window.name;
-newcase41 = " " + case41;
-$("#element").wrapInner("<span class='wrapper'>" + newcase41 + "</span>");
+// // Case 41
+// var case41 = window.name;
+// newcase41 = " " + case41;
+// $("#element").wrapInner("<span class='wrapper'>" + newcase41 + "</span>");
 
-// Case 42
-$("#element").wrapInner("<p class='wrapper'>" + window.name + "</p>");
+// // Case 42
+// $("#element").wrapInner("<p class='wrapper'>" + window.name + "</p>");
 
 // //**************************************************************/
 
