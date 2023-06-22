@@ -42,5 +42,8 @@ rules:
               - pattern: $INFO.frameUrl
               - pattern: $INFO.selectionText
     pattern-sinks:
-      - pattern: document.write(...)
+      - pattern: document.write($X)
+      - patterns: 
+        - pattern: ... .document.write($X)
+        - focus-metavariable: $X
     severity: WARNING

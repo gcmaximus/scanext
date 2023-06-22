@@ -164,6 +164,8 @@ chrome.contextMenus.create(
             x = n.selectionText;
             document.getElementById("f").outerHTML = x; // Expect 1 match here
             console.log();
+
+            document.getElementById(x).outerHTML = "a";
         },
         test2: "sdfs",
     },
