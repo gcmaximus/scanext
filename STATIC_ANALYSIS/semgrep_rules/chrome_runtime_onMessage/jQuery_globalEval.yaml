@@ -3,10 +3,11 @@ rules:
     mode: taint
     pattern-sources:
       - patterns:
-          - pattern-inside: |
-              chrome.runtime.onMessage.addListener(function( ... ) {
+          - pattern: |
+              chrome.runtime.onMessage.addListener(function($X, ...) {
               ... 
               });
+          - focus-metavariable: $X
     pattern-sinks:
       - patterns:
           - pattern-either:

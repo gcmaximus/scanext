@@ -3,15 +3,16 @@ rules:
     mode: taint
     pattern-sources:
       - patterns:
-          - pattern-inside: |
-              chrome.runtime.onMessage.addListener(function( ... ) {
+          - pattern: |
+              chrome.runtime.onMessage.addListener(function($X, ...) {
               ... 
               });
+          - focus-metavariable: $X
     pattern-sinks:
-      - patterns: 
+      - patterns:
           - pattern-either:
-            - pattern: document.write(...)
-            - pattern: ... .document.write(...)
+              - pattern: document.write($X)
+              - pattern: ... .document.write($X)
     message: Source:chrome.runtime.onMessage;Sink:document.write
     languages:
       - js
