@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_runtime_onMessage-Handlebar_SafeString
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  new Handlebars.SafeString(...)
+    message: Source:chrome.runtime.onMessage;Sink:Handlebar_SafeString
+    languages:
+      - js
+    severity: WARNING

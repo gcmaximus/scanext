@@ -6,5 +6,7 @@ rules:
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
-      - pattern: "$($X).append(...)"
+      - patterns:
+        - pattern: "$(...).append(<... $X ...>)"
+        - focus-metavariable: $X
     severity: WARNING

@@ -1,0 +1,12 @@
+rules:
+  - id: location_hash-setAttribute_src
+    languages: [javascript]
+    message: "Source:location.hash;Sink:setAttribute('src')"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+      - pattern: $X = location.hash
+    pattern-sinks:
+      - pattern: "$OBJECT.setAttribute('src', <... location.hash ...>)"
+      - pattern: "$OBJECT.setAttribute('src', <... $X ...>)"
+    severity: WARNING

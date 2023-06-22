@@ -1,0 +1,12 @@
+rules:
+  - id: location_hash-jQuery_wrapAll
+    languages: [javascript]
+    message: "Source:location.hash;Sink:jQuery.wrapAll"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+      - pattern: $X = location.hash
+    pattern-sinks:
+      - pattern: "$(...).wrapAll(<... location.hash ...>)"
+      - pattern: "$(...).wrapAll(<... $X ...>)"
+    severity: WARNING

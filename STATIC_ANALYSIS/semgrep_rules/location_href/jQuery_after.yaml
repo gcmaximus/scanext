@@ -1,0 +1,12 @@
+rules:
+  - id: window_name-jQuery_after
+    languages: [javascript]
+    message: "Source:window.name;Sink:jQuery.after"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+      - pattern: $X = window.name
+    pattern-sinks:
+      - pattern: "$(...).after(<... window.name ...>)"
+      - pattern: "$(...).after(<... $X ...>)"
+    severity: WARNING

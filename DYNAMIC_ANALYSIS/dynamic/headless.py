@@ -44,25 +44,43 @@ def process_payload(payloads,url_path, abs_path):
 
 
     driver = Chrome(service=Service(), options=options)
-    driver.get(url_path)
-    original = driver.current_window_handle
-    driver.switch_to.new_window('tab')
-    new = driver.current_window_handle
+    # driver.get(url_path)
+    # original = driver.current_window_handle
+    # driver.switch_to.new_window('tab')
+    # new = driver.current_window_handle
 
+    # driver.get('https://www.example.com')
+    # driver.switch_to.window(original)
+
+    # time.sleep(3)
+
+    # for payload in payloads:
+    #     driver.get_screenshot_as_file("ss.png")
+    #     a = driver.find_element(By.ID, 'replacementInput')
+    #     a.clear()
+    #     a.send_keys(payload)
+    #     button = driver.find_element(By.ID, 'replaceButton')
+    #     button.click()
+
+    #     driver.switch_to.window(new)
+
+    # get www.example.com
     driver.get('https://www.example.com')
-    driver.switch_to.window(original)
+    example = driver.current_window_handle
 
-    time.sleep(3)
+    # get extension popup.html
+    driver.switch_to.new_window('tab')
+    extension = driver.current_window_handle
+    driver.get(url_path)
+
 
     for payload in payloads:
-        driver.get_screenshot_as_file("ss.png")
-        a = driver.find_element(By.ID, 'replacementInput')
-        a.clear()
-        a.send_keys(payload)
-        button = driver.find_element(By.ID, 'replaceButton')
-        button.click()
+        driver.switch_to.window(extension)
+        driver.refresh()
+        driver.switch_to.window(example)
 
-        driver.switch_to.window(new)
+        # print(payload)
+        driver.execute_script(f"window.name = '{payload}';")
 
         try:
             # wait 3 seconds to see if alert is detected
@@ -75,8 +93,8 @@ def process_payload(payloads,url_path, abs_path):
             logs(driver, 'NIL', 'Fail', url_path, payload)
             print('= No alerts detected =')
 
-        # change back to popup.html to try another payload
-        driver.switch_to.window(original)
+        # # change back to popup.html to try another payload
+        # driver.switch_to.window(original)
 
 
 
@@ -132,7 +150,7 @@ def main():
     # Run program
     with Display() as disp:
         print(disp.is_alive())
-        headless('h1-replacer(v3)')
+        headless('EXTENSIONS/h1-replacer(v3)')
 
 
 

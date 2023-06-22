@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_runtime_onConnect-innerHTML
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onConnect.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  $OBJ.innerHTML = ...
+    message: Source:chrome.runtime.onConnect;Sink:innerHTML
+    languages:
+      - js
+    severity: WARNING

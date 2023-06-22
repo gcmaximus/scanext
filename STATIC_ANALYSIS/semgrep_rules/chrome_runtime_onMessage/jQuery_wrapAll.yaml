@@ -1,0 +1,17 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_wrapAll
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: ... .wrapAll(...)
+    message: Source:chrome.runtime.onMessage;Sink:jQuery.wrapAll
+    languages:
+      - js
+    severity: WARNING

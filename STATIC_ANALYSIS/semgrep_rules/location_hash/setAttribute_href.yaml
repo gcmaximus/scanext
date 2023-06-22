@@ -1,0 +1,12 @@
+rules:
+  - id: location_hash-setAttribute_href
+    languages: [javascript]
+    message: "Source:location.hash;Sink:setAttribute('href')"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+      - pattern: $X = location.hash
+    pattern-sinks:
+      - pattern: "$OBJECT.setAttribute('href', <... location.hash ...>)"
+      - pattern: "$OBJECT.setAttribute('href', <... $X ...>)"
+    severity: WARNING

@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_runtime_onMessage-document_writeln
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns: 
+          - pattern-either:
+            - pattern: document.writeln(...)
+            - pattern: ... .document.writeln(...)
+    message: Source:chrome.runtime.onMessage;Sink:document.writeln
+    languages:
+      - js
+    severity: WARNING

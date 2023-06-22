@@ -1,0 +1,17 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_setAttribute_href
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: ... .setAttribute('href',...);
+    message: Source:chrome.runtime.onMessage;Sink:jQuery_setAttribute_href
+    languages:
+      - js
+    severity: WARNING

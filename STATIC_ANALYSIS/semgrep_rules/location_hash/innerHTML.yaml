@@ -1,23 +1,12 @@
 rules:
-  - id: 2a-innerHTML
-    message: |
-      "Source:location.hash;Sink:innerHTML;
-      location.hash is vulnerable, which flows to innerHTML"
-    languages:
-      - javascript
-    pattern-either:
-      - pattern: |
-          $X = location.hash
-          ...
-          $OBJECT.innerHTML = $X
-      - pattern: |
-          $X = location.hash
-          ...
-          function $FUNC(...,$ARG,...) {
-            ...
-            $OBJECT.innerHTML = $ARG
-            ...
-          }
-          ...
-          $FUNC(...,$X,...)
+  - id: location_hash-innerHTML
+    languages: [javascript]
+    message: "Source:location.hash;Sink:innerHTML"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+    pattern-sinks:
+      - patterns:
+        - pattern: "$OBJECT.innerHTML = <... $X ...>"
+        - focus-metavariable: $X
     severity: WARNING

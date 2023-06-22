@@ -1,0 +1,12 @@
+rules:
+  - id: window_name-setAttribute_href
+    languages: [javascript]
+    message: "Source:window.name;Sink:setAttribute('href')"
+    mode: taint
+    pattern-sources:
+      - pattern: window.name
+      - pattern: $X = window.name
+    pattern-sinks:
+      - pattern: "$OBJECT.setAttribute('href', <... window.name ...>)"
+      - pattern: "$OBJECT.setAttribute('href', <... $X ...>)"
+    severity: WARNING

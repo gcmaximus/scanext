@@ -1,0 +1,17 @@
+rules:
+  - id: chrome_runtime_onMessage-jQuery_setAttribute_src
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              chrome.runtime.onMessage.addListener(function( ... ) {
+              ... 
+              });
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: ... .setAttribute('src',...);
+    message: Source:chrome.runtime.onMessage;Sink:jQuery_setAttribute_src
+    languages:
+      - js
+    severity: WARNING
