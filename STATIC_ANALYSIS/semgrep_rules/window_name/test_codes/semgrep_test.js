@@ -18,7 +18,7 @@ document.getElementById('case3').innerHTML = window.name
 var abc = "window name is " + window.name
 document.getElementById('abc').innerHTML = abc
 
-// case 3.6
+// case 3.6 (only Pro engine can get. pay2win software)
 var caonima = window.name
 function boop(x) {
     document.getElementById('x').innerHTML = x

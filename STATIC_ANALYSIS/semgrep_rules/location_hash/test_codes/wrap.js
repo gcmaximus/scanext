@@ -8,7 +8,7 @@ function wrapElementBasedOnHash() {
     targetElement.wrap(`<div class="${hashValue}-wrapper"></div>`);
     targetElement.wrap(`<div class="${abc}-wrapper"></div>`);
     targetElement.wrap(`<div class="${location.hash}-wrapper"</div>`)
-    targetElement.wrap(`<div class="${location.hash}-wrapper"</div>`)
+    targetElement.wrap(`<div class="location.hash-wrapper"</div>`)
     $(hashValue).wrap(`<div>CAONIMA</div>`)
   }
   

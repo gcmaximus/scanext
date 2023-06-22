@@ -22,7 +22,8 @@ function updateBookmarkDetailsBasedOnHash() {
   `;
 
   bookmarkId.innerHTML = 'abc'
-
+  
+  $('.testing').innerHTML = "this is ID: bookmarkId"
   $('.marker').innerHTML = "this is ID: " + bookmarkId
 
 }
