@@ -6,43 +6,49 @@ rules:
     mode: taint
     pattern-sources:
       - patterns:
-        - pattern-either:
-          - pattern-inside: |
-              function $FUNC($INFO, ...) {
-                ...
-              }
-              ...
-              chrome.contextMenus.create({
-                onclick: $FUNC
-              }, ...)
-          - pattern-inside: |
-              chrome.contextMenus.create({
-                onclick: $FUNC
-              }, ...)
-              ...
-              function $FUNC($INFO, ...) {
-                ...
-              }
-          - pattern-inside: |
-              chrome.contextMenus.create({
-                onclick: function($INFO, ...) {
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($INFO, ...) {
+                    ...
+                  }
                   ...
-                }
-              }, ...)
-          - pattern-inside: |
-              chrome.contextMenus.create({
-                onclick: function $FUNC($INFO, ...) {
+                  chrome.contextMenus.create({
+                    onclick: $FUNC
+                  }, ...)
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: $FUNC
+                  }, ...)
                   ...
-                }
-              }, ...)
-        - pattern-either: 
-          - pattern: $INFO.linkUrl
-          - pattern: $INFO.srcUrl
-          - pattern: $INFO.pageUrl
-          - pattern: $INFO.frameUrl
-          - pattern: $INFO.selectionText
+                  function $FUNC($INFO, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: function($INFO, ...) {
+                      ...
+                    }
+                  }, ...)
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: function $FUNC($INFO, ...) {
+                      ...
+                    }
+                  }, ...)
+          - pattern-either:
+              - pattern: $INFO.linkUrl
+              - pattern: $INFO.srcUrl
+              - pattern: $INFO.pageUrl
+              - pattern: $INFO.frameUrl
+              - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-        - pattern: ... .outerHTML = $X
-        - focus-metavariable: $X
+          - pattern: document. ... .outerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .outerHTML = $X
+          - focus-metavariable: $X
     severity: WARNING

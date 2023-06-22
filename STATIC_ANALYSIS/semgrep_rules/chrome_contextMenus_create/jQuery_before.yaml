@@ -43,6 +43,12 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-        - pattern: $(...).before($X)
-        - focus-metavariable: $X
+          - pattern: $(...).before($X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = $(...)
+              ...
+              $Y.before($X)
+          - focus-metavariable: $X
     severity: WARNING
