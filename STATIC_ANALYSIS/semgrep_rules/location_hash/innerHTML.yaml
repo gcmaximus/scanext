@@ -7,6 +7,12 @@ rules:
       - pattern: location.hash
     pattern-sinks:
       - patterns:
-          - pattern: ... .innerHTML = $X
+          - pattern: document. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .innerHTML = $X
           - focus-metavariable: $X
     severity: WARNING
