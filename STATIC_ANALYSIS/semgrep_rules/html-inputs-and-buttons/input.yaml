@@ -2,5 +2,5 @@ rules:
 - id: scan-input
   pattern: <input...>
   message: <input> detected
-  languages: [html]
+  languages: [generic]
   severity: WARNING
