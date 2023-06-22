@@ -6,7 +6,8 @@ rules:
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
+      - pattern: "document.writeln($X)"
       - patterns:
-        - pattern: "document.writeln(<... $X ...>)"
+        - pattern: "... .document.writeln($X)"
         - focus-metavariable: $X
     severity: WARNING

@@ -1,0 +1,12 @@
+rules:
+  - id: location_hash-chrome_tabs_update
+    languages: [javascript]
+    message: "Source:location.hash;Sink:chrome.tabs.update"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+      - pattern: $X = location.hash
+    pattern-sinks:
+      - pattern: "chrome.tabs.update({ ..., url: <... location.hash ...> })"
+      - pattern: "chrome.tabs.update({ ..., url: $X })"
+    severity: WARNING

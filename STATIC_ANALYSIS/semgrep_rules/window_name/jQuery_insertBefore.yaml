@@ -7,6 +7,12 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "$(<... $X ...>).insertBefore(...)"
+        - pattern: "$($X).insertBefore(...)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $($X).insertBefore($Y)
         - focus-metavariable: $X
     severity: WARNING

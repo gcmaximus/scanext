@@ -7,6 +7,6 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "chrome.tabs.update({ ..., url: <... $X ...> })"
+        - pattern: "chrome.tabs.update({ ..., url: $X })"
         - focus-metavariable: $X
     severity: WARNING
