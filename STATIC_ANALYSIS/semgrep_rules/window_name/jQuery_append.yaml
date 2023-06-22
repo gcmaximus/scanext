@@ -5,8 +5,8 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: window.name
-      - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "$(...).append(<... window.name ...>)"
-      - pattern: "$(...).append(<... $X ...>)"
+      - patterns:
+        - pattern: "$(...).append(<... $X ...>)"
+        - focus-metavariable: $X
     severity: WARNING

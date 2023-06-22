@@ -1,30 +1,30 @@
-// /*******************
-//   1. window.name  
-// *******************/
-// // innerHTML
-// case 1
-var case1 = window.name
-document.getElementById('case1').innerHTML = case1
+// // /*******************
+// //   1. window.name  
+// // *******************/
+// // // innerHTML
+// // case 1
+// var case1 = window.name
+// document.getElementById('case1').innerHTML = case1
 
-// case 2
-var case2 = window.name
-newcase2 = case2 + " "
-document.getElementById('case2').innerHTML = newcase2
+// // case 2
+// var case2 = window.name
+// newcase2 = case2 + " "
+// document.getElementById('case2').innerHTML = newcase2
 
-// case 3
-document.getElementById('case3').innerHTML = window.name
+// // case 3
+// document.getElementById('case3').innerHTML = window.name
 
-// case 3.5
-var abc = "window name is " + window.name
-document.getElementById('abc').innerHTML = abc
+// // case 3.5
+// var abc = "window name is " + window.name
+// document.getElementById('abc').innerHTML = abc
 
-// case 3.6 (only Pro engine can get. pay2win software)
-var caonima = window.name
-function boop(x) {
-    document.getElementById('x').innerHTML = x
-}
+// // case 3.6 (only Pro engine can get. pay2win software)
+// var caonima = window.name
+// function boop(x) {
+//     document.getElementById('x').innerHTML = x
+// }
 
-boop(caonima)
+// boop(caonima)
 
 // //**************************************************************/
 
@@ -43,18 +43,18 @@ boop(caonima)
 
 // //**************************************************************/
 
-// // // document.write
-// // case 7
-// var case7 = window.name
-// document.write(case7)
+// // document.write
+// case 7
+var case7 = window.name
+document.write(case7)
 
-// // case 8 
-// var case8 = window.name
-// newcase8 = " " + case8
-// document.write(newcase8)
+// case 8 
+var case8 = window.name
+newcase8 = " " + case8
+newWindow.document.write(newcase8)
 
-// // Case 9
-// document.write(window.name)
+// Case 9
+document.write(window.name)
 
 // //**************************************************************/
 

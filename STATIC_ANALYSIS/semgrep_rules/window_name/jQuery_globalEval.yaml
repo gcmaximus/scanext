@@ -5,8 +5,8 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: window.name
-      - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "jQuery.globalEval(<... window.name ...>)"
-      - pattern: "jQuery.globalEval(<... $X ...>)"
+      - patterns:
+        - pattern: "jQuery.globalEval(<... $X ...>)"
+        - focus-metavariable: $X
     severity: WARNING

@@ -5,8 +5,8 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: window.name
-      - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "eval(<... window.name ...>)"
-      - pattern: "eval(<... $X ...>)"
+      - patterns:
+        - pattern: "eval(<... $X ...>)"
+        - focus-metavariable: $X
     severity: WARNING

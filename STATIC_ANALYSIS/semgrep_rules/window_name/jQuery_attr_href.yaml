@@ -5,8 +5,8 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: window.name
-      - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "$(...).attr('href', <... window.name ...>)"
-      - pattern: "$(...).attr('href', <... $X ...>)"
+      - patterns:
+        - pattern: "$(...).attr('href', <... $X ...>)"
+        - focus-metavariable: $X
     severity: WARNING

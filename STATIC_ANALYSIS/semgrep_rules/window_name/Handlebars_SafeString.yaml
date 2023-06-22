@@ -5,8 +5,8 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: window.name
-      - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "new Handlebars.SafeString(<... window.name ...>)"
-      - pattern: "new Handlebars.SafeString(<... $X ...>)"
+      - patterns:
+        - pattern: "new Handlebars.SafeString(<... $X ...>)"
+        - focus-metavariable: $X
     severity: WARNING

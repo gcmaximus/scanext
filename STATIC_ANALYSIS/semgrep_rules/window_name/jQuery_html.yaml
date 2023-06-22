@@ -5,8 +5,8 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: window.name
-      - pattern: $X = window.name
     pattern-sinks:
-      - pattern: "$(...).html(<... window.name ...>)"
-      - pattern: "$(...).html(<... $X ...>)"
+      - patterns:
+        - pattern: "$(...).html(<... $X ...>)"
+        - focus-metavariable: $X
     severity: WARNING
