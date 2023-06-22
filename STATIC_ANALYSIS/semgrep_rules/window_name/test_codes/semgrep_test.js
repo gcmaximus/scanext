@@ -51,10 +51,10 @@ document.write(case7)
 // case 8 
 var case8 = window.name
 newcase8 = " " + case8
-newWindow.document.write(newcase8)
+document.write(newcase8)
 
 // Case 9
-document.write(window.name)
+new_window.document.write(window.name)
 
 // //**************************************************************/
 
