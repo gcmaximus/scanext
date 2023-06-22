@@ -1,8 +1,8 @@
 rules:
-  - id: chrome_contextMenus_create-jQuery_html
+  - id: chrome_contextMenus_create-jQuery_wrapAll
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:jQuery.before
+    message: Source:chrome.contextMenus.create;Sink:jQuery.wrapAll
     mode: taint
     pattern-sources:
       - patterns:
@@ -43,12 +43,12 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-          - pattern: $(...).before($X)
+          - pattern: $(...).wrapAll($X)
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = $(...)
               ...
-              $Y.before($X)
+              $Y.wrapAll($X)
           - focus-metavariable: $X
     severity: WARNING
