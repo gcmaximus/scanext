@@ -7,11 +7,11 @@ rules:
       - pattern: location.hash
     pattern-sinks:
       - patterns:
-        - pattern: "document. ... .innerHTML = $X"
+        - pattern: "... .innerHTML = $X"
         - focus-metavariable: $X
       - patterns:
           - pattern: |
-              $Y = document. ...
+              $Y = ...
               ...
               $Y. ... .innerHTML = $X
           - focus-metavariable: $X
