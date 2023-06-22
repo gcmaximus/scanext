@@ -7,6 +7,6 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "new Handlebars.SafeString(<... $X ...>)"
+        - pattern: "new Handlebars.SafeString($X)"
         - focus-metavariable: $X
     severity: WARNING

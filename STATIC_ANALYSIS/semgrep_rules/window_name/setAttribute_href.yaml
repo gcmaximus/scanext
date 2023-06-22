@@ -7,6 +7,12 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "$OBJECT.setAttribute('href', <... $X ...>)"
+        - pattern: "document. ... .setAttribute('href', $X)"
         - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .setAttribute('href', $X)
+          - focus-metavariable: $X
     severity: WARNING

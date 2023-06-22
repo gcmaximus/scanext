@@ -7,6 +7,12 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "$(<... $X ...>).appendTo(...)"
+        - pattern: "$($X).appendTo(...)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $($X).appendTo($Y)
         - focus-metavariable: $X
     severity: WARNING

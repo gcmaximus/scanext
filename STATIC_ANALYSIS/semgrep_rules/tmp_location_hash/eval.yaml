@@ -1,0 +1,12 @@
+rules:
+  - id: location_hash-eval
+    languages: [javascript]
+    message: "Source:location.hash;Sink:eval"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+      - pattern: $X = location.hash
+    pattern-sinks:
+      - pattern: "eval(<... location.hash ...>)"
+      - pattern: "eval($X)"
+    severity: WARNING

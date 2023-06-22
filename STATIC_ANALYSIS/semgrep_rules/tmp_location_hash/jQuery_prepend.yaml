@@ -1,0 +1,12 @@
+rules:
+  - id: location_hash-jQuery_prepend
+    languages: [javascript]
+    message: "Source:location.hash;Sink:jQuery.prepend"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+      - pattern: $X = location.hash
+    pattern-sinks:
+      - pattern: "$(...).prepend(<... location.hash ...>)"
+      - pattern: "$(...).prepend($X)"
+    severity: WARNING

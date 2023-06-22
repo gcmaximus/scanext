@@ -7,6 +7,6 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "jQuery.globalEval(<... $X ...>)"
+        - pattern: "jQuery.globalEval($X)"
         - focus-metavariable: $X
     severity: WARNING

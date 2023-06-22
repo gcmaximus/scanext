@@ -7,6 +7,12 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "$(...).wrapInner(<... $X ...>)"
+        - pattern: "$(...).wrapInner($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.wrapInner($X)
         - focus-metavariable: $X
     severity: WARNING
