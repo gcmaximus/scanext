@@ -25,7 +25,7 @@ function updateBookmarkDetailsBasedOnHash() {
   
   $('.testing').innerHTML = "this is ID: bookmarkId"
   $('.marker').innerHTML = "this is ID: " + bookmarkId
-
+  
 }
 
 // Call the function when the hash changes or on initial page load

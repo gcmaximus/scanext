@@ -1,0 +1,13 @@
+rules:
+  - id: location_hash-document_write
+    languages: [javascript]
+    message: "Source:location.hash;Sink:document.write"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+    pattern-sinks:
+      - pattern: "document.write($X)"
+      - patterns:
+        - pattern: "... .document.write($X)"
+        - focus-metavariable: $X
+    severity: WARNING
