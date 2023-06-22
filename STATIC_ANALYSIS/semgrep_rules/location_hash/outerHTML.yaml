@@ -1,0 +1,12 @@
+rules:
+  - id: location_hash-outerHTML
+    languages: [javascript]
+    message: "Source:location.hash;Sink:outerHTML"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+    pattern-sinks:
+      - patterns:
+          - pattern: ... .outerHTML = $X
+          - focus-metavariable: $X
+    severity: WARNING

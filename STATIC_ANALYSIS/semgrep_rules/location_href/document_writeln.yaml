@@ -1,0 +1,13 @@
+rules:
+  - id: location_href-document_writeln
+    languages: [javascript]
+    message: "Source:location.href;Sink:document.writeln"
+    mode: taint
+    pattern-sources:
+      - pattern: location.href
+    pattern-sinks:
+      - pattern: "document.writeln($X)"
+      - patterns:
+        - pattern: "... .document.writeln($X)"
+        - focus-metavariable: $X
+    severity: WARNING

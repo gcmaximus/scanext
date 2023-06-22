@@ -1,0 +1,18 @@
+rules:
+  - id: location_hash-jQuery_append
+    languages: [javascript]
+    message: "Source:location.hash;Sink:jQuery.append"
+    mode: taint
+    pattern-sources:
+      - pattern: location.hash
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).append($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.append($X)
+        - focus-metavariable: $X
+    severity: WARNING
