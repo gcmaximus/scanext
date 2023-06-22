@@ -43,6 +43,6 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-        - pattern: "$($X).prependTo(...)"
+        - pattern: $($X).prependTo(...)
         - focus-metavariable: $X
     severity: WARNING

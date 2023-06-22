@@ -1,8 +1,8 @@
 rules:
-  - id: chrome_contextMenus_create-jQuery_insertBefore
+  - id: chrome_contextMenus_create-chrome_tabs_update
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:jQuery.insertBefore
+    message: Source:chrome.contextMenus.create;Sink:chrome_tabs_update
     mode: taint
     pattern-sources:
       - patterns:
@@ -43,6 +43,21 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-          - pattern: $($X).insertBefore(...)
+          - pattern: |
+              chrome.tabs.update(..., {..., url: $X, ...}, ...)
           - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $X = {..., url:$Y, ...}
+              ...
+              chrome.tabs.update($X, ...)
+          - focus-metavariable:
+              - $Y
+      - patterns:
+          - pattern: |
+              $X = {..., url: $Y, ...}
+              ...
+              chrome.tabs.update($W, $X, ...)
+          - focus-metavariable:
+              - $Y
     severity: WARNING
