@@ -9,10 +9,4 @@ rules:
       - patterns:
         - pattern: "$($X).insertAfter(...)"
         - focus-metavariable: $X
-      - patterns:
-        - pattern: |
-            $Y = $(...)
-            ...
-            $($X).insertAfter($Y)
-        - focus-metavariable: $X
     severity: WARNING
