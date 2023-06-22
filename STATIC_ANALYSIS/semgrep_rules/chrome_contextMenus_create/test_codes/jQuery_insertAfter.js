@@ -7,33 +7,33 @@ chrome_contextMenus_create-jQuery_insertAfter
 // case 1
 function kms(n, a) {
     console.log();
-    $("f").insertAfter(n.linkUrl); // Expect 1 match here
-    $("f").insertAfter(n.srcUrl); // Expect 1 match here
-    $("f").insertAfter(n.pageUrl); // Expect 1 match here
-    $("f").insertAfter(n.frameUrl); // Expect 1 match here
-    $("f").insertAfter(n.selectionText); // Expect 1 match here
+    $(n.linkUrl).insertAfter('f'); // Expect 1 match here
+    $(n.srcUrl).insertAfter('f'); // Expect 1 match here
+    $(n.pageUrl).insertAfter('f'); // Expect 1 match here
+    $(n.frameUrl).insertAfter('f'); // Expect 1 match here
+    $(n.selectionText).insertAfter('f'); // Expect 1 match here
 
     console.log();
 
     let x = n.linkUrl;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
 
     x = n.srcUrl;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
 
     x = n.pageUrl;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
 
     x = n.frameUrl;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
 
     x = n.selectionText;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
     console.log();
 }
 
 let a = n.linkUrl;
-$("f").insertAfter(x);
+$(x).insertAfter('f');
 
 chrome.contextMenus.create(
     {
@@ -63,33 +63,33 @@ chrome.contextMenus.create(
 );
 
 let b = n.linkUrl;
-$("f").insertAfter(x);
+$(x).insertAfter('f');
 
 function aaa(n, a) {
     console.log();
-    $("f").insertAfter(n.linkUrl); // Expect 1 match here
-    $("f").insertAfter(n.srcUrl); // Expect 1 match here
-    $("f").insertAfter(n.pageUrl); // Expect 1 match here
-    $("f").insertAfter(n.frameUrl); // Expect 1 match here
-    $("f").insertAfter(n.selectionText); // Expect 1 match here
+    $(n.linkUrl).insertAfter('f'); // Expect 1 match here
+    $(n.srcUrl).insertAfter('f'); // Expect 1 match here
+    $(n.pageUrl).insertAfter('f'); // Expect 1 match here
+    $(n.frameUrl).insertAfter('f'); // Expect 1 match here
+    $(n.selectionText).insertAfter('f'); // Expect 1 match here
 
     $("f").insertAfter(a.linkUrl);
     console.log();
 
     let x = n.linkUrl;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
 
     x = n.srcUrl;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
 
     x = n.pageUrl;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
 
     x = n.frameUrl;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
 
     x = n.selectionText;
-    $("f").insertAfter(x); // Expect 1 match here
+    $(x).insertAfter('f'); // Expect 1 match here
     console.log();
 }
 
@@ -103,27 +103,27 @@ chrome.contextMenus.create(
         },
         onclick: function (n, a) {
             console.log();
-            $("f").insertAfter(n.linkUrl); // Expect 1 match here
-            $("f").insertAfter(n.srcUrl); // Expect 1 match here
-            $("f").insertAfter(n.pageUrl); // Expect 1 match here
-            $("f").insertAfter(n.frameUrl); // Expect 1 match here
-            $("f").insertAfter(n.selectionText); // Expect 1 match here
+            $(n.linkUrl).insertAfter('f'); // Expect 1 match here
+            $(n.srcUrl).insertAfter('f'); // Expect 1 match here
+            $(n.pageUrl).insertAfter('f'); // Expect 1 match here
+            $(n.frameUrl).insertAfter('f'); // Expect 1 match here
+            $(n.selectionText).insertAfter('f'); // Expect 1 match here
             console.log();
 
             let x = n.linkUrl;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
 
             x = n.srcUrl;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
 
             x = n.pageUrl;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
 
             x = n.frameUrl;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
 
             x = n.selectionText;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
             console.log();
         },
         test2: "sdfs",
@@ -141,27 +141,27 @@ chrome.contextMenus.create(
         },
         onclick: function kms(n, a) {
             console.log();
-            $("f").insertAfter(n.linkUrl); // Expect 1 match here
-            $("f").insertAfter(n.srcUrl); // Expect 1 match here
-            $("f").insertAfter(n.pageUrl); // Expect 1 match here
-            $("f").insertAfter(n.frameUrl); // Expect 1 match here
-            $("f").insertAfter(n.selectionText); // Expect 1 match here
+            $(n.linkUrl).insertAfter('f'); // Expect 1 match here
+            $(n.srcUrl).insertAfter('f'); // Expect 1 match here
+            $(n.pageUrl).insertAfter('f'); // Expect 1 match here
+            $(n.frameUrl).insertAfter('f'); // Expect 1 match here
+            $(n.selectionText).insertAfter('f'); // Expect 1 match here
             console.log();
 
             let x = n.linkUrl;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
 
             x = n.srcUrl;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
 
             x = n.pageUrl;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
 
             x = n.frameUrl;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
 
             x = n.selectionText;
-            $("f").insertAfter(x); // Expect 1 match here
+            $(x).insertAfter('f'); // Expect 1 match here
             console.log();
 
             $(x).insertAfter("f");
