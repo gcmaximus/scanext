@@ -43,6 +43,12 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-          - pattern: ... .innerHTML = $X
+          - pattern: document. ... .outerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .outerHTML = $X
           - focus-metavariable: $X
     severity: WARNING

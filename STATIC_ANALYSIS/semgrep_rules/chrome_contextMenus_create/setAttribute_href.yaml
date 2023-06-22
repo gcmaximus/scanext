@@ -1,8 +1,8 @@
 rules:
-  - id: chrome_contextMenus_create-innerHTML
+  - id: chrome_contextMenus_create-setAttribute_href
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:innerHTML
+    message: Source:chrome.contextMenus.create;Sink:setAttribute_href
     mode: taint
     pattern-sources:
       - patterns:
@@ -43,12 +43,12 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-          - pattern: document. ... .innerHTML = $X
+          - pattern: document. ... .setAttribute("href", $X)
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...
               ...
-              $Y. ... .innerHTML = $X
+              $Y. ... .setAttribute("href", $X)
           - focus-metavariable: $X
     severity: WARNING

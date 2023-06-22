@@ -1,8 +1,8 @@
 rules:
-  - id: chrome_contextMenus_create-innerHTML
+  - id: chrome_contextMenus_create-jQuery_prependTo
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:innerHTML
+    message: Source:chrome.contextMenus.create;Sink:jQuery.prependTo
     mode: taint
     pattern-sources:
       - patterns:
@@ -43,12 +43,6 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-          - pattern: document. ... .innerHTML = $X
-          - focus-metavariable: $X
-      - patterns:
-          - pattern: |
-              $Y = document. ...
-              ...
-              $Y. ... .innerHTML = $X
-          - focus-metavariable: $X
+        - pattern: "$($X).prependTo(...)"
+        - focus-metavariable: $X
     severity: WARNING
