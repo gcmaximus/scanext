@@ -1,0 +1,28 @@
+rules:
+  - id: chrome_tabs_getAllInWindow-chrome_tabs_update
+    languages:
+      - javascript
+    message: Source:chrome.tabs.getAllInWindow;Sink:chrome.tabs.update
+    mode: taint
+    pattern-sources:
+      - pattern: "chrome.tabs.getAllInWindow($WINDOW_ID)"
+    pattern-sinks:
+      - patterns:
+          - pattern: |
+              chrome.tabs.update(..., {..., url: $X, ...}, ...)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $X = {..., url:$Y, ...}
+              ...
+              chrome.tabs.update($X, ...)
+          - focus-metavariable:
+            - $Y
+      - patterns:
+          - pattern: |
+              $X = {..., url: $Y, ...}
+              ...
+              chrome.tabs.update($W, $X, ...)
+          - focus-metavariable:
+            - $Y
+    severity: WARNING
