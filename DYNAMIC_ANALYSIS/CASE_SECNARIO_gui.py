@@ -140,7 +140,7 @@ def location_href(driver, abs_path, url_path, payloads):
 
 
 
-initialize('Extensions/h1-replacer/h1-replacer(v3)_location.href')
+# initialize('Extensions/h1-replacer/h1-replacer(v3)_location.href')
 
 
 def button_input_paradox():
@@ -181,7 +181,7 @@ def button_input_paradox():
             return False
 
 
-        with open('Extensions/h1-replacer/h1-replacer_testing/popup.html', 'r') as file:
+        with open('EXTENSIONS/h1_replacer_test/popup.html', 'r') as file:
             html_source = file.read()
 
     
@@ -191,7 +191,7 @@ def button_input_paradox():
 
     def button_proximity_v2():
         # Assuming 'html_source_code' contains the HTML source code
-        with open('Extensions/h1-replacer/h1-replacer_testing/popup.html', 'r') as file:
+        with open('EXTENSIONS/h1_replacer_test/popup.html', 'r') as file:
             html_source = file.read()
         soup = BeautifulSoup(html_source, 'html.parser')
 
@@ -230,3 +230,4 @@ def button_input_paradox():
     print('button heirachy')
 
 
+button_input_paradox()
