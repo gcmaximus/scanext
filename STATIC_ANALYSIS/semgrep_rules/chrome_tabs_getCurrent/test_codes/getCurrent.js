@@ -4,7 +4,7 @@ async function updateTabUrl(tabId, newUrl) {
     if (tab) {
       // Update the URL property of the retrieved tab using chrome.tabs.update
       const current = await chrome.tabs.update(tab.id, { url: tab.url });
-      console.log("Tab URL updated:", updatedTab);
+      console.log("Tab URL updated:", current);
     } else {
       console.log("Tab not found");
     }
