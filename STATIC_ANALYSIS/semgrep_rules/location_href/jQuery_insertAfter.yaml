@@ -1,0 +1,12 @@
+rules:
+  - id: location_href-jQuery_insertAfter
+    languages: [javascript]
+    message: "Source:location.href;Sink:jQuery.insertAfter"
+    mode: taint
+    pattern-sources:
+      - pattern: location.href
+    pattern-sinks:
+      - patterns:
+        - pattern: "$($X).insertAfter(...)"
+        - focus-metavariable: $X
+    severity: WARNING

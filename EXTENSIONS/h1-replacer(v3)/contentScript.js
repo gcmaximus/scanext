@@ -1,5 +1,6 @@
 // source: window.name
 // *******************
+// console.log(window.url)
 var v = window.name
 var tags = document.getElementsByTagName('h1')
 

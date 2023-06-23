@@ -7,8 +7,8 @@ rules:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "document. ... .innerHTML = $X"
-        - focus-metavariable: $X
+          - pattern: document. ... .innerHTML = $X
+          - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...

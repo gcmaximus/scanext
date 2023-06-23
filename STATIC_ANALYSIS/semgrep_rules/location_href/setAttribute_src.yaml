@@ -1,0 +1,18 @@
+rules:
+  - id: location_href-setAttribute_src
+    languages: [javascript]
+    message: "Source:location.href;Sink:setAttribute('src')"
+    mode: taint
+    pattern-sources:
+      - pattern: location.href
+    pattern-sinks:
+      - patterns:
+        - pattern: "document. ... .setAttribute('src', $X)"
+        - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .setAttribute('src', $X)
+          - focus-metavariable: $X
+    severity: WARNING

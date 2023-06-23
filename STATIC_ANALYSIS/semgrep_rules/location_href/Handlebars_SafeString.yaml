@@ -1,0 +1,12 @@
+rules:
+  - id: location_href-Handlebars_SafeString
+    languages: [javascript]
+    message: "Source:location.href;Sink:Handlebars.SafeString"
+    mode: taint
+    pattern-sources:
+      - pattern: location.href
+    pattern-sinks:
+      - patterns:
+        - pattern: "new Handlebars.SafeString($X)"
+        - focus-metavariable: $X
+    severity: WARNING

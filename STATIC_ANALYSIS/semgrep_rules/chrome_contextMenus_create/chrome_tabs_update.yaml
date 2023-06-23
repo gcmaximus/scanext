@@ -1,0 +1,63 @@
+rules:
+  - id: chrome_contextMenus_create-chrome_tabs_update
+    languages:
+      - javascript
+    message: Source:chrome.contextMenus.create;Sink:chrome_tabs_update
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($INFO, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.contextMenus.create({
+                    onclick: $FUNC
+                  }, ...)
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: $FUNC
+                  }, ...)
+                  ...
+                  function $FUNC($INFO, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: function($INFO, ...) {
+                      ...
+                    }
+                  }, ...)
+              - pattern-inside: |
+                  chrome.contextMenus.create({
+                    onclick: function $FUNC($INFO, ...) {
+                      ...
+                    }
+                  }, ...)
+          - pattern-either:
+              - pattern: $INFO.linkUrl
+              - pattern: $INFO.srcUrl
+              - pattern: $INFO.pageUrl
+              - pattern: $INFO.frameUrl
+              - pattern: $INFO.selectionText
+    pattern-sinks:
+      - patterns:
+          - pattern: |
+              chrome.tabs.update(..., {..., url: $X, ...}, ...)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $X = {..., url:$Y, ...}
+              ...
+              chrome.tabs.update($X, ...)
+          - focus-metavariable:
+              - $Y
+      - patterns:
+          - pattern: |
+              $X = {..., url: $Y, ...}
+              ...
+              chrome.tabs.update($W, $X, ...)
+          - focus-metavariable:
+              - $Y
+    severity: WARNING

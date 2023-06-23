@@ -8,7 +8,7 @@ rules = "STATIC_ANALYSIS/semgrep_rules/window_name"
 # rules = "auto"
 
 # Codes to be scanned
-filename = "STATIC_ANALYSIS/semgrep_rules/location_hash/test_codes/wrap.js"
+filename = "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes"
 # filename = "EXTENSIONS/h1-replacer(v3)"
 # filename = "EXTENSIONS/emailextractor"
 # filename = "EXTENSIONS/google
@@ -26,8 +26,7 @@ def run_semgrep():
         filename,
         "--output",
         output_file,
-        "--json",
-        # "--quiet",  # turn off verbose
+        "--json"
     ]
     try:
         subprocess.run(command, check=True)
