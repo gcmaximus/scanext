@@ -141,3 +141,92 @@ def location_href(driver, abs_path, url_path, payloads):
 
 
 initialize('Extensions/h1-replacer/h1-replacer(v3)_location.href')
+
+
+def button_input_paradox():
+    from bs4 import BeautifulSoup
+    def hierarchy_method():
+        id_of_button = 'replaceButton'
+        id_of_input = 'replacementInput'
+        id_of_fakeButton = 'fakeButton'
+
+
+        buttons = [id_of_button,id_of_fakeButton]
+        buttons = [id_of_fakeButton,id_of_button]
+
+        # input = [id_of_input]
+
+        def find_associated_button(input, buttons, html_source):
+
+            # Locate the input field using BeautifulSoup
+            soup = BeautifulSoup(html_source, 'html.parser')
+        
+            for button_id in buttons:
+                button = soup.find('button', id=button_id)
+                if has_common_parent(input, button_id, html_source):
+                    button_id = button.get('id')
+                    return button_id
+                
+            # No associated button found
+            return None
+
+        def has_common_parent(input_field, button, html_source):
+            soup = BeautifulSoup(html_source, 'html.parser')
+            input_element = soup.find(id=input_field)
+            button_element = soup.find(id=button)
+
+            if (input_element.parent == button_element.parent):
+                return True
+            
+            return False
+
+
+        with open('Extensions/h1-replacer/h1-replacer_testing/popup.html', 'r') as file:
+            html_source = file.read()
+
+    
+        associated_button_id = find_associated_button(id_of_input, buttons, html_source)
+        print(associated_button_id)
+
+
+    def button_proximity_v2():
+        # Assuming 'html_source_code' contains the HTML source code
+        with open('Extensions/h1-replacer/h1-replacer_testing/popup.html', 'r') as file:
+            html_source = file.read()
+        soup = BeautifulSoup(html_source, 'html.parser')
+
+        # Assuming 'input_field_id' contains the ID of the input field
+        input_field = soup.find('input', id='replacementInput')
+
+        # Assuming 'button1_id' and 'button2_id' contain the IDs of the two buttons
+        button1 = soup.find('button', id='fakeButton')
+        button2 = soup.find('button', id='replaceButton')
+
+        # Get the position of the input field and each button in the HTML document
+        input_field_position = input_field.sourceline
+        button1_position = button1.sourceline
+        button2_position = button2.sourceline
+
+        # Calculate the distance between the input field and each button based on their positions
+        distance_button1 = abs(button1_position - input_field_position)
+        distance_button2 = abs(button2_position - input_field_position)
+
+        # Determine the nearest button
+        nearest_button = button1 if distance_button1 < distance_button2 else button2
+
+        # Print the ID of the nearest button
+        print("Nearest Button:", nearest_button['id'])
+
+
+
+
+    print('button_proximity')
+    button_proximity_v2()
+    print('button_proximity')
+
+    print()
+    print('button heirachy')
+    hierarchy_method()
+    print('button heirachy')
+
+
