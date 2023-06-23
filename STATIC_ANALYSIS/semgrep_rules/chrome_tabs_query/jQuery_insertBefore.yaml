@@ -1,0 +1,12 @@
+rules:
+  - id: chrome_tabs_query-jQuery_insertBefore
+    languages: [javascript]
+    message: "Source:chrome.tabs.query;Sink:jQuery.insertBefore"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.query
+    pattern-sinks:
+      - patterns:
+        - pattern: "$($X).insertBefore(...)"
+        - focus-metavariable: $X
+    severity: WARNING

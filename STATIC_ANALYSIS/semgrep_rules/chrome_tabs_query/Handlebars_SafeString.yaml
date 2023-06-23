@@ -1,0 +1,12 @@
+rules:
+  - id: chrome_tabs_query-Handlebars_SafeString
+    languages: [javascript]
+    message: "Source:chrome.tabs.query;Sink:Handlebars.SafeString"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.query
+    pattern-sinks:
+      - patterns:
+        - pattern: "new Handlebars.SafeString($X)"
+        - focus-metavariable: $X
+    severity: WARNING

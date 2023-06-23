@@ -1,10 +1,11 @@
 rules:
-  - id: location_href-chrome_tabs_update
-    languages: [javascript]
-    message: "Source:location.href;Sink:chrome.tabs.update"
+  - id: chrome_tabs_query-chrome_tabs_update
+    languages:
+      - javascript
+    message: Source:chrome.tabs.query;Sink:chrome.tabs.update
     mode: taint
     pattern-sources:
-      - pattern: location.href
+      - pattern: chrome.tabs.query({...})
     pattern-sinks:
       - patterns:
           - pattern: |

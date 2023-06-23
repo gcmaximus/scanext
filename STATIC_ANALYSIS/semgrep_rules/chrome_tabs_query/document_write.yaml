@@ -1,0 +1,13 @@
+rules:
+  - id: chrome_tabs_query-document_write
+    languages: [javascript]
+    message: "Source:chrome.tabs.query;Sink:document.write"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.query
+    pattern-sinks:
+      - pattern: "document.write($X)"
+      - patterns:
+        - pattern: "... .document.write($X)"
+        - focus-metavariable: $X
+    severity: WARNING
