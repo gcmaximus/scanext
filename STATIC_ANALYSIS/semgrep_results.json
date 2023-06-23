@@ -3,321 +3,149 @@
     "paths": {
         "_comment": "<add --verbose for a list of skipped paths>",
         "scanned": [
-            "chrome_runtime_onConnect/test_codes/innerHTML.js",
-            "chrome_runtime_onConnect/test_codes/outerHTML.js"
+            "chrome_tabs_query/test_codes/vuln.js"
         ]
     },
     "results": [
         {
-            "check_id": "chrome_runtime_onConnect.chrome_runtime_onConnect-outerHTML",
+            "check_id": "chrome_tabs_query.chrome_tabs_query-chrome_tabs_update",
             "end": {
-                "col": 61,
+                "col": 59,
                 "line": 6,
-                "offset": 331
+                "offset": 236
             },
             "extra": {
                 "dataflow_trace": {
-                    "taint_sink": [
-                        "CliLoc",
-                        [
-                            {
+                    "intermediate_vars": [
+                        {
+                            "content": "tabs",
+                            "location": {
                                 "end": {
-                                    "col": 61,
-                                    "line": 6,
-                                    "offset": 331
-                                },
-                                "path": "chrome_runtime_onConnect/test_codes/outerHTML.js",
-                                "start": {
-                                    "col": 9,
-                                    "line": 6,
-                                    "offset": 279
-                                }
-                            },
-                            "document.body.outerHTML = '<h1>' + message + '</h1>'"
-                        ]
-                    ],
-                    "taint_source": [
-                        "CliLoc",
-                        [
-                            {
-                                "end": {
-                                    "col": 6,
-                                    "line": 12,
-                                    "offset": 464
-                                },
-                                "path": "chrome_runtime_onConnect/test_codes/outerHTML.js",
-                                "start": {
-                                    "col": 1,
+                                    "col": 13,
                                     "line": 2,
-                                    "offset": 80
-                                }
-                            },
-                            "chrome.runtime.onConnect.addListener(function(port) {\n    if (port.name === 'contentScript') {\n      port.onMessage.addListener(function(message) {\n        // Update the web page's outerHTML\n        document.body.outerHTML = '<h1>' + message + '</h1>';\n      });\n      \n      // Send a message to the content script\n      port.postMessage('Hello from background script!');\n    }\n  });"
-                        ]
-                    ]
-                },
-                "engine_kind": "OSS",
-                "fingerprint": "2b0cddd307ce3182e689b4f04b5e15bb5bccb24c5cbbf2611252e36d24ce016ef22819605ad6ad652e8c445d72e2e61b3caefdbe586907a410a09b409beff3e3_0",
-                "is_ignored": false,
-                "lines": "        document.body.outerHTML = '<h1>' + message + '</h1>';",
-                "message": "Source:chrome.runtime.onConnect;Sink:outerHTML",
-                "metadata": {},
-                "metavars": {
-                    "$OBJ": {
-                        "abstract_content": "document.body",
-                        "end": {
-                            "col": 22,
-                            "line": 6,
-                            "offset": 292
-                        },
-                        "start": {
-                            "col": 9,
-                            "line": 6,
-                            "offset": 279
-                        }
-                    }
-                },
-                "severity": "WARNING"
-            },
-            "path": "chrome_runtime_onConnect/test_codes/outerHTML.js",
-            "start": {
-                "col": 9,
-                "line": 6,
-                "offset": 279
-            }
-        },
-        {
-            "check_id": "chrome_runtime_onConnect.chrome_runtime_onConnect-outerHTML",
-            "end": {
-                "col": 61,
-                "line": 19,
-                "offset": 815
-            },
-            "extra": {
-                "dataflow_trace": {
-                    "taint_sink": [
-                        "CliLoc",
-                        [
-                            {
-                                "end": {
-                                    "col": 61,
-                                    "line": 19,
-                                    "offset": 815
+                                    "offset": 51
                                 },
-                                "path": "chrome_runtime_onConnect/test_codes/outerHTML.js",
+                                "path": "chrome_tabs_query/test_codes/vuln.js",
                                 "start": {
                                     "col": 9,
-                                    "line": 19,
-                                    "offset": 763
+                                    "line": 2,
+                                    "offset": 47
                                 }
-                            },
-                            "document.body.outerHTML = '<h1>' + message + '</h1>'"
-                        ]
-                    ],
-                    "taint_source": [
-                        "CliLoc",
-                        [
-                            {
+                            }
+                        },
+                        {
+                            "content": "tabUrl",
+                            "location": {
                                 "end": {
-                                    "col": 6,
-                                    "line": 25,
-                                    "offset": 959
+                                    "col": 9,
+                                    "line": 3,
+                                    "offset": 105
                                 },
-                                "path": "chrome_runtime_onConnect/test_codes/outerHTML.js",
+                                "path": "chrome_tabs_query/test_codes/vuln.js",
                                 "start": {
                                     "col": 3,
-                                    "line": 15,
-                                    "offset": 572
+                                    "line": 3,
+                                    "offset": 99
                                 }
-                            },
-                            "chrome.runtime.onConnect.addListener(function(port) {\n    if (port.name === 'popup') {\n      port.onMessage.addListener(function(message) {\n        // Update the web page's outerHTML\n        document.body.outerHTML = '<h1>' + message + '</h1>';\n      });\n      \n      // Send a message to the popup script\n      port.postMessage('Message received in the background script!');\n    }\n  });"
-                        ]
-                    ]
-                },
-                "engine_kind": "OSS",
-                "fingerprint": "2b0cddd307ce3182e689b4f04b5e15bb5bccb24c5cbbf2611252e36d24ce016ef22819605ad6ad652e8c445d72e2e61b3caefdbe586907a410a09b409beff3e3_1",
-                "is_ignored": false,
-                "lines": "        document.body.outerHTML = '<h1>' + message + '</h1>';",
-                "message": "Source:chrome.runtime.onConnect;Sink:outerHTML",
-                "metadata": {},
-                "metavars": {
-                    "$OBJ": {
-                        "abstract_content": "document.body",
-                        "end": {
-                            "col": 22,
-                            "line": 19,
-                            "offset": 776
+                            }
                         },
-                        "start": {
-                            "col": 9,
-                            "line": 19,
-                            "offset": 763
-                        }
-                    }
-                },
-                "severity": "WARNING"
-            },
-            "path": "chrome_runtime_onConnect/test_codes/outerHTML.js",
-            "start": {
-                "col": 9,
-                "line": 19,
-                "offset": 763
-            }
-        },
-        {
-            "check_id": "chrome_runtime_onConnect.chrome_runtime_onConnect-innerHTML",
-            "end": {
-                "col": 61,
-                "line": 6,
-                "offset": 331
-            },
-            "extra": {
-                "dataflow_trace": {
-                    "taint_sink": [
-                        "CliLoc",
-                        [
-                            {
+                        {
+                            "content": "tabUrl_new",
+                            "location": {
                                 "end": {
-                                    "col": 61,
-                                    "line": 6,
-                                    "offset": 331
+                                    "col": 13,
+                                    "line": 4,
+                                    "offset": 132
                                 },
-                                "path": "chrome_runtime_onConnect/test_codes/innerHTML.js",
-                                "start": {
-                                    "col": 9,
-                                    "line": 6,
-                                    "offset": 279
-                                }
-                            },
-                            "document.body.innerHTML = '<h1>' + message + '</h1>'"
-                        ]
-                    ],
-                    "taint_source": [
-                        "CliLoc",
-                        [
-                            {
-                                "end": {
-                                    "col": 6,
-                                    "line": 12,
-                                    "offset": 464
-                                },
-                                "path": "chrome_runtime_onConnect/test_codes/innerHTML.js",
-                                "start": {
-                                    "col": 1,
-                                    "line": 2,
-                                    "offset": 80
-                                }
-                            },
-                            "chrome.runtime.onConnect.addListener(function(port) {\n    if (port.name === 'contentScript') {\n      port.onMessage.addListener(function(message) {\n        // Update the web page's innerHTML\n        document.body.innerHTML = '<h1>' + message + '</h1>';\n      });\n      \n      // Send a message to the content script\n      port.postMessage('Hello from background script!');\n    }\n  });"
-                        ]
-                    ]
-                },
-                "engine_kind": "OSS",
-                "fingerprint": "eba60871113e1ad80d876ef65db2d9b3acacd65cc22b24e83f46c21c4c0a7597dceb49080bb6751ad426581f53cfb9ffd50f6805ee352286a76b88594c91b241_0",
-                "is_ignored": false,
-                "lines": "        document.body.innerHTML = '<h1>' + message + '</h1>';",
-                "message": "Source:chrome.runtime.onConnect;Sink:innerHTML",
-                "metadata": {},
-                "metavars": {
-                    "$OBJ": {
-                        "abstract_content": "document.body",
-                        "end": {
-                            "col": 22,
-                            "line": 6,
-                            "offset": 292
-                        },
-                        "start": {
-                            "col": 9,
-                            "line": 6,
-                            "offset": 279
-                        }
-                    }
-                },
-                "severity": "WARNING"
-            },
-            "path": "chrome_runtime_onConnect/test_codes/innerHTML.js",
-            "start": {
-                "col": 9,
-                "line": 6,
-                "offset": 279
-            }
-        },
-        {
-            "check_id": "chrome_runtime_onConnect.chrome_runtime_onConnect-innerHTML",
-            "end": {
-                "col": 61,
-                "line": 19,
-                "offset": 815
-            },
-            "extra": {
-                "dataflow_trace": {
-                    "taint_sink": [
-                        "CliLoc",
-                        [
-                            {
-                                "end": {
-                                    "col": 61,
-                                    "line": 19,
-                                    "offset": 815
-                                },
-                                "path": "chrome_runtime_onConnect/test_codes/innerHTML.js",
-                                "start": {
-                                    "col": 9,
-                                    "line": 19,
-                                    "offset": 763
-                                }
-                            },
-                            "document.body.innerHTML = '<h1>' + message + '</h1>'"
-                        ]
-                    ],
-                    "taint_source": [
-                        "CliLoc",
-                        [
-                            {
-                                "end": {
-                                    "col": 6,
-                                    "line": 25,
-                                    "offset": 959
-                                },
-                                "path": "chrome_runtime_onConnect/test_codes/innerHTML.js",
+                                "path": "chrome_tabs_query/test_codes/vuln.js",
                                 "start": {
                                     "col": 3,
-                                    "line": 15,
-                                    "offset": 572
+                                    "line": 4,
+                                    "offset": 122
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 59,
+                                    "line": 6,
+                                    "offset": 236
+                                },
+                                "path": "chrome_tabs_query/test_codes/vuln.js",
+                                "start": {
+                                    "col": 49,
+                                    "line": 6,
+                                    "offset": 226
                                 }
                             },
-                            "chrome.runtime.onConnect.addListener(function(port) {\n    if (port.name === 'popup') {\n      port.onMessage.addListener(function(message) {\n        // Update the web page's innerHTML\n        document.body.innerHTML = '<h1>' + message + '</h1>';\n      });\n      \n      // Send a message to the popup script\n      port.postMessage('Message received in the background script!');\n    }\n  });"
+                            "tabUrl_new"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 57,
+                                    "line": 2,
+                                    "offset": 95
+                                },
+                                "path": "chrome_tabs_query/test_codes/vuln.js",
+                                "start": {
+                                    "col": 22,
+                                    "line": 2,
+                                    "offset": 60
+                                }
+                            },
+                            "chrome.tabs.query({ active: true })"
                         ]
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "eba60871113e1ad80d876ef65db2d9b3acacd65cc22b24e83f46c21c4c0a7597dceb49080bb6751ad426581f53cfb9ffd50f6805ee352286a76b88594c91b241_1",
+                "fingerprint": "14f7b805584715435a481733388022f4ad8bf772eb01dad974a55c2eb9a091720fed40f5fd6c559d3fd193802ad25ade479fc8da6f246ac09dc87d5cd06cfcf9_0",
                 "is_ignored": false,
-                "lines": "        document.body.innerHTML = '<h1>' + message + '</h1>';",
-                "message": "Source:chrome.runtime.onConnect;Sink:innerHTML",
+                "lines": "    await chrome.tabs.update(tabs[0].id, { url: tabUrl_new });",
+                "message": "Source:chrome.tabs.query;Sink:chrome.tabs.update",
                 "metadata": {},
                 "metavars": {
-                    "$OBJ": {
-                        "abstract_content": "document.body",
+                    "$X": {
+                        "abstract_content": "tabUrl_new",
                         "end": {
-                            "col": 22,
-                            "line": 19,
-                            "offset": 776
+                            "col": 59,
+                            "line": 6,
+                            "offset": 236
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "tabUrl+'?q=123'",
+                            "svalue_end": {
+                                "col": 33,
+                                "line": 4,
+                                "offset": 152
+                            },
+                            "svalue_start": {
+                                "col": 16,
+                                "line": 4,
+                                "offset": 135
+                            }
                         },
                         "start": {
-                            "col": 9,
-                            "line": 19,
-                            "offset": 763
+                            "col": 49,
+                            "line": 6,
+                            "offset": 226
                         }
                     }
                 },
                 "severity": "WARNING"
             },
-            "path": "chrome_runtime_onConnect/test_codes/innerHTML.js",
+            "path": "chrome_tabs_query/test_codes/vuln.js",
             "start": {
-                "col": 9,
-                "line": 19,
-                "offset": 763
+                "col": 49,
+                "line": 6,
+                "offset": 226
             }
         }
     ],
