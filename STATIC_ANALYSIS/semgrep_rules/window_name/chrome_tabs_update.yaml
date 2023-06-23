@@ -1,12 +1,28 @@
 rules:
   - id: window_name-chrome_tabs_update
-    languages: [javascript]
-    message: "Source:window.name;Sink:chrome.tabs.update"
+    languages:
+      - javascript
+    message: Source:window.name;Sink:chrome.tabs.update
     mode: taint
     pattern-sources:
       - pattern: window.name
     pattern-sinks:
       - patterns:
-        - pattern: "chrome.tabs.update({ ..., url: $X })"
-        - focus-metavariable: $X
+          - pattern: |
+              chrome.tabs.update(..., {..., url: $X, ...}, ...)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $X = {..., url:$Y, ...}
+              ...
+              chrome.tabs.update($X, ...)
+          - focus-metavariable:
+            - $Y
+      - patterns:
+          - pattern: |
+              $X = {..., url: $Y, ...}
+              ...
+              chrome.tabs.update($W, $X, ...)
+          - focus-metavariable:
+            - $Y
     severity: WARNING
