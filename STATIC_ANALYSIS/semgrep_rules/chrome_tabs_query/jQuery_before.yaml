@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_tabs_query-jQuery_before
+    languages: [javascript]
+    message: "Source:chrome.tabs.query;Sink:jQuery.before"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.query
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).before($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.before($X)
+        - focus-metavariable: $X
+    severity: WARNING

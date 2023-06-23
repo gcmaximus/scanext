@@ -24,7 +24,7 @@ rules:
     pattern-sinks:
       - patterns:
           - pattern: |
-              new Handlebars.SafeString(...)
+              Handlebars.SafeString(...)
     message: Source:chrome.runtime.onMessage;Sink:Handlebar_SafeString
     languages:
       - js

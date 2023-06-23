@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_tabs_query-jQuery_wrapInner
+    languages: [javascript]
+    message: "Source:chrome.tabs.query;Sink:jQuery.wrapInner"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.query
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).wrapInner($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.wrapInner($X)
+        - focus-metavariable: $X
+    severity: WARNING
