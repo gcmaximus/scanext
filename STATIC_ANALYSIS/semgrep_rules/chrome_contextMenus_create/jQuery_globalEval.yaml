@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-jQuery_globalEval
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:jQuery_globalEval
+    message: Source:chrome.contextMenus.create;Sink:jQuery.globalEval
     mode: taint
     pattern-sources:
       - patterns:
