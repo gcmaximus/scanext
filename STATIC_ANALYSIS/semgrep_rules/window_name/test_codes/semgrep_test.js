@@ -9,7 +9,8 @@ document.getElementById('case1').innerHTML = case1
 // case 2
 var case2 = window.name
 newcase2 = case2 + " "
-document.getElementById('case2').innerHTML = newcase2
+sanitized_case2 = DOMPurify.sanitize(newcase2)
+document.getElementById('case2').innerHTML = sanitized_case2
 
 // case 3
 document.getElementById('case3').innerHTML = window.name

@@ -15,4 +15,6 @@ rules:
               ...
               $Y. ... .innerHTML = $X
           - focus-metavariable: $X
+    pattern-sanitizers:
+      - pattern: DOMPurify.sanitize($X)
     severity: WARNING
