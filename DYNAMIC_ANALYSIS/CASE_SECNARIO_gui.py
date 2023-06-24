@@ -218,16 +218,51 @@ def button_input_paradox():
         print("Nearest Button:", nearest_button['id'])
 
 
+    def prefix_comparison():
+        # Assuming 'html_source_code' contains the HTML source code
+        with open('EXTENSIONS/h1_replacer_test/popup.html', 'r') as file:
+            html_source = file.read()
+        soup = BeautifulSoup(html_source, 'html.parser')
+
+        input_id = "replacementInput" 
+        button_ids = ["replaceButton", "fakeButton"]
+
+        # Create a dictionary to store the common prefix lengths for each button
+        common_prefix_lengths = {}
 
 
-    print('button_proximity')
-    button_proximity_v2()
-    print('button_proximity')
 
-    print()
-    print('button heirachy')
-    hierarchy_method()
-    print('button heirachy')
+        # Compare the prefix of input ID with the button IDs
+        for button_id in button_ids:
+            # Find the common prefix between the input ID and button ID
+            common_prefix = ''
+            for a, b in zip(input_id, button_id):
+                if a != b:
+                    break
+                common_prefix += a
+
+            # Store the length of the common prefix for each button
+            common_prefix_lengths[button_id] = len(common_prefix)
+
+
+        # # [Normal mode]#
+
+        # Find the button ID with the highest common prefix length
+        button_with_highest_prefix = max(common_prefix_lengths, key=common_prefix_lengths.get)
+        print("button_with_highest_prefix: " + button_with_highest_prefix)
+
+        # # [Verbose mode]#
+
+        # # Sort the button IDs based on the common prefix length in descending order
+        # sorted_button_ids = sorted(common_prefix_lengths, key=common_prefix_lengths.get, reverse=True)
+
+        # # Print the sorted button IDs along with their common prefix lengths (rankings)
+        # for rank, button_id in enumerate(sorted_button_ids, start=1):
+        #     common_prefix_length = common_prefix_lengths[button_id]
+        #     print(f"Rank {rank}: Button ID {button_id} (Common Prefix Length: {common_prefix_length})")
+
+            
+    prefix_comparison()
 
 
 button_input_paradox()
