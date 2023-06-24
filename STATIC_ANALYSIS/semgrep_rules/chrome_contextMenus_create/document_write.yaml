@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-document_write
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:document_write
+    message: Source:chrome.contextMenus.create;Sink:document.write
     mode: taint
     pattern-sources:
       - patterns:

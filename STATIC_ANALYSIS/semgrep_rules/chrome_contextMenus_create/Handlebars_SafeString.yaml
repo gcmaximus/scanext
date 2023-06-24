@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-Handlebars_SafeString
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:Handlebars_SafeString
+    message: Source:chrome.contextMenus.create;Sink:Handlebars.SafeString
     mode: taint
     pattern-sources:
       - patterns:

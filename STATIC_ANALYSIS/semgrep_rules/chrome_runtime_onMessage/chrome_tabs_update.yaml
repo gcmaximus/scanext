@@ -26,7 +26,7 @@ rules:
           - pattern-either:
               - pattern: |
                   chrome.tabs.update(..., { ... });
-    message: Source:chrome.runtime.onMessage;Sink:jQuery_chrome_tabs_update
+    message: Source:chrome.runtime.onMessage;Sink:jQuery.chrome.tabs.update
     languages:
       - js
     severity: WARNING
