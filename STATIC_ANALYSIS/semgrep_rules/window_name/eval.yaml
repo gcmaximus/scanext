@@ -1,7 +1,7 @@
 rules:
   - id: window_name-eval
     languages: [javascript]
-    message: "Source:window.name;Sink:eval"
+    message: "Source:window_name;Sink:eval"
     mode: taint
     pattern-sources:
       - pattern: window.name

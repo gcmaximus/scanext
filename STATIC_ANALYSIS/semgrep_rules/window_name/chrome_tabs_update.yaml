@@ -2,7 +2,7 @@ rules:
   - id: window_name-chrome_tabs_update
     languages:
       - javascript
-    message: Source:window.name;Sink:chrome.tabs.update
+    message: Source:window_name;Sink:chrome_tabs_update
     mode: taint
     pattern-sources:
       - pattern: window.name

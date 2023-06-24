@@ -1,7 +1,7 @@
 rules:
   - id: location_href-outerHTML
     languages: [javascript]
-    message: "Source:location.href;Sink:outerHTML"
+    message: "Source:location_href;Sink:outerHTML"
     mode: taint
     pattern-sources:
       - pattern: location.href

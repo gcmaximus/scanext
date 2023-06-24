@@ -73,7 +73,7 @@ $('#hello').innerHTML = window.name
 
 // //**************************************************************/
 
-// // // jQuery.html()
+// // // jQuery_html()
 // // Case 13
 // var case13 = window.name;
 // $("#case13").html(case13);
@@ -88,7 +88,7 @@ $('#hello').innerHTML = window.name
 
 // //**************************************************************/
 
-// // // jQuery.before()
+// // // jQuery_before()
 // // Case 16
 // var case16 = window.name;
 // $("#case16").before(case16);
@@ -331,15 +331,15 @@ $('#hello').innerHTML = window.name
 // // // jQuery globalEval()
 // // Case 64
 // var case64 = window.name;
-// jQuery.globalEval(case64);
+// jQuery_globalEval(case64);
 
 // // Case 65
 // var case65 = window.name;
 // newcase65 = "javascript:" + case65;
-// jQuery.globalEval(newcase65);
+// jQuery_globalEval(newcase65);
 
 // // Case 66
-// jQuery.globalEval("javascript:" + window.name);
+// jQuery_globalEval("javascript:" + window.name);
 
 // //**************************************************************/
 

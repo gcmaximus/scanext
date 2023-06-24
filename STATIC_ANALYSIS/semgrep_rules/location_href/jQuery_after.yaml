@@ -1,7 +1,7 @@
 rules:
   - id: location_href-jQuery_after
     languages: [javascript]
-    message: "Source:location.href;Sink:jQuery.after"
+    message: "Source:location_href;Sink:jQuery_after"
     mode: taint
     pattern-sources:
       - pattern: location.href

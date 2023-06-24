@@ -1,7 +1,7 @@
 rules:
   - id: window_name-jQuery_prepend
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.prepend"
+    message: "Source:window_name;Sink:jQuery_prepend"
     mode: taint
     pattern-sources:
       - pattern: window.name

@@ -1,7 +1,7 @@
 rules:
   - id: window_name-document_writeln
     languages: [javascript]
-    message: "Source:window.name;Sink:document.writeln"
+    message: "Source:window_name;Sink:document_writeln"
     mode: taint
     pattern-sources:
       - pattern: window.name

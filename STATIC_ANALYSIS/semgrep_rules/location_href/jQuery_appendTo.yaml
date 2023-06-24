@@ -1,7 +1,7 @@
 rules:
   - id: location_href-jQuery_appendTo
     languages: [javascript]
-    message: "Source:location.href;Sink:jQuery.appendTo"
+    message: "Source:location_href;Sink:jQuery_appendTo"
     mode: taint
     pattern-sources:
       - pattern: location.href

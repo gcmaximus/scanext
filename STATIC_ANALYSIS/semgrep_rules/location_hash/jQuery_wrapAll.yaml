@@ -1,7 +1,7 @@
 rules:
   - id: location_hash-jQuery_wrapAll
     languages: [javascript]
-    message: "Source:location.hash;Sink:jQuery.wrapAll"
+    message: "Source:location_hash;Sink:jQuery_wrapAll"
     mode: taint
     pattern-sources:
       - pattern: location.hash

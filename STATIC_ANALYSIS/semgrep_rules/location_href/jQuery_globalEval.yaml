@@ -1,7 +1,7 @@
 rules:
   - id: location_href-jQuery_globalEval
     languages: [javascript]
-    message: "Source:location.href;Sink:jQuery.globalEval"
+    message: "Source:location_href;Sink:jQuery_globalEval"
     mode: taint
     pattern-sources:
       - pattern: location.href

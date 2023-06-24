@@ -1,7 +1,7 @@
 rules:
   - id: window_name-setAttribute_src
     languages: [javascript]
-    message: "Source:window.name;Sink:setAttribute('src')"
+    message: "Source:window_name;Sink:setAttribute('src')"
     mode: taint
     pattern-sources:
       - pattern: window.name

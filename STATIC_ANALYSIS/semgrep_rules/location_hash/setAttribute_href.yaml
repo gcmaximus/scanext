@@ -1,7 +1,7 @@
 rules:
   - id: location_hash-setAttribute_href
     languages: [javascript]
-    message: "Source:location.hash;Sink:setAttribute('href')"
+    message: "Source:location_hash;Sink:setAttribute('href')"
     mode: taint
     pattern-sources:
       - pattern: location.hash

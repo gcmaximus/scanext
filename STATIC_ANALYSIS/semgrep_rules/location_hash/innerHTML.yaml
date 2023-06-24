@@ -1,7 +1,7 @@
 rules:
   - id: location_hash-innerHTML
     languages: [javascript]
-    message: "Source:location.hash;Sink:innerHTML"
+    message: "Source:location_hash;Sink:innerHTML"
     mode: taint
     pattern-sources:
       - pattern: location.hash

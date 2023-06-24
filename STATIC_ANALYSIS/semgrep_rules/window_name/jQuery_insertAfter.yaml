@@ -1,7 +1,7 @@
 rules:
   - id: window_name-jQuery_insertAfter
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.insertAfter"
+    message: "Source:window_name;Sink:jQuery_insertAfter"
     mode: taint
     pattern-sources:
       - pattern: window.name

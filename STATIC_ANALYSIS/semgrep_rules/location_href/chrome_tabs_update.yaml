@@ -1,7 +1,7 @@
 rules:
   - id: location_href-chrome_tabs_update
     languages: [javascript]
-    message: "Source:location.href;Sink:chrome.tabs.update"
+    message: "Source:location_href;Sink:chrome_tabs_update"
     mode: taint
     pattern-sources:
       - pattern: location.href

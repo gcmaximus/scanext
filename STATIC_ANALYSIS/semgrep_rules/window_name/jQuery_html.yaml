@@ -1,7 +1,7 @@
 rules:
   - id: window_name-jQuery_html
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.html"
+    message: "Source:window_name;Sink:jQuery_html"
     mode: taint
     pattern-sources:
       - pattern: window.name

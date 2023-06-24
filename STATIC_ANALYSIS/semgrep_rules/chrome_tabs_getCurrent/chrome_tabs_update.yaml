@@ -2,7 +2,7 @@ rules:
   - id: chrome_tabs_getCurrent-chrome_tabs_update
     languages:
       - javascript
-    message: Source:chrome.tabs.getCurrent;Sink:chrome.tabs.update
+    message: Source:chrome_tabs_getCurrent;Sink:chrome_tabs_update
     mode: taint
     pattern-sources:
       - pattern: "chrome.tabs.getCurrent()"

@@ -1,7 +1,7 @@
 rules:
   - id: window_name-outerHTML
     languages: [javascript]
-    message: "Source:window.name;Sink:outerHTML"
+    message: "Source:window_name;Sink:outerHTML"
     mode: taint
     pattern-sources:
       - pattern: window.name

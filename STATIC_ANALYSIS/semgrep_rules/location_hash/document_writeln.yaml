@@ -1,7 +1,7 @@
 rules:
   - id: location_hash-document_writeln
     languages: [javascript]
-    message: "Source:location.hash;Sink:document.writeln"
+    message: "Source:location_hash;Sink:document_writeln"
     mode: taint
     pattern-sources:
       - pattern: location.hash

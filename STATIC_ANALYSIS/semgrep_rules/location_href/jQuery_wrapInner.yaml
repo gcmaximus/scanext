@@ -1,7 +1,7 @@
 rules:
   - id: location_href-jQuery_wrapInner
     languages: [javascript]
-    message: "Source:location.href;Sink:jQuery.wrapInner"
+    message: "Source:location_href;Sink:jQuery_wrapInner"
     mode: taint
     pattern-sources:
       - pattern: location.href

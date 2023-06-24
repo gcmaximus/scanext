@@ -1,7 +1,7 @@
 rules:
   - id: location_hash-chrome_tabs_update
     languages: [javascript]
-    message: "Source:location.hash;Sink:chrome.tabs.update"
+    message: "Source:location_hash;Sink:chrome_tabs_update"
     mode: taint
     pattern-sources:
       - pattern: location.hash

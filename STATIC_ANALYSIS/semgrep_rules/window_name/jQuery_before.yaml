@@ -1,7 +1,7 @@
 rules:
   - id: window_name-jQuery_before
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.before"
+    message: "Source:window_name;Sink:jQuery_before"
     mode: taint
     pattern-sources:
       - pattern: window.name

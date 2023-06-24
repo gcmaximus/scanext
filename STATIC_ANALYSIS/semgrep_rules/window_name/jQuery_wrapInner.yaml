@@ -1,7 +1,7 @@
 rules:
   - id: window_name-jQuery_wrapInner
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.wrapInner"
+    message: "Source:window_name;Sink:jQuery_wrapInner"
     mode: taint
     pattern-sources:
       - pattern: window.name

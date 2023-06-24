@@ -1,7 +1,7 @@
 rules:
   - id: location_href-jQuery_html
     languages: [javascript]
-    message: "Source:location.href;Sink:jQuery.html"
+    message: "Source:location_href;Sink:jQuery_html"
     mode: taint
     pattern-sources:
       - pattern: location.href

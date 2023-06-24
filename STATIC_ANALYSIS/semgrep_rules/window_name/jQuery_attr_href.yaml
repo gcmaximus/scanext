@@ -1,7 +1,7 @@
 rules:
   - id: window_name-jQuery_attr_href
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.attr('href')"
+    message: "Source:window_name;Sink:jQuery_attr('href')"
     mode: taint
     pattern-sources:
       - pattern: window.name

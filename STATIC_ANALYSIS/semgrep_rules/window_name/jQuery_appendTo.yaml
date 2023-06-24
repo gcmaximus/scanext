@@ -1,7 +1,7 @@
 rules:
   - id: window_name-jQuery_appendTo
     languages: [javascript]
-    message: "Source:window.name;Sink:jQuery.appendTo"
+    message: "Source:window_name;Sink:jQuery_appendTo"
     mode: taint
     pattern-sources:
       - pattern: window.name

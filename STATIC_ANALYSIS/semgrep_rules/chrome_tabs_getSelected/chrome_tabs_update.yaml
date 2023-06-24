@@ -2,7 +2,7 @@ rules:
   - id: chrome_tabs_getSelected-chrome_tabs_update
     languages:
       - javascript
-    message: Source:chrome.tabs.getSelected;Sink:chrome.tabs.update
+    message: Source:chrome_tabs_getSelected;Sink:chrome_tabs_update
     mode: taint
     pattern-sources:
       - pattern: chrome.tabs.getSelected($WINDOW_ID)
