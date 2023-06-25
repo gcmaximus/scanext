@@ -63,7 +63,7 @@ def f(extid, payload, ssm, msgvar):
                 sourcel = source.split(dots)
                 obj = {sourcel[1]:payload}
             else:
-                obj = {source:payload}
+                obj = {payload}
         else:
             endvarindex = taintsink.find(")",msgindex)
             source = taintsink[varindex,endvarindex-1]
@@ -71,7 +71,7 @@ def f(extid, payload, ssm, msgvar):
                 sourcel = source.split(dots)
                 obj = {sourcel[1]:payload}
             else:
-                obj = {source:payload}
+                obj = {payload}
     
     script = f'chrome.runtime.sendMessage({extid},{obj})'
 
