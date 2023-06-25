@@ -1,0 +1,32 @@
+{
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/Handlebar_SafeString.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/chrome_tabs_update.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/document_write.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/document_writeln.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/innerHTML.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery.append.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_after.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_appendTo.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_attr_href.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_before.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_globalEval.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_html.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_insertAfter.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_insertBefore.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_prepend.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_prependTo.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_setAttribute.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_setAttribute_href.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrap.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrapAll.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrapInner.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/outerHTML.js"
+        ]
+    },
+    "error": {
+        "active": true
+    }
+}

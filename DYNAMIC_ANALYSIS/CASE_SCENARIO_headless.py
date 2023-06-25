@@ -48,23 +48,25 @@ def f(extid, payload, ssm, msgvar):
         sink_split = message.split(underscore)
         sink = sink_split[-1]
     
-    varindex = message.find(sink+"(") + sink.__len__() + 1
+    taintsink = ssm["sink"]
+    
+    varindex = taintsink.find(sink+"(") + sink.__len__() + 1
     for i in msgvar:
-        msgindex = message.find(i)
+        msgindex = taintsink.find(i)
         if msgindex == -1:
             continue
         elif varindex == msgindex:
             #source is here
-            endvarindex = message.find(")",varindex)
-            source = message[varindex,endvarindex-1]
+            endvarindex = taintsink.find(")",varindex)
+            source = taintsink[varindex,endvarindex-1]
             if dots in source:
                 sourcel = source.split(dots)
                 obj = {sourcel[1]:payload}
             else:
                 obj = {source:payload}
         else:
-            endvarindex = message.find(")",msgindex)
-            source = message[varindex,endvarindex-1]
+            endvarindex = taintsink.find(")",msgindex)
+            source = taintsink[varindex,endvarindex-1]
             if dots in source:
                 sourcel = source.split(dots)
                 obj = {sourcel[1]:payload}
