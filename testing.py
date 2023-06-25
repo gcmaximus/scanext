@@ -35,9 +35,43 @@ for i in data:
         taint["sink"] = taint_sink
         tainted.append(taint)
 
-def f(extid, payload, msgvar):
+def f(extid, payload, ssm, msgvar):
 
-    script = f'chrome.runtime.sendMessage({extid},)'
+    htmltag = '$('
+    dots = '.'
+    underscore = '_'
+    message = ssm["message"]
+    if dots in message:
+        sink_split = message.split(dots)
+        sink = sink_split[-1]
+    elif underscore in message:
+        sink_split = message.split(underscore)
+        sink = sink_split[-1]
+    
+    varindex = message.find(sink+"(") + sink.__len__() + 1
+    for i in msgvar:
+        msgindex = message.find(i)
+        if msgindex == -1:
+            continue
+        elif varindex == msgindex:
+            #source is here
+            endvarindex = message.find(")",varindex)
+            source = message[varindex,endvarindex-1]
+            if dots in source:
+                sourcel = source.split(dots)
+                obj = {sourcel[1]:payload}
+            else:
+                obj = {source:payload}
+        else:
+            endvarindex = message.find(")",msgindex)
+            source = message[varindex,endvarindex-1]
+            if dots in source:
+                sourcel = source.split(dots)
+                obj = {sourcel[1]:payload}
+            else:
+                obj = {source:payload}
+    
+    script = f'chrome.runtime.sendMessage({extid},{obj})'
 
 # import os
 # import fileinput
