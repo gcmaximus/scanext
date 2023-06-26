@@ -9,7 +9,7 @@ A Final Year Project completed by 6 SP students.
 <br><br>
 <b>Semgrep</b> is utilised for static analysis of the extension's source code, identifying vulnerabilities in the code using taint analysis that attackers could exploit.
 <br><br>
-<b>Selenium</b> is utilised for dynamic analysis, where payloads will be automatically injected into the vulnerable code segments. Payloads which execute successfully provides 100% confirmation that the flagged code segment is vulnerable to XSS.
+<b>Selenium</b> is utilised for dynamic analysis, where payloads are automatically injected into the vulnerable code segments. Payloads which execute successfully provides 100% confirmation that the flagged code segment is vulnerable to XSS.
 
 
 ## Usage
