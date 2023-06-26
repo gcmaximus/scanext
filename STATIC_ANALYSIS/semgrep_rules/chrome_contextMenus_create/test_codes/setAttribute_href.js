@@ -122,8 +122,7 @@ chrome.contextMenus.create(
             x = n.frameUrl; 
             document.getElementById("f").setAttribute("href", x); // Expect 1 match here
 
-            x = n.selectionText; 
-            document.write(`a${x}`);
+            x = n.selectionText;
             document.getElementById("f").setAttribute("href", x); // Expect 1 match here
             console.log();
         },
