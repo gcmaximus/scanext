@@ -1,7 +1,7 @@
 # ScanExt
 ![alt text](https://github.com/gcmaximus/chrome-ext-scanner/blob/main/logo.png?raw=true) 
 <br><br>
-A Final Year Project completed by FYP Group 9, consisting of 6 SP students.
+A Final Year Project completed by 6 SP students.
 <br><br>
 <b>ScanExt</b> is an open-source Chrome extension scanner which automatically detects XSS vulnerabilities in Chrome extensions using Manifest V3. Static and dynamic analysis techniques are used by ScanExt.
 <br><br>
