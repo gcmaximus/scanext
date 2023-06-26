@@ -8,20 +8,20 @@ rules:
     pattern-sinks:
       - patterns:
           - pattern: |
-              chrome.tabs.update(..., {..., url: $X, ...}, ...)
+              chrome.tabs.update(..., {url: $X}, ...)
           - focus-metavariable: $X
       - patterns:
           - pattern: |
-              $X = {..., url:$Y, ...}
+              $X = {url:$Y}
               ...
               chrome.tabs.update($X, ...)
           - focus-metavariable:
-            - $Y
+              - $Y
       - patterns:
           - pattern: |
-              $X = {..., url: $Y, ...}
+              $X = {url: $Y}
               ...
               chrome.tabs.update($W, $X, ...)
           - focus-metavariable:
-            - $Y
+              - $Y
     severity: WARNING
