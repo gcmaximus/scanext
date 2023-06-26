@@ -16,10 +16,16 @@ Selenium is utilised for dynamic analysis, where payloads will be automatically 
 There are 2 ways of running the tool:
 1. Build and run on docker
 
-```docker build . -t <name>```
+```
+docker build . -t <name>
+```
 
-```docker run <name>```
+```
+docker run <name>
+```
 
 2. Run main python program directly
 
-```py main.py```
+```
+py main.py
+```
