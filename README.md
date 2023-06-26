@@ -9,5 +9,5 @@ Semgrep is utilised for static analysis of the extension's source code, identify
 <br><br>
 Selenium is utilised for dynamic analysis, where payloads will be automatically injected into the vulnerable code segments. Payloads which execute successfully provides 100% confirmation that the flagged code segment is vulnerable to XSS.
 <br><br>
-<i>Scan your extension, Free your tension.</i>
+<i>~ Scan your extension, Free your tension.</i>
 
