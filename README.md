@@ -7,9 +7,9 @@ A Final Year Project completed by 6 SP students.
 ## What is ScanExt?
 <b>ScanExt</b> is an open-source Chrome extension scanner which automatically detects XSS vulnerabilities in Chrome extensions using Manifest V3. Static and dynamic analysis techniques are used by ScanExt.
 <br><br>
-Semgrep is utilised for static analysis of the extension's source code, identifying vulnerabilities in the code using taint analysis that attackers could exploit.
+<b>Semgrep</b> is utilised for static analysis of the extension's source code, identifying vulnerabilities in the code using taint analysis that attackers could exploit.
 <br><br>
-Selenium is utilised for dynamic analysis, where payloads will be automatically injected into the vulnerable code segments. Payloads which execute successfully provides 100% confirmation that the flagged code segment is vulnerable to XSS.
+<b>Selenium</b> is utilised for dynamic analysis, where payloads will be automatically injected into the vulnerable code segments. Payloads which execute successfully provides 100% confirmation that the flagged code segment is vulnerable to XSS.
 
 
 ## Usage
