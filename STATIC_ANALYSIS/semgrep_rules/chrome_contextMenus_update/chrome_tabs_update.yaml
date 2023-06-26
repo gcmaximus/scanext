@@ -1,8 +1,8 @@
 rules:
-  - id: chrome_contextMenus_create-chrome_tabs_update
+  - id: chrome_contextMenus_update-chrome_tabs_update
     languages:
       - javascript
-    message: Source:chrome_contextMenus_create;Sink:chrome_tabs_update
+    message: Source:chrome_contextMenus_update;Sink:chrome_tabs_update
     mode: taint
     pattern-sources:
       - patterns:
@@ -12,11 +12,11 @@ rules:
                     ...
                   }
                   ...
-                  chrome.contextMenus.create({
+                  chrome.contextMenus.update({
                     onclick: $FUNC
                   }, ...)
               - pattern-inside: |
-                  chrome.contextMenus.create({
+                  chrome.contextMenus.update({
                     onclick: $FUNC
                   }, ...)
                   ...
@@ -24,13 +24,13 @@ rules:
                     ...
                   }
               - pattern-inside: |
-                  chrome.contextMenus.create({
+                  chrome.contextMenus.update({
                     onclick: function($INFO, ...) {
                       ...
                     }
                   }, ...)
               - pattern-inside: |
-                  chrome.contextMenus.create({
+                  chrome.contextMenus.update({
                     onclick: function $FUNC($INFO, ...) {
                       ...
                     }

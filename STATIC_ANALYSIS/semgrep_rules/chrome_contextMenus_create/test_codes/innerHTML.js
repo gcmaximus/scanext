@@ -123,7 +123,6 @@ chrome.contextMenus.create(
             document.getElementById("f").innerHTML = x; // Expect 1 match here
 
             x = n.selectionText; 
-            document.write(`a${x}`);
             document.getElementById("f").innerHTML = x; // Expect 1 match here
             console.log();
         },

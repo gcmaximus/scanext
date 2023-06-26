@@ -163,8 +163,6 @@ chrome.contextMenus.create(
             x = n.selectionText;
             $(x).insertAfter('f'); // Expect 1 match here
             console.log();
-
-            $(x).insertAfter("f");
         },
         test2: "sdfs",
     },
