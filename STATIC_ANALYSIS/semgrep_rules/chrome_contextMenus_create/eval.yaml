@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-eval
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:eval
+    message: Source:chrome_contextMenus_create;Sink:eval
     mode: taint
     pattern-sources:
       - patterns:

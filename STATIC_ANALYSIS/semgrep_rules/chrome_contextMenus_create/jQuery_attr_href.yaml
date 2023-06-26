@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-attr_href
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:attr_href
+    message: Source:chrome_contextMenus_create;Sink:attr_href
     mode: taint
     pattern-sources:
       - patterns:
