@@ -1,5 +1,6 @@
 # ScanExt
 ![alt text](https://github.com/gcmaximus/chrome-ext-scanner/blob/main/logo.png?raw=true) 
+<i>~ Scan your extension, Free your tension.</i>
 <br><br>
 A Final Year Project completed by 6 SP students.
 <br><br>
@@ -9,8 +10,7 @@ A Final Year Project completed by 6 SP students.
 Semgrep is utilised for static analysis of the extension's source code, identifying vulnerabilities in the code using taint analysis that attackers could exploit.
 <br><br>
 Selenium is utilised for dynamic analysis, where payloads will be automatically injected into the vulnerable code segments. Payloads which execute successfully provides 100% confirmation that the flagged code segment is vulnerable to XSS.
-<br><br>
-<i>~ Scan your extension, Free your tension.</i>
+
 
 ## Usage
 There are 2 ways of running ScanExt:
