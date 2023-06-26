@@ -1,8 +1,8 @@
 rules:
-  - id: chrome_contextMenus_create-jQuery_append 
+  - id: chrome_contextMenus_create-jQuery_append
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:jQuery.append
+    message: Source:chrome_contextMenus_create;Sink:jQuery_append
     mode: taint
     pattern-sources:
       - patterns:

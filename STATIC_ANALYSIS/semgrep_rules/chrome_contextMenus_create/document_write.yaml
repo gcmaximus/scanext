@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-document_write
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:document.write
+    message: Source:chrome_contextMenus_create;Sink:document_write
     mode: taint
     pattern-sources:
       - patterns:
@@ -43,7 +43,7 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - pattern: document.write($X)
-      - patterns: 
-        - pattern: ... .document.write($X)
-        - focus-metavariable: $X
+      - patterns:
+          - pattern: ... .document.write($X)
+          - focus-metavariable: $X
     severity: WARNING

@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-chrome_tabs_update
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:chrome.tabs.update
+    message: Source:chrome_contextMenus_create;Sink:chrome_tabs_update
     mode: taint
     pattern-sources:
       - patterns:

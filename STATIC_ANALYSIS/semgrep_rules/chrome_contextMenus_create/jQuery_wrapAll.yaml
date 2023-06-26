@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-jQuery_wrapAll
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:jQuery.wrapAll
+    message: Source:chrome_contextMenus_create;Sink:jQuery_wrapAll
     mode: taint
     pattern-sources:
       - patterns:

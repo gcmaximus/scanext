@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-setAttribute_src
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:setAttribute_src
+    message: Source:chrome_contextMenus_create;Sink:setAttribute_src
     mode: taint
     pattern-sources:
       - patterns:

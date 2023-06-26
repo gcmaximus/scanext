@@ -1,0 +1,22 @@
+rules:
+  - id: chrome_runtime_onConnect-chrome_tabs_update
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern: |
+              chrome.runtime.onConnect.addListener(function($X) {
+                ...
+                $X.onMessage.addListener(function($Y){
+                  ...
+                })
+              });
+          - focus-metavariable: $Y
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  chrome.tabs.update($Y, { ... });
+    message: Source:chrome_runtime_onConnect;Sink:jQuery_chrome_tabs_update
+    languages:
+      - js
+    severity: WARNING
