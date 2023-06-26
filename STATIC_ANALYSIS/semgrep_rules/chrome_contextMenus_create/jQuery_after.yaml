@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-jQuery_after
     languages:
       - javascript
-    message: Source:chrome_contextMenus_create;Sink:jQuery.after
+    message: Source:chrome_contextMenus_create;Sink:jQuery_after
     mode: taint
     pattern-sources:
       - patterns:
