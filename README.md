@@ -16,13 +16,9 @@ Selenium is utilised for dynamic analysis, where payloads will be automatically 
 There are 2 ways of running ScanExt:
 1. Build and run on docker
 
-Build the docker image from Dockerfile.
+
 ```
 docker build . -t <name>
-```
-
-Run the docker image.
-```
 docker run <name>
 ```
 
