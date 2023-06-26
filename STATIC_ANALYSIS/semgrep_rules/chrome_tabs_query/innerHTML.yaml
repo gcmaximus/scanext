@@ -1,0 +1,61 @@
+rules:
+  - id: chrome_tabs_query-chrome_tabs_update
+    languages:
+      - javascript
+    message: Source:chrome_tabs_query;Sink:chrome_tabs_update
+    mode: taint
+    pattern-sources:
+      - patterns:
+        - pattern: |
+            function $TAB_FUNC() {
+              ...
+              $X = chrome.tabs.query({...})
+              ...
+            }
+        - focus-metavariable: $X
+    pattern-sinks:
+      - patterns:
+        - pattern: |
+              document. ... .innerHTML = $X
+        - focus-metavariable: $TAB
+      - patterns:
+        - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .innerHTML = $X
+        - focus-metavariable: $X
+
+    pattern-propagators:
+      - patterns:
+        - pattern: |
+            function $FUNC($Y) {...}
+            ...
+            $TAB_FUNC().then(($X) => {
+              chrome.scripting.executeScript({
+                target: ...,
+                func: $FUNC,
+                args: [$X],
+              })
+            })
+          from: $X
+          to: $Y
+      - patterns:
+        - pattern: |
+            function $FUNC_TAB() {
+              ...
+              $X = chrome.tabs.query({...})
+              ...
+            }
+            ...
+            $FUNC_TAB().then(($Z) => {
+              chrome.scripting.executeScript({
+                target: ...,
+                func: $FUNC,
+                args: [$Z],
+              })
+            })
+          from: $X
+          to: $Z
+
+
+    severity: WARNING
