@@ -17,7 +17,7 @@ tainted = []
 other_vars = []
 
 for i in data:
-    if "html-inputs-and-buttons" not in i["check_id"]:
+    if "chrome_runtime_onMessage" in i["check_id"]:
         taint = {}
         taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
         taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
@@ -26,22 +26,53 @@ for i in data:
             metavars.append(j["content"])
         other_vars.append({"content":metavars})
         message = i["extra"]["message"]
-        # print(f'Message: {message}')
-        # pprint.pprint(f'Source: {taint_source}')
-        # print(f'Sink: {taint_sink}')
-        # time.sleep(3)
+        taint["message"] = message
+        taint["source"] = taint_source
+        taint["sink"] = taint_sink
+        tainted.append(taint)
+    if "chrome_runtime_onConnect" in i["check_id"]:
+        taint = {}
+        taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
+        taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
+        metavars = []
+        if i["extra"]["metavars"]["$OBJ"]:
+            metavars.append(i["extra"]["metavars"]["$OBJ"]["abstract_content"])
+        if i["extra"]["metavars"]["$X"]:
+            metavars.append(i["extra"]["metavars"]["$X"]["abstract_content"])
+        other_vars.append({"content":metavars})
+        message = i["extra"]["message"]
         taint["message"] = message
         taint["source"] = taint_source
         taint["sink"] = taint_sink
         tainted.append(taint)
 
-def f(extid, payload, ssm, msgvar):
-
-    htmltag = '$('
+def runtime_onC(extid, payload, ssm, msgvar):
+    html = 'rHTML'
     dots = '.'
     underscore = '_'
     message = ssm["message"]
-    if dots in message:
+    if html in message:
+        sink_split = message.split("Sink:")
+        sink = sink_split[-1]
+    
+    taintsink = ssm["sink"]
+    taintsource = ssm["source"]
+    x = msgvar[1]
+    varfirst = taintsource.find(x)
+
+
+    script = f'chrome.runtime.onConnect({extid},)'
+
+def runtime_onM(extid, payload, ssm, msgvar):
+
+    html = 'rHTML'
+    dots = '.'
+    underscore = '_'
+    message = ssm["message"]
+    if html in message:
+        sink_split = message.split('Sink:')
+        sink = sink_split[-1]
+    elif dots in message:
         sink_split = message.split(dots)
         sink = sink_split[-1]
     elif underscore in message:
@@ -58,6 +89,8 @@ def f(extid, payload, ssm, msgvar):
         elif varindex == msgindex:
             #source is here
             endvarindex = taintsink.find(")",varindex)
+            if endvarindex == -1:
+                endvarindex = 0
             source = taintsink[varindex,endvarindex-1]
             if dots in source:
                 sourcel = source.split(dots)
@@ -66,7 +99,9 @@ def f(extid, payload, ssm, msgvar):
                 obj = {payload}
         else:
             endvarindex = taintsink.find(")",msgindex)
-            source = taintsink[varindex,endvarindex-1]
+            if endvarindex == -1:
+                endvarindex = 0
+            source = taintsink[msgindex,endvarindex-1]
             if dots in source:
                 sourcel = source.split(dots)
                 obj = {sourcel[1]:payload}
@@ -74,6 +109,7 @@ def f(extid, payload, ssm, msgvar):
                 obj = {payload}
     
     script = f'chrome.runtime.sendMessage({extid},{obj})'
+    return script
 
 # import os
 # import fileinput
