@@ -22,7 +22,15 @@ rules:
                   }
           - focus-metavariable: $X
     pattern-sinks:
-      - pattern: $OBJ.innerHTML = ...
+      - patterns:
+          - pattern: document. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
     message: Source:chrome.runtime.onMessage;Sink:innerHTML
     languages:
       - js
