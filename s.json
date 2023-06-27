@@ -12,9 +12,9 @@
         {
             "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_runtime_onConnect.chrome_runtime_onConnect-chrome_tabs_update",
             "end": {
-                "col": 53,
+                "col": 65,
                 "line": 7,
-                "offset": 383
+                "offset": 395
             },
             "extra": {
                 "dataflow_trace": {
@@ -34,22 +34,6 @@
                                     "offset": 255
                                 }
                             }
-                        },
-                        {
-                            "content": "tabId",
-                            "location": {
-                                "end": {
-                                    "col": 20,
-                                    "line": 6,
-                                    "offset": 317
-                                },
-                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/chrome_tabs_update.js",
-                                "start": {
-                                    "col": 15,
-                                    "line": 6,
-                                    "offset": 312
-                                }
-                            }
                         }
                     ],
                     "taint_sink": [
@@ -57,18 +41,18 @@
                         [
                             {
                                 "end": {
-                                    "col": 53,
+                                    "col": 65,
                                     "line": 7,
-                                    "offset": 383
+                                    "offset": 395
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/chrome_tabs_update.js",
                                 "start": {
-                                    "col": 9,
+                                    "col": 56,
                                     "line": 7,
-                                    "offset": 339
+                                    "offset": 386
                                 }
                             },
-                            "chrome.tabs.update(tabId, { active: true });"
+                            "msg.stuff"
                         ]
                     ],
                     "taint_source": [
@@ -92,9 +76,9 @@
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "b92d50415f0234ef478fb49da5904736d5b6cfb118f6f94f49fd775b05c7e569ae69fdb2153aa9f5f8bea7d258579a07e57f69c8b7fc6965175a939f902a5d3f_0",
+                "fingerprint": "cbe14cab852e25f716357d73691a77310ee59da5693fa8d4a3a822ae56aa0bdec3df090c9b4170eaf41f0387c486f41c2ebd8ea8fbcc661d39ef809a65e06b68_0",
                 "is_ignored": false,
-                "lines": "        chrome.tabs.update(tabId, { active: true });",
+                "lines": "        chrome.tabs.update(tabId, { active: true, url: msg.stuff });",
                 "message": "Source:chrome_runtime_onConnect;Sink:jQuery_chrome_tabs_update",
                 "metadata": {},
                 "metavars": {
@@ -129,9 +113,9 @@
             },
             "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/chrome_tabs_update.js",
             "start": {
-                "col": 9,
+                "col": 56,
                 "line": 7,
-                "offset": 339
+                "offset": 386
             }
         },
         {
@@ -154,12 +138,12 @@
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/outerHTML.js",
                                 "start": {
-                                    "col": 9,
+                                    "col": 35,
                                     "line": 6,
-                                    "offset": 279
+                                    "offset": 305
                                 }
                             },
-                            "document.body.outerHTML = '<h1>' + message + '</h1>'"
+                            "'<h1>' + message + '</h1>'"
                         ]
                     ],
                     "taint_source": [
@@ -183,25 +167,12 @@
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "4aa3d6ee0d093a38b6775a43c53852091f103efbd237d72144acbbfa78f143a232a5fa31ceda4e634ab195097e1eae284403ac0223d822d8f6927791fe3ce604_0",
+                "fingerprint": "d84be5faed4d730617a67ce2c9c964f84bf057f949f741a6d9374a7ba4da85d6ad9aff5efd9d4b8c8e881af128f66bbb4d5c3b5d08d9e84e0e7b119428bef4fd_0",
                 "is_ignored": false,
                 "lines": "        document.body.outerHTML = '<h1>' + message + '</h1>';",
                 "message": "Source:chrome_runtime_onConnect;Sink:outerHTML",
                 "metadata": {},
                 "metavars": {
-                    "$OBJ": {
-                        "abstract_content": "document.body",
-                        "end": {
-                            "col": 22,
-                            "line": 6,
-                            "offset": 292
-                        },
-                        "start": {
-                            "col": 9,
-                            "line": 6,
-                            "offset": 279
-                        }
-                    },
                     "$X": {
                         "abstract_content": "port",
                         "end": {
@@ -220,9 +191,9 @@
             },
             "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/outerHTML.js",
             "start": {
-                "col": 9,
+                "col": 35,
                 "line": 6,
-                "offset": 279
+                "offset": 305
             }
         },
         {
@@ -245,12 +216,12 @@
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/outerHTML.js",
                                 "start": {
-                                    "col": 9,
+                                    "col": 35,
                                     "line": 19,
-                                    "offset": 763
+                                    "offset": 789
                                 }
                             },
-                            "document.body.outerHTML = '<h1>' + message + '</h1>'"
+                            "'<h1>' + message + '</h1>'"
                         ]
                     ],
                     "taint_source": [
@@ -259,51 +230,38 @@
                             {
                                 "end": {
                                     "col": 6,
-                                    "line": 12,
-                                    "offset": 464
+                                    "line": 25,
+                                    "offset": 959
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/outerHTML.js",
                                 "start": {
-                                    "col": 1,
-                                    "line": 2,
-                                    "offset": 80
+                                    "col": 3,
+                                    "line": 15,
+                                    "offset": 572
                                 }
                             },
-                            "chrome.runtime.onConnect.addListener(function(port) {\n    if (port.name === 'contentScript') {\n      port.onMessage.addListener(function(message) {\n        // Update the web page's outerHTML\n        document.body.outerHTML = '<h1>' + message + '</h1>';\n      });\n      \n      // Send a message to the content script\n      port.postMessage('Hello from background script!');\n    }\n  });"
+                            "chrome.runtime.onConnect.addListener(function(port) {\n    if (port.name === 'popup') {\n      port.onMessage.addListener(function(message) {\n        // Update the web page's outerHTML\n        document.body.outerHTML = '<h1>' + message + '</h1>';\n      });\n      \n      // Send a message to the popup script\n      port.postMessage('Message received in the background script!');\n    }\n  });"
                         ]
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "4aa3d6ee0d093a38b6775a43c53852091f103efbd237d72144acbbfa78f143a232a5fa31ceda4e634ab195097e1eae284403ac0223d822d8f6927791fe3ce604_1",
+                "fingerprint": "d84be5faed4d730617a67ce2c9c964f84bf057f949f741a6d9374a7ba4da85d6ad9aff5efd9d4b8c8e881af128f66bbb4d5c3b5d08d9e84e0e7b119428bef4fd_1",
                 "is_ignored": false,
                 "lines": "        document.body.outerHTML = '<h1>' + message + '</h1>';",
                 "message": "Source:chrome_runtime_onConnect;Sink:outerHTML",
                 "metadata": {},
                 "metavars": {
-                    "$OBJ": {
-                        "abstract_content": "document.body",
-                        "end": {
-                            "col": 22,
-                            "line": 19,
-                            "offset": 776
-                        },
-                        "start": {
-                            "col": 9,
-                            "line": 19,
-                            "offset": 763
-                        }
-                    },
                     "$X": {
                         "abstract_content": "port",
                         "end": {
-                            "col": 51,
-                            "line": 2,
-                            "offset": 130
+                            "col": 53,
+                            "line": 15,
+                            "offset": 622
                         },
                         "start": {
-                            "col": 47,
-                            "line": 2,
-                            "offset": 126
+                            "col": 49,
+                            "line": 15,
+                            "offset": 618
                         }
                     }
                 },
@@ -311,9 +269,9 @@
             },
             "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/outerHTML.js",
             "start": {
-                "col": 9,
+                "col": 35,
                 "line": 19,
-                "offset": 763
+                "offset": 789
             }
         },
         {
@@ -336,12 +294,12 @@
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/innerHTML.js",
                                 "start": {
-                                    "col": 9,
+                                    "col": 35,
                                     "line": 6,
-                                    "offset": 279
+                                    "offset": 305
                                 }
                             },
-                            "document.body.innerHTML = '<h1>' + message + '</h1>'"
+                            "'<h1>' + message + '</h1>'"
                         ]
                     ],
                     "taint_source": [
@@ -365,25 +323,12 @@
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "53f4afb8e22f111cd58b0dca5c3651a9a03a3741517f22e7b522ca419f7dbae1d15600c42293f5f867a8467183a1a558059ae4477307670ff1f7e1108eccbbc5_0",
+                "fingerprint": "384e53fc6d40c5dc92d331609a2c6324dac9f374ec762b166d0d27cc8c84b874af7516dff561ffb8b0b78fc08115f5aad8a8f6dbe58a1643868b23e361a62472_0",
                 "is_ignored": false,
                 "lines": "        document.body.innerHTML = '<h1>' + message + '</h1>';",
                 "message": "Source:chrome_runtime_onConnect;Sink:innerHTML",
                 "metadata": {},
                 "metavars": {
-                    "$OBJ": {
-                        "abstract_content": "document.body",
-                        "end": {
-                            "col": 22,
-                            "line": 6,
-                            "offset": 292
-                        },
-                        "start": {
-                            "col": 9,
-                            "line": 6,
-                            "offset": 279
-                        }
-                    },
                     "$X": {
                         "abstract_content": "port",
                         "end": {
@@ -402,9 +347,9 @@
             },
             "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/innerHTML.js",
             "start": {
-                "col": 9,
+                "col": 35,
                 "line": 6,
-                "offset": 279
+                "offset": 305
             }
         },
         {
@@ -427,12 +372,12 @@
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/innerHTML.js",
                                 "start": {
-                                    "col": 9,
+                                    "col": 35,
                                     "line": 19,
-                                    "offset": 763
+                                    "offset": 789
                                 }
                             },
-                            "document.body.innerHTML = '<h1>' + message + '</h1>'"
+                            "'<h1>' + message + '</h1>'"
                         ]
                     ],
                     "taint_source": [
@@ -441,51 +386,38 @@
                             {
                                 "end": {
                                     "col": 6,
-                                    "line": 12,
-                                    "offset": 464
+                                    "line": 25,
+                                    "offset": 959
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/innerHTML.js",
                                 "start": {
-                                    "col": 1,
-                                    "line": 2,
-                                    "offset": 80
+                                    "col": 3,
+                                    "line": 15,
+                                    "offset": 572
                                 }
                             },
-                            "chrome.runtime.onConnect.addListener(function(port) {\n    if (port.name === 'contentScript') {\n      port.onMessage.addListener(function(message) {\n        // Update the web page's innerHTML\n        document.body.innerHTML = '<h1>' + message + '</h1>';\n      });\n      \n      // Send a message to the content script\n      port.postMessage('Hello from background script!');\n    }\n  });"
+                            "chrome.runtime.onConnect.addListener(function(port) {\n    if (port.name === 'popup') {\n      port.onMessage.addListener(function(message) {\n        // Update the web page's innerHTML\n        document.body.innerHTML = '<h1>' + message + '</h1>';\n      });\n      \n      // Send a message to the popup script\n      port.postMessage('Message received in the background script!');\n    }\n  });"
                         ]
                     ]
                 },
                 "engine_kind": "OSS",
-                "fingerprint": "53f4afb8e22f111cd58b0dca5c3651a9a03a3741517f22e7b522ca419f7dbae1d15600c42293f5f867a8467183a1a558059ae4477307670ff1f7e1108eccbbc5_1",
+                "fingerprint": "384e53fc6d40c5dc92d331609a2c6324dac9f374ec762b166d0d27cc8c84b874af7516dff561ffb8b0b78fc08115f5aad8a8f6dbe58a1643868b23e361a62472_1",
                 "is_ignored": false,
                 "lines": "        document.body.innerHTML = '<h1>' + message + '</h1>';",
                 "message": "Source:chrome_runtime_onConnect;Sink:innerHTML",
                 "metadata": {},
                 "metavars": {
-                    "$OBJ": {
-                        "abstract_content": "document.body",
-                        "end": {
-                            "col": 22,
-                            "line": 19,
-                            "offset": 776
-                        },
-                        "start": {
-                            "col": 9,
-                            "line": 19,
-                            "offset": 763
-                        }
-                    },
                     "$X": {
                         "abstract_content": "port",
                         "end": {
-                            "col": 51,
-                            "line": 2,
-                            "offset": 130
+                            "col": 53,
+                            "line": 15,
+                            "offset": 622
                         },
                         "start": {
-                            "col": 47,
-                            "line": 2,
-                            "offset": 126
+                            "col": 49,
+                            "line": 15,
+                            "offset": 618
                         }
                     }
                 },
@@ -493,9 +425,9 @@
             },
             "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/innerHTML.js",
             "start": {
-                "col": 9,
+                "col": 35,
                 "line": 19,
-                "offset": 763
+                "offset": 789
             }
         }
     ],
