@@ -31,6 +31,22 @@ rules:
               ...
               $Y. ... .innerHTML = $X
           - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].innerHTML =$X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .innerHTML = $X
+          - focus-metavariable: $X
     message: Source:chrome.runtime.onMessage;Sink:innerHTML
     languages:
       - js
