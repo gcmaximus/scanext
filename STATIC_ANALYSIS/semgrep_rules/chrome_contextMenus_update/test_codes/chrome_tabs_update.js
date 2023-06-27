@@ -211,7 +211,7 @@ chrome.contextMenus.update(
             let v = x;
             document.write(v);
         },
-        onclick: function kms(n, a) {
+        onclick: function bbb(n, a) {
             console.log();
             let rite41 = { abc: "", url: n.linkUrl, cdb: "sdf" }; // Expect 1 match
             chrome.tabs.update(a, rite41, (tab) => {

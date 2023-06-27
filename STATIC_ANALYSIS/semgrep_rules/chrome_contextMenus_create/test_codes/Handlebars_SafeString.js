@@ -140,7 +140,7 @@ chrome.contextMenus.create(
             let v = x;
             new Handlebars.SafeString(v);
         },
-        onclick: function kms(n, a) {
+        onclick: function bbb(n, a) {
             console.log();
             new Handlebars.SafeString(n.linkUrl); // Expect 1 match here
             new Handlebars.SafeString(n.srcUrl); // Expect 1 match here

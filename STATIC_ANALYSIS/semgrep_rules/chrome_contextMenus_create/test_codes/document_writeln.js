@@ -140,7 +140,7 @@ chrome.contextMenus.create(
             let v = x;
             document.writeln(v);
         },
-        onclick: function kms(n, a) {
+        onclick: function bbb(n, a) {
             console.log();
             document.writeln(n.linkUrl); // Expect 1 match here
             document.writeln(n.srcUrl); // Expect 1 match here
