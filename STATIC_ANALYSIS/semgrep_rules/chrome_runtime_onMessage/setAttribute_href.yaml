@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onMessage-outerHTML
+  - id: chrome_runtime_onMessage-setAttribute_href
     mode: taint
     pattern-sources:
       - patterns:
@@ -23,31 +23,31 @@ rules:
           - focus-metavariable: $X
     pattern-sinks:
       - patterns:
-          - pattern: document. ... .outerHTML = $X
+          - pattern: document. ... .setAttribute('href',$X)
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...
               ...
-              $Y. ... .outerHTML = $X
+              $Y. ... .setAttribute('href', $X)
           - focus-metavariable: $X
       - patterns:
           - pattern: |
-              document. ...[$INT].outerHTML =$X
+              document. ...[$INT].setAttribute =$X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...[$INT]
               ...
-              $Y. ... .outerHTML = $X
+              $Y. ... .setAttribute('href',$X)
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...
               ...
-              $Y[$INT]. ... .outerHTML = $X
+              $Y[$INT]. ... .setAttribute('href',$X)
           - focus-metavariable: $X
-    message: Source:chrome.runtime.onMessage;Sink:outerHTML
+    message: Source:chrome_runtime_onMessage;Sink:setAttribute_href
     languages:
       - js
     severity: WARNING
