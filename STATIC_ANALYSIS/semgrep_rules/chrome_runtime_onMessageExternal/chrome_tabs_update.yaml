@@ -7,6 +7,18 @@ rules:
               chrome.runtime.onMessageExternal.addListener(function($X, ...) {
               ... 
               });
+          - pattern: |
+              function $ANY($X,...){
+                ...
+              }
+              ...
+              chrome.runtime.onMessageExternal.addListener($ANY)
+          - pattern: |
+              chrome.runtime.onMessageExternal.addListener($ANY)
+              ...
+              function $ANY($X,...){
+                ...
+              }
           - focus-metavariable: $X
     pattern-sinks:
       - patterns:
