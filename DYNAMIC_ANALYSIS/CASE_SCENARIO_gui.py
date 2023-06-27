@@ -3,6 +3,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 from os import path
 import hashlib
@@ -35,7 +37,7 @@ def initialize(path_to_extension):
         return payload_array
 
     url_path, abs_path = get_ext_id(path_to_extension)
-    payloads = payloads('payloads/small_payload.txt')
+    payloads = payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')
 
     # initialize selenium and load extension
     options = webdriver.ChromeOptions()
@@ -43,17 +45,17 @@ def initialize(path_to_extension):
     load_ext_arg = "load-extension=" + abs_path
     options.add_argument(load_ext_arg)
     options.add_argument("--enable-logging")
-    driver = webdriver.Chrome('./chromedriver', options=options)
-
-
+    chrome_service = Service(executable_path=ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=chrome_service, options=options)
 
 
     # case 1:
     # window_name(driver, abs_path, url_path, payloads)
 
     # case 2:
-    location_href(driver, abs_path, url_path, payloads)
+    # location_href(driver, abs_path, url_path, payloads)
 
+    context_menu(driver, abs_path, url_path, payloads)
 
 
 
@@ -137,10 +139,72 @@ def location_href(driver, abs_path, url_path, payloads):
         except:
             print('Payload failed')
 
+# 3) Context_Menu
+def context_menu(driver, abs_path, url_path, payloads):
+    from selenium.webdriver.common.action_chains import ActionChains
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.common.keys import Keys
 
 
 
-# initialize('Extensions/h1-replacer/h1-replacer(v3)_location.href')
+    # get www.example.com
+    driver.get('file:///home/yijing/chrome-ext-scanner/DYNAMIC_ANALYSIS/xss_website_creation/xss_website.html')
+
+    
+    # set handler for example.com
+    example = driver.current_window_handle
+
+    # get extension popup.html
+    driver.switch_to.new_window('tab')
+    extension = driver.current_window_handle
+    driver.get(url_path)
+
+    for payload in payloads:
+        # driver.switch_to.window(extension)
+        # driver.refresh()
+
+        driver.switch_to.window(example)
+
+        driver.execute_script(f'document.getElementById("h1_element").innerText = `{payload}`')
+
+        # driver.execute_script(f'document.getElementById("h1_element").innerHTML = `{payload}`')
+
+        target_element = driver.find_element(By.ID, 'h1_element')
+
+        # Select the text using JavaScript
+        driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
+
+
+
+        actions = ActionChains(driver)
+
+        actions.context_click(target_element).perform()
+
+        import keyboard
+        keyboard.press('down')
+
+
+
+
+
+
+
+        # # COPY THE CURRENT SELECTED TEXT AND PRINT IT TO TERMINAL#
+        # # COPY THE CURRENT SELECTED TEXT AND PRINT IT TO TERMINAL#
+        # # Get the selected text using JavaScript
+        # selected_text = driver.execute_script("return window.getSelection().toString();")
+        # import pyperclip
+        # # Copy the selected text to the clipboard using pyperclip
+        # pyperclip.copy(selected_text)
+        # print(selected_text)
+        # # COPY THE CURRENT SELECTED TEXT AND PRINT IT TO TERMINAL#
+        # # COPY THE CURRENT SELECTED TEXT AND PRINT IT TO TERMINAL#
+
+
+        input()
+
+
+initialize('EXTENSIONS/h1-replacer(v3)contextMenu')
 
 
 def button_input_paradox():
@@ -265,4 +329,4 @@ def button_input_paradox():
     prefix_comparison()
 
 
-button_input_paradox()
+# button_input_paradox()

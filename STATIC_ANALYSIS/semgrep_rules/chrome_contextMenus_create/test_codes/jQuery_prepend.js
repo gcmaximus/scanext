@@ -32,6 +32,7 @@ function kms(n, a) {
     console.log();
 }
 
+let n = { linkUrl: "" };
 let a = n.linkUrl;
 $("f").prepend(x);
 
@@ -139,7 +140,7 @@ chrome.contextMenus.create(
             let v = x;
             $("f").prepend(v);
         },
-        onclick: function kms(n, a) {
+        onclick: function bbb(n, a) {
             console.log();
             $("f").prepend(n.linkUrl); // Expect 1 match here
             $("f").prepend(n.srcUrl); // Expect 1 match here

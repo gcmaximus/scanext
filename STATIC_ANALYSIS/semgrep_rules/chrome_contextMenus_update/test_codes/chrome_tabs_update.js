@@ -1,5 +1,5 @@
 /*******************
-chrome_contextMenus_create-chrome_tabs_update
+chrome_contextMenus_update-chrome_tabs_update
 *******************/
 
 // Expected total matches: 40
@@ -59,7 +59,7 @@ let n = { linkUrl: "" };
 let a = n.linkUrl;
 chrome.tabs.update({ abc: "", url: a, cdb: "sdf" }); // err
 
-chrome.contextMenus.create(
+chrome.contextMenus.update(
     {
         ontest: function (n, a) {
             let x = n.linkUrl;
@@ -73,7 +73,7 @@ chrome.contextMenus.create(
 );
 
 // case 2
-chrome.contextMenus.create(
+chrome.contextMenus.update(
     {
         ontest: function (n, a) {
             let x = n.linkUrl;
@@ -139,7 +139,7 @@ function aaa(n, a) {
 }
 
 // case 3
-chrome.contextMenus.create(
+chrome.contextMenus.update(
     {
         ontest: function (n, a) {
             let x = n.linkUrl;
@@ -204,7 +204,7 @@ chrome.contextMenus.create(
 );
 
 // case 4
-chrome.contextMenus.create(
+chrome.contextMenus.update(
     {
         ontest: function sss(n, a) {
             let x = n.linkUrl;

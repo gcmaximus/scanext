@@ -32,6 +32,7 @@ function kms(n, a) {
     console.log();
 }
 
+let n = { linkUrl: "" };
 let a = n.linkUrl;
 document.getElementById("f").outerHTML = x;
 
@@ -139,7 +140,7 @@ chrome.contextMenus.create(
             let v = x;
             document.getElementById("f").outerHTML = v;
         },
-        onclick: function kms(n, a) {
+        onclick: function bbb(n, a) {
             console.log();
             document.getElementById("f").outerHTML = n.linkUrl; // Expect 1 match here
             document.getElementById("f").outerHTML = n.srcUrl; // Expect 1 match here

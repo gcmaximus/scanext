@@ -1,8 +1,8 @@
 rules:
-  - id: chrome_contextMenus_create-innerHTML
+  - id: chrome_contextMenus_onClicked_addListener-chrome_tabs_update
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:innerHTML
+    message: Source:chrome_contextMenus_onClicked_addListener;Sink:chrome_tabs_update
     mode: taint
     pattern-sources:
       - patterns:
@@ -12,29 +12,21 @@ rules:
                     ...
                   }
                   ...
-                  chrome.contextMenus.create({
-                    onclick: $FUNC
-                  }, ...)
+                  chrome.contextMenus.onClicked.addListener($FUNC)
               - pattern-inside: |
-                  chrome.contextMenus.create({
-                    onclick: $FUNC
-                  }, ...)
+                  chrome.contextMenus.onClicked.addListener($FUNC)
                   ...
                   function $FUNC($INFO, ...) {
                     ...
                   }
               - pattern-inside: |
-                  chrome.contextMenus.create({
-                    onclick: function($INFO, ...) {
+                  chrome.contextMenus.onClicked.addListener(function($INFO, ...) {
                       ...
-                    }
-                  }, ...)
+                    })
               - pattern-inside: |
-                  chrome.contextMenus.create({
-                    onclick: function $FUNC($INFO, ...) {
+                  chrome.contextMenus.onClicked.addListener(function $FUNC($INFO, ...) {
                       ...
-                    }
-                  }, ...)
+                    })
           - pattern-either:
               - pattern: $INFO.linkUrl
               - pattern: $INFO.srcUrl
@@ -43,12 +35,21 @@ rules:
               - pattern: $INFO.selectionText
     pattern-sinks:
       - patterns:
-          - pattern: document. ... .innerHTML = $X
+          - pattern: |
+              chrome.tabs.update(..., {url: $X}, ...)
           - focus-metavariable: $X
       - patterns:
           - pattern: |
-              $Y = document. ...
+              $X = {url:$Y}
               ...
-              $Y. ... .innerHTML = $X
-          - focus-metavariable: $X
+              chrome.tabs.update($X, ...)
+          - focus-metavariable:
+              - $Y
+      - patterns:
+          - pattern: |
+              $X = {url: $Y}
+              ...
+              chrome.tabs.update($W, $X, ...)
+          - focus-metavariable:
+              - $Y
     severity: WARNING
