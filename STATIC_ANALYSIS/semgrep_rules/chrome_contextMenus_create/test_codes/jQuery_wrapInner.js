@@ -32,6 +32,7 @@ function kms(n, a) {
     console.log();
 }
 
+let n = { linkUrl: "" };
 let a = n.linkUrl;
 $("f").wrapInner(x);
 

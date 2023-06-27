@@ -7,33 +7,34 @@ chrome_contextMenus_create-jQuery_prependTo
 // case 1
 function kms(n, a) {
     console.log();
-    $(n.linkUrl).prependTo('f'); // Expect 1 match here
-    $(n.srcUrl).prependTo('f'); // Expect 1 match here
-    $(n.pageUrl).prependTo('f'); // Expect 1 match here
-    $(n.frameUrl).prependTo('f'); // Expect 1 match here
-    $(n.selectionText).prependTo('f'); // Expect 1 match here
+    $(n.linkUrl).prependTo("f"); // Expect 1 match here
+    $(n.srcUrl).prependTo("f"); // Expect 1 match here
+    $(n.pageUrl).prependTo("f"); // Expect 1 match here
+    $(n.frameUrl).prependTo("f"); // Expect 1 match here
+    $(n.selectionText).prependTo("f"); // Expect 1 match here
 
     console.log();
 
     let x = n.linkUrl;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
 
     x = n.srcUrl;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
 
     x = n.pageUrl;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
 
     x = n.frameUrl;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
 
     x = n.selectionText;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
     console.log();
 }
 
+let n = { linkUrl: "" };
 let a = n.linkUrl;
-$(x).prependTo('f');
+$(x).prependTo("f");
 
 chrome.contextMenus.create(
     {
@@ -63,33 +64,33 @@ chrome.contextMenus.create(
 );
 
 let b = n.linkUrl;
-$(x).prependTo('f');
+$(x).prependTo("f");
 
 function aaa(n, a) {
     console.log();
-    $(n.linkUrl).prependTo('f'); // Expect 1 match here
-    $(n.srcUrl).prependTo('f'); // Expect 1 match here
-    $(n.pageUrl).prependTo('f'); // Expect 1 match here
-    $(n.frameUrl).prependTo('f'); // Expect 1 match here
-    $(n.selectionText).prependTo('f'); // Expect 1 match here
+    $(n.linkUrl).prependTo("f"); // Expect 1 match here
+    $(n.srcUrl).prependTo("f"); // Expect 1 match here
+    $(n.pageUrl).prependTo("f"); // Expect 1 match here
+    $(n.frameUrl).prependTo("f"); // Expect 1 match here
+    $(n.selectionText).prependTo("f"); // Expect 1 match here
 
     $("f").prependTo(a.linkUrl);
     console.log();
 
     let x = n.linkUrl;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
 
     x = n.srcUrl;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
 
     x = n.pageUrl;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
 
     x = n.frameUrl;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
 
     x = n.selectionText;
-    $(x).prependTo('f'); // Expect 1 match here
+    $(x).prependTo("f"); // Expect 1 match here
     console.log();
 }
 
@@ -103,27 +104,27 @@ chrome.contextMenus.create(
         },
         onclick: function (n, a) {
             console.log();
-            $(n.linkUrl).prependTo('f'); // Expect 1 match here
-            $(n.srcUrl).prependTo('f'); // Expect 1 match here
-            $(n.pageUrl).prependTo('f'); // Expect 1 match here
-            $(n.frameUrl).prependTo('f'); // Expect 1 match here
-            $(n.selectionText).prependTo('f'); // Expect 1 match here
+            $(n.linkUrl).prependTo("f"); // Expect 1 match here
+            $(n.srcUrl).prependTo("f"); // Expect 1 match here
+            $(n.pageUrl).prependTo("f"); // Expect 1 match here
+            $(n.frameUrl).prependTo("f"); // Expect 1 match here
+            $(n.selectionText).prependTo("f"); // Expect 1 match here
             console.log();
 
             let x = n.linkUrl;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
 
             x = n.srcUrl;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
 
             x = n.pageUrl;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
 
             x = n.frameUrl;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
 
             x = n.selectionText;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
             console.log();
         },
         test2: "sdfs",
@@ -141,27 +142,27 @@ chrome.contextMenus.create(
         },
         onclick: function kms(n, a) {
             console.log();
-            $(n.linkUrl).prependTo('f'); // Expect 1 match here
-            $(n.srcUrl).prependTo('f'); // Expect 1 match here
-            $(n.pageUrl).prependTo('f'); // Expect 1 match here
-            $(n.frameUrl).prependTo('f'); // Expect 1 match here
-            $(n.selectionText).prependTo('f'); // Expect 1 match here
+            $(n.linkUrl).prependTo("f"); // Expect 1 match here
+            $(n.srcUrl).prependTo("f"); // Expect 1 match here
+            $(n.pageUrl).prependTo("f"); // Expect 1 match here
+            $(n.frameUrl).prependTo("f"); // Expect 1 match here
+            $(n.selectionText).prependTo("f"); // Expect 1 match here
             console.log();
 
             let x = n.linkUrl;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
 
             x = n.srcUrl;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
 
             x = n.pageUrl;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
 
             x = n.frameUrl;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
 
             x = n.selectionText;
-            $(x).prependTo('f'); // Expect 1 match here
+            $(x).prependTo("f"); // Expect 1 match here
             console.log();
         },
         test2: "sdfs",

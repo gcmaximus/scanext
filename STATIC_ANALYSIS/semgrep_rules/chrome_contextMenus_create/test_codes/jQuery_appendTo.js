@@ -7,33 +7,34 @@ chrome_contextMenus_create-jQuery_appendTo
 // case 1
 function kms(n, a) {
     console.log();
-    $(n.linkUrl).appendTo('f'); // Expect 1 match here
-    $(n.srcUrl).appendTo('f'); // Expect 1 match here
-    $(n.pageUrl).appendTo('f'); // Expect 1 match here
-    $(n.frameUrl).appendTo('f'); // Expect 1 match here
-    $(n.selectionText).appendTo('f'); // Expect 1 match here
+    $(n.linkUrl).appendTo("f"); // Expect 1 match here
+    $(n.srcUrl).appendTo("f"); // Expect 1 match here
+    $(n.pageUrl).appendTo("f"); // Expect 1 match here
+    $(n.frameUrl).appendTo("f"); // Expect 1 match here
+    $(n.selectionText).appendTo("f"); // Expect 1 match here
 
     console.log();
 
     let x = n.linkUrl;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
 
     x = n.srcUrl;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
 
     x = n.pageUrl;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
 
     x = n.frameUrl;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
 
     x = n.selectionText;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
     console.log();
 }
 
+let n = { linkUrl: "" };
 let a = n.linkUrl;
-$(x).appendTo('f');
+$(x).appendTo("f");
 
 chrome.contextMenus.create(
     {
@@ -63,33 +64,33 @@ chrome.contextMenus.create(
 );
 
 let b = n.linkUrl;
-$(x).appendTo('f');
+$(x).appendTo("f");
 
 function aaa(n, a) {
     console.log();
-    $(n.linkUrl).appendTo('f'); // Expect 1 match here
-    $(n.srcUrl).appendTo('f'); // Expect 1 match here
-    $(n.pageUrl).appendTo('f'); // Expect 1 match here
-    $(n.frameUrl).appendTo('f'); // Expect 1 match here
-    $(n.selectionText).appendTo('f'); // Expect 1 match here
+    $(n.linkUrl).appendTo("f"); // Expect 1 match here
+    $(n.srcUrl).appendTo("f"); // Expect 1 match here
+    $(n.pageUrl).appendTo("f"); // Expect 1 match here
+    $(n.frameUrl).appendTo("f"); // Expect 1 match here
+    $(n.selectionText).appendTo("f"); // Expect 1 match here
 
     $("f").appendTo(a.linkUrl);
     console.log();
 
     let x = n.linkUrl;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
 
     x = n.srcUrl;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
 
     x = n.pageUrl;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
 
     x = n.frameUrl;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
 
     x = n.selectionText;
-    $(x).appendTo('f'); // Expect 1 match here
+    $(x).appendTo("f"); // Expect 1 match here
     console.log();
 }
 
@@ -103,27 +104,27 @@ chrome.contextMenus.create(
         },
         onclick: function (n, a) {
             console.log();
-            $(n.linkUrl).appendTo('f'); // Expect 1 match here
-            $(n.srcUrl).appendTo('f'); // Expect 1 match here
-            $(n.pageUrl).appendTo('f'); // Expect 1 match here
-            $(n.frameUrl).appendTo('f'); // Expect 1 match here
-            $(n.selectionText).appendTo('f'); // Expect 1 match here
+            $(n.linkUrl).appendTo("f"); // Expect 1 match here
+            $(n.srcUrl).appendTo("f"); // Expect 1 match here
+            $(n.pageUrl).appendTo("f"); // Expect 1 match here
+            $(n.frameUrl).appendTo("f"); // Expect 1 match here
+            $(n.selectionText).appendTo("f"); // Expect 1 match here
             console.log();
 
             let x = n.linkUrl;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
 
             x = n.srcUrl;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
 
             x = n.pageUrl;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
 
             x = n.frameUrl;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
 
             x = n.selectionText;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
             console.log();
         },
         test2: "sdfs",
@@ -141,27 +142,27 @@ chrome.contextMenus.create(
         },
         onclick: function kms(n, a) {
             console.log();
-            $(n.linkUrl).appendTo('f'); // Expect 1 match here
-            $(n.srcUrl).appendTo('f'); // Expect 1 match here
-            $(n.pageUrl).appendTo('f'); // Expect 1 match here
-            $(n.frameUrl).appendTo('f'); // Expect 1 match here
-            $(n.selectionText).appendTo('f'); // Expect 1 match here
+            $(n.linkUrl).appendTo("f"); // Expect 1 match here
+            $(n.srcUrl).appendTo("f"); // Expect 1 match here
+            $(n.pageUrl).appendTo("f"); // Expect 1 match here
+            $(n.frameUrl).appendTo("f"); // Expect 1 match here
+            $(n.selectionText).appendTo("f"); // Expect 1 match here
             console.log();
 
             let x = n.linkUrl;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
 
             x = n.srcUrl;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
 
             x = n.pageUrl;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
 
             x = n.frameUrl;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
 
             x = n.selectionText;
-            $(x).appendTo('f'); // Expect 1 match here
+            $(x).appendTo("f"); // Expect 1 match here
             console.log();
         },
         test2: "sdfs",

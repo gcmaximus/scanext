@@ -2,9 +2,7 @@
 chrome_contextMenus_create-document_write
 *******************/
 
-
 // Expected total matches: 40
-
 
 // case 1
 function kms(n, a) {
@@ -17,23 +15,24 @@ function kms(n, a) {
 
     console.log();
 
-    let x = n.linkUrl; 
+    let x = n.linkUrl;
     document.write(x); // Expect 1 match here
-    
+
     x = n.srcUrl;
     document.write(x); // Expect 1 match here
-    
+
     x = n.pageUrl;
     document.write(x); // Expect 1 match here
-    
+
     x = n.frameUrl;
     document.write(x); // Expect 1 match here
-    
+
     x = n.selectionText;
     document.write(x); // Expect 1 match here
     console.log();
 }
 
+let n = { linkUrl: "" };
 let a = n.linkUrl;
 document.write(x);
 
@@ -49,7 +48,6 @@ chrome.contextMenus.create(
     },
     "adfs"
 );
-
 
 // case 2
 chrome.contextMenus.create(
@@ -79,33 +77,32 @@ function aaa(n, a) {
     document.write(a.linkUrl);
     console.log();
 
-    let x = n.linkUrl; 
+    let x = n.linkUrl;
     document.write(x); // Expect 1 match here
-    
+
     x = n.srcUrl;
     document.write(x); // Expect 1 match here
-    
+
     x = n.pageUrl;
     document.write(x); // Expect 1 match here
-    
+
     x = n.frameUrl;
     document.write(x); // Expect 1 match here
-    
+
     x = n.selectionText;
     document.write(x); // Expect 1 match here
     console.log();
 }
 
-
 // case 3
 chrome.contextMenus.create(
     {
-        ontest: function(n, a) {
+        ontest: function (n, a) {
             let x = n.linkUrl;
             let v = x;
             document.write(v);
         },
-        onclick: function(n, a) {
+        onclick: function (n, a) {
             console.log();
             document.write(n.linkUrl); // Expect 1 match here
             document.write(n.srcUrl); // Expect 1 match here
@@ -114,29 +111,26 @@ chrome.contextMenus.create(
             document.write(n.selectionText); // Expect 1 match here
             console.log();
 
-            let x = n.linkUrl; 
+            let x = n.linkUrl;
             document.write(x); // Expect 1 match here
-            
+
             x = n.srcUrl;
             document.write(x); // Expect 1 match here
-            
+
             x = n.pageUrl;
             document.write(x); // Expect 1 match here
-            
+
             x = n.frameUrl;
             document.write(x); // Expect 1 match here
-            
+
             x = n.selectionText;
             document.write(x); // Expect 1 match here
             console.log();
-
-            
         },
         test2: "sdfs",
     },
     "adfs"
 );
-
 
 // case 4
 chrome.contextMenus.create(
@@ -155,18 +149,18 @@ chrome.contextMenus.create(
             document.write(n.selectionText); // Expect 1 match here
             console.log();
 
-            let x = n.linkUrl; 
+            let x = n.linkUrl;
             document.write(x); // Expect 1 match here
-            
+
             x = n.srcUrl;
             document.write(x); // Expect 1 match here
-            
+
             x = n.pageUrl;
             document.write(x); // Expect 1 match here
-            
+
             x = n.frameUrl;
             document.write(x); // Expect 1 match here
-            
+
             x = n.selectionText;
             document.write(x); // Expect 1 match here
             console.log();
