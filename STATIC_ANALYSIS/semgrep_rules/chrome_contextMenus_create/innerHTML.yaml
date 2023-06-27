@@ -2,7 +2,7 @@ rules:
   - id: chrome_contextMenus_create-innerHTML
     languages:
       - javascript
-    message: Source:chrome.contextMenus.create;Sink:innerHTML
+    message: Source:chrome_contextMenus_create;Sink:innerHTML
     mode: taint
     pattern-sources:
       - patterns:
@@ -50,5 +50,21 @@ rules:
               $Y = document. ...
               ...
               $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .innerHTML = $X
           - focus-metavariable: $X
     severity: WARNING

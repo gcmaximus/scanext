@@ -51,4 +51,20 @@ rules:
               ...
               $Y. ... .outerHTML = $X
           - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].outerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .outerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .outerHTML = $X
+          - focus-metavariable: $X
     severity: WARNING

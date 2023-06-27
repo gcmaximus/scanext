@@ -1,0 +1,52 @@
+rules:
+  - id: chrome_cookies_get-chrome_tabs_update
+    languages:
+      - javascript
+    message: Source:chrome_cookies_get;Sink:chrome_tabs_update
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.cookies.get($DETAILS, $FUNC)
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, $FUNC)
+                  ...
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, function($COOKIE, ...) {
+                    ...
+                  })  
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, function $FUNC($COOKIE, ...) {
+                    ...
+                  })
+          - pattern-either:
+              - pattern: $COOKIE.name
+              - pattern: $COOKIE.value
+    pattern-sinks:
+      - patterns:
+          - pattern: |
+              chrome.tabs.update(..., {url: $X}, ...)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $X = {url:$Y}
+              ...
+              chrome.tabs.update($X, ...)
+          - focus-metavariable:
+              - $Y
+      - patterns:
+          - pattern: |
+              $X = {url: $Y}
+              ...
+              chrome.tabs.update($W, $X, ...)
+          - focus-metavariable:
+              - $Y
+    severity: WARNING

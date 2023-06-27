@@ -51,4 +51,16 @@ rules:
               ...
               $Y. ... .setAttribute("href", $X)
           - focus-metavariable: $X
+      - patterns: 
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .setAttribute("href", $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .setAttribute("href", $X)
+          - focus-metavariable: $X
     severity: WARNING

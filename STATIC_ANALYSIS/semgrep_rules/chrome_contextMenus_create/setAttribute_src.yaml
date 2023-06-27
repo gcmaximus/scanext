@@ -51,4 +51,16 @@ rules:
               ...
               $Y. ... .setAttribute("src", $X)
           - focus-metavariable: $X
+      - patterns: 
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .setAttribute("src", $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .setAttribute("src", $X)
+          - focus-metavariable: $X
     severity: WARNING
