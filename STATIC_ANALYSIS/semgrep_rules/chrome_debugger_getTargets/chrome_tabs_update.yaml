@@ -1,0 +1,68 @@
+rules:
+  - id: chrome_debugger_getTargets-chrome_tabs_update
+    languages:
+      - javascript
+    message: Source:chrome_debugger_getTargets;Sink:chrome_tabs_update
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($TARGETINFO, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.debugger.getTargets($FUNC)
+              - pattern-inside: |
+                  chrome.debugger.getTargets($FUNC)
+                  ...
+                  function $FUNC($TARGETINFO, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.debugger.getTargets(function ($TARGETINFO, ...) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.debugger.getTargets(function $FUNC($TARGETINFO, ...) {
+                    ...
+                  })
+          - pattern-either:
+              - pattern: $TARGETINFO[$INT].title
+              - pattern: $COOKIE[$INT].url
+              - pattern: $COOKIE[$INT].faviconUrl
+              - patterns:
+                  - pattern: |
+                      $Y = $TARGETINFO[$INT]
+                      ...
+                      $Y.url
+              - patterns:
+                  - pattern: |
+                      $Y = $TARGETINFO[$INT]
+                      ...
+                      $Y.title
+              - patterns:
+                  - pattern: |
+                      $Y = $TARGETINFO[$INT]
+                      ...
+                      $Y.faviconUrl
+    pattern-sinks:
+      - patterns:
+          - pattern: |
+              chrome.tabs.update(..., {url: $X}, ...)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $X = {url:$Y}
+              ...
+              chrome.tabs.update($X, ...)
+          - focus-metavariable:
+              - $Y
+      - patterns:
+          - pattern: |
+              $X = {url: $Y}
+              ...
+              chrome.tabs.update($W, $X, ...)
+          - focus-metavariable:
+              - $Y
+    severity: WARNING

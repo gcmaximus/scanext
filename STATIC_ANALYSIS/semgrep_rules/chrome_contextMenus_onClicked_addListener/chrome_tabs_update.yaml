@@ -20,7 +20,7 @@ rules:
                     ...
                   }
               - pattern-inside: |
-                  chrome.contextMenus.onClicked.addListener(function($INFO, ...) {
+                  chrome.contextMenus.onClicked.addListener(function ($INFO, ...) {
                       ...
                     })
               - pattern-inside: |

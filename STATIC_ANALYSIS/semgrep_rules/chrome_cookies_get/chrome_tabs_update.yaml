@@ -20,7 +20,7 @@ rules:
                     ...
                   }
               - pattern-inside: |
-                  chrome.cookies.get($DETAILS, function($COOKIE, ...) {
+                  chrome.cookies.get($DETAILS, function ($COOKIE, ...) {
                     ...
                   })  
               - pattern-inside: |
