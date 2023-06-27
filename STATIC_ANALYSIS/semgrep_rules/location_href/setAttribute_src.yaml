@@ -7,12 +7,28 @@ rules:
       - pattern: location.href
     pattern-sinks:
       - patterns:
-        - pattern: "document. ... .setAttribute('src', $X)"
-        - focus-metavariable: $X
+          - pattern: document. ... .setAttribute('src', $X)
+          - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...
               ...
               $Y. ... .setAttribute('src', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].setAttribute('src', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .setAttribute('src', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .setAttribute('src', $X)
           - focus-metavariable: $X
     severity: WARNING
