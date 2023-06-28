@@ -1,0 +1,19 @@
+rules:
+  - id: location_search-jQuery_after
+    languages: [javascript]
+    message: "Source:location_search;Sink:jQuery_after"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).after($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.after($X)
+        - focus-metavariable: $X
+    severity: WARNING

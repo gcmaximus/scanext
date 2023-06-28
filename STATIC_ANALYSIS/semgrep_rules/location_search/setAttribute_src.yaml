@@ -1,0 +1,35 @@
+rules:
+  - id: location_search-setAttribute_src
+    languages: [javascript]
+    message: "Source:location_search;Sink:setAttribute('src')"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - patterns:
+          - pattern: document. ... .setAttribute('src', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .setAttribute('src', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].setAttribute('src', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .setAttribute('src', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .setAttribute('src', $X)
+          - focus-metavariable: $X
+    severity: WARNING

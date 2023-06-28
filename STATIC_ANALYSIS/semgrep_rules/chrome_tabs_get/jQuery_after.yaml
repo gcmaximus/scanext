@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_tabs_get-jQuery_after
+    languages: [javascript]
+    message: "Source:chrome_tabs_get;Sink:jQuery_after"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.get($TAB_ID)
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).after($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.after($X)
+        - focus-metavariable: $X
+    severity: WARNING

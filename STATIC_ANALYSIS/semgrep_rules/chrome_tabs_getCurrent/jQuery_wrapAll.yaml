@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_tabs_getCurrent-jQuery_wrapAll
+    languages: [javascript]
+    message: "Source:chrome_tabs_getCurrent;Sink:jQuery_wrapAll"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getCurrent()
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).wrapAll($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.wrapAll($X)
+        - focus-metavariable: $X
+    severity: WARNING

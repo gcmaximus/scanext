@@ -1,0 +1,35 @@
+rules:
+  - id: location_search-setAttribute_href
+    languages: [javascript]
+    message: "Source:location_search;Sink:setAttribute('href')"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - patterns:
+          - pattern: document. ... .setAttribute('href', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .setAttribute('href', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].setAttribute('href', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .setAttribute('href', $X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .setAttribute('href', $X)
+          - focus-metavariable: $X
+    severity: WARNING

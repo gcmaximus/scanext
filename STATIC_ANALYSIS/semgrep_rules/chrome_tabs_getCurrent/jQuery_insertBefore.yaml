@@ -1,0 +1,12 @@
+rules:
+  - id: chrome_tabs_getCurrent-jQuery_insertBefore
+    languages: [javascript]
+    message: "Source:chrome_tabs_getCurrent;Sink:jQuery_insertBefore"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getCurrent()
+    pattern-sinks:
+      - patterns:
+        - pattern: "$($X).insertBefore(...)"
+        - focus-metavariable: $X
+    severity: WARNING

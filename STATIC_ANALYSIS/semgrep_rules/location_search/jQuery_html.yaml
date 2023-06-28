@@ -1,0 +1,19 @@
+rules:
+  - id: location_search-jQuery_html
+    languages: [javascript]
+    message: "Source:location_search;Sink:jQuery_html"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).html($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.html($X)
+        - focus-metavariable: $X
+    severity: WARNING

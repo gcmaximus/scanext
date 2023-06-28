@@ -1,0 +1,19 @@
+rules:
+  - id: location_search-jQuery_attr_href
+    languages: [javascript]
+    message: "Source:location_search;Sink:jQuery_attr('href')"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).attr('href', $X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.attr('href', $X)
+        - focus-metavariable: $X
+    severity: WARNING

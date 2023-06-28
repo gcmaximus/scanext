@@ -1,0 +1,13 @@
+rules:
+  - id: location_search-Handlebars_SafeString
+    languages: [javascript]
+    message: "Source:location_search;Sink:Handlebars_SafeString"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - patterns:
+        - pattern: "new Handlebars.SafeString($X)"
+        - focus-metavariable: $X
+    severity: WARNING

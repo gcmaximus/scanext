@@ -1,0 +1,19 @@
+rules:
+  - id: location_search-jQuery_append
+    languages: [javascript]
+    message: "Source:location_search;Sink:jQuery_append"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).append($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.append($X)
+        - focus-metavariable: $X
+    severity: WARNING

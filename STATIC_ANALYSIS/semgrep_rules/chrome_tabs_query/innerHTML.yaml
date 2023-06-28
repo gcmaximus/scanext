@@ -1,61 +1,34 @@
 rules:
-  - id: chrome_tabs_query-chrome_tabs_update
-    languages:
-      - javascript
-    message: Source:chrome_tabs_query;Sink:chrome_tabs_update
+  - id: chrome_tabs_query-innerHTML
+    languages: [javascript]
+    message: "Source:chrome_tabs_query;Sink:innerHTML"
     mode: taint
     pattern-sources:
-      - patterns:
-        - pattern: |
-            function $TAB_FUNC() {
-              ...
-              $X = chrome.tabs.query({...})
-              ...
-            }
-        - focus-metavariable: $X
+      - pattern: chrome.tabs.query({...})
     pattern-sinks:
       - patterns:
-        - pattern: |
-              document. ... .innerHTML = $X
-        - focus-metavariable: $TAB
+          - pattern: document. ... .innerHTML = $X
+          - focus-metavariable: $X
       - patterns:
-        - pattern: |
+          - pattern: |
               $Y = document. ...
               ...
               $Y. ... .innerHTML = $X
-        - focus-metavariable: $X
-
-    pattern-propagators:
+          - focus-metavariable: $X
       - patterns:
-        - pattern: |
-            function $FUNC($Y) {...}
-            ...
-            $TAB_FUNC().then(($X) => {
-              chrome.scripting.executeScript({
-                target: ...,
-                func: $FUNC,
-                args: [$X],
-              })
-            })
-          from: $X
-          to: $Y
+          - pattern: |
+              document. ...[$INT].innerHTML =$X
+          - focus-metavariable: $X
       - patterns:
-        - pattern: |
-            function $FUNC_TAB() {
+          - pattern: |
+              $Y = document. ...[$INT]
               ...
-              $X = chrome.tabs.query({...})
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
               ...
-            }
-            ...
-            $FUNC_TAB().then(($Z) => {
-              chrome.scripting.executeScript({
-                target: ...,
-                func: $FUNC,
-                args: [$Z],
-              })
-            })
-          from: $X
-          to: $Z
-
-
+              $Y[$INT]. ... .innerHTML = $X
+          - focus-metavariable: $X
     severity: WARNING

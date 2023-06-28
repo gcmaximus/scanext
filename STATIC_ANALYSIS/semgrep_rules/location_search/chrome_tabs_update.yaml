@@ -1,11 +1,11 @@
 rules:
-  - id: chrome_tabs_getSelected-chrome_tabs_update
-    languages:
-      - javascript
-    message: Source:chrome_tabs_getSelected;Sink:chrome_tabs_update
+  - id: location_search-chrome_tabs_update
+    languages: [javascript]
+    message: "Source:location_search;Sink:chrome_tabs_update"
     mode: taint
     pattern-sources:
-      - pattern: chrome.tabs.getSelected($WINDOW_ID)
+      - pattern: location.search
+      - pattern: window.location.search
     pattern-sinks:
       - patterns:
           - pattern: |

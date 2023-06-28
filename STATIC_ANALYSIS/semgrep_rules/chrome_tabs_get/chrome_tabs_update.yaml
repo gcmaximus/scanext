@@ -1,8 +1,7 @@
 rules:
   - id: chrome_tabs_get-chrome_tabs_update
-    languages:
-      - javascript
-    message: Source:chrome_tabs_get;Sink:chrome_tabs_update
+    languages: [javascript]
+    message: "Source:chrome_tabs_get;Sink:chrome_tabs_update"
     mode: taint
     pattern-sources:
       - pattern: "chrome.tabs.get($TAB_ID)"

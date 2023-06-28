@@ -1,0 +1,34 @@
+rules:
+  - id: chrome_tabs_query-outerHTML
+    languages: [javascript]
+    message: "Source:chrome_tabs_query;Sink:outerHTML"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.query({...})
+    pattern-sinks:
+      - patterns:
+          - pattern: document. ... .outerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .outerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].outerHTML =$X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .outerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .outerHTML = $X
+          - focus-metavariable: $X
+    severity: WARNING

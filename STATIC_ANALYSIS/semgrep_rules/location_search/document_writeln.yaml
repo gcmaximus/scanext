@@ -1,0 +1,14 @@
+rules:
+  - id: location_search-document_writeln
+    languages: [javascript]
+    message: "Source:location_search;Sink:document_writeln"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - pattern: "document.writeln($X)"
+      - patterns:
+        - pattern: "... .document.writeln($X)"
+        - focus-metavariable: $X
+    severity: WARNING

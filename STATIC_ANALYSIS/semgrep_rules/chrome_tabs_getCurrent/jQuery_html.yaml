@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_tabs_getCurrent-jQuery_html
+    languages: [javascript]
+    message: "Source:chrome_tabs_getCurrent;Sink:jQuery_html"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getCurrent()
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).html($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.html($X)
+        - focus-metavariable: $X
+    severity: WARNING

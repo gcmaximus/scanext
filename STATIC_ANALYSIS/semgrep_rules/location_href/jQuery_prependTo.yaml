@@ -5,6 +5,7 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: location.href
+      - pattern: window.location.href
     pattern-sinks:
       - patterns:
         - pattern: "$($X).prependTo(...)"
