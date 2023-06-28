@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_tabs_getCurrent-jQuery_prepend
+    languages: [javascript]
+    message: "Source:chrome_tabs_getCurrent;Sink:jQuery_prepend"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getCurrent()
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).prepend($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.prepend($X)
+        - focus-metavariable: $X
+    severity: WARNING

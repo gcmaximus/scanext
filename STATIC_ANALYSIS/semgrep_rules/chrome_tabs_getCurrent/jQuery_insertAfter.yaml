@@ -1,0 +1,12 @@
+rules:
+  - id: chrome_tabs_getCurrent-jQuery_insertAfter
+    languages: [javascript]
+    message: "Source:chrome_tabs_getCurrent;Sink:jQuery_insertAfter"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getCurrent()
+    pattern-sinks:
+      - patterns:
+        - pattern: "$($X).insertAfter(...)"
+        - focus-metavariable: $X
+    severity: WARNING
