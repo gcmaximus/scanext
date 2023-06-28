@@ -4,7 +4,7 @@ rules:
     message: "Source:chrome_tabs_getSelected;Sink:jQuery_insertAfter"
     mode: taint
     pattern-sources:
-      - pattern: chrome.tabs.getSelected($WINDOW_ID)
+      - pattern: chrome.tabs.getSelected(...)
     pattern-sinks:
       - patterns:
         - pattern: "$($X).insertAfter(...)"
