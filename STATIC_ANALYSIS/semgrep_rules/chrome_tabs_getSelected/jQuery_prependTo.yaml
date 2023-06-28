@@ -1,0 +1,12 @@
+rules:
+  - id: chrome_tabs_getSelected-jQuery_prependTo
+    languages: [javascript]
+    message: "Source:chrome_tabs_getSelected;Sink:jQuery_prependTo"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getSelected($WINDOW_ID)
+    pattern-sinks:
+      - patterns:
+        - pattern: "$($X).prependTo(...)"
+        - focus-metavariable: $X
+    severity: WARNING

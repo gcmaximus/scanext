@@ -1,0 +1,13 @@
+rules:
+  - id: chrome_tabs_getSelected-document_write
+    languages: [javascript]
+    message: "Source:chrome_tabs_getSelected;Sink:document_write"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getSelected($WINDOW_ID)
+    pattern-sinks:
+      - pattern: "document.write($X)"
+      - patterns:
+        - pattern: "... .document.write($X)"
+        - focus-metavariable: $X
+    severity: WARNING

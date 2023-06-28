@@ -1,0 +1,12 @@
+rules:
+  - id: chrome_tabs_getSelected-jQuery_appendTo
+    languages: [javascript]
+    message: "Source:chrome_tabs_getSelected;Sink:jQuery_appendTo"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getSelected($WINDOW_ID)
+    pattern-sinks:
+      - patterns:
+        - pattern: "$($X).appendTo(...)"
+        - focus-metavariable: $X
+    severity: WARNING

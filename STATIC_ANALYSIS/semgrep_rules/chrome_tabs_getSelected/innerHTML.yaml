@@ -1,0 +1,34 @@
+rules:
+  - id: chrome_tabs_getSelected-innerHTML
+    languages: [javascript]
+    message: "Source:chrome_tabs_getSelected;Sink:innerHTML"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getSelected($WINDOW_ID)
+    pattern-sinks:
+      - patterns:
+          - pattern: document. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].innerHTML =$X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .innerHTML = $X
+          - focus-metavariable: $X
+    severity: WARNING

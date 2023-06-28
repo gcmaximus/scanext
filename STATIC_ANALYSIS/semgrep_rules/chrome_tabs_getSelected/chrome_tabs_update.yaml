@@ -1,7 +1,6 @@
 rules:
   - id: chrome_tabs_getSelected-chrome_tabs_update
-    languages:
-      - javascript
+    languages: [javascript]
     message: Source:chrome_tabs_getSelected;Sink:chrome_tabs_update
     mode: taint
     pattern-sources:
