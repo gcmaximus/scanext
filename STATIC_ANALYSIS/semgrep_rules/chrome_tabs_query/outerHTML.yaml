@@ -1,34 +1,34 @@
 rules:
-  - id: chrome_tabs_query-innerHTML
+  - id: chrome_tabs_query-outerHTML
     languages: [javascript]
-    message: "Source:chrome_tabs_query;Sink:innerHTML"
+    message: "Source:chrome_tabs_query;Sink:outerHTML"
     mode: taint
     pattern-sources:
       - pattern: chrome.tabs.query({...})
     pattern-sinks:
       - patterns:
-          - pattern: document. ... .innerHTML = $X
+          - pattern: document. ... .outerHTML = $X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...
               ...
-              $Y. ... .innerHTML = $X
+              $Y. ... .outerHTML = $X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
-              document. ...[$INT].innerHTML =$X
+              document. ...[$INT].outerHTML =$X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...[$INT]
               ...
-              $Y. ... .innerHTML = $X
+              $Y. ... .outerHTML = $X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...
               ...
-              $Y[$INT]. ... .innerHTML = $X
+              $Y[$INT]. ... .outerHTML = $X
           - focus-metavariable: $X
     severity: WARNING

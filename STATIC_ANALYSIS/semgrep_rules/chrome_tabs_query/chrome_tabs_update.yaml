@@ -1,8 +1,7 @@
 rules:
   - id: chrome_tabs_query-chrome_tabs_update
-    languages:
-      - javascript
-    message: Source:chrome_tabs_query;Sink:chrome_tabs_update
+    languages: [javascript]
+    message: "Source:chrome_tabs_query;Sink:chrome_tabs_update"
     mode: taint
     pattern-sources:
       - pattern: chrome.tabs.query({...})

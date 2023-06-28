@@ -1,0 +1,18 @@
+rules:
+  - id: chrome_tabs_query-jQuery_append
+    languages: [javascript]
+    message: "Source:chrome_tabs_query;Sink:jQuery_append"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.query({...})
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).append($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.append($X)
+        - focus-metavariable: $X
+    severity: WARNING
