@@ -5,6 +5,7 @@ rules:
     mode: taint
     pattern-sources:
       - pattern: location.hash
+      - pattern: window.location.hash
     pattern-sinks:
       - patterns:
         - pattern: "$(...).wrap($X)"
