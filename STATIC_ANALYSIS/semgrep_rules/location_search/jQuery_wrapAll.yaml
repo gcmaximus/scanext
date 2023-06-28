@@ -1,0 +1,19 @@
+rules:
+  - id: location_search-jQuery_wrapAll
+    languages: [javascript]
+    message: "Source:location_search;Sink:jQuery_wrapAll"
+    mode: taint
+    pattern-sources:
+      - pattern: location.search
+      - pattern: window.location.search
+    pattern-sinks:
+      - patterns:
+        - pattern: "$(...).wrapAll($X)"
+        - focus-metavariable: $X
+      - patterns:
+        - pattern: |
+            $Y = $(...)
+            ...
+            $Y.wrapAll($X)
+        - focus-metavariable: $X
+    severity: WARNING
