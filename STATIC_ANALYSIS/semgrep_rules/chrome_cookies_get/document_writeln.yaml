@@ -1,0 +1,38 @@
+rules:
+  - id: chrome_cookies_get-document_writeln
+    languages:
+      - javascript
+    message: Source:chrome_cookies_get;Sink:document_writeln
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.cookies.get($DETAILS, $FUNC)
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, $FUNC)
+                  ...
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, function ($COOKIE, ...) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, function $FUNC($COOKIE, ...) {
+                    ...
+                  })
+          - pattern-either:
+              - pattern: $COOKIE.name
+              - pattern: $COOKIE.value
+    pattern-sinks:
+      - pattern: document.writeln($X)
+      - patterns:
+          - pattern: ... .document.writeln($X)
+          - focus-metavariable: $X
+    severity: WARNING

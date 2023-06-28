@@ -1,0 +1,59 @@
+rules:
+  - id: chrome_debugger_getTargets-jQuery_after
+    languages:
+      - javascript
+    message: Source:chrome_debugger_getTargets;Sink:jQuery_after
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($TARGETINFO, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.debugger.getTargets($FUNC)
+              - pattern-inside: |
+                  chrome.debugger.getTargets($FUNC)
+                  ...
+                  function $FUNC($TARGETINFO, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.debugger.getTargets(function ($TARGETINFO, ...) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.debugger.getTargets(function $FUNC($TARGETINFO, ...) {
+                    ...
+                  })
+          - pattern-either:
+              - pattern: $TARGETINFO[$INT].title
+              - pattern: $COOKIE[$INT].url
+              - pattern: $COOKIE[$INT].faviconUrl
+              - patterns:
+                  - pattern: |
+                      $Y = $TARGETINFO[$INT]
+                      ...
+                      $Y.url
+              - patterns:
+                  - pattern: |
+                      $Y = $TARGETINFO[$INT]
+                      ...
+                      $Y.title
+              - patterns:
+                  - pattern: |
+                      $Y = $TARGETINFO[$INT]
+                      ...
+                      $Y.faviconUrl
+    pattern-sinks:
+      - patterns:
+          - pattern: $(...).after($X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = $(...)
+              ...
+              $Y.after($X)
+          - focus-metavariable: $X
+    severity: WARNING

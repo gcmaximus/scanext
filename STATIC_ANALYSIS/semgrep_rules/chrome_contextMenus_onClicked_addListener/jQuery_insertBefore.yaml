@@ -1,0 +1,40 @@
+rules:
+  - id: chrome_contextMenus_onClicked_addListener-jQuery_insertBefore
+    languages:
+      - javascript
+    message: Source:chrome_contextMenus_onClicked_addListener;Sink:jQuery_insertBefore
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($INFO, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.contextMenus.onClicked.addListener($FUNC)
+              - pattern-inside: |
+                  chrome.contextMenus.onClicked.addListener($FUNC)
+                  ...
+                  function $FUNC($INFO, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.contextMenus.onClicked.addListener(function ($INFO, ...) {
+                      ...
+                    })
+              - pattern-inside: |
+                  chrome.contextMenus.onClicked.addListener(function $FUNC($INFO, ...) {
+                      ...
+                    })
+          - pattern-either:
+              - pattern: $INFO.linkUrl
+              - pattern: $INFO.srcUrl
+              - pattern: $INFO.pageUrl
+              - pattern: $INFO.frameUrl
+              - pattern: $INFO.selectionText
+    pattern-sinks:
+      - patterns:
+          - pattern: $($X).insertBefore(...)
+          - focus-metavariable: $X
+    severity: WARNING

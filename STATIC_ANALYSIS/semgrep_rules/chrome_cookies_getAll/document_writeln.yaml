@@ -1,0 +1,38 @@
+rules:
+  - id: chrome_cookies_getAll-document_writeln
+    languages:
+      - javascript
+    message: Source:chrome_cookies_getAll;Sink:document_writeln
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.cookies.getAll($DETAILS, $FUNC)
+              - pattern-inside: |
+                  chrome.cookies.getAll($DETAILS, $FUNC)
+                  ...
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.cookies.getAll($DETAILS, function ($COOKIE, ...) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.cookies.getAll($DETAILS, function $FUNC($COOKIE, ...) {
+                    ...
+                  })
+          - pattern-either:
+              - pattern: $COOKIE.name
+              - pattern: $COOKIE.value
+    pattern-sinks:
+      - pattern: document.writeln($X)
+      - patterns:
+          - pattern: ... .document.writeln($X)
+          - focus-metavariable: $X
+    severity: WARNING

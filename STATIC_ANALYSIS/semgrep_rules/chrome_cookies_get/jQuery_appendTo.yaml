@@ -1,0 +1,37 @@
+rules:
+  - id: chrome_cookies_get-jQuery_appendTo
+    languages:
+      - javascript
+    message: Source:chrome_cookies_get;Sink:jQuery_appendTo
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.cookies.get($DETAILS, $FUNC)
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, $FUNC)
+                  ...
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, function ($COOKIE, ...) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, function $FUNC($COOKIE, ...) {
+                    ...
+                  })
+          - pattern-either:
+              - pattern: $COOKIE.name
+              - pattern: $COOKIE.value
+    pattern-sinks:
+      - patterns:
+          - pattern: "$($X).appendTo(...)"
+          - focus-metavariable: $X
+    severity: WARNING

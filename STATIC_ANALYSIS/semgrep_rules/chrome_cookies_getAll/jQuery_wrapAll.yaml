@@ -1,0 +1,43 @@
+rules:
+  - id: chrome_cookies_getAll-jQuery_wrapAll
+    languages:
+      - javascript
+    message: Source:chrome_cookies_getAll;Sink:jQuery_wrapAll
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.cookies.getAll($DETAILS, $FUNC)
+              - pattern-inside: |
+                  chrome.cookies.getAll($DETAILS, $FUNC)
+                  ...
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.cookies.getAll($DETAILS, function ($COOKIE, ...) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.cookies.getAll($DETAILS, function $FUNC($COOKIE, ...) {
+                    ...
+                  })
+          - pattern-either:
+              - pattern: $COOKIE.name
+              - pattern: $COOKIE.value
+    pattern-sinks:
+      - patterns:
+          - pattern: $(...).wrapAll($X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = $(...)
+              ...
+              $Y.wrapAll($X)
+          - focus-metavariable: $X
+    severity: WARNING

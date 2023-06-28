@@ -1,0 +1,43 @@
+rules:
+  - id: chrome_cookies_get-jQuery_after
+    languages:
+      - javascript
+    message: Source:chrome_cookies_get;Sink:jQuery_after
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+                  ...
+                  chrome.cookies.get($DETAILS, $FUNC)
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, $FUNC)
+                  ...
+                  function $FUNC($COOKIE, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, function ($COOKIE, ...) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.cookies.get($DETAILS, function $FUNC($COOKIE, ...) {
+                    ...
+                  })
+          - pattern-either:
+              - pattern: $COOKIE.name
+              - pattern: $COOKIE.value
+    pattern-sinks:
+      - patterns:
+          - pattern: $(...).after($X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = $(...)
+              ...
+              $Y.after($X)
+          - focus-metavariable: $X
+    severity: WARNING
