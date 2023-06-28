@@ -1,5 +1,7 @@
 async function updateTabUrl(windowId, newUrl) {
     try {
+
+      // note to self: windowId is optional
       const all = await chrome.tabs.getAllInWindow(windowId)
       const def = all[0]
       if (true) {

@@ -1,0 +1,13 @@
+rules:
+  - id: chrome_tabs_getAllInWindow-document_write
+    languages: [javascript]
+    message: "Source:chrome_tabs_getAllInWindow;Sink:document_write"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getAllInWindow(...)
+    pattern-sinks:
+      - pattern: "document.write($X)"
+      - patterns:
+        - pattern: "... .document.write($X)"
+        - focus-metavariable: $X
+    severity: WARNING

@@ -1,10 +1,10 @@
 rules:
   - id: chrome_tabs_getAllInWindow-chrome_tabs_update
     languages: [javascript]
-    message: Source:chrome_tabs_getAllInWindow;Sink:chrome_tabs_update
+    message: "Source:chrome_tabs_getAllInWindow;Sink:chrome_tabs_update"
     mode: taint
     pattern-sources:
-      - pattern: "chrome.tabs.getAllInWindow($WINDOW_ID)"
+      - pattern: "chrome.tabs.getAllInWindow(...)"
     pattern-sinks:
       - patterns:
           - pattern: |

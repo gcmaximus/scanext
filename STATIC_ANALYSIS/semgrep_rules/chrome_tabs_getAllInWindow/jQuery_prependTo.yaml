@@ -1,0 +1,12 @@
+rules:
+  - id: chrome_tabs_getAllInWindow-jQuery_prependTo
+    languages: [javascript]
+    message: "Source:chrome_tabs_getAllInWindow;Sink:jQuery_prependTo"
+    mode: taint
+    pattern-sources:
+      - pattern: chrome.tabs.getAllInWindow(...)
+    pattern-sinks:
+      - patterns:
+        - pattern: "$($X).prependTo(...)"
+        - focus-metavariable: $X
+    severity: WARNING
