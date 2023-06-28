@@ -1,5 +1,5 @@
 /*******************
-chrome_cookies_getAll-chrome_tabs_update
+chrome_debugger_getTargets-chrome_tabs_update
 *******************/
 
 // Expected total matches: 40
@@ -50,8 +50,8 @@ function kms(n, a) {
         console.log(tab);
     });
 
-    x = n[0].title;
-    chrome.tabs.update({ abc: "", url: x, cdb: "sdf" }); // Expect 1 match here
+    x = n[0]
+    chrome.tabs.update({ abc: "", url: x.title, cdb: "sdf" }); // Expect 1 match here
     console.log();
 }
 
