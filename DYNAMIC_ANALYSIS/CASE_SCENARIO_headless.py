@@ -1,6 +1,4 @@
 import json
-import pprint
-import time
 
 f = open('j.json')
 
@@ -10,8 +8,6 @@ data = []
 
 for i in results["results"]:
     data.append(i)
-
-print(data.__len__())
 
 tainted = []
 other_vars = []
@@ -24,14 +20,28 @@ def runtime_onC(extid, payload, ssm, msgvar):
     if html in message:
         sink_split = message.split("Sink:")
         sink = sink_split[-1]
+    elif dots in message:
+        sink_split = message.split(dots)
+        sink = sink_split[-1]
+    elif underscore in message:
+        sink_split = message.split(underscore)
+        sink = sink_split[-1]
     
     taintsink = ssm["sink"]
     taintsource = ssm["source"]
     x = msgvar[1]
     varfirst = taintsource.find(x)
+    if varfirst == -1:
+        if dots in taintsink:
+            tsink = taintsink.split(dots)
+            obj = {tsink[-1]:payload}
+        var = f'obj = JSON.parse("{obj}");'
+        func = f'chrome.runtime.sendMessage({extid},obj)'
+    else:
+        taintsource
 
 
-    script = f'chrome.runtime.onConnect({extid},)'
+    script = f'{var}chrome.runtime.connect({extid},{func})'
 
 def runtime_onM(extid, payload, ssm, msgvar):
 
@@ -78,7 +88,7 @@ def runtime_onM(extid, payload, ssm, msgvar):
             else:
                 obj = {payload}
     
-    script = f'chrome.runtime.sendMessage({extid},{obj})'
+    script = f'obj = JSON.parse("{obj}");chrome.runtime.sendMessage({extid},obj)'
     return script
 
 for i in data:
@@ -113,72 +123,6 @@ for i in data:
         taint["sink"] = taint_sink
         tainted.append(taint)
 
-def runtime_onC(extid, payload, ssm, msgvar):
-    html = 'rHTML'
-    dots = '.'
-    underscore = '_'
-    message = ssm["message"]
-    if html in message:
-        sink_split = message.split("Sink:")
-        sink = sink_split[-1]
-    
-    taintsink = ssm["sink"]
-    taintsource = ssm["source"]
-    x = msgvar[1]
-    varfirst = taintsource.find(x)
-
-
-    script = f'chrome.runtime.onConnect({extid},)'
-
-def runtime_onM(extid, payload, ssm, msgvar):
-
-    html = 'rHTML'
-    dots = '.'
-    underscore = '_'
-    message = ssm["message"]
-    if html in message:
-        sink_split = message.split('Sink:')
-        sink = sink_split[-1]
-    elif dots in message:
-        sink_split = message.split(dots)
-        sink = sink_split[-1]
-    elif underscore in message:
-        sink_split = message.split(underscore)
-        sink = sink_split[-1]
-    
-    taintsink = ssm["sink"]
-    
-    varindex = taintsink.find(sink+"(") + sink.__len__() + 1
-    for i in msgvar:
-        msgindex = taintsink.find(i)
-        if msgindex == -1:
-            continue
-        elif varindex == msgindex:
-            #source is here
-            endvarindex = taintsink.find(")",varindex)
-            if endvarindex == -1:
-                endvarindex = 0
-            source = taintsink[varindex,endvarindex-1]
-            if dots in source:
-                sourcel = source.split(dots)
-                obj = {sourcel[1]:payload}
-            else:
-                obj = {payload}
-        else:
-            endvarindex = taintsink.find(")",msgindex)
-            if endvarindex == -1:
-                endvarindex = 0
-            source = taintsink[msgindex,endvarindex-1]
-            if dots in source:
-                sourcel = source.split(dots)
-                obj = {sourcel[1]:payload}
-            else:
-                obj = {payload}
-    
-    script = f'chrome.runtime.sendMessage({extid},{obj})'
-    return script
-
-print(runtime_onM("extid","<img src=x onerror=alert(1)>",))
 
 # import os
 # import fileinput

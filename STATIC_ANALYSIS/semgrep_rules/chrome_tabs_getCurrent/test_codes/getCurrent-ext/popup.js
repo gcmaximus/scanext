@@ -2,6 +2,13 @@
 
 // Version 1
 
+/*
+
+cant get this to work, getCurrent may need to be in contentScript.js
+
+
+*/
+
 function displayUrl(tabInfo) {
   console.log(tabInfo)
   document.getElementById('url').innerHTML = tabInfo[0].url

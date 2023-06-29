@@ -4,7 +4,7 @@ rules:
     message: "Source:chrome_tabs_query;Sink:innerHTML"
     mode: taint
     pattern-sources:
-      - pattern: chrome.tabs.query({...})
+      - pattern: chrome.tabs.query(...)
     pattern-sinks:
       - patterns:
           - pattern: document. ... .innerHTML = $X

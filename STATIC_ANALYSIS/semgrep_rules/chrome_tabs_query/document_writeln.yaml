@@ -4,7 +4,7 @@ rules:
     message: "Source:chrome_tabs_query;Sink:document_writeln"
     mode: taint
     pattern-sources:
-      - pattern: chrome.tabs.query({...})
+      - pattern: chrome.tabs.query(...)
     pattern-sinks:
       - pattern: "document.writeln($X)"
       - patterns:
