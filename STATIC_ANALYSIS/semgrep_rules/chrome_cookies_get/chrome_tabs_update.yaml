@@ -22,10 +22,6 @@ rules:
               - pattern-inside: |
                   chrome.cookies.get($DETAILS, function ($COOKIE, ...) {
                     ...
-                  })  
-              - pattern-inside: |
-                  chrome.cookies.get($DETAILS, function $FUNC($COOKIE, ...) {
-                    ...
                   })
           - pattern-either:
               - pattern: $COOKIE.name
