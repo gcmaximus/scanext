@@ -24,7 +24,19 @@ rules:
                     ...
                   })
               - pattern-inside: |
-                  chrome.debugger.getTargets(function $FUNC($TARGETINFO) {
+                  function $FUNC($TARGETINFO) {
+                    ...
+                  }
+                  ...
+                  chrome.debugger.getTargets().then($FUNC)
+              - pattern-inside: |
+                  chrome.debugger.getTargets().then($FUNC)
+                  ...
+                  function $FUNC($TARGETINFO) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.debugger.getTargets().then(function ($TARGETINFO) {
                     ...
                   })
           - pattern-either:
