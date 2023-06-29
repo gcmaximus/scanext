@@ -5,7 +5,7 @@ chrome_debugger_getTargets-jQuery_insertAfter
 // Expected total matches: 40
 
 // case 1
-function kms(n, a) {
+function kms(n) {
     console.log();
     $(n[0].linkUrl).insertAfter("f"); // Expect 1 match here
     $(n[0].srcUrl).insertAfter("f"); // Expect 1 match here
@@ -44,7 +44,7 @@ chrome.debugger.getTargets(aaa);
 let b = n[0].linkUrl;
 $(x).insertAfter("f");
 
-function aaa(n, a) {
+function aaa(n) {
     console.log();
     $(n[0].linkUrl).insertAfter("f"); // Expect 1 match here
     $(n[0].srcUrl).insertAfter("f"); // Expect 1 match here
@@ -73,7 +73,7 @@ function aaa(n, a) {
 }
 
 // case 3
-chrome.debugger.getTargets(function (n, a) {
+chrome.debugger.getTargets(function (n) {
     console.log();
     $(n[0].linkUrl).insertAfter("f"); // Expect 1 match here
     $(n[0].srcUrl).insertAfter("f"); // Expect 1 match here
@@ -100,7 +100,7 @@ chrome.debugger.getTargets(function (n, a) {
 });
 
 // case 4
-chrome.debugger.getTargets(function bbb(n, a) {
+chrome.debugger.getTargets(function bbb(n) {
     console.log();
     $(n[0].linkUrl).insertAfter("f"); // Expect 1 match here
     $(n[0].srcUrl).insertAfter("f"); // Expect 1 match here

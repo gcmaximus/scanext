@@ -5,7 +5,7 @@ chrome_debugger_getTargets-chrome_tabs_update
 // Expected total matches: 40
 
 // case 1
-function kms(n, a) {
+function kms(n) {
     console.log();
 
     let rite11 = { abc: "", url: n[0].title, cdb: "sdf" }; // Expect 1 match
@@ -50,7 +50,7 @@ function kms(n, a) {
         console.log(tab);
     });
 
-    x = n[0]
+    x = n[0];
     chrome.tabs.update({ abc: "", url: x.title, cdb: "sdf" }); // Expect 1 match here
     console.log();
 }
@@ -67,7 +67,7 @@ chrome.debugger.getTargets(aaa);
 let b = n[0].title;
 chrome.tabs.update({ abc: "", url: b, cdb: "sdf" }); // err
 
-function aaa(n, a) {
+function aaa(n) {
     console.log();
 
     let rite21 = { abc: "", url: n[0].title, cdb: "sdf" }; // Expect 1 match
@@ -118,7 +118,7 @@ function aaa(n, a) {
 }
 
 // case 3
-chrome.debugger.getTargets(function (n, a) {
+chrome.debugger.getTargets(function (n) {
     console.log();
     let rite31 = { abc: "", url: n[0].title, cdb: "sdf" }; // Expect 1 match
     chrome.tabs.update(a, rite31, (tab) => {
@@ -168,7 +168,7 @@ chrome.debugger.getTargets(function (n, a) {
 });
 
 // case 4
-chrome.debugger.getTargets(function bbb(n, a) {
+chrome.debugger.getTargets(function bbb(n) {
     console.log();
     let rite41 = { abc: "", url: n[0].title, cdb: "sdf" }; // Expect 1 match
     chrome.tabs.update(a, rite41, (tab) => {
