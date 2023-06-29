@@ -23,10 +23,6 @@ rules:
                   chrome.contextMenus.onClicked.addListener(function ($INFO, ...) {
                       ...
                     })
-              - pattern-inside: |
-                  chrome.contextMenus.onClicked.addListener(function $FUNC($INFO, ...) {
-                      ...
-                    })
           - pattern-either:
               - pattern: $INFO.linkUrl
               - pattern: $INFO.srcUrl
