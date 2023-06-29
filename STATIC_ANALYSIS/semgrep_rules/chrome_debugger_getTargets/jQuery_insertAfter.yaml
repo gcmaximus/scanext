@@ -29,8 +29,8 @@ rules:
                   })
           - pattern-either:
               - pattern: $TARGETINFO[$INT].title
-              - pattern: $COOKIE[$INT].url
-              - pattern: $COOKIE[$INT].faviconUrl
+              - pattern: $TARGETINFO[$INT].url
+              - pattern: $TARGETINFO[$INT].faviconUrl
               - patterns:
                   - pattern: |
                       $Y = $TARGETINFO[$INT]
