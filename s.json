@@ -13,8 +13,8 @@
             "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_runtime_onConnect.chrome_runtime_onConnect-chrome_tabs_update",
             "end": {
                 "col": 65,
-                "line": 7,
-                "offset": 395
+                "line": 8,
+                "offset": 434
             },
             "extra": {
                 "dataflow_trace": {
@@ -24,14 +24,14 @@
                             "location": {
                                 "end": {
                                     "col": 44,
-                                    "line": 4,
-                                    "offset": 258
+                                    "line": 5,
+                                    "offset": 297
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/chrome_tabs_update.js",
                                 "start": {
                                     "col": 41,
-                                    "line": 4,
-                                    "offset": 255
+                                    "line": 5,
+                                    "offset": 294
                                 }
                             }
                         }
@@ -42,14 +42,14 @@
                             {
                                 "end": {
                                     "col": 65,
-                                    "line": 7,
-                                    "offset": 395
+                                    "line": 8,
+                                    "offset": 434
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/chrome_tabs_update.js",
                                 "start": {
                                     "col": 56,
-                                    "line": 7,
-                                    "offset": 386
+                                    "line": 8,
+                                    "offset": 425
                                 }
                             },
                             "msg.stuff"
@@ -61,14 +61,14 @@
                             {
                                 "end": {
                                     "col": 44,
-                                    "line": 4,
-                                    "offset": 258
+                                    "line": 5,
+                                    "offset": 297
                                 },
                                 "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/chrome_tabs_update.js",
                                 "start": {
                                     "col": 41,
-                                    "line": 4,
-                                    "offset": 255
+                                    "line": 5,
+                                    "offset": 294
                                 }
                             },
                             "msg"
@@ -99,13 +99,13 @@
                         "abstract_content": "msg",
                         "end": {
                             "col": 44,
-                            "line": 4,
-                            "offset": 258
+                            "line": 5,
+                            "offset": 297
                         },
                         "start": {
                             "col": 41,
-                            "line": 4,
-                            "offset": 255
+                            "line": 5,
+                            "offset": 294
                         }
                     }
                 },
@@ -114,8 +114,8 @@
             "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onConnect/test_codes/chrome_tabs_update.js",
             "start": {
                 "col": 56,
-                "line": 7,
-                "offset": 386
+                "line": 8,
+                "offset": 425
             }
         },
         {

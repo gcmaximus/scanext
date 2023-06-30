@@ -16,6 +16,11 @@ def runtime_onC(extid, payload, ssm, msgvar):
     html = 'rHTML'
     dots = '.'
     underscore = '_'
+    function = 'function'
+    ifs = 'if'
+    openb = '('
+    closeb = ')'
+    equivalent = '==='
     message = ssm["message"]
     if html in message:
         sink_split = message.split("Sink:")
@@ -29,7 +34,11 @@ def runtime_onC(extid, payload, ssm, msgvar):
     
     taintsink = ssm["sink"]
     taintsource = ssm["source"]
-    x = msgvar[1]
+    if msgvar[1]:
+        x = msgvar[1]
+    else:
+        x = msgvar[0]
+    functionvar = taintsource.find(function)
     varfirst = taintsource.find(x)
     if varfirst == -1:
         if dots in taintsink:
@@ -37,8 +46,10 @@ def runtime_onC(extid, payload, ssm, msgvar):
             obj = {tsink[-1]:payload}
         var = f'obj = JSON.parse("{obj}");'
         func = f'chrome.runtime.sendMessage({extid},obj)'
-    else:
-        taintsource
+    elif functionvar < varfirst:
+        ifvar = taintsource.find(ifs,varfirst)
+        if ifvar:
+            equiv = taintsource
 
 
     script = f'{var}chrome.runtime.connect({extid},{func})'
@@ -123,27 +134,3 @@ for i in data:
         taint["sink"] = taint_sink
         tainted.append(taint)
 
-
-# import os
-# import fileinput
-
-# # Specify the folder path containing the JavaScript files
-# folder_path = "testing"
-
-# for root, dirs, files in os.walk(folder_path):
-#     # Perform the find and replace operation on each JavaScript file in the folder
-#     for filename in files:
-#         if filename.endswith(".js"):
-#             file_path = os.path.join(root, filename)
-
-#             # Perform the find and replace operation
-#             with fileinput.FileInput(file_path, inplace=True,) as file:
-#                 for line in file:
-#                     # Replace "active: true" with "active: false"
-#                     if "active: !0" in line:
-#                         a = "active: !0"
-#                     elif "active: true" in line:
-#                         a = "active: true"
-                    
-#                     line = line.replace(a, "active: false")
-#                     print(line, end="")

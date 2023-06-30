@@ -1,5 +1,5 @@
-# by weiming
-
+import os
+import fileinput
 import time
 from selenium.webdriver import ActionChains, Chrome, ChromeOptions, Keys
 from selenium.webdriver.common.by import By
@@ -141,6 +141,27 @@ def headless(extension_path,jsonf):
         partial_process_payload = partial(process_payload, url_path=url_path, abs_path=abs_path, json_data=data)
         pool.map(partial_process_payload, [payloads1, payloads2, payloads3])
 
+def preconfigure(dir):
+    # Specify the folder path containing the JavaScript files
+    folder_path = dir
+
+    for root, dirs, files in os.walk(folder_path):
+        # Perform the find and replace operation on each JavaScript file in the folder
+        for filename in files:
+            if filename.endswith(".js"):
+                file_path = os.path.join(root, filename)
+
+                # Perform the find and replace operation
+                with fileinput.FileInput(file_path, inplace=True,) as file:
+                    for line in file:
+                        # Replace "active: true" with "active: false"
+                        if "active: !0" in line:
+                            a = "active: !0"
+                        elif "active: true" in line:
+                            a = "active: true"
+                        
+                        line = line.replace(a, "active: false")
+                        print(line, end="")
 
 def main():
     # # Configure logging
@@ -151,7 +172,7 @@ def main():
     # )
 
     # preconfiguration (set active to false)
-    
+    preconfigure('ad')
 
     # Run program
     with Display() as disp:
