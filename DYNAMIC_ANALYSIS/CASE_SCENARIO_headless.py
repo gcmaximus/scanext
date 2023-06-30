@@ -11,62 +11,68 @@ for i in results["results"]:
 
 tainted = []
 other_vars = []
+scripts = []
 
 def runtime_onC(extid, payload, ssm, msgvar):
-    html = 'rHTML'
-    dots = '.'
-    underscore = '_'
-    function = 'function'
-    ifs = 'if'
-    openb = '('
-    closeb = ')'
-    equivalent = '==='
-    message = ssm[0]["message"]
-    if html in message:
-        sink_split = message.split("Sink:")
-        sink = sink_split[-1]
-    elif dots in message:
-        sink_split = message.split(dots)
-        sink = sink_split[-1]
-    elif underscore in message:
-        sink_split = message.split(underscore)
-        sink = sink_split[-1]
-    
-    taintsink = ssm[0]["sink"]
-    taintsource = ssm[0]["source"]
-    try:
-        if msgvar[1]:
-            x = msgvar[1]
-    except:
-        x = msgvar[0]
-    functionvar = taintsource.find(function)
-    varfirst = taintsource.find(x)
-    if varfirst == -1:
-        if dots in taintsink:
-            tsink = taintsink.split(dots)
-            obj = {tsink[-1]:payload}
-        var = f'obj = JSON.parse("{obj}");'
-        func = f'obj.postMessage({payload})'
-    elif functionvar < varfirst:
-        ifvar = taintsource.find(ifs,varfirst)
-        if ifvar:
-            obrack = taintsource.find(openb,ifvar)
-            equiv = taintsource.find(equivalent,ifvar)
-            cbrack = taintsource.find(closeb,obrack)
-            if obrack<equiv<cbrack and obrack!=-1:
-                constvar = taintsource[obrack:cbrack]
-                constvar.replace(" ","")
-                constvar.split(equivalent)
-                if dots in constvar[0]:
-                    portvar = constvar[0].split(dots)
-                    constvar[0] = portvar[1]
-                obj = {constvar[0]:constvar[1]}
+    for i in ssm:
+        html = 'rHTML'
+        dots = '.'
+        underscore = '_'
+        function = 'function'
+        ifs = 'if'
+        openb = '('
+        closeb = ')'
+        equivalent = '==='
+        message = i["message"]
+        if html in message:
+            sink_split = message.split("Sink:")
+            sink = sink_split[-1]
+        elif dots in message:
+            sink_split = message.split(dots)
+            sink = sink_split[-1]
+        elif underscore in message:
+            sink_split = message.split(underscore)
+            sink = sink_split[-1]
+        
+        taintsink = i["sink"]
+        taintsource = i["source"]
+        try:
+            if msgvar[1]:
+                x = msgvar[1]
+        except:
+            x = msgvar[0]
+        functionvar = taintsource.find(function)
+        varfirst = taintsource.find(x)
+        if varfirst == -1:
+            if dots in taintsink:
+                tsink = taintsink.split(dots)
+                obj = {tsink[-1]:payload}
+                obj = json.dumps(obj)
+            var = f"obj = JSON.parse('{obj}');"
+            func = f'obj.postMessage({payload})'
+        elif functionvar < varfirst:
+            ifvar = taintsource.find(ifs,varfirst)
+            if ifvar:
+                obrack = taintsource.find(openb,ifvar)
+                equiv = taintsource.find(equivalent,ifvar)
+                cbrack = taintsource.find(closeb,obrack)
+                if obrack<equiv<cbrack and obrack!=-1:
+                    constvar = taintsource[obrack:cbrack]
+                    constvar = constvar.replace(" ","")
+                    constvar = constvar.split(equivalent)
+                    if dots in constvar[0]:
+                        portvar = constvar[0].split(dots)
+                        constvar[0] = portvar[1]
+                    if "'" in constvar[1]:
+                        constvar[1] = constvar[1].replace("'",'')
+                    obj = {constvar[0]:constvar[1]}
+                    obj = json.dumps(obj)
 
-        var = f'obj = JSON.parse("{obj}");'
-        func = f'obj.postMessage({payload})'
+            var = f"obj = JSON.parse('{obj}');"
+            func = f"obj.postMessage({payload})"
 
-    script = f'{var}chrome.runtime.connect({extid},{func})'
-    return script
+        script = f"{var}chrome.runtime.connect({extid},{func})"
+        scripts.append(script)
 
 def runtime_onM(extid, payload, ssm, msgvar):
 
@@ -150,5 +156,8 @@ for i in data:
         taint["source"] = taint_source
         taint["sink"] = taint_sink
         tainted.append(taint)
-        print(runtime_onC('extid','<img src=x onerror=alert(1)>',tainted,metavars))
+
+runtime_onC('extid','<img src=x onerror=alert(1)>',tainted,metavars)
+for i in scripts:
+    print(i)
 
