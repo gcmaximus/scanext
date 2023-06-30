@@ -49,8 +49,20 @@ def runtime_onC(extid, payload, ssm, msgvar):
     elif functionvar < varfirst:
         ifvar = taintsource.find(ifs,varfirst)
         if ifvar:
-            equiv = taintsource
+            obrack = taintsource.find(openb,ifvar)
+            equiv = taintsource.find(equivalent,ifvar)
+            cbrack = taintsource.find(closeb,obrack)
+            if obrack<equiv<cbrack and obrack!=-1:
+                constvar = taintsource[obrack:cbrack]
+                constvar.replace(" ","")
+                constvar.split(equivalent)
+                if dots in constvar[0]:
+                    portvar = constvar[0].split(dots)
+                    constvar[0] = portvar[1]
+                obj = {constvar[0]:constvar[1]}
 
+        var = f'obj = JSON.parse("{obj}");'
+        func = f'chrome.runtime.sendMessage({extid},obj.postMessage({payload}))'
 
     script = f'{var}chrome.runtime.connect({extid},{func})'
 
