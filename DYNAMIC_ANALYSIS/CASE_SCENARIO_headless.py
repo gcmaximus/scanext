@@ -1,6 +1,6 @@
 import json
 
-f = open('j.json')
+f = open('s.json')
 
 results = json.load(f)
 
@@ -21,7 +21,7 @@ def runtime_onC(extid, payload, ssm, msgvar):
     openb = '('
     closeb = ')'
     equivalent = '==='
-    message = ssm["message"]
+    message = ssm[0]["message"]
     if html in message:
         sink_split = message.split("Sink:")
         sink = sink_split[-1]
@@ -32,11 +32,12 @@ def runtime_onC(extid, payload, ssm, msgvar):
         sink_split = message.split(underscore)
         sink = sink_split[-1]
     
-    taintsink = ssm["sink"]
-    taintsource = ssm["source"]
-    if msgvar[1]:
-        x = msgvar[1]
-    else:
+    taintsink = ssm[0]["sink"]
+    taintsource = ssm[0]["source"]
+    try:
+        if msgvar[1]:
+            x = msgvar[1]
+    except:
         x = msgvar[0]
     functionvar = taintsource.find(function)
     varfirst = taintsource.find(x)
@@ -45,7 +46,7 @@ def runtime_onC(extid, payload, ssm, msgvar):
             tsink = taintsink.split(dots)
             obj = {tsink[-1]:payload}
         var = f'obj = JSON.parse("{obj}");'
-        func = f'chrome.runtime.sendMessage({extid},obj)'
+        func = f'obj.postMessage({payload})'
     elif functionvar < varfirst:
         ifvar = taintsource.find(ifs,varfirst)
         if ifvar:
@@ -62,9 +63,10 @@ def runtime_onC(extid, payload, ssm, msgvar):
                 obj = {constvar[0]:constvar[1]}
 
         var = f'obj = JSON.parse("{obj}");'
-        func = f'chrome.runtime.sendMessage({extid},obj.postMessage({payload}))'
+        func = f'obj.postMessage({payload})'
 
     script = f'{var}chrome.runtime.connect({extid},{func})'
+    return script
 
 def runtime_onM(extid, payload, ssm, msgvar):
 
@@ -135,8 +137,11 @@ for i in data:
         taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
         taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
         metavars = []
-        if i["extra"]["metavars"]["$OBJ"]:
-            metavars.append(i["extra"]["metavars"]["$OBJ"]["abstract_content"])
+        try:
+            if i["extra"]["metavars"]["$OBJ"]:
+                metavars.append(i["extra"]["metavars"]["$OBJ"]["abstract_content"])
+        except:
+            print(1)
         if i["extra"]["metavars"]["$X"]:
             metavars.append(i["extra"]["metavars"]["$X"]["abstract_content"])
         other_vars.append({"content":metavars})
@@ -145,4 +150,5 @@ for i in data:
         taint["source"] = taint_source
         taint["sink"] = taint_sink
         tainted.append(taint)
+        print(runtime_onC('extid','<img src=x onerror=alert(1)>',tainted,metavars))
 
