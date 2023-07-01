@@ -1,0 +1,52 @@
+rules:
+  - id: chrome_runtime_onConnectExternal-innerHTML
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  chrome.runtime.onConnectExternal.addListener(function($X, ...) {
+                  ... 
+                  });
+              - pattern: |
+                  function $ANY($X,...){
+                    ...
+                  }
+                  ...
+                  chrome.runtime.onConnectExternal.addListener($ANY)
+              - pattern: |
+                  chrome.runtime.onConnectExternal.addListener($ANY)
+                  ...
+                  function $ANY($X,...){
+                    ...
+                  }
+    pattern-sinks:
+      - patterns:
+          - pattern: document. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].innerHTML =$X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .innerHTML = $X
+          - focus-metavariable: $X
+    message: Source:chrome_runtime_onConnectExternal;Sink:innerHTML
+    languages:
+      - js
+    severity: WARNING
