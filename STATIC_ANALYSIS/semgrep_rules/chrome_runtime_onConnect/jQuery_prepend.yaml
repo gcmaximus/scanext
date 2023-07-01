@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-outerHTML
+  - id: chrome_runtime_onConnect-jQuery_prepend
     mode: taint
     pattern-sources:
       - patterns:
@@ -22,30 +22,15 @@ rules:
                   }
     pattern-sinks:
       - patterns:
-          - pattern: document. ... .outerHTML = $X
+          - pattern: $(...).prepend($X)
           - focus-metavariable: $X
       - patterns:
           - pattern: |
-              $Y = document. ...
+              $Y = $(...)
               ...
-              $Y. ... .outerHTML = $X
+              $Y.prepend($X)
           - focus-metavariable: $X
-      - patterns:
-          - pattern: |
-              document. ...[$INT].outerHTML =$X
-          - focus-metavariable: $X
-      - patterns:
-          - pattern: |
-              $Y = document. ...[$INT]
-              ...
-              $Y. ... .outerHTML = $X
-          - focus-metavariable: $X
-      - patterns:
-          - pattern: |
-              $Y = document. ...
-              ...
-              $Y[$INT]. ... .outerHTML = $X
-    message: Source:chrome_runtime_onConnect;Sink:outerHTML
+    message: Source:chrome_runtime_onConnect;Sink:jQuery_prepend
     languages:
       - js
     severity: WARNING

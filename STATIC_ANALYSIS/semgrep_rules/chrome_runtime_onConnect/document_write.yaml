@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-chrome_tabs_update
+  - id: chrome_runtime_onConnect-document_write
     mode: taint
     pattern-sources:
       - patterns:
@@ -21,25 +21,11 @@ rules:
                     ...
                   }
     pattern-sinks:
+      - pattern: document.write($X)
       - patterns:
-          - pattern: |
-              chrome.tabs.update(..., {url: $X}, ...)
+          - pattern: ... .document.write($X)
           - focus-metavariable: $X
-      - patterns:
-          - pattern: |
-              $X = {url:$Y}
-              ...
-              chrome.tabs.update($X, ...)
-          - focus-metavariable:
-              - $Y
-      - patterns:
-          - pattern: |
-              $X = {url: $Y}
-              ...
-              chrome.tabs.update($W, $X, ...)
-          - focus-metavariable:
-              - $Y
-    message: Source:chrome_runtime_onConnect;Sink:jQuery_chrome_tabs_update
+    message: Source:chrome_runtime_onConnect;Sink:document_write
     languages:
       - js
     severity: WARNING
