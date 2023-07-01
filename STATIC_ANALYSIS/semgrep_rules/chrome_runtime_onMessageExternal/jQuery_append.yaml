@@ -1,0 +1,37 @@
+rules:
+  - id: chrome_runtime_onMessageExternal-jQuery_append
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  chrome.runtime.onMessageExternal.addListener(function($X, ...) {
+                  ... 
+                  });
+              - pattern: |
+                  function $ANY($X,...){
+                    ...
+                  }
+                  ...
+                  chrome.runtime.onMessageExternal.addListener($ANY)
+              - pattern: |
+                  chrome.runtime.onMessageExternal.addListener($ANY)
+                  ...
+                  function $ANY($X,...){
+                    ...
+                  }
+          - focus-metavariable: $X
+    pattern-sinks:
+      - patterns:
+          - pattern: $(...).append($X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = $(...)
+              ...
+              $Y.append($X)
+          - focus-metavariable: $X
+    message: Source:chrome_runtime_onMessageExternal;Sink:jQuery_append
+    languages:
+      - js
+    severity: WARNING
