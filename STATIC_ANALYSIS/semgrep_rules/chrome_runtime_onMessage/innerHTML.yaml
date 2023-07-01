@@ -47,7 +47,7 @@ rules:
               ...
               $Y[$INT]. ... .innerHTML = $X
           - focus-metavariable: $X
-    message: Source:chrome.runtime.onMessage;Sink:innerHTML
+    message: Source:chrome_runtime_onMessage;Sink:innerHTML
     languages:
       - js
     severity: WARNING

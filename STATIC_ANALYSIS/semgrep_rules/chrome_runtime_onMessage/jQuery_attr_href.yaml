@@ -25,7 +25,7 @@ rules:
       - patterns:
           - pattern-either:
               - pattern: ... .attr('href',...);
-    message: Source:chrome.runtime.onMessage;Sink:jQuery_attr_href
+    message: Source:chrome_runtime_onMessage;Sink:jQuery_attr_href
     languages:
       - js
     severity: WARNING

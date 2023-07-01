@@ -26,7 +26,7 @@ rules:
           - pattern-either:
               - pattern: |
                   globalEval(...)
-    message: Source:chrome.runtime.onMessage;Sink:jQuery.globalEval
+    message: Source:chrome_runtime_onMessage;Sink:jQuery_globalEval
     languages:
       - js
     severity: WARNING

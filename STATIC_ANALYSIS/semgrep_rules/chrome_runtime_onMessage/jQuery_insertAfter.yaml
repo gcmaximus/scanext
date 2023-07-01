@@ -23,9 +23,9 @@ rules:
           - focus-metavariable: $X
     pattern-sinks:
       - patterns:
-          - pattern-either:
-              - pattern: ... .insertAfter(...)
-    message: Source:chrome.runtime.onMessage;Sink:jQuery.insertAfter
+          - pattern: $($X).insertAfter(...)
+          - focus-metavariable: $X
+    message: Source:chrome_runtime_onMessage;Sink:jQuery_insertAfter
     languages:
       - js
     severity: WARNING
