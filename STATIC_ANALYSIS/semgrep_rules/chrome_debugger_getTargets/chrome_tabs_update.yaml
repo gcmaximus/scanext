@@ -65,16 +65,9 @@ rules:
           - focus-metavariable: $X
       - patterns:
           - pattern: |
-              $X = {url:$Y}
-              ...
-              chrome.tabs.update($X, ...)
-          - focus-metavariable:
-              - $Y
-      - patterns:
-          - pattern: |
               $X = {url: $Y}
               ...
-              chrome.tabs.update($W, $X, ...)
+              chrome.tabs.update(..., $X, ...)
           - focus-metavariable:
               - $Y
     severity: WARNING
