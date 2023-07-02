@@ -97,13 +97,6 @@ rules:
               $Y.then(function ($TABS) {...})
           - focus-metavariable:
               - $TABS
-      - patterns:
-          - pattern: |
-              $Y = chrome.tabs.getCurrent()
-              ...
-              $Y.then(function ($TABS) {...})
-          - focus-metavariable:
-              - $TABS
     pattern-sinks:
       - patterns:
           - pattern: document. ... .outerHTML = $X
