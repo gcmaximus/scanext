@@ -4,7 +4,97 @@ rules:
     message: "Source:chrome_tabs_get;Sink:jQuery_insertAfter"
     mode: taint
     pattern-sources:
-      - pattern: chrome.tabs.get($TAB_ID)
+      - pattern: $TABS = await chrome.tabs.get(...)
+      - patterns:
+          - pattern: |
+              function $FUNC($TABS) {
+                ...
+              }
+              ...
+              chrome.tabs.get(..., $FUNC)
+          - focus-metavariable:
+              - $TABS
+      - patterns:
+          - pattern: |
+              chrome.tabs.get(..., $FUNC)
+              ...
+              function $FUNC($TABS) {
+                ...
+              }
+          - focus-metavariable:
+              - $TABS
+      - patterns:
+          - pattern: |
+              chrome.tabs.get(..., function ($TABS) {
+                ...
+              })
+          - focus-metavariable:
+              - $TABS
+      - patterns:
+          - pattern-inside: |
+              chrome.tabs.get(..., function ([$TAB]) {
+                ...
+              })
+          - pattern: $TAB
+          - focus-metavariable:
+              - $TAB
+      - patterns:
+          - pattern: |
+              chrome.tabs.get(...).then(function ($TABS) {
+                ...
+              })
+          - focus-metavariable:
+              - $TABS
+      - patterns:
+          - pattern-inside: |
+              chrome.tabs.get(...).then(function ([$TAB]) {
+                ...
+              })
+          - pattern: $TAB
+          - focus-metavariable:
+              - $TAB
+      - patterns:
+          - pattern: |
+              async function $FUNC(...) {
+                ...
+                $Y = await chrome.tabs.get(...)
+                ...
+                return <... $Y ...>
+              }
+              ...
+              $FUNC(...).then(function ($TABS) {...})
+          - focus-metavariable:
+              - $TABS
+      - patterns:
+          - pattern-inside: |
+              async function $FUNC(...) {
+                ...
+                $Y = await chrome.tabs.get(...)
+                ...
+                return $Y
+              }
+              ...
+              $FUNC(...).then(function ([$TAB]) {...})
+          - pattern: $TAB
+          - focus-metavariable:
+              - $TAB
+      - patterns:
+          - pattern: |
+              async function $FUNC(...) {
+                ...
+                [$Y] = await chrome.tabs.get(...)
+                ...
+                return <... $Y ...>
+              }
+              ...
+              $FUNC(...).then(function ($TAB) {...})
+          - focus-metavariable:
+              - $TAB
+      - patterns:
+          - pattern: |
+              $Y = chrome.tabs.get(...)
+              ...
+              $Y.then(function ($TABS) {...})
     pattern-sinks:
       - patterns:
         - pattern: "$($X).insertAfter(...)"
