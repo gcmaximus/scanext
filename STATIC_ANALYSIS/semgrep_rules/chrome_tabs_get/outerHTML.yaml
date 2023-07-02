@@ -4,98 +4,73 @@ rules:
     message: "Source:chrome_tabs_get;Sink:outerHTML"
     mode: taint
     pattern-sources:
-      - pattern: $TABS = await chrome.tabs.get(...)
       - patterns:
-          - pattern: |
-              function $FUNC($TABS) {
+          - pattern-either:
+            - pattern-inside: await chrome.tabs.get(...)
+            - pattern-inside: |
+                function $FUNC($TABS) {
+                  ...
+                }
                 ...
-              }
-              ...
-              chrome.tabs.get(..., $FUNC)
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern: |
-              chrome.tabs.get(..., $FUNC)
-              ...
-              function $FUNC($TABS) {
+                chrome.tabs.get(..., $FUNC)
+            - pattern-inside: |
+                chrome.tabs.get(..., $FUNC)
                 ...
-              }
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern: |
-              chrome.tabs.get(..., function ($TABS) {
+                function $FUNC($TABS) {
+                  ...
+                }
+            - pattern-inside: |
+                chrome.tabs.get(..., function ($TABS) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.get(..., function ([$TABS]) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.get(...).then(function ($TABS) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.get(...).then(function ([$TABS]) {
+                  ...
+                })
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  $Y = await chrome.tabs.get(...)
+                  ...
+                  return $Y
+                }
                 ...
-              })
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern-inside: |
-              chrome.tabs.get(..., function ([$TAB]) {
+                $FUNC(...).then(function ($TABS) {...})
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  $Y = await chrome.tabs.get(...)
+                  ...
+                  return $Y
+                }
                 ...
-              })
-          - pattern: $TAB
-          - focus-metavariable:
-              - $TAB
-      - patterns:
-          - pattern: |
-              chrome.tabs.get(...).then(function ($TABS) {
+                $FUNC(...).then(function ([$TABS]) {...})
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  [$Y] = await chrome.tabs.get(...)
+                  ...
+                  return $Y
+                }
                 ...
-              })
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern-inside: |
-              chrome.tabs.get(...).then(function ([$TAB]) {
+                $FUNC(...).then(function ($TABS) {...})
+            - pattern-inside: |
+                $Y = chrome.tabs.get(...)
                 ...
-              })
-          - pattern: $TAB
-          - focus-metavariable:
-              - $TAB
-      - patterns:
-          - pattern: |
-              async function $FUNC(...) {
+                $Y.then(function ($TABS) {...})
+            - pattern-inside: |
+                $Y = chrome.tabs.get(...)
                 ...
-                $Y = await chrome.tabs.get(...)
-                ...
-                return <... $Y ...>
-              }
-              ...
-              $FUNC(...).then(function ($TABS) {...})
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern-inside: |
-              async function $FUNC(...) {
-                ...
-                $Y = await chrome.tabs.get(...)
-                ...
-                return $Y
-              }
-              ...
-              $FUNC(...).then(function ([$TAB]) {...})
-          - pattern: $TAB
-          - focus-metavariable:
-              - $TAB
-      - patterns:
-          - pattern: |
-              async function $FUNC(...) {
-                ...
-                [$Y] = await chrome.tabs.get(...)
-                ...
-                return <... $Y ...>
-              }
-              ...
-              $FUNC(...).then(function ($TAB) {...})
-          - focus-metavariable:
-      - patterns:
-          - pattern: |
-              $Y = chrome.tabs.get(...)
-              ...
-              $Y.then(function ($TABS) {...})
-          - focus-metavariable:
-              - $TABS
+                $Y.then(function ([$TABS]) {...})
+          - pattern: $TABS
     pattern-sinks:
       - patterns:
           - pattern: document. ... .outerHTML = $X
