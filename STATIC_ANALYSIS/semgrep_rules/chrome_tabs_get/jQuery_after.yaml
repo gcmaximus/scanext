@@ -95,6 +95,8 @@ rules:
               $Y = chrome.tabs.get(...)
               ...
               $Y.then(function ($TABS) {...})
+          - focus-metavariable:
+              - $TABS
     pattern-sinks:
       - patterns:
         - pattern: "$(...).after($X)"
