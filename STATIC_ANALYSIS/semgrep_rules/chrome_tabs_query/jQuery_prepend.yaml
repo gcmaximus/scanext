@@ -90,6 +90,13 @@ rules:
               $FUNC(...).then(function ($TAB) {...})
           - focus-metavariable:
               - $TAB
+      - patterns:
+          - pattern: |
+              $Y = chrome.tabs.query(...)
+              ...
+              $Y.then(function ($TABS) {...})
+          - focus-metavariable:
+              - $TABS
     pattern-sinks:
       - patterns:
         - pattern: "$(...).prepend($X)"
