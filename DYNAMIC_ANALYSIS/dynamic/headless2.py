@@ -46,14 +46,14 @@ def process_payload(payloads,url_path, abs_path, json_data):
     options.add_argument(load_ext_arg)
 
     driver = Chrome(service=Service(), options=options)
-    driver.get(url_path)
+    driver.get('https://www.example.com')
     time.sleep(3)
     driver.get_screenshot_as_file("ss.png")
     original = driver.current_window_handle
     driver.switch_to.new_window('tab')
     new = driver.current_window_handle
 
-    driver.get('https://www.example.com')
+    driver.get(url_path)
     driver.switch_to.window(original)
 
     time.sleep(3)
@@ -75,7 +75,6 @@ def process_payload(payloads,url_path, abs_path, json_data):
             # logs(driver, alert, 'Success', url_path, payload)
             print('+ Alert Detected +')
         except TimeoutException:
-            driver.get_screenshot_as_file("ss.png")
             # logs(driver, 'NIL', 'Fail', url_path, payload)
             print('= No alerts detected =')
 
@@ -97,17 +96,15 @@ def headless(extension_path,jsonf):
                 if path in i:
                     i = i[path.__len__():]
                     if i[0] != "/":
-                        i = "/" + i
+                        popup = "/" + i
         
         return data, popup
 
     # Getting id of extension [start]
     def get_ext_id(path_to_extension, p):
         abs_path = path.abspath(path_to_extension)
-        # abspath = abs_path.encode("utf-8")
         m = hashlib.sha256()
         m.update(abs_path.encode("utf-8"))
-        # m.update(abspath)
         ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
         url_path = f"chrome-extension://{ext_id}" + p
         return url_path, abs_path
@@ -164,13 +161,6 @@ def preconfigure(dir):
                         print(line, end="")
 
 def main():
-    # # Configure logging
-    # logging.basicConfig(
-    #     filename='DYNAMIC_ANALYSIS/dynamic/logs/penetration_log_headless.txt', #filename='dynamic/logs/penetration_log_headless.txt'
-    #     level=logging.ERROR,
-    #     format='%(asctime)s, %(message)s'
-    # )
-
     # preconfiguration (set active to false)
     preconfigure('ad')
 

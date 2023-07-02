@@ -4,99 +4,73 @@ rules:
     message: "Source:chrome_tabs_getCurrent;Sink:jQuery_appendTo"
     mode: taint
     pattern-sources:
-      - pattern: $TABS = await chrome.tabs.getCurrent()
       - patterns:
-          - pattern: |
-              function $FUNC($TABS) {
+          - pattern-either:
+            - pattern-inside: await chrome.tabs.getCurrent()
+            - pattern-inside: |
+                function $FUNC($TABS) {
+                  ...
+                }
                 ...
-              }
-              ...
-              chrome.tabs.getCurrent($FUNC)
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern: |
-              chrome.tabs.getCurrent($FUNC)
-              ...
-              function $FUNC($TABS) {
+                chrome.tabs.getCurrent($FUNC)
+            - pattern-inside: |
+                chrome.tabs.getCurrent($FUNC)
                 ...
-              }
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern: |
-              chrome.tabs.getCurrent(function ($TABS) {
+                function $FUNC($TABS) {
+                  ...
+                }
+            - pattern-inside: |
+                chrome.tabs.getCurrent(function ($TABS) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.getCurrent(function ([$TABS]) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.getCurrent().then(function ($TABS) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.getCurrent().then(function ([$TABS]) {
+                  ...
+                })
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  $Y = await chrome.tabs.getCurrent()
+                  ...
+                  return $Y
+                }
                 ...
-              })
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern-inside: |
-              chrome.tabs.getCurrent(function ([$TAB]) {
+                $FUNC(...).then(function ($TABS) {...})
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  $Y = await chrome.tabs.getCurrent()
+                  ...
+                  return $Y
+                }
                 ...
-              })
-          - pattern: $TAB
-          - focus-metavariable:
-              - $TAB
-      - patterns:
-          - pattern: |
-              chrome.tabs.getCurrent().then(function ($TABS) {
+                $FUNC(...).then(function ([$TABS]) {...})
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  [$Y] = await chrome.tabs.getCurrent()
+                  ...
+                  return $Y
+                }
                 ...
-              })
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern-inside: |
-              chrome.tabs.getCurrent().then(function ([$TAB]) {
+                $FUNC(...).then(function ($TABS) {...})
+            - pattern-inside: |
+                $Y = chrome.tabs.getCurrent()
                 ...
-              })
-          - pattern: $TAB
-          - focus-metavariable:
-              - $TAB
-      - patterns:
-          - pattern: |
-              async function $FUNC(...) {
+                $Y.then(function ($TABS) {...})
+            - pattern-inside: |
+                $Y = chrome.tabs.getCurrent()
                 ...
-                $Y = await chrome.tabs.getCurrent()
-                ...
-                return <... $Y ...>
-              }
-              ...
-              $FUNC(...).then(function ($TABS) {...})
-          - focus-metavariable:
-              - $TABS
-      - patterns:
-          - pattern-inside: |
-              async function $FUNC(...) {
-                ...
-                $Y = await chrome.tabs.getCurrent()
-                ...
-                return $Y
-              }
-              ...
-              $FUNC(...).then(function ([$TAB]) {...})
-          - pattern: $TAB
-          - focus-metavariable:
-              - $TAB
-      - patterns:
-          - pattern: |
-              async function $FUNC(...) {
-                ...
-                [$Y] = await chrome.tabs.getCurrent()
-                ...
-                return <... $Y ...>
-              }
-              ...
-              $FUNC(...).then(function ($TAB) {...})
-          - focus-metavariable:
-              - $TAB
-      - patterns:
-          - pattern: |
-              $Y = chrome.tabs.getCurrent()
-              ...
-              $Y.then(function ($TABS) {...})
-          - focus-metavariable:
-              - $TABS
+                $Y.then(function ([$TABS]) {...})
+          - pattern: $TABS
     pattern-sinks:
       - patterns:
         - pattern: "$($X).appendTo(...)"
