@@ -15,7 +15,7 @@ function displayUrl(tabInfo) {
 }
 
 var gettingCurrent = chrome.tabs.query({active: true, currentWindow: true});
-// var gettingCurrent = chrome.tabs.getCurrent()
+// var gettingCurrent = chrome.tabs.getCurrent
 // gettingCurrent.then(displayUrl, onError)
 gettingCurrent.then((tab) => {
   displayUrl(tab)
@@ -24,7 +24,7 @@ gettingCurrent.then((tab) => {
 // Version 2
 
 // document.addEventListener('DOMContentLoaded', function() {
-//   chrome.tabs.getCurrent(function(tab) {
+//   chrome.tabs.getCurrentCurrent(function(tab) {
 //     // Use tab object to access current tab information
 //     var currentTabUrl = tab.url;
 
@@ -45,6 +45,6 @@ gettingCurrent.then((tab) => {
 //   console.log(`Error: ${error}`);
 // }
 
-// var gettingCurrent = chrome.tabs.getCurrent();
+// var gettingCurrent = chrome.tabs.getCurrentCurrent();
 // gettingCurrent.then(onGot, onError);
 
