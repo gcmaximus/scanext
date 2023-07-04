@@ -172,15 +172,20 @@ def cookie_get(extid, payload, ssm, msgvar):
             y = False
         
         if cookie in taintsource and taintsource == x:
-            x
+            if dots in x:
+                var = x.split(dots)
+                obj = f''                
         elif cookie in taintsource and taintsource == y:
             y
         elif cookie in taintsource and taintsource == yvalue:
             yvalue
         
+        script = f'document.cookie = {obj}'
+        scripts.append(script)
 
 def location_hash(payload):
     script = f"window.location.hash = {payload}"
+    scripts.append(script)
 
 for i in data:
     if "chrome_runtime_onMessage." in i["check_id"]:
@@ -256,7 +261,7 @@ for i in data:
         tainted.append(taint)
 
     if 'location_hash.' in i["check_id"]:
-        i
+        location_hash()
 
 
 # runtime_onM("extid","<img src=x onerror=alert(1)>",tainted,other_vars)
