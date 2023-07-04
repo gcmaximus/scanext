@@ -6,16 +6,20 @@ rules:
           - pattern-either:
               - pattern: |
                   $ANYTHING.onMessage.addListener(function($X, ...) {
-                  if($Z. ...){
-                    ...
+                  if($X.$Z === $PASSWORD){
+                        ...
                   }
                   ... 
                   });
               - pattern: |
+                  $ANYTHING.onMessage.addListener($X => {
+                    if($X.$Z === $PASSWORD){
+                        ...
+                    }
+                  ... 
+                  });
+              - pattern: |
                   function $ANY($X,...){
-                  if($Z. ...){
-                    ...
-                  }
                     ...
                   }
                   ...
@@ -24,13 +28,9 @@ rules:
                   $ANYTHING.onMessage.addListener($ANY)
                   ...
                   function $ANY($X,...){
-                  if($Z. ...){
-                    ...
-                  }
                     ...
                   }
           - focus-metavariable: $X
-          - focus-metavariable: $Z
     pattern-sinks:
       - patterns:
           - pattern: document. ... .innerHTML = $X
