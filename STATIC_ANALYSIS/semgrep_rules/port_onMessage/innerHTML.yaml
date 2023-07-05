@@ -1,5 +1,5 @@
 rules:
-  - id: onMessage-outerHTML
+  - id: port_onMessage-innerHTML
     mode: taint
     pattern-sources:
       - patterns:
@@ -155,31 +155,31 @@ rules:
           - focus-metavariable: $X
     pattern-sinks:
       - patterns:
-          - pattern: document. ... .outerHTML = $X
+          - pattern: document. ... .innerHTML = $X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...
               ...
-              $Y. ... .outerHTML = $X
+              $Y. ... .innerHTML = $X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
-              document. ...[$INT].outerHTML =$X
+              document. ...[$INT].innerHTML =$X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...[$INT]
               ...
-              $Y. ... .outerHTML = $X
+              $Y. ... .innerHTML = $X
           - focus-metavariable: $X
       - patterns:
           - pattern: |
               $Y = document. ...
               ...
-              $Y[$INT]. ... .outerHTML = $X
+              $Y[$INT]. ... .innerHTML = $X
           - focus-metavariable: $X
-    message: Source:onMessage;Sink:outerHTML
+    message: Source:onMessage;Sink:innerHTML
     languages:
       - js
     severity: WARNING
