@@ -12,6 +12,7 @@ for i in results["results"]:
 tainted = []
 other_vars = []
 scripts = []
+sourcelist = []
 
 def runtime_onC(extid, payload, ssm, msgvar):
     for i in ssm:
