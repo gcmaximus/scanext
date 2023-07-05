@@ -27,6 +27,7 @@ def logs(driver, alert, result, extension_name, payload):
             alert_text = alert.text
             alert.accept()  # Accept the alert window
             logging.critical(f"{time.strftime('%Y-%m-%d %H:%M:%S')}, {result}, {logging.getLevelName(logging.CRITICAL)}, {extension_name}, {alert_text}, {payload}")
+            print('c')
         else:
             logging.error(f"{time.strftime('%Y-%m-%d %H:%M:%S')}, {result}, {logging.getLevelName(logging.info)}, {extension_name}, 'NIL', {payload}")
     except NoAlertPresentException:
@@ -44,25 +45,6 @@ def process_payload(payloads,url_path, abs_path):
 
 
     driver = Chrome(service=Service(), options=options)
-    # driver.get(url_path)
-    # original = driver.current_window_handle
-    # driver.switch_to.new_window('tab')
-    # new = driver.current_window_handle
-
-    # driver.get('https://www.example.com')
-    # driver.switch_to.window(original)
-
-    # time.sleep(3)
-
-    # for payload in payloads:
-    #     driver.get_screenshot_as_file("ss.png")
-    #     a = driver.find_element(By.ID, 'replacementInput')
-    #     a.clear()
-    #     a.send_keys(payload)
-    #     button = driver.find_element(By.ID, 'replaceButton')
-    #     button.click()
-
-    #     driver.switch_to.window(new)
 
     # get www.example.com
     driver.get('https://www.example.com')
@@ -75,13 +57,15 @@ def process_payload(payloads,url_path, abs_path):
 
 
     for payload in payloads:
-        driver.switch_to.window(extension)
-        driver.refresh()
+
         driver.switch_to.window(example)
 
         # print(payload)
         driver.execute_script(f"window.name = '{payload}';")
+        driver.switch_to.window(extension)
+        driver.refresh()
 
+        driver.switch_to.window(example)
         try:
             # wait 3 seconds to see if alert is detected
             WebDriverWait(driver, 3).until(EC.alert_is_present())

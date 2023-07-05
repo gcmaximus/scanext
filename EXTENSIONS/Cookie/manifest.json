@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Cookie Viewer",
+    "description": "Replace h1 tag in example.com with your cookie value",
+    "version": "1.0",
+    "icons": {
+        "48": "icon.png"
+    },
+    "permissions": [
+        "cookies",
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "host_permissions": [
+        "https://*/*",
+        "http://*/*"
+    ]
+}

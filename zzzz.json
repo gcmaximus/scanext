@@ -1,0 +1,148 @@
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "EXTENSIONS/h1-replacer(v3)_window.name/contentScript.js",
+            "EXTENSIONS/h1-replacer(v3)_window.name/popup.js"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-innerHTML",
+            "end": {
+                "col": 26,
+                "line": 7,
+                "offset": 189
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "v",
+                            "location": {
+                                "end": {
+                                    "col": 6,
+                                    "line": 3,
+                                    "offset": 51
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)_window.name/contentScript.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 3,
+                                    "offset": 50
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 26,
+                                    "line": 7,
+                                    "offset": 189
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)_window.name/contentScript.js",
+                                "start": {
+                                    "col": 25,
+                                    "line": 7,
+                                    "offset": 188
+                                }
+                            },
+                            "v"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 20,
+                                    "line": 3,
+                                    "offset": 65
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)_window.name/contentScript.js",
+                                "start": {
+                                    "col": 9,
+                                    "line": 3,
+                                    "offset": 54
+                                }
+                            },
+                            "window.name"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "aedfb6ad1b4e40dd6d0ab08e6b67b026982999fdeee7ed62ba82a8c8c5c0374174a7e14e52b2e426ba597a85f801ccbce9fb700d03fd7714384e9647ad94ae1e_0",
+                "is_ignored": false,
+                "lines": "    tags[i].innerHTML = v",
+                "message": "Source:window_name;Sink:innerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$INT": {
+                        "abstract_content": "i",
+                        "end": {
+                            "col": 11,
+                            "line": 7,
+                            "offset": 174
+                        },
+                        "start": {
+                            "col": 10,
+                            "line": 7,
+                            "offset": 173
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "v",
+                        "end": {
+                            "col": 26,
+                            "line": 7,
+                            "offset": 189
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "window.name",
+                            "svalue_end": {
+                                "col": 20,
+                                "line": 3,
+                                "offset": 65
+                            },
+                            "svalue_start": {
+                                "col": 9,
+                                "line": 3,
+                                "offset": 54
+                            }
+                        },
+                        "start": {
+                            "col": 25,
+                            "line": 7,
+                            "offset": 188
+                        }
+                    },
+                    "$Y": {
+                        "abstract_content": "tags",
+                        "end": {
+                            "col": 9,
+                            "line": 4,
+                            "offset": 74
+                        },
+                        "start": {
+                            "col": 5,
+                            "line": 4,
+                            "offset": 70
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1-replacer(v3)_window.name/contentScript.js",
+            "start": {
+                "col": 25,
+                "line": 7,
+                "offset": 188
+            }
+        }
+    ],
+    "version": "1.27.0"
+}
