@@ -1,18 +1,19 @@
 import json
 
-f = open('j.json')
-
-results = json.load(f)
+with open("j.json") as f:
+    results = json.load(f)
 
 data = []
-
 for i in results["results"]:
     data.append(i)
+
+with open("DYNAMIC_ANALYSIS/source.txt") as s:
+    sourcelist = []
+
 
 tainted = []
 other_vars = []
 scripts = []
-sourcelist = []
 
 def runtime_onC(extid, payload, ssm, msgvar):
     for i in ssm:
@@ -175,11 +176,24 @@ def cookie_get(extid, payload, ssm, msgvar):
         if cookie in taintsource and taintsource == x:
             if dots in x:
                 var = x.split(dots)
-                obj = f''                
+                if var[1] == "name":
+                    obj = f'{payload}=value'
+                elif var[1] == "value":
+                    obj = f'cookie={payload}'                
         elif cookie in taintsource and taintsource == y:
-            y
+            if dots in y:
+                var = x.split(dots)
+                if var[1] == "name":
+                    obj = f'{payload}=value'
+                elif var[1] == "value":
+                    obj = f'cookie={payload}'
         elif cookie in taintsource and taintsource == yvalue:
-            yvalue
+            if dots in yvalue:
+                var = x.split(dots)
+                if var[1] == "name":
+                    obj = f'{payload}=value'
+                elif var[1] == "value":
+                    obj = f'cookie={payload}'
         
         script = f'document.cookie = {obj}'
         scripts.append(script)
