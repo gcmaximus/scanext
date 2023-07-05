@@ -4,7 +4,73 @@ rules:
     message: "Source:chrome_tabs_query;Sink:document_write"
     mode: taint
     pattern-sources:
-      - pattern: chrome.tabs.query(...)
+      - patterns:
+          - pattern-either:
+            - pattern-inside: await chrome.tabs.query(...)
+            - pattern-inside: |
+                function $FUNC($TABS) {
+                  ...
+                }
+                ...
+                chrome.tabs.query(..., $FUNC)
+            - pattern-inside: |
+                chrome.tabs.query(..., $FUNC)
+                ...
+                function $FUNC($TABS) {
+                  ...
+                }
+            - pattern-inside: |
+                chrome.tabs.query(..., function ($TABS) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.query(..., function ([$TABS]) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.query(...).then(function ($TABS) {
+                  ...
+                })
+            - pattern-inside: |
+                chrome.tabs.query(...).then(function ([$TABS]) {
+                  ...
+                })
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  $Y = await chrome.tabs.query(...)
+                  ...
+                  return $Y
+                }
+                ...
+                $FUNC(...).then(function ($TABS) {...})
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  $Y = await chrome.tabs.query(...)
+                  ...
+                  return $Y
+                }
+                ...
+                $FUNC(...).then(function ([$TABS]) {...})
+            - pattern-inside: |
+                async function $FUNC(...) {
+                  ...
+                  [$Y] = await chrome.tabs.query(...)
+                  ...
+                  return $Y
+                }
+                ...
+                $FUNC(...).then(function ($TABS) {...})
+            - pattern-inside: |
+                $Y = chrome.tabs.query(...)
+                ...
+                $Y.then(function ($TABS) {...})
+            - pattern-inside: |
+                $Y = chrome.tabs.query(...)
+                ...
+                $Y.then(function ([$TABS]) {...})
+          - pattern: $TABS
     pattern-sinks:
       - pattern: "document.write($X)"
       - patterns:

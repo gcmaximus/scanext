@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "External messenger",
+    "version": "1.0",
+    "background": {
+      "service_worker": "background.js"
+    },
+    "permissions": [
+      "scripting",
+      "activeTab"
+    ]
+  }
+  

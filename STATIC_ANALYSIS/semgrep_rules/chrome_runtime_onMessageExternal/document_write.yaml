@@ -1,0 +1,31 @@
+rules:
+  - id: chrome_runtime_onMessageExternal-document_write
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern: |
+              chrome.runtime.onMessageExternal.addListener(function($X, ...) {
+              ... 
+              });
+          - pattern: |
+              function $ANY($X,...){
+                ...
+              }
+              ...
+              chrome.runtime.onMessageExternal.addListener($ANY)
+          - pattern: |
+              chrome.runtime.onMessageExternal.addListener($ANY)
+              ...
+              function $ANY($X,...){
+                ...
+              }
+          - focus-metavariable: $X
+    pattern-sinks:
+      - pattern: document.write($X)
+      - patterns:
+          - pattern: ... .document.write($X)
+          - focus-metavariable: $X
+    message: Source:chrome_runtime_onMessageExternal;Sink:document_write
+    languages:
+      - js
+    severity: WARNING

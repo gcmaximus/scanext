@@ -23,9 +23,15 @@ rules:
           - focus-metavariable: $X
     pattern-sinks:
       - patterns:
-          - pattern-either:
-              - pattern: ... .append(...)
-    message: Source:chrome.runtime.onMessage;Sink:jQuery.append
+          - pattern: $(...).append($X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = $(...)
+              ...
+              $Y.append($X)
+          - focus-metavariable: $X
+    message: Source:chrome_runtime_onMessage;Sink:jQuery_append
     languages:
       - js
     severity: WARNING

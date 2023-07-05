@@ -23,9 +23,15 @@ rules:
           - focus-metavariable: $X
     pattern-sinks:
       - patterns:
-          - pattern-either:
-              - pattern: ... .wrapAll(...)
-    message: Source:chrome.runtime.onMessage;Sink:jQuery.wrapAll
+          - pattern: $(...).wrapAll($X)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = $(...)
+              ...
+              $Y.wrapAll($X)
+          - focus-metavariable: $X
+    message: Source:chrome_runtime_onMessage;Sink:jQuery_wrapAll
     languages:
       - js
     severity: WARNING

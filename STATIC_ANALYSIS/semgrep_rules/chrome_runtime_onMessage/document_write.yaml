@@ -22,11 +22,11 @@ rules:
                   }
           - focus-metavariable: $X
     pattern-sinks:
+      - pattern: document.write($X)
       - patterns:
-          - pattern-either:
-              - pattern: document.write($X)
-              - pattern: ... .document.write($X)
-    message: Source:chrome.runtime.onMessage;Sink:document.write
+          - pattern: ... .document.write($X)
+          - focus-metavariable: $X
+    message: Source:chrome_runtime_onMessage;Sink:document_write
     languages:
       - js
     severity: WARNING

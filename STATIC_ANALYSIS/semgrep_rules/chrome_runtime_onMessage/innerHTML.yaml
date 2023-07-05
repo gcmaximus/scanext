@@ -6,14 +6,146 @@ rules:
           - pattern-either:
               - pattern: |
                   chrome.runtime.onMessage.addListener(function($X, ...) {
+                    if($X.$Z === $PASSWORD){
+                      ...
+                    }
                   ... 
                   });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener(function($X, ...) {
+                    if($X.$Z == $PASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener(function($X, ...) {
+                    if($X === $PASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener(function($X, ...) {
+                    if($X == $PASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener(function($X, ...) {
+                  ... 
+                  });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($X => {
+                    if($X.$Z === $PASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($X => {
+                    if($X.$Z == $PASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($X => {
+                    if($X === $PASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($X => {
+                    if($X == $PASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($X => {
+                  ... 
+                  });
+              - pattern: |
+                  function $ANY($X,...){
+                    if($X.$Z === $PASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+                  ...
+                  chrome.runtime.onMessage.addListener($ANY)
+              - pattern: |
+                  function $ANY($X,...){
+                    if($X.$Z == $PASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+                  ...
+                  chrome.runtime.onMessage.addListener($ANY)
+              - pattern: |
+                  function $ANY($X,...){
+                    if($X === $PASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+                  ...
+                  chrome.runtime.onMessage.addListener($ANY)
+              - pattern: |
+                  function $ANY($X,...){
+                    if($X == $PASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+                  ...
+                  chrome.runtime.onMessage.addListener($ANY)
               - pattern: |
                   function $ANY($X,...){
                     ...
                   }
                   ...
                   chrome.runtime.onMessage.addListener($ANY)
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($X,...){
+                    if($X.$Z === $PASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($X,...){
+                    if($X.$Z == $PASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($X,...){
+                    if($X === $PASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+              - pattern: |
+                  chrome.runtime.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($X,...){
+                    if($X == $PASSWORD){
+                      ...
+                    }
+                    ...
+                  }
               - pattern: |
                   chrome.runtime.onMessage.addListener($ANY)
                   ...
@@ -47,7 +179,7 @@ rules:
               ...
               $Y[$INT]. ... .innerHTML = $X
           - focus-metavariable: $X
-    message: Source:chrome.runtime.onMessage;Sink:innerHTML
+    message: Source:chrome_runtime_onMessage;Sink:innerHTML
     languages:
       - js
     severity: WARNING

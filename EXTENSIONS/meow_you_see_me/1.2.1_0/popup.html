@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<script defer src="jsoncatdata.js"></script>
+<script defer src="specialFunctions.js"></script>
+<script defer src="popup.js"></script>
+
+<body>
+    <header>
+        <nobr><img src='cat_32.png' ></img>Meow You See Me<img src='cat_32.png' ></img></nobr>
+    </header>
+    <box style='width: 222px; vertical-align: top; padding:8px; font-size: 19px;' id='label-box'>
+        You've found <silentvar id='total'>no</silentvar> cats!
+        <collectionheader id='cata-data'>Loading Cats...</collectionheader>
+    </box>
+    <box style='width: 110px;' id='settings-box'>
+        <checkrow>
+            <silentvar id='on-off'>On</silentvar> <checkbox id='on' class='unchecked'></checkbox>
+        </checkrow>
+        <checkrow>
+            Volume <checkbox id='volume' class='unchecked'></checkbox>
+        </checkrow>
+    </box>
+    <box style='vertical-align: top; padding:8px;' id='litter-box'></box>
+    <footer id='paws'>
+        <button id='blocked-btn'>Blocked Sites</button>
+        <box class='invisible' style='margin-top:6px;' id='site-blocker'>
+            <input type='text' placeholder='website' style='width: 182px;' id='block-site-input'>
+            <button id='block-site-btn'>block for site</button>
+        </box>
+    </footer>
+
+</body>

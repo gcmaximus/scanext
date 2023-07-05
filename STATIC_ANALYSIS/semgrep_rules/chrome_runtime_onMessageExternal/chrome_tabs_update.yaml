@@ -22,9 +22,23 @@ rules:
           - focus-metavariable: $X
     pattern-sinks:
       - patterns:
-          - pattern-either:
-              - pattern: |
-                  chrome.tabs.update($X, { ... });
+          - pattern: |
+              chrome.tabs.update(..., {url: $X}, ...)
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $X = {url:$Y}
+              ...
+              chrome.tabs.update($X, ...)
+          - focus-metavariable:
+              - $Y
+      - patterns:
+          - pattern: |
+              $X = {url: $Y}
+              ...
+              chrome.tabs.update($W, $X, ...)
+          - focus-metavariable:
+              - $Y
     message: Source:chrome_runtime_onMessageExternal;Sink:jQuery_chrome_tabs_update
     languages:
       - js

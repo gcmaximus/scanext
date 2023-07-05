@@ -1,0 +1,31 @@
+rules:
+  - id: chrome_runtime_onConnectExternal-document_write
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  chrome.runtime.onConnectExternal.addListener(function($X, ...) {
+                  ... 
+                  });
+              - pattern: |
+                  function $ANY($X,...){
+                    ...
+                  }
+                  ...
+                  chrome.runtime.onConnectExternal.addListener($ANY)
+              - pattern: |
+                  chrome.runtime.onConnectExternal.addListener($ANY)
+                  ...
+                  function $ANY($X,...){
+                    ...
+                  }
+    pattern-sinks:
+      - pattern: document.write($X)
+      - patterns:
+          - pattern: ... .document.write($X)
+          - focus-metavariable: $X
+    message: Source:chrome_runtime_onConnectExternal;Sink:document_write
+    languages:
+      - js
+    severity: WARNING

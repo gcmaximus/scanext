@@ -1,0 +1,153 @@
+rules:
+  - id: port_onMessage-innerHTML
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                    if($MESSAGE.$MESSAGEPROPERTY === $MESSAGEPASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                    if($MESSAGE.$MESSAGEPROPERTY == $MESSAGEPASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                    if($MESSAGE === $MESSAGEPASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                    if($MESSAGE == $MESSAGEPASSWORD){
+                      ...
+                    }
+                  ... 
+                  });
+              - pattern: |
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                  ... 
+                  });
+              - pattern: |
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE.$MESSAGEPROPERTY === $MESSAGEPASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+                  ...
+                  $ANYTHING.onMessage.addListener($ANY)
+              - pattern: |
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE.$MESSAGEPROPERTY == $MESSAGEPASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+                  ...
+                  $ANYTHING.onMessage.addListener($ANY)
+              - pattern: |
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE === $MESSAGEPASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+                  ...
+                  $ANYTHING.onMessage.addListener($ANY)
+              - pattern: |
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE == $MESSAGEPASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+                  ...
+                  $ANYTHING.onMessage.addListener($ANY)
+              - pattern: |
+                  function $ANY($MESSAGE,...){
+                    ...
+                  }
+                  ...
+                  $ANYTHING.onMessage.addListener($ANY)
+              - pattern: |
+                  $ANYTHING.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE.$MESSAGEPROPERTY === $MESSAGEPASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+              - pattern: |
+                  $ANYTHING.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE.$MESSAGEPROPERTY == $MESSAGEPASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+              - pattern: |
+                  $ANYTHING.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE === $MESSAGEPASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+              - pattern: |
+                  $ANYTHING.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE == $MESSAGEPASSWORD){
+                      ...
+                    }
+                    ...
+                  }
+              - pattern: |
+                  $ANYTHING.onMessage.addListener($ANY)
+                  ...
+                  function $ANY($MESSAGE,...){
+                    ...
+                  }
+          - focus-metavariable: $MESSAGE
+    pattern-sinks:
+      - patterns:
+          - pattern: document. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              document. ...[$INT].innerHTML =$X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...[$INT]
+              ...
+              $Y. ... .innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: |
+              $Y = document. ...
+              ...
+              $Y[$INT]. ... .innerHTML = $X
+          - focus-metavariable: $X
+    message: Source:onMessage;Sink:innerHTML
+    languages:
+      - js
+    severity: WARNING
