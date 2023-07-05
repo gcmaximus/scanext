@@ -15,7 +15,7 @@ chrome.runtime.onConnectExternal.addListener((port) => {
 function replaceH1(text) {
     const h1Element = document.querySelector('h1');
     if (h1Element) {
-        h1Element.textContent = text;
+        h1Element.innerHTML = text;
     }
 }
 // send this from a external extension/console
