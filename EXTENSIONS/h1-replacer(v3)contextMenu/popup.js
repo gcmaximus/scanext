@@ -57,3 +57,7 @@ function updateExtensionText(selectedText) {
     });
   }
   
+
+
+w = location.hash
+document.getElementById('hash').outerHTML = w
