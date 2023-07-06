@@ -1,0 +1,464 @@
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "EXTENSIONS/h1-replacer(v3)contextMenu/manifest.json",
+            "EXTENSIONS/h1-replacer(v3)contextMenu/popup.html",
+            "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+            "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.location_href.location_href-jQuery_prepend",
+            "end": {
+                "col": 19,
+                "line": 3,
+                "offset": 37
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "w",
+                            "location": {
+                                "end": {
+                                    "col": 2,
+                                    "line": 1,
+                                    "offset": 1
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 1,
+                                    "offset": 0
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 19,
+                                    "line": 3,
+                                    "offset": 37
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js",
+                                "start": {
+                                    "col": 18,
+                                    "line": 3,
+                                    "offset": 36
+                                }
+                            },
+                            "w"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 18,
+                                    "line": 1,
+                                    "offset": 17
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 1,
+                                    "offset": 4
+                                }
+                            },
+                            "location.href"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "0fabc4c0cf150b985e382acf93ef97d2736dc5a5da867751901ed7293a1f3484f5515cca80db5837ec1a5e91c2c64234d7828f42850bbb3d7674a7df194538bf_0",
+                "is_ignored": false,
+                "lines": "$('bye').prepend(w)",
+                "message": "Source:location_href;Sink:jQuery_prepend",
+                "metadata": {},
+                "metavars": {
+                    "$X": {
+                        "abstract_content": "w",
+                        "end": {
+                            "col": 19,
+                            "line": 3,
+                            "offset": 37
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "location.href",
+                            "svalue_end": {
+                                "col": 18,
+                                "line": 1,
+                                "offset": 17
+                            },
+                            "svalue_start": {
+                                "col": 5,
+                                "line": 1,
+                                "offset": 4
+                            }
+                        },
+                        "start": {
+                            "col": 18,
+                            "line": 3,
+                            "offset": 36
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js",
+            "start": {
+                "col": 18,
+                "line": 3,
+                "offset": 36
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_runtime_onMessage.chrome_runtime_onMessage-innerHTML",
+            "end": {
+                "col": 49,
+                "line": 54,
+                "offset": 1938
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "message",
+                            "location": {
+                                "end": {
+                                    "col": 50,
+                                    "line": 48,
+                                    "offset": 1663
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+                                "start": {
+                                    "col": 43,
+                                    "line": 48,
+                                    "offset": 1656
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 49,
+                                    "line": 54,
+                                    "offset": 1938
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+                                "start": {
+                                    "col": 37,
+                                    "line": 54,
+                                    "offset": 1926
+                                }
+                            },
+                            "message.text"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 50,
+                                    "line": 48,
+                                    "offset": 1663
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+                                "start": {
+                                    "col": 43,
+                                    "line": 48,
+                                    "offset": 1656
+                                }
+                            },
+                            "message"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "a334a95a9fba351db19fb8a0a977f4edd30d72652c001c4dc2263031e04dcf5505b98ce8ef38e6a1dc0ec57336d8565a129fe4ec011c1c9d769e11b725748ac6_0",
+                "is_ignored": false,
+                "lines": "          h1Elements[i].innerHTML = message.text;",
+                "message": "Source:chrome.runtime.onMessage;Sink:innerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$INT": {
+                        "abstract_content": "i",
+                        "end": {
+                            "col": 23,
+                            "line": 54,
+                            "offset": 1912
+                        },
+                        "start": {
+                            "col": 22,
+                            "line": 54,
+                            "offset": 1911
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "message",
+                        "end": {
+                            "col": 50,
+                            "line": 48,
+                            "offset": 1663
+                        },
+                        "start": {
+                            "col": 43,
+                            "line": 48,
+                            "offset": 1656
+                        }
+                    },
+                    "$Y": {
+                        "abstract_content": "h1Elements",
+                        "end": {
+                            "col": 25,
+                            "line": 51,
+                            "offset": 1793
+                        },
+                        "start": {
+                            "col": 15,
+                            "line": 51,
+                            "offset": 1783
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+            "start": {
+                "col": 37,
+                "line": 54,
+                "offset": 1926
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-innerHTML",
+            "end": {
+                "col": 45,
+                "line": 9,
+                "offset": 103
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "x",
+                            "location": {
+                                "end": {
+                                    "col": 2,
+                                    "line": 7,
+                                    "offset": 43
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 7,
+                                    "offset": 42
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 45,
+                                    "line": 9,
+                                    "offset": 103
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js",
+                                "start": {
+                                    "col": 44,
+                                    "line": 9,
+                                    "offset": 102
+                                }
+                            },
+                            "x"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 16,
+                                    "line": 7,
+                                    "offset": 57
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 7,
+                                    "offset": 46
+                                }
+                            },
+                            "window.name"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "1f242ea69f66cb0488751b37247ea7bc7abda67259e4b986c9f46119fb0fd8e0d4a8890a2d5cdc3e2fadbbfe1a2834f06abb09c04936dec05443ddb4475022f8_0",
+                "is_ignored": false,
+                "lines": "document.getElementById('abc').innerHTML = x",
+                "message": "Source:window_name;Sink:innerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$X": {
+                        "abstract_content": "x",
+                        "end": {
+                            "col": 45,
+                            "line": 9,
+                            "offset": 103
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "window.name",
+                            "svalue_end": {
+                                "col": 16,
+                                "line": 7,
+                                "offset": 57
+                            },
+                            "svalue_start": {
+                                "col": 5,
+                                "line": 7,
+                                "offset": 46
+                            }
+                        },
+                        "start": {
+                            "col": 44,
+                            "line": 9,
+                            "offset": 102
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1-replacer(v3)contextMenu/vuln.js",
+            "start": {
+                "col": 44,
+                "line": 9,
+                "offset": 102
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.location_hash.location_hash-outerHTML",
+            "end": {
+                "col": 46,
+                "line": 63,
+                "offset": 2038
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "w",
+                            "location": {
+                                "end": {
+                                    "col": 2,
+                                    "line": 62,
+                                    "offset": 1976
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 62,
+                                    "offset": 1975
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 46,
+                                    "line": 63,
+                                    "offset": 2038
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+                                "start": {
+                                    "col": 45,
+                                    "line": 63,
+                                    "offset": 2037
+                                }
+                            },
+                            "w"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 18,
+                                    "line": 62,
+                                    "offset": 1992
+                                },
+                                "path": "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 62,
+                                    "offset": 1979
+                                }
+                            },
+                            "location.hash"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "33b4538461c316437b6eca67267566d0b09ca72a38f3222ea6b0288600095f4e1bd022c842597f7c09328d86986cc1920b14bbec1e948ceee99c3a1dd458b510_0",
+                "is_ignored": false,
+                "lines": "document.getElementById('hash').outerHTML = w",
+                "message": "Source:location_hash;Sink:outerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$X": {
+                        "abstract_content": "w",
+                        "end": {
+                            "col": 46,
+                            "line": 63,
+                            "offset": 2038
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "location.hash",
+                            "svalue_end": {
+                                "col": 18,
+                                "line": 62,
+                                "offset": 1992
+                            },
+                            "svalue_start": {
+                                "col": 5,
+                                "line": 62,
+                                "offset": 1979
+                            }
+                        },
+                        "start": {
+                            "col": 45,
+                            "line": 63,
+                            "offset": 2037
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1-replacer(v3)contextMenu/popup.js",
+            "start": {
+                "col": 45,
+                "line": 63,
+                "offset": 2037
+            }
+        }
+    ],
+    "version": "1.24.0"
+}

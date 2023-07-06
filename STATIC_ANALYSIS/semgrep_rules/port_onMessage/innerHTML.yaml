@@ -5,72 +5,40 @@ rules:
       - patterns:
           - pattern-either:
               - pattern: |
-                  $ANYTHING.onMessage.addListener(function($X, ...) {
-                    if($X.$Z === $PASSWORD){
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                    if($MESSAGE.$MESSAGEPROPERTY === $MESSAGEPASSWORD){
                       ...
                     }
                   ... 
                   });
               - pattern: |
-                  $ANYTHING.onMessage.addListener(function($X, ...) {
-                    if($X.$Z == $PASSWORD){
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                    if($MESSAGE.$MESSAGEPROPERTY == $MESSAGEPASSWORD){
                       ...
                     }
                   ... 
                   });
               - pattern: |
-                  $ANYTHING.onMessage.addListener(function($X, ...) {
-                    if($X === $PASSWORD){
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                    if($MESSAGE === $MESSAGEPASSWORD){
                       ...
                     }
                   ... 
                   });
               - pattern: |
-                  $ANYTHING.onMessage.addListener(function($X, ...) {
-                    if($X == $PASSWORD){
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
+                    if($MESSAGE == $MESSAGEPASSWORD){
                       ...
                     }
                   ... 
                   });
               - pattern: |
-                  $ANYTHING.onMessage.addListener(function($X, ...) {
+                  $ANYTHING.onMessage.addListener(function($MESSAGE, ...) {
                   ... 
                   });
               - pattern: |
-                  $ANYTHING.onMessage.addListener($X => {
-                    if($X.$Z === $PASSWORD){
-                      ...
-                    }
-                  ... 
-                  });
-              - pattern: |
-                  $ANYTHING.onMessage.addListener($X => {
-                    if($X.$Z == $PASSWORD){
-                      ...
-                    }
-                  ... 
-                  });
-              - pattern: |
-                  $ANYTHING.onMessage.addListener($X => {
-                    if($X === $PASSWORD){
-                      ...
-                    }
-                  ... 
-                  });
-              - pattern: |
-                  $ANYTHING.onMessage.addListener($X => {
-                    if($X == $PASSWORD){
-                      ...
-                    }
-                  ... 
-                  });
-              - pattern: |
-                  $ANYTHING.onMessage.addListener($X => {
-                  ... 
-                  });
-              - pattern: |
-                  function $ANY($X,...){
-                    if($X.$Z === $PASSWORD){
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE.$MESSAGEPROPERTY === $MESSAGEPASSWORD){
                       ...
                     }
                     ...
@@ -78,8 +46,8 @@ rules:
                   ...
                   $ANYTHING.onMessage.addListener($ANY)
               - pattern: |
-                  function $ANY($X,...){
-                    if($X.$Z == $PASSWORD){
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE.$MESSAGEPROPERTY == $MESSAGEPASSWORD){
                       ...
                     }
                     ...
@@ -87,8 +55,8 @@ rules:
                   ...
                   $ANYTHING.onMessage.addListener($ANY)
               - pattern: |
-                  function $ANY($X,...){
-                    if($X === $PASSWORD){
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE === $MESSAGEPASSWORD){
                       ...
                     }
                     ...
@@ -96,8 +64,8 @@ rules:
                   ...
                   $ANYTHING.onMessage.addListener($ANY)
               - pattern: |
-                  function $ANY($X,...){
-                    if($X == $PASSWORD){
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE == $MESSAGEPASSWORD){
                       ...
                     }
                     ...
@@ -105,7 +73,7 @@ rules:
                   ...
                   $ANYTHING.onMessage.addListener($ANY)
               - pattern: |
-                  function $ANY($X,...){
+                  function $ANY($MESSAGE,...){
                     ...
                   }
                   ...
@@ -113,8 +81,8 @@ rules:
               - pattern: |
                   $ANYTHING.onMessage.addListener($ANY)
                   ...
-                  function $ANY($X,...){
-                    if($X.$Z === $PASSWORD){
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE.$MESSAGEPROPERTY === $MESSAGEPASSWORD){
                       ...
                     }
                     ...
@@ -122,8 +90,8 @@ rules:
               - pattern: |
                   $ANYTHING.onMessage.addListener($ANY)
                   ...
-                  function $ANY($X,...){
-                    if($X.$Z == $PASSWORD){
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE.$MESSAGEPROPERTY == $MESSAGEPASSWORD){
                       ...
                     }
                     ...
@@ -131,8 +99,8 @@ rules:
               - pattern: |
                   $ANYTHING.onMessage.addListener($ANY)
                   ...
-                  function $ANY($X,...){
-                    if($X === $PASSWORD){
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE === $MESSAGEPASSWORD){
                       ...
                     }
                     ...
@@ -140,8 +108,8 @@ rules:
               - pattern: |
                   $ANYTHING.onMessage.addListener($ANY)
                   ...
-                  function $ANY($X,...){
-                    if($X == $PASSWORD){
+                  function $ANY($MESSAGE,...){
+                    if($MESSAGE == $MESSAGEPASSWORD){
                       ...
                     }
                     ...
@@ -149,10 +117,10 @@ rules:
               - pattern: |
                   $ANYTHING.onMessage.addListener($ANY)
                   ...
-                  function $ANY($X,...){
+                  function $ANY($MESSAGE,...){
                     ...
                   }
-          - focus-metavariable: $X
+          - focus-metavariable: $MESSAGE
     pattern-sinks:
       - patterns:
           - pattern: document. ... .innerHTML = $X
