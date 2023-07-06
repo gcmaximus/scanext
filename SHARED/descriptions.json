@@ -2,14 +2,18 @@
     "sources": {
         "window.name": "<code>window.name</code> can be used as an entry point for user-controlled data due the fact that it's accessible cross-origin. Useful when combined with a resource specified under <code>web_accessible_resources</code>.",
 
-        "location.hash": "<code>location.hash</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>."
+        "location.hash": "<code>location.hash</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>.",
+
+        "location.href": "placeholder"
     },
-    
+
     "sinks": {
         "innerHTML": "<code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.",
 
         "outerHTML": "<code>.outerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.",
 
-        "document.write": "<code>document.write</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities."
+        "document.write": "<code>document.write</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.",
+
+        "document.writeln": "placeholder"
     }
 }

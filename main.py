@@ -142,7 +142,7 @@ def static_analysis(extension: Path, soup):
             # sink = result['extra']['dataflow_trace']['taint_sink'][1][1]
             # print('sink: '+sink)
             vuln_id = result['check_id'].split('.')[-1]
-            vuln_file = result['extra']['dataflow_trace']['intermediate_vars'][0]['location']['path'].split('SHARED/EXTRACTED/')[1]
+            vuln_file = result['path'].split('SHARED/EXTRACTED/')[1]
 
             source, sink = vuln_id.replace('_','.').split('-')
 
@@ -156,7 +156,7 @@ def static_analysis(extension: Path, soup):
 
 
             # find line no. of vuln + the line itself
-            
+
             add = f'''
 <!-- Source-Sink pair -->
         <div class="card static-result">
