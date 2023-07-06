@@ -400,9 +400,9 @@ def cookie_get(extid, payload, ssm):
                 if i["vars"]["yvalue"]:
                     yvalue = i["vars"]["yvalue"]
             except:
-                yvalue = False
+                yvalue = ""
         except:
-            y = False
+            y = ""
         
         obj = ""
         if cookie in taintsource and taintsource == x:
