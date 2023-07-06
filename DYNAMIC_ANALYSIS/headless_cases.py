@@ -337,6 +337,8 @@ def runtime_onC(extid, payload, ssm):
         taintsink = i["sink"]
         taintsource = i["source"]
         obj = {}
+        func = ""
+        x = ""
         try:
             if i["vars"]["OBJ"]:
                 x = i["vars"]["OBJ"]
@@ -382,6 +384,10 @@ def cookie_get(extid, payload, ssm):
     for i in ssm:
         dots = '.'
         taintsource = i["source"]
+        cookie - ''
+        x = ''
+        y = ''
+        yvalue = ''
         try:
             if i["vars"]["COOKIE"]:
                 cookie = i["vars"]["COOKIE"]
@@ -466,6 +472,7 @@ def headless_driver(driver, url_path, scripts):
 def preconfigure(dir):
     # Specify the folder path containing the JavaScript files
     folder_path = dir
+    a = ''
 
     for root, dirs, files in os.walk(folder_path):
         # Perform the find and replace operation on each JavaScript file in the folder
