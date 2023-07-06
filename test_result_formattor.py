@@ -13,36 +13,75 @@ import jsbeautifier
 #     sorted_results = sorted(sorted_results, key=lambda e: e["check_id"])
 
 
-extension_dir = "SHARED/EXTENSIONS"
-extraction_dir = "SHARED/EXTRACTED"
+# extension_dir = "SHARED/EXTENSIONS"
+# extraction_dir = "SHARED/EXTRACTED"
 
 
-types = ("*.zip", "*.crx")
-extensions = []
-for type in types:
-    extensions.extend(Path(extension_dir).glob(type))
+# types = ("*.zip", "*.crx")
+# extensions = []
+# for type in types:
+#     extensions.extend(Path(extension_dir).glob(type))
 
 
-opts = jsbeautifier.default_options()
-opts.end_with_newline = True
-opts.wrap_line_length = 80
-opts.space_after_anon_function = True
+# opts = jsbeautifier.default_options()
+# opts.end_with_newline = True
+# opts.wrap_line_length = 80
+# opts.space_after_anon_function = True
 
 
-if Path(extraction_dir).exists():
-    shutil.rmtree(extraction_dir)
-makedirs(extraction_dir)
+# if Path(extraction_dir).exists():
+#     shutil.rmtree(extraction_dir)
+# makedirs(extraction_dir)
 
 
-for extension in extensions:
-    extension: Path
-    indi_dir = Path(extraction_dir, extension.stem)
-    makedirs(indi_dir)
-    with ZipFile(extension, "r") as zip:
-        zip.extractall(indi_dir)
-    for file in indi_dir.glob("*"):
-        if file.is_file():
-            pretty = jsbeautifier.beautify_file(file, opts)
-            tmp = jsbeautifier.BeautifierOptions()
-            # print("beautified " + str(file))
-            jsbeautifier.write_beautified_output(pretty,tmp , str(file))
+# for extension in extensions:
+#     extension: Path
+#     indi_dir = Path(extraction_dir, extension.stem)
+#     makedirs(indi_dir)
+#     with ZipFile(extension, "r") as zip:
+#         zip.extractall(indi_dir)
+#     for file in indi_dir.glob("*"):
+#         if file.is_file():
+#             pretty = jsbeautifier.beautify_file(file, opts)
+#             tmp = jsbeautifier.BeautifierOptions()
+#             # print("beautified " + str(file))
+#             jsbeautifier.write_beautified_output(pretty,tmp , str(file))
+
+
+def extraction():
+    extension_dir = "SHARED/EXTENSIONS"
+    extraction_dir = "SHARED/EXTRACTED"
+
+    types = ("*.zip", "*.crx")
+    extensions = []
+    for type in types:
+        extensions.extend(Path(extension_dir).glob(type))
+
+    opts = jsbeautifier.default_options()
+    opts.end_with_newline = True
+    opts.wrap_line_length = 80
+    opts.space_after_anon_function = True
+
+    status = Path(extraction_dir).exists()
+    print(f"Checking existence of {extraction_dir} ... {status}")
+    if status:
+        print(f"Removing existing {extraction_dir} ...")
+        shutil.rmtree(extraction_dir)
+    print(f"Making {extraction_dir} ...")
+    makedirs(extraction_dir)
+
+    for extension in extensions:
+        extension: Path
+        indi_dir = Path(extraction_dir, extension.stem)
+        makedirs(indi_dir)
+        with ZipFile(extension, "r") as zip:
+            zip.extractall(indi_dir)
+        for file in indi_dir.glob("*"):
+            if file.is_file():
+                pretty = jsbeautifier.beautify_file(file, opts)
+                tmp = jsbeautifier.BeautifierOptions()
+                # print("beautified " + str(file))
+                jsbeautifier.write_beautified_output(pretty, tmp, str(file))
+
+
+extraction()
