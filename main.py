@@ -68,7 +68,8 @@ def static_analysis(extension: Path):
 
     # Output file
     output_file = "STATIC_ANALYSIS/semgrep_results.json"
-    print("extension: " + str(extension))
+
+
     command = [
         "semgrep",
         "scan",
@@ -80,7 +81,6 @@ def static_analysis(extension: Path):
         output_file
     ]
 
-    print(command)
     try:
         subprocess.run(command, check=True)
         print("Semgrep scan successful")

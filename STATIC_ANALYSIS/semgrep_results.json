@@ -1,1 +1,90 @@
-{"errors": [], "paths": {"_comment": "<add --verbose for a list of skipped paths>", "scanned": []}, "results": [], "version": "1.24.0"}
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "SHARED/EXTRACTED/test-ext-deep2/test-ext-deep2/text-ext-deep2/test-ext-deep2/test-ext-deep2/vuln3.js"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.location_href.location_href-jQuery_html",
+            "end": {
+                "col": 32,
+                "line": 1,
+                "offset": 31
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 32,
+                                    "line": 1,
+                                    "offset": 31
+                                },
+                                "path": "SHARED/EXTRACTED/test-ext-deep2/test-ext-deep2/text-ext-deep2/test-ext-deep2/test-ext-deep2/vuln3.js",
+                                "start": {
+                                    "col": 19,
+                                    "line": 1,
+                                    "offset": 18
+                                }
+                            },
+                            "location.href"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 32,
+                                    "line": 1,
+                                    "offset": 31
+                                },
+                                "path": "SHARED/EXTRACTED/test-ext-deep2/test-ext-deep2/text-ext-deep2/test-ext-deep2/test-ext-deep2/vuln3.js",
+                                "start": {
+                                    "col": 19,
+                                    "line": 1,
+                                    "offset": 18
+                                }
+                            },
+                            "location.href"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "031efc5becf8e18e55f73d7f208ce7e9c50a659abf322364a52a83cabaabdd715152578b9344cf758091f1c3b85d44feffe909dad2ca86714d417dbd5a057e8d_0",
+                "is_ignored": false,
+                "lines": "$('replace').html(location.href)",
+                "message": "Source:location_href;Sink:jQuery_html",
+                "metadata": {},
+                "metavars": {
+                    "$X": {
+                        "abstract_content": "location.href",
+                        "end": {
+                            "col": 32,
+                            "line": 1,
+                            "offset": 31
+                        },
+                        "start": {
+                            "col": 19,
+                            "line": 1,
+                            "offset": 18
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "SHARED/EXTRACTED/test-ext-deep2/test-ext-deep2/text-ext-deep2/test-ext-deep2/test-ext-deep2/vuln3.js",
+            "start": {
+                "col": 19,
+                "line": 1,
+                "offset": 18
+            }
+        }
+    ],
+    "version": "1.24.0"
+}
