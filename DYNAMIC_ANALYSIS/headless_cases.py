@@ -20,6 +20,12 @@ from functools import partial
 from pathlib import Path
 
 def initialize_headless(path_to_extension,jsonfile):
+    # Getting the source list
+    with open("DYNAMIC_ANALYSIS/source.txt") as s:
+        sourcelist = s.readlines()
+        for i in sourcelist:
+            sourcelist[sourcelist.index(i)] = i.strip()
+    
     # Getting the results from the json file
     def json_results(path,json_file):
         f = open(json_file)
@@ -35,6 +41,7 @@ def initialize_headless(path_to_extension,jsonfile):
                         popup = "/" + i
         
         return data, popup
+    
     # obtain relevant extension information'
     def get_ext_id(path_to_extension, p):
         abs_path = path.abspath(path_to_extension)
@@ -44,6 +51,7 @@ def initialize_headless(path_to_extension,jsonfile):
         url_path = f"chrome-extension://{ext_id}" + p
         return url_path, abs_path
     
+    # definind payloads
     def payloads(path_to_payload):
         payload_array = []
         try:
@@ -57,45 +65,6 @@ def initialize_headless(path_to_extension,jsonfile):
             print("An error occurred while reading the file.")
         
         return payload_array
-
-    #differentiating data
-    def diff_data(data):
-        tainted = []
-        other_vars = []
-        scripts = []
-        for i in data:
-            if "chrome_runtime_onMessage" in i["check_id"]:
-                taint = {}
-                taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
-                taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
-                metavars = []
-                for j in i["extra"]["dataflow_trace"]["intermediate_vars"]:
-                    metavars.append(j["content"])
-                other_vars.append({"content":metavars})
-                message = i["extra"]["message"]
-                taint["message"] = message
-                taint["source"] = taint_source
-                taint["sink"] = taint_sink
-                tainted.append(taint)
-
-            if "chrome_runtime_onConnect" in i["check_id"]:
-                taint = {}
-                taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
-                taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
-                metavars = []
-                try:
-                    if i["extra"]["metavars"]["$OBJ"]:
-                        metavars.append(i["extra"]["metavars"]["$OBJ"]["abstract_content"])
-                except:
-                    print(1)
-                if i["extra"]["metavars"]["$X"]:
-                    metavars.append(i["extra"]["metavars"]["$X"]["abstract_content"])
-                other_vars.append({"content":metavars})
-                message = i["extra"]["message"]
-                taint["message"] = message
-                taint["source"] = taint_source
-                taint["sink"] = taint_sink
-                tainted.append(taint)
 
     data, popup = json_results(path_to_extension,jsonfile)
     url_path, abs_path = get_ext_id(path_to_extension,popup)
@@ -266,7 +235,7 @@ def context_menu(driver, url_path, payloads):
 ##########################
 
 # 1) onMessage 
-def runtime_onM(extid, payload, ssm, msgvar):
+def runtime_onM(extid, payload, ssm):
     scripts = []
     for k in ssm:
         html = 'rHTML'
@@ -286,7 +255,7 @@ def runtime_onM(extid, payload, ssm, msgvar):
         taintsink = k["sink"]
         
         varindex = taintsink.find(sink+"(") + sink.__len__() + 1
-        for i in msgvar[ssm.index(k)]["content"]:
+        for i in k["vars"]["content"]:
             msgindex = taintsink.find(i)
             if msgindex == -1:
                 continue
@@ -318,11 +287,11 @@ def runtime_onM(extid, payload, ssm, msgvar):
         
         script = f"{var}chrome.runtime.sendMessage({extid},obj)"
         scripts.append(script)
-
+    
     return scripts
 
 # 2) onConnect
-def runtime_onC(extid, payload, ssm, msgvar):
+def runtime_onC(extid, payload, ssm):
     scripts = []
     for i in ssm:
         html = 'rHTML'
@@ -347,10 +316,10 @@ def runtime_onC(extid, payload, ssm, msgvar):
         taintsink = i["sink"]
         taintsource = i["source"]
         try:
-            if msgvar[1]:
-                x = msgvar[1]
+            if i["vars"]["OBJ"]:
+                x = i["vars"]["OBJ"]
         except:
-            x = msgvar[0]
+            x = i["vars"]["X"]
         functionvar = taintsource.find(function)
         varfirst = taintsource.find(x)
         if varfirst == -1:
@@ -380,12 +349,83 @@ def runtime_onC(extid, payload, ssm, msgvar):
 
             var = f"obj = JSON.parse('{obj}');"
             func = f"obj.postMessage({payload})"
-            script = f"{var}chrome.runtime.connect({extid},{func})"
+
+        script = f"{var}chrome.runtime.connect({extid},{func})"
         scripts.append(script)
     return scripts
 
 # 3) get cookies
-
+def cookie_get(extid, payload, ssm):
+    scripts = []
+    for i in ssm:
+        html = 'rHTML'
+        dots = '.'
+        underscore = '_'
+        message = i["message"]
+        if html in message:
+            sink_split = message.split("Sink:")
+            sink = sink_split[-1]
+        elif dots in message:
+            sink_split = message.split(dots)
+            sink = sink_split[-1]
+        elif underscore in message:
+            sink_split = message.split(underscore)
+            sink = sink_split[-1]
+        
+        taintsink = i["sink"]
+        taintsource = i["source"]
+        try:
+            if i["vars"]["COOKIE"]:
+                cookie = i["vars"]["COOKIE"]
+            if i["vars"]["DETAILS"]:
+                details = i["vars"]["DETAILS"]
+            if i["vars"]["FUNC"]:
+                function = i["vars"]["FUNC"]
+        except:
+            function = False
+        try:
+            if i["vars"]["X"]:
+                x = i["vars"]["X"]
+            if i["vars"]["W"]:
+                w = i["vars"]["W"]
+        except:
+            w = False
+        try:
+            if i["vars"]["Y"]:
+                y = i["vars"]["Y"]
+            try:
+                if i["vars"]["yvalue"]:
+                    yvalue = i["vars"]["yvalue"]
+            except:
+                yvalue = False
+        except:
+            y = False
+        
+        if cookie in taintsource and taintsource == x:
+            if dots in x:
+                var = x.split(dots)
+                if var[1] == "name":
+                    obj = f'{payload}=value;'
+                elif var[1] == "value":
+                    obj = f'cookie={payload};'                
+        elif cookie in taintsource and taintsource == y:
+            if dots in y:
+                var = x.split(dots)
+                if var[1] == "name":
+                    obj = f'{payload}=value;'
+                elif var[1] == "value":
+                    obj = f'cookie={payload};'
+        elif cookie in taintsource and taintsource == yvalue:
+            if dots in yvalue:
+                var = x.split(dots)
+                if var[1] == "name":
+                    obj = f'{payload}=value;'
+                elif var[1] == "value":
+                    obj = f'cookie={payload};'
+        
+        script = f'document.cookie = {obj} + document.cookie'
+        scripts.append(script) 
+    return scripts
 
 # 4) location.hash
 def location_hash(payload):
@@ -447,6 +487,63 @@ def preconfigure(dir):
                         
                         line = line.replace(a, "active: false")
                         print(line, end="")
+
+#interpreter
+def interpreter(data,sourcelist):
+    tainted = []
+    other_vars = []
+    for i in data:
+        taint = {}
+        taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
+        taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
+        metavars = {}
+        try:
+            if i["extra"]["metavars"]["$COOKIE"]:
+                metavars["COOKIE"] = i["extra"]["metavars"]["$COOKIE"]["abstract_content"]
+            if i["extra"]["metavars"]["$DETAILS"]:
+                metavars["DETAILS"] = i["extra"]["metavars"]["$DETAILS"]["abstract_content"]
+            if i["extra"]["metavars"]["$FUNC"]:
+                metavars["FUNC"] = i["extra"]["metavars"]["$FUNC"]["abstract_content"]
+        except:
+            print("no function")
+        try:
+            if i["extra"]["metavars"]["$X"]:
+                metavars["X"] = i["extra"]["metavars"]["$X"]["abstract_content"]
+            if i["extra"]["metavars"]["$W"]:
+                metavars["W"] = i["extra"]["metavars"]["$W"]["abstract_content"]
+        except:
+            print("no w")
+        try:
+            if i["extra"]["metavars"]["$Y"]:
+                metavars["Y"] = i["extra"]["metavars"]["$Y"]["abstract_content"]
+            try:
+                if i["extra"]["metavars"]["$Y"]["propagated_value"]:
+                    metavars["yvalue"] = i["extra"]["metavars"]["$Y"]["propagated_value"]["svalue_abstract_content"]
+            except:
+                print("no y value")
+        except:
+            print("no y")
+        try:
+            if i["extra"]["metavars"]["$OBJ"]:
+                metavars["OBJ"] = i["extra"]["metavars"]["$OBJ"]["abstract_content"]
+        except:
+            print('no obj')
+        metavar = []
+        try:
+            for j in i["extra"]["dataflow_trace"]["intermediate_vars"]:
+                metavar.append(j["content"])
+            metavars["content"] = metavar
+        except:
+            other_vars.append(metavars)
+        message = i["extra"]["message"]
+        taint["message"] = message
+        taint["source"] = taint_source
+        taint["sink"] = taint_sink
+        tainted.append(taint)
+        
+    for i in sourcelist:
+        i
+        
 
 def main():
     # preconfiguration (set active to false)

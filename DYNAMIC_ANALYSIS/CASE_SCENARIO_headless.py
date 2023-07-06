@@ -7,15 +7,33 @@ data = []
 for i in results["results"]:
     data.append(i)
 
-with open("DYNAMIC_ANALYSIS/source.txt") as s:
-    sourcelist = []
-
+sourcelist = {
+    "chrome_contextMenu_create."
+    "chrome_contextMenu_onClicked_addListener."
+    "chrome_contextMenu_update."
+    "chrome_cookies_get."
+    "chrome_cookies_getAll."
+    "chrome_debugger_getTargets."
+    "chrome_runtime_onConnect."
+    "chrome_runtime_onConnectExternal."
+    "chrome_runtime_onMessage."
+    "chrome_runtime_onMessageExternal."
+    "chrome_tabs_get."
+    "chrome_tabs_getCurrent."
+    "chrome_tabs_query."
+    "location_hash."
+    "location_href."
+    "location_search."
+    "window_addEventListener_message."
+    "window_name."
+    "html-inputs-and-buttons."
+}
 
 tainted = []
 other_vars = []
 scripts = []
 
-def runtime_onC(extid, payload, ssm, msgvar):
+def runtime_onC(extid, payload, ssm):
     for i in ssm:
         html = 'rHTML'
         dots = '.'
@@ -39,10 +57,10 @@ def runtime_onC(extid, payload, ssm, msgvar):
         taintsink = i["sink"]
         taintsource = i["source"]
         try:
-            if msgvar[i][1]:
-                x = msgvar[i][1]
+            if i["vars"]["OBJ"]:
+                x = i["vars"]["OBJ"]
         except:
-            x = msgvar[i][0]
+            x = i["vars"]["X"]
         functionvar = taintsource.find(function)
         varfirst = taintsource.find(x)
         if varfirst == -1:
@@ -76,7 +94,7 @@ def runtime_onC(extid, payload, ssm, msgvar):
         script = f"{var}chrome.runtime.connect({extid},{func})"
         scripts.append(script)
 
-def runtime_onM(extid, payload, ssm, msgvar):
+def runtime_onM(extid, payload, ssm):
     for k in ssm:
         html = 'rHTML'
         dots = '.'
@@ -95,7 +113,7 @@ def runtime_onM(extid, payload, ssm, msgvar):
         taintsink = k["sink"]
         
         varindex = taintsink.find(sink+"(") + sink.__len__() + 1
-        for i in msgvar[ssm.index(k)]["content"]:
+        for i in k["vars"]["content"]:
             msgindex = taintsink.find(i)
             if msgindex == -1:
                 continue
@@ -128,7 +146,7 @@ def runtime_onM(extid, payload, ssm, msgvar):
         script = f"{var}chrome.runtime.sendMessage({extid},obj)"
         scripts.append(script)
 
-def cookie_get(extid, payload, ssm, msgvar):
+def cookie_get(extid, payload, ssm):
     for i in ssm:
         html = 'rHTML'
         dots = '.'
@@ -147,27 +165,27 @@ def cookie_get(extid, payload, ssm, msgvar):
         taintsink = i["sink"]
         taintsource = i["source"]
         try:
-            if msgvar[ssm.index(i)]["COOKIE"]:
-                cookie = msgvar[ssm.index(i)]["COOKIE"]
-            if msgvar[ssm.index(i)]["DETAILS"]:
-                details = msgvar[ssm.index(i)]["DETAILS"]
-            if msgvar[ssm.index(i)]["FUNC"]:
-                function = msgvar[ssm.index(i)]["FUNC"]
+            if i["vars"]["COOKIE"]:
+                cookie = i["vars"]["COOKIE"]
+            if i["vars"]["DETAILS"]:
+                details = i["vars"]["DETAILS"]
+            if i["vars"]["FUNC"]:
+                function = i["vars"]["FUNC"]
         except:
             function = False
         try:
-            if msgvar[ssm.index(i)]["X"]:
-                x = msgvar[ssm.index(i)]["X"]
-            if msgvar[ssm.index(i)]["W"]:
-                w = msgvar[ssm.index(i)]["W"]
+            if i["vars"]["X"]:
+                x = i["vars"]["X"]
+            if i["vars"]["W"]:
+                w = i["vars"]["W"]
         except:
             w = False
         try:
-            if msgvar[ssm.index(i)]["Y"]:
-                y = msgvar[ssm.index(i)]["Y"]
+            if i["vars"]["Y"]:
+                y = i["vars"]["Y"]
             try:
-                if msgvar[ssm.index(i)]["yvalue"]:
-                    yvalue = msgvar[ssm.index(i)]["yvalue"]
+                if i["vars"]["yvalue"]:
+                    yvalue = i["vars"]["yvalue"]
             except:
                 yvalue = False
         except:
@@ -177,66 +195,33 @@ def cookie_get(extid, payload, ssm, msgvar):
             if dots in x:
                 var = x.split(dots)
                 if var[1] == "name":
-                    obj = f'{payload}=value'
+                    obj = f'{payload}=value;'
                 elif var[1] == "value":
-                    obj = f'cookie={payload}'                
+                    obj = f'cookie={payload};'                
         elif cookie in taintsource and taintsource == y:
             if dots in y:
                 var = x.split(dots)
                 if var[1] == "name":
-                    obj = f'{payload}=value'
+                    obj = f'{payload}=value;'
                 elif var[1] == "value":
-                    obj = f'cookie={payload}'
+                    obj = f'cookie={payload};'
         elif cookie in taintsource and taintsource == yvalue:
             if dots in yvalue:
                 var = x.split(dots)
                 if var[1] == "name":
-                    obj = f'{payload}=value'
+                    obj = f'{payload}=value;'
                 elif var[1] == "value":
-                    obj = f'cookie={payload}'
+                    obj = f'cookie={payload};'
         
-        script = f'document.cookie = {obj}'
+        script = f'document.cookie = {obj} + document.cookie'
         scripts.append(script)
 
 def location_hash(payload):
     script = f"window.location.hash = {payload}"
     scripts.append(script)
 
-for i in data:
-    if "chrome_runtime_onMessage." in i["check_id"]:
-        taint = {}
-        taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
-        taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
-        metavars = []
-        for j in i["extra"]["dataflow_trace"]["intermediate_vars"]:
-            metavars.append(j["content"])
-        other_vars.append({"content":metavars})
-        message = i["extra"]["message"]
-        taint["message"] = message
-        taint["source"] = taint_source
-        taint["sink"] = taint_sink
-        tainted.append(taint)
-
-    if "chrome_runtime_onConnect." in i["check_id"]:
-        taint = {}
-        taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
-        taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
-        metavars = []
-        try:
-            if i["extra"]["metavars"]["$OBJ"]:
-                metavars.append(i["extra"]["metavars"]["$OBJ"]["abstract_content"])
-        except:
-            print(1)
-        if i["extra"]["metavars"]["$X"]:
-            metavars.append(i["extra"]["metavars"]["$X"]["abstract_content"])
-        other_vars.append(metavars)
-        message = i["extra"]["message"]
-        taint["message"] = message
-        taint["source"] = taint_source
-        taint["sink"] = taint_sink
-        tainted.append(taint)
-    
-    if 'chrome_cookies_get.' in i["check_id"]:
+def interpreter(data,sourcelist):
+    for i in data:
         taint = {}
         taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
         taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
@@ -267,19 +252,26 @@ for i in data:
                 print("no y value")
         except:
             print("no y")
-        
-        other_vars.append(metavars)
+        try:
+            if i["extra"]["metavars"]["$OBJ"]:
+                metavars["OBJ"] = i["extra"]["metavars"]["$OBJ"]["abstract_content"]
+        except:
+            print('no obj')
+        metavar = []
+        try:
+            for j in i["extra"]["dataflow_trace"]["intermediate_vars"]:
+                metavar.append(j["content"])
+            metavars["content"] = metavar
+            taint["vars"] = metavars
+        except:
+            taint["vars"] = metavars
         message = i["extra"]["message"]
         taint["message"] = message
         taint["source"] = taint_source
         taint["sink"] = taint_sink
         tainted.append(taint)
-
-    if 'location_hash.' in i["check_id"]:
-        location_hash()
-
-
+        
 # runtime_onM("extid","<img src=x onerror=alert(1)>",tainted,other_vars)
 
-for i in scripts:
-    print(i)
+# for i in scripts:
+#     print(i)
