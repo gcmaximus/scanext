@@ -25,7 +25,6 @@
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
     <style>
         body {
@@ -37,7 +36,7 @@
         }
 
         #logo {
-            width: 600px;
+            width: 750px;
             margin: auto;
             padding: 50px;
         }
@@ -74,10 +73,6 @@
         .header p {
             font-size: 1.3em;
         }
-
-        /* .header {
-            margin-bottom: 100px;
-        } */
 
         .analysis-header {
             margin-top: 50px;
@@ -180,19 +175,9 @@
             font-weight: bold;
         }
 
-        /* .dynamic-info-icons {
-            display: inline-block;
-        } */
-
-        /* .dynamic-info-icons:before {
-            content: '';
-            display: block;
-        } */
-
         .dynamic-result table {
             margin-top: 25px;
         }
-        
     </style>
 </head>
 
@@ -201,9 +186,8 @@
 
         <!-- Header -->
         <div class="row header">
-            <!-- TO CHANGE LOGO TO BLACK OUTLINE FONT -->
-            <img src="https://raw.githubusercontent.com/gcmaximus/chrome-ext-scanner/main/logo.png" alt="Logo"
-                id="logo">
+
+            <img src="https://raw.githubusercontent.com/gcmaximus/scanext/main/logo.png" alt="ScanExt Logo" id="logo">
 
             <div class="row files-header">
                 <p style="color: white">Folder scanned:</p>
@@ -255,14 +239,14 @@
 
         <!-- Static Results -->
 
-        <!-- Source-Sink pair 1 -->
+        <!-- Source-Sink pair -->
         <div class="card static-result">
             <div class="card-header">
-                <i class="fa fa-search" style="font-size:20px"></i> <span class="consolas">window_name-innerHTML</span>
+                <i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id">window_name-innerHTML</span>
 
                 <span class="float-end">
                     <i class="fa fa-file-code-o" style="font-size:20px"></i> <span
-                        class="consolas">h1-replacer/contentScript.js</span>
+                        class="consolas" id="vuln-file">h1-replacer/contentScript.js</span>
                 </span>
             </div>
             <div class="card-body">
@@ -270,7 +254,7 @@
                 <div class="row">
                     <div class="col-6 source-desc">
                         <!-- Source -->
-                        <h5><u>Source: <code>window.name</code></u></h5>
+                        <h5><u>Source: <code id="source">window.name</code></u></h5>
                         <code>window.name</code> can be used as an entry point for user-controlled data due to the fact
                         that
                         it's accessible cross-origin. Useful when combined with a resource specified under
@@ -279,7 +263,7 @@
 
                     <div class="col-6 sink-desc">
                         <!-- Sink -->
-                        <h5><u>Sink: <code>innerHTML</code></u></h5>
+                        <h5><u>Sink: <code id="sink">innerHTML</code></u></h5>
                         <code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS)
                         vulnerabilities.
                     </div>
@@ -325,10 +309,11 @@
         <!-- Dynamic Results -->
 
 
-        <!-- Source 1 -->
+        <!-- Source -->
         <div class="card dynamic-result">
             <div class="card-header">
-                <i class="fa fa-flag-checkered" style="font-size:20px"></i> <span class="consolas" style="font-size: 18px;font-weight: bold;">window.name</span>
+                <i class="fa fa-flag-checkered" style="font-size:20px"></i> <span class="consolas"
+                    style="font-size: 18px;font-weight: bold;">window.name</span>
             </div>
             <div class="card-body">
                 <p class="card-text">
@@ -350,27 +335,7 @@
                         <i class="dynamic-info-icons float-end fa fa-bug" style="font-size:36px;"></i>
                         <h5 class="dynamic-info-icons float-start mt-2"><b>Successful payloads: </b><u>2</u></h5>
 
-
-
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 </div>
 

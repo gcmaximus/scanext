@@ -7,6 +7,7 @@ from zipfile import ZipFile
 from DYNAMIC_ANALYSIS.headless_cases import main as dynamic
 from email.utils import formatdate
 import jsbeautifier
+from bs4 import BeautifulSoup
 
 
 # extract extensions and format the extracted files
@@ -51,26 +52,14 @@ def extraction():
 
     
 
-
-
-# auto semgrep scan
-def static_analysis(extension: Path):
+def static_analysis(extension: Path, soup):
     # Config rules
     rules = "STATIC_ANALYSIS/semgrep_rules/"
-    # rules = "STATIC_ANALYSIS/semgrep_rules/window_name"
-    # rules = "auto"
-
-    # Codes to be scanned
-    # print("FKKKKKKKKK",filename)
-    # filename = "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js"
-    # filename = "EXTENSIONS/h1-replacer(v3)"
-    # filename = "EXTENSIONS/emailextractor"
-    # filename = "EXTENSIONS/google
 
     # Output file
     output_file = "STATIC_ANALYSIS/semgrep_results.json"
 
-
+    # Command to run on CLI
     command = [
         "semgrep",
         "scan",
@@ -110,21 +99,67 @@ def static_analysis(extension: Path):
         content = json.load(f)
 
         # Extract information
-        ext_name = content["name"]
-        ext_version = content["version"]
-        manifest_version = content["manifest_version"]
-        
-    print(ext_name, ext_version, manifest_version)
+        ext_name = str(content["name"])
+        ext_version = str(content["version"])
+        manifest_version = str(content["manifest_version"])
 
 
     # No of vulnerabilities found
-    no_of_vulns = len(results)
+    no_of_vulns = str(len(results))
     
     # No of POCs
     # no_of_pocs = 
 
 
-    # print()
+    html_scanned_folder = soup.find(id="scanned-folder")
+    html_scanned_folder.string = folder_scanned
+
+    html_ext_name = soup.find(id="ext-name")
+    html_ext_name.string = ext_name
+
+    html_ext_version = soup.find(id="ext-version")
+    html_ext_version.string = ext_version
+
+    html_manifest_version = soup.find(id="manifest-version")
+    html_manifest_version.string = manifest_version
+
+    html_vulns = soup.find(id="vulns")
+    html_vulns.string = no_of_vulns + ' found'
+
+    # html_pocs = soup.find(id="pocs")
+    # html_pocs.string = 
+
+    # append semgrep info to report
+    if len(results) == 0:
+        print("sibei secure")
+
+    else:
+        # loop through & append 1 card for each result
+        for result in results:
+            # source = result['extra']['dataflow_trace']['taint_source'][1][1]
+            # print('source: '+source)
+            # sink = result['extra']['dataflow_trace']['taint_sink'][1][1]
+            # print('sink: '+sink)
+            vuln_id = result['check_id'].split('.')[-1]
+            vuln_file = result['extra']['dataflow_trace']['intermediate_vars'][0]['location']['path'].split('SHARED/EXTRACTED/')[1]
+
+            source, sink = vuln_id.replace('_','.').split('-')
+
+            # find desc for source & sink
+            with open("SHARED/descriptions.json", "r") as f:
+                content = json.load(f)
+                source_desc = content["sources"][source]
+                sink_desc = content["sinks"][sink]
+
+            print(f'{source}: {source_desc}\n{sink}: {sink_desc}')
+            
+
+
+
+
+
+    with open("test_report.html", "w") as file:
+        file.write(str(soup))
 
 
 
@@ -143,16 +178,27 @@ if __name__ == "__main__":
     
     for extension in extraction():
 
-        # Get scan start time and append to report
+
+
+        # # Initialise report name
+        # report_name = f'{extension.name} ({scan_start}).html'
+
+
+        with open('SHARED/REPORTS/report_template.html', 'r') as f:
+            html_content = f.read()
+
+        # Parse HTML content
+        soup = BeautifulSoup(html_content, "html.parser")
+
+        # Get scan date
         scan_start = formatdate(localtime=True)
-        
-        print(f'{extension.name} ({scan_start}).html')
 
-        # with open(f'{extension.name}_{scan_start}.html', 'w') as f:
+        # Update scan date in report
+        html_scan_date = soup.find(id="scan-date")
+        html_scan_date.string = scan_start
 
-            
+        # Start static analysis
+        static_analysis(extension,soup)
 
 
-
-        static_analysis(extension)
         # dynamic_anaylsis(extension)
