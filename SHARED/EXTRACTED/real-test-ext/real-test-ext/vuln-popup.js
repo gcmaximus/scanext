@@ -2,6 +2,6 @@ x = window.name
 
 document.write(x)
 
-y = location.href
+y = location.hash
 
 document.getElementById('abc').innerHTML = y

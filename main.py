@@ -5,6 +5,7 @@ from os import makedirs
 from pathlib import Path
 from zipfile import ZipFile
 
+from email.utils import formatdate
 import jsbeautifier
 
 
@@ -97,10 +98,33 @@ def static_analysis(extension: Path):
 
 
 
-    # Static Analysis to report
-    folder_scanned = extension.name
-    print(results)
+    # Retrieving information from Static Analysis for report
 
+    # Name of folder scanned
+    folder_scanned = extension.name
+
+    # Information from manifest.json
+    path_to_manifest = tuple(Path(extension).glob("**/manifest.json"))[0]
+
+    with open(path_to_manifest, 'r') as f:
+        content = json.load(f)
+
+        # Extract information
+        ext_name = content["name"]
+        ext_version = content["version"]
+        manifest_version = content["manifest_version"]
+        
+    print(ext_name, ext_version, manifest_version)
+
+
+    # No of vulnerabilities found
+    no_of_vulns = len(results)
+    
+    # No of POCs
+    # no_of_pocs = 
+
+
+    # print()
 
 
 
@@ -112,6 +136,22 @@ def dynamic_analysis():
 
 if __name__ == "__main__":
     print("Start of program")
+
+
+
+    
     for extension in extraction():
+
+        # Get scan start time and append to report
+        scan_start = formatdate(localtime=True)
+        
+        print(f'{extension.name} ({scan_start}).html')
+
+        # with open(f'{extension.name}_{scan_start}.html', 'w') as f:
+
+            
+
+
+
         static_analysis(extension)
         # dynamic_anaylsis(extension)
