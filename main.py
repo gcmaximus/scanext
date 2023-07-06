@@ -4,7 +4,7 @@ import subprocess
 from os import makedirs
 from pathlib import Path
 from zipfile import ZipFile
-
+from DYNAMIC_ANALYSIS.headless_cases import main as dynamic
 from email.utils import formatdate
 import jsbeautifier
 
