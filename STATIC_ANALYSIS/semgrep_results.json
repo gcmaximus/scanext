@@ -1,1 +1,246 @@
-{"errors": [], "paths": {"_comment": "<add --verbose for a list of skipped paths>", "scanned": ["SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js"]}, "results": [{"check_id": "STATIC_ANALYSIS.semgrep_rules.location_hash.location_hash-innerHTML", "end": {"col": 45, "line": 7, "offset": 105}, "extra": {"dataflow_trace": {"intermediate_vars": [{"content": "y", "location": {"end": {"col": 2, "line": 5, "offset": 41}, "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js", "start": {"col": 1, "line": 5, "offset": 40}}}], "taint_sink": ["CliLoc", [{"end": {"col": 45, "line": 7, "offset": 105}, "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js", "start": {"col": 44, "line": 7, "offset": 104}}, "y"]], "taint_source": ["CliLoc", [{"end": {"col": 18, "line": 5, "offset": 57}, "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js", "start": {"col": 5, "line": 5, "offset": 44}}, "location.hash"]]}, "engine_kind": "OSS", "fingerprint": "7f731f53d7e2629ad94969b8a077dbd4b673b633bd86614e61944cef56d3b105cd1a9be9188d785407b9e517fc6bc2ae7d8b683fbbd7795ec1245faaca013a9f_0", "is_ignored": false, "lines": "document.getElementById('abc').innerHTML = y", "message": "Source:location_hash;Sink:innerHTML", "metadata": {}, "metavars": {"$X": {"abstract_content": "y", "end": {"col": 45, "line": 7, "offset": 105}, "propagated_value": {"svalue_abstract_content": "location.hash", "svalue_end": {"col": 18, "line": 5, "offset": 57}, "svalue_start": {"col": 5, "line": 5, "offset": 44}}, "start": {"col": 44, "line": 7, "offset": 104}}}, "severity": "WARNING"}, "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js", "start": {"col": 44, "line": 7, "offset": 104}}, {"check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-document_write", "end": {"col": 18, "line": 3, "offset": 36}, "extra": {"dataflow_trace": {"intermediate_vars": [{"content": "x", "location": {"end": {"col": 2, "line": 1, "offset": 1}, "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js", "start": {"col": 1, "line": 1, "offset": 0}}}], "taint_sink": ["CliLoc", [{"end": {"col": 18, "line": 3, "offset": 36}, "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js", "start": {"col": 1, "line": 3, "offset": 19}}, "document.write(x)"]], "taint_source": ["CliLoc", [{"end": {"col": 16, "line": 1, "offset": 15}, "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js", "start": {"col": 5, "line": 1, "offset": 4}}, "window.name"]]}, "engine_kind": "OSS", "fingerprint": "be7b75ce436417afae5ce7846e4a0cc5fd0bb243ff12ce90fe673c9262150be23cde389e30e62e9e63b4e5aa96772d7c8f7454ffb8520e8202ffd50760f5dcb5_0", "is_ignored": false, "lines": "document.write(x)", "message": "Source:window_name;Sink:document_write", "metadata": {}, "metavars": {"$X": {"abstract_content": "x", "end": {"col": 17, "line": 3, "offset": 35}, "propagated_value": {"svalue_abstract_content": "window.name", "svalue_end": {"col": 16, "line": 1, "offset": 15}, "svalue_start": {"col": 5, "line": 1, "offset": 4}}, "start": {"col": 16, "line": 3, "offset": 34}}}, "severity": "WARNING"}, "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/vuln-popup.js", "start": {"col": 1, "line": 3, "offset": 19}}], "version": "1.22.0"}
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.location_hash.location_hash-innerHTML",
+            "end": {
+                "col": 53,
+                "line": 9,
+                "offset": 144
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "y",
+                            "location": {
+                                "end": {
+                                    "col": 2,
+                                    "line": 5,
+                                    "offset": 41
+                                },
+                                "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 5,
+                                    "offset": 40
+                                }
+                            }
+                        },
+                        {
+                            "content": "tainted_y",
+                            "location": {
+                                "end": {
+                                    "col": 10,
+                                    "line": 7,
+                                    "offset": 70
+                                },
+                                "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 7,
+                                    "offset": 61
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 53,
+                                    "line": 9,
+                                    "offset": 144
+                                },
+                                "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+                                "start": {
+                                    "col": 44,
+                                    "line": 9,
+                                    "offset": 135
+                                }
+                            },
+                            "tainted_y"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 18,
+                                    "line": 5,
+                                    "offset": 57
+                                },
+                                "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 5,
+                                    "offset": 44
+                                }
+                            },
+                            "location.hash"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "7ad39af6d9d3825dba89e633f8c6813c0557400ee396f43f60d36d3262e50af926cb1db7e7240f9f2796a5be24442f28bc90d3d48ebcf0acd719f7f4d1f166ae_0",
+                "is_ignored": false,
+                "lines": "document.getElementById('abc').innerHTML = tainted_y",
+                "message": "Source:location_hash;Sink:innerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$X": {
+                        "abstract_content": "tainted_y",
+                        "end": {
+                            "col": 53,
+                            "line": 9,
+                            "offset": 144
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "y.split(\"#\")[1]",
+                            "svalue_end": {
+                                "col": 28,
+                                "line": 7,
+                                "offset": 88
+                            },
+                            "svalue_start": {
+                                "col": 13,
+                                "line": 7,
+                                "offset": 73
+                            }
+                        },
+                        "start": {
+                            "col": 44,
+                            "line": 9,
+                            "offset": 135
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+            "start": {
+                "col": 44,
+                "line": 9,
+                "offset": 135
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.window_name.window_name-document_write",
+            "end": {
+                "col": 18,
+                "line": 3,
+                "offset": 36
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "x",
+                            "location": {
+                                "end": {
+                                    "col": 2,
+                                    "line": 1,
+                                    "offset": 1
+                                },
+                                "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 1,
+                                    "offset": 0
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 18,
+                                    "line": 3,
+                                    "offset": 36
+                                },
+                                "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 3,
+                                    "offset": 19
+                                }
+                            },
+                            "document.write(x)"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 16,
+                                    "line": 1,
+                                    "offset": 15
+                                },
+                                "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+                                "start": {
+                                    "col": 5,
+                                    "line": 1,
+                                    "offset": 4
+                                }
+                            },
+                            "window.name"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "c7b6d1b3989ac565a1aebc66cdb83a771a0730ba79923371de6ae472336ff16e6c996c2ab2b4cd16020b6eb09fb8d1ddcf6b56b721ff6060d3dfe6748d044a87_0",
+                "is_ignored": false,
+                "lines": "document.write(x)",
+                "message": "Source:window_name;Sink:document_write",
+                "metadata": {},
+                "metavars": {
+                    "$X": {
+                        "abstract_content": "x",
+                        "end": {
+                            "col": 17,
+                            "line": 3,
+                            "offset": 35
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "window.name",
+                            "svalue_end": {
+                                "col": 16,
+                                "line": 1,
+                                "offset": 15
+                            },
+                            "svalue_start": {
+                                "col": 5,
+                                "line": 1,
+                                "offset": 4
+                            }
+                        },
+                        "start": {
+                            "col": 16,
+                            "line": 3,
+                            "offset": 34
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "SHARED/EXTRACTED/real-test-ext/real-test-ext/real-test-ext/vuln-popup.js",
+            "start": {
+                "col": 1,
+                "line": 3,
+                "offset": 19
+            }
+        }
+    ],
+    "version": "1.22.0"
+}

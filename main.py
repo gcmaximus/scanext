@@ -154,6 +154,9 @@ def static_analysis(extension: Path, soup):
 
             # print(f'{source}: {source_desc}\n{sink}: {sink_desc}')
 
+
+            # find line no. of vuln + the line itself
+            
             add = f'''
 <!-- Source-Sink pair -->
         <div class="card static-result">
@@ -162,7 +165,7 @@ def static_analysis(extension: Path, soup):
 
                 <span class="float-end">
                     <i class="fa fa-file-code-o" style="font-size:20px"></i> <span
-                        class="consolas" id="vuln-file-{result_no}">{vuln_id}</span>
+                        class="consolas" id="vuln-file-{result_no}">{vuln_file}</span>
                 </span>
             </div>
             <div class="card-body">
@@ -193,15 +196,12 @@ def static_analysis(extension: Path, soup):
                 <pre class="code-block">
                     <code class="code-source">
     20          ...
-    21          <mark>hello = window.name</mark>    <span class="code-comment">/* Source */</span>
-    22          ...
-                    </code>
-                    <hr>
-                    <code class="code-sink">
+    21          <mark id="code-source-{result_no}">hello = window.name</mark>    <span class="code-comment">/* Source */</span>
+    22          ...</code>
+                <hr><code class="code-sink">
     26          ...
-    27          <mark>document.getElementById('replace').innerHTML = hello</mark>    <span class="code-comment">/* Sink */</span>
-    28          ...
-                    </code>
+    27          <mark id="code-sink-{result_no}">document.getElementById('replace').innerHTML = hello</mark>    <span class="code-comment">/* Sink */</span>
+    28          ...</code>
                 </pre>
 
                 <i>*This code has been beautified by js-beautify.</i>
@@ -212,8 +212,10 @@ def static_analysis(extension: Path, soup):
             </div>
         </div>
 '''
+            
+            add_parsed = BeautifulSoup(add, "html.parser")
             html_static_main = soup.find(id='static-main')
-            html_static_main.append(add)
+            html_static_main.append(add_parsed)
 
             result_no += 1
 

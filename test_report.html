@@ -94,11 +94,12 @@
         }
 
         mark {
-            background-color: rgb(242, 244, 137);
+            background-color: rgb(250, 250, 147);
         }
 
         .code-block {
-            background-color: #f0f0f0;
+            background-color: #e6e6e6;
+            border: 1px solid black;
         }
 
         .code-comment {
@@ -199,7 +200,7 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Thu, 06 Jul 2023 21:21:38 +0800</td>
+<td id="scan-date">Thu, 06 Jul 2023 22:11:59 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
@@ -213,16 +214,102 @@
 </table>
 </div>
 </div>
+<!-- Static -->
+<div id="static-main">
 <!-- Static Analysis Header -->
 <div class="row analysis-header static-header">
 <h2>Static Analysis Results</h2>
 </div>
 <!-- Static Results -->
+
+<!-- Source-Sink pair -->
+<div class="card static-result">
+<div class="card-header">
+<i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id-1">location_hash-innerHTML</span>
+<span class="float-end">
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="consolas" id="vuln-file-1">real-test-ext/real-test-ext/real-test-ext/vuln-popup.js</span>
+</span>
+</div>
+<div class="card-body">
+<p class="card-text">
+<div class="row">
+<div class="col-6 source-desc">
+<!-- Source -->
+<h5><u>Source: <code id="source-1">location.hash</code></u></h5>
+<p id="source-desc-1"><code>location.hash</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
+</div>
+<div class="col-6 sink-desc">
+<!-- Sink -->
+<h5><u>Sink: <code id="sink-1">innerHTML</code></u></h5>
+<p id="sink-desc-1"><code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
+</div>
+</div>
+<br/><br/>
+<!-- Location -->
+<h5><u>Location of vulnerability:</u></h5>
+<pre class="code-block">
+                    <code class="code-source">
+    20          ...
+    21          <mark id="code-source-1">hello = window.name</mark>    <span class="code-comment">/* Source */</span>
+    22          ...</code>
+                <hr/><code class="code-sink">
+    26          ...
+    27          <mark id="code-sink-1">document.getElementById('replace').innerHTML = hello</mark>    <span class="code-comment">/* Sink */</span>
+    28          ...</code>
+                </pre>
+<i>*This code has been beautified by js-beautify.</i>
+</p>
+</div>
+</div>
+
+<!-- Source-Sink pair -->
+<div class="card static-result">
+<div class="card-header">
+<i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id-2">window_name-document_write</span>
+<span class="float-end">
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="consolas" id="vuln-file-2">real-test-ext/real-test-ext/real-test-ext/vuln-popup.js</span>
+</span>
+</div>
+<div class="card-body">
+<p class="card-text">
+<div class="row">
+<div class="col-6 source-desc">
+<!-- Source -->
+<h5><u>Source: <code id="source-2">window.name</code></u></h5>
+<p id="source-desc-2"><code>window.name</code> can be used as an entry point for user-controlled data due the fact that it's accessible cross-origin. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
+</div>
+<div class="col-6 sink-desc">
+<!-- Sink -->
+<h5><u>Sink: <code id="sink-2">document.write</code></u></h5>
+<p id="sink-desc-2"><code>document.write</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
+</div>
+</div>
+<br/><br/>
+<!-- Location -->
+<h5><u>Location of vulnerability:</u></h5>
+<pre class="code-block">
+                    <code class="code-source">
+    20          ...
+    21          <mark id="code-source-2">hello = window.name</mark>    <span class="code-comment">/* Source */</span>
+    22          ...</code>
+                <hr/><code class="code-sink">
+    26          ...
+    27          <mark id="code-sink-2">document.getElementById('replace').innerHTML = hello</mark>    <span class="code-comment">/* Sink */</span>
+    28          ...</code>
+                </pre>
+<i>*This code has been beautified by js-beautify.</i>
+</p>
+</div>
+</div>
+</div>
+<!-- Dyanmic -->
+<div id="dynamic-main">
 <!-- Dynamic Analysis Header -->
 <div class="row analysis-header dynamic-header">
 <h2>Dynamic Analysis Results</h2>
 </div>
 <!-- Dynamic Results -->
+</div>
 <!-- Footer -->
 <footer>
 </footer>
