@@ -187,7 +187,7 @@ def static_analysis(extension: Path, soup):
                 code_segment = f'''
 <pre class="code-block">
                     <code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>    <span class="code-comment">/* Source + Sink */</span></code>
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>&#9;<span class="code-comment">/* Source + Sink */</span></code>
                 </pre>'''
 
             # 4. line difference == 1?
@@ -195,8 +195,8 @@ def static_analysis(extension: Path, soup):
                 code_segment = f'''
 <pre class="code-block">
                     <code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>    <span class="code-comment">/* Source */</span></code><code>
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{vulnerable_lines['sink_line']}</mark>    <span class="code-comment">/* Sink */</span></code>
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{vulnerable_lines['sink_line']}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
                 </pre>'''
 
             # 5. line difference > 1?
@@ -204,9 +204,9 @@ def static_analysis(extension: Path, soup):
                 code_segment = f'''
 <pre class="code-block">
                     <code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>    <span class="code-comment">/* Source */</span></code><code>
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
     ...&#9;&#9;...</code><code class="code-sink">
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{vulnerable_lines['sink_line']}</mark>    <span class="code-comment">/* Sink */</span></code>
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{vulnerable_lines['sink_line']}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
                 </pre>'''
 
             # 6. intermediate vars > 1? (detailed tainted path)
@@ -218,8 +218,8 @@ def static_analysis(extension: Path, soup):
                 print("NO INTERMEDIATE VARS")
             
             if no_of_vars > 1:
-                # tainted_lines_no = []
                 tainted_lines = {}
+                line_numbers_ordered = []
 
                 for var in vars:
 
@@ -228,10 +228,10 @@ def static_analysis(extension: Path, soup):
                         print('ignoring')
 
                     else:
-                        # print(var)
 
                         # get tainted line numbers
                         line_no = var['location']['start']['line']
+                        line_numbers_ordered.append(line_no)
                         print(line_no)
                         # get tainted lines
                         file = open(f'SHARED/EXTRACTED/{vuln_file}')
@@ -240,6 +240,49 @@ def static_analysis(extension: Path, soup):
                                 tainted_lines[line_no] = line.strip()
 
                 print("Tainted Lines: ", tainted_lines)
+                print("Line numbers ordered: ", line_numbers_ordered)
+                more_details = '''
+<br>
+<h5><u>More details on tainted variables</u></h5>
+<pre class="code-block">'''
+
+                counter = 0
+                for line in tainted_lines:
+                    more_details += f'''<code class="code-taint">
+    {line}&#9;&#9;<mark class="mark-taint" id="code-taint-{result_no}">{tainted_lines[line]}</mark>&#9;<span class="code-comment">/* Tainted */</span></code>'''
+                    if len(line_numbers_ordered) - counter != 1:
+                        line_diff = abs(line_numbers_ordered[counter] - line_numbers_ordered[counter+1])
+                        print(line_diff)
+
+
+                        if line_diff > 1:
+                            more_details += '''
+    <code>...&#9;&#9;...</code>'''
+                            
+                    
+                            
+                    counter += 1
+
+                    
+                
+                more_details += '''
+                </pre>'''
+                code_segment += more_details
+
+                #check for line diff between current tainted line and prev line (tainted OR source line)
+
+
+
+
+                # if line diff == 1:
+                #     dont add ...
+                # else:
+                #     add ...
+                # add tainted line
+
+                #check for line diff between sink and last tainted line (need add ...?)
+
+
                         
 
                 
@@ -278,7 +321,7 @@ def static_analysis(extension: Path, soup):
 
 
                 <!-- Location -->
-                <h5><u>Location of vulnerability:</u></h5>
+                <h5><u>Location of vulnerability</u></h5>
 
                 {code_segment}
 

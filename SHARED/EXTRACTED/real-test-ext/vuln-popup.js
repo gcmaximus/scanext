@@ -6,8 +6,15 @@ document.write(x)
 y = location.hash
 console.log('hi')
 tainted_y = y.split("#")[1]
+console.log('bye')
 very_tainted_y = tainted_y
-document.getElementById('abc').innerHTML = very_tainted_y
+console.log('hua')
+console.log('hello')
+damn_tainted_y = very_tainted_y + "===="
+very_damn_tainted_y = damn_tainted_y
+x = very_damn_tainted_y
+console.log('uhud')
+document.getElementById('abc').innerHTML = x
 
 // case 3
 console.log('bye')

@@ -56,7 +56,7 @@
         }
 
         .static-result {
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
 
         .consolas {
@@ -165,12 +165,15 @@
         }
 
         code {
-            color: #0AAD0B;
             font-weight: bold;
         }
 
         .dynamic-result table {
             margin-top: 25px;
+        }
+        
+        .mark-taint {
+            background-color: aquamarine;
         }
     </style>
 </head>
@@ -200,7 +203,7 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Fri, 07 Jul 2023 01:01:13 +0800</td>
+<td id="scan-date">Fri, 07 Jul 2023 03:05:56 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
@@ -246,12 +249,12 @@
 </div>
 <br/><br/>
 <!-- Location -->
-<h5><u>Location of vulnerability:</u></h5>
+<h5><u>Location of vulnerability</u></h5>
 <pre class="code-block">
                     <code class="code-source">
-    17		<mark id="code-source-1">x = location.search</mark>    <span class="code-comment">/* Source */</span></code><code>
+    24		<mark id="code-source-1">x = location.search</mark>	<span class="code-comment">/* Source */</span></code><code>
     ...		...</code><code class="code-sink">
-    19		<mark id="code-sink-1">$('abc').html(x) // should be 0 intermediate vars, line diff &gt; 1</mark>    <span class="code-comment">/* Sink */</span></code>
+    26		<mark id="code-sink-1">$('abc').html(x) // should be 0 intermediate vars, line diff &gt; 1</mark>	<span class="code-comment">/* Sink */</span></code>
                 </pre>
 <i>*This code has been beautified by js-beautify.</i>
 </p>
@@ -282,12 +285,23 @@
 </div>
 <br/><br/>
 <!-- Location -->
-<h5><u>Location of vulnerability:</u></h5>
+<h5><u>Location of vulnerability</u></h5>
 <pre class="code-block">
                     <code class="code-source">
-    6		<mark id="code-source-2">y = location.hash</mark>    <span class="code-comment">/* Source */</span></code><code>
+    6		<mark id="code-source-2">y = location.hash</mark>	<span class="code-comment">/* Source */</span></code><code>
     ...		...</code><code class="code-sink">
-    10		<mark id="code-sink-2">document.getElementById('abc').innerHTML = very_tainted_y</mark>    <span class="code-comment">/* Sink */</span></code>
+    17		<mark id="code-sink-2">document.getElementById('abc').innerHTML = x</mark>	<span class="code-comment">/* Sink */</span></code>
+                </pre>
+<br/>
+<h5><u>More details on tainted variables</u></h5>
+<pre class="code-block"><code class="code-taint">
+    8		<mark class="mark-taint" id="code-taint-2">tainted_y = y.split("#")[1]</mark>	<span class="code-comment">/* Tainted */</span></code>
+    <code>...		...</code><code class="code-taint">
+    10		<mark class="mark-taint" id="code-taint-2">very_tainted_y = tainted_y</mark>	<span class="code-comment">/* Tainted */</span></code>
+    <code>...		...</code><code class="code-taint">
+    13		<mark class="mark-taint" id="code-taint-2">damn_tainted_y = very_tainted_y + "===="</mark>	<span class="code-comment">/* Tainted */</span></code><code class="code-taint">
+    14		<mark class="mark-taint" id="code-taint-2">very_damn_tainted_y = damn_tainted_y</mark>	<span class="code-comment">/* Tainted */</span></code><code class="code-taint">
+    15		<mark class="mark-taint" id="code-taint-2">x = very_damn_tainted_y</mark>	<span class="code-comment">/* Tainted */</span></code>
                 </pre>
 <i>*This code has been beautified by js-beautify.</i>
 </p>
@@ -318,11 +332,11 @@
 </div>
 <br/><br/>
 <!-- Location -->
-<h5><u>Location of vulnerability:</u></h5>
+<h5><u>Location of vulnerability</u></h5>
 <pre class="code-block">
                     <code class="code-source">
-    2		<mark id="code-source-3">x = window.name</mark>    <span class="code-comment">/* Source */</span></code><code>
-    3		<mark id="code-sink-3">document.write(x)</mark>    <span class="code-comment">/* Sink */</span></code>
+    2		<mark id="code-source-3">x = window.name</mark>	<span class="code-comment">/* Source */</span></code><code>
+    3		<mark id="code-sink-3">document.write(x)</mark>	<span class="code-comment">/* Sink */</span></code>
                 </pre>
 <i>*This code has been beautified by js-beautify.</i>
 </p>
@@ -353,17 +367,17 @@
 </div>
 <br/><br/>
 <!-- Location -->
-<h5><u>Location of vulnerability:</u></h5>
+<h5><u>Location of vulnerability</u></h5>
 <pre class="code-block">
                     <code class="code-source">
-    14		<mark id="code-source-4">document.writeln(location.href)</mark>    <span class="code-comment">/* Source + Sink */</span></code>
+    21		<mark id="code-source-4">document.writeln(location.href)</mark>	<span class="code-comment">/* Source + Sink */</span></code>
                 </pre>
 <i>*This code has been beautified by js-beautify.</i>
 </p>
 </div>
 </div>
 </div>
-<!-- Dyanmic -->
+<!-- Dynamic -->
 <div id="dynamic-main">
 <!-- Dynamic Analysis Header -->
 <div class="row analysis-header dynamic-header">
