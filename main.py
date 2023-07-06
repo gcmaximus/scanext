@@ -48,6 +48,10 @@ def extraction():
     return Path(extraction_dir).glob('*')
 
 
+    
+
+
+
 # auto semgrep scan
 def static_analysis(extension: Path):
     # Config rules
@@ -64,7 +68,7 @@ def static_analysis(extension: Path):
 
     # Output file
     output_file = "STATIC_ANALYSIS/semgrep_results.json"
-
+    print("extension: " + str(extension))
     command = [
         "semgrep",
         "scan",
@@ -75,6 +79,8 @@ def static_analysis(extension: Path):
         "--output",
         output_file
     ]
+
+    print(command)
     try:
         subprocess.run(command, check=True)
         print("Semgrep scan successful")
@@ -89,7 +95,14 @@ def static_analysis(extension: Path):
         sorted_results = sorted(results, key=lambda e: e["path"])
         sorted_results = sorted(sorted_results, key=lambda e: e["check_id"])
 
-    
+
+
+    # Static Analysis to report
+    folder_scanned = extension.name
+    print(results)
+
+
+
 
 
 
