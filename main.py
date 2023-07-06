@@ -216,6 +216,7 @@ def static_analysis(extension: Path, soup):
                 print("No. of intermediate vars:", no_of_vars)
             except:
                 print("NO INTERMEDIATE VARS")
+                no_of_vars = 0
             
             if no_of_vars > 1:
                 tainted_lines = {}
@@ -303,13 +304,13 @@ def static_analysis(extension: Path, soup):
                 <div class="row">
                     <div class="col-6 source-desc">
                         <!-- Source -->
-                        <h5><u>Source: <code id="source-{result_no}">{source}</code></u></h5>
+                        <h5><u>Source ID: <code id="source-{result_no}">{source}</code></u></h5>
                         <p id="source-desc-{result_no}">{source_desc}</p>
                     </div>
 
                     <div class="col-6 sink-desc">
                         <!-- Sink -->
-                        <h5><u>Sink: <code id="sink-{result_no}">{sink}</code></u></h5>
+                        <h5><u>Sink ID: <code id="sink-{result_no}">{sink}</code></u></h5>
                         <p id="sink-desc-{result_no}">{sink_desc}</p>
                     </div>
 
@@ -345,9 +346,10 @@ def static_analysis(extension: Path, soup):
 
 
 
+    # Initialise report name
+    report_name = f'{extension.name} ({scan_start}).html'
 
-
-    with open("test_report.html", "w") as file:
+    with open(f"SHARED/REPORTS/{report_name}", "w") as file:
         file.write(str(soup))
 
 
@@ -369,8 +371,7 @@ if __name__ == "__main__":
 
 
 
-        # # Initialise report name
-        # report_name = f'{extension.name} ({scan_start}).html'
+
 
 
         with open('SHARED/REPORTS/report_template.html', 'r') as f:

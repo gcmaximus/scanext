@@ -4,8 +4,37 @@
 
         "location.hash": "<code>location.hash</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>.",
 
-        "location.href": "placeholder",
-        "location.search": "placeholder"
+        "location.href": "<code>location.href</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>.",
+
+        "location.search": "<code>location.href</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>.",
+
+        "chrome.tabs.query": "<code>chrome.tabs.query</code> returns information about a queried tab and can be used as an entry point for user-controlled data.",
+
+        "chrome.tabs.get": "<code>chrome.tabs.get</code> returns information about a given tab and can be used as an entry point for user-controlled data.",
+
+        "chrome.tabs.getCurrent": "<code>chrome.tabs.getCurrent</code> returns information about the current tab and can be used as an entry point for user-controlled data.",
+
+        "chrome.runtime.onMessage": "<code>chrome.runtime.onMessage</code> is fired when a message is sent from either an extension process (by <code>runtime.sendMessage</code>) or a content script (by <code>tabs.sendMessage</code>).",
+
+        "chrome.runtime.onConnect": "Fired when a connection is made from either an extension process or a content script (by <code>runtime.connect</code>).",
+
+        "chrome.runtime.onMessageExternal": "<code>chrome.runtime.onMessageExternal</code> listens for messages sent from other apps/extensions/websites. Website(s) must be specified via the <code>externally_connectable</code> property in the extension manifest.",
+
+        "chrome.runtime.onConnectExternal": "<code>chrome.runtime.onConnectExternal</code> listens for messages sent from other apps/extensions/websites. Website(s) must be specified via the <code>externally_connectable</code> property in the extension manifest.",
+
+        "window.addEventListener(\"message\")": "<code>window.addEventListener(\"message\")</code> listens for messages sent from <code>postMessage</code>. If the <code>origin</code> of the message is not checked this can lead to security issues. Additionally, the <code>source</code> of the message should be checked to ensure it's the same <code>window</code> that the Content Script is running on.",
+
+        "chrome.contextMenus.create": "<code>chrome.contextMenus.create</code> creates a new context menu that accepts user-controlled input via metadata about the context menu right click action that occurred. Specifically for the callback <code>onclick</code>. The parameters <code>linkUrl</code>, <code>srcUrl</code>, <code>pageUrl</code>, <code>frameUrl</code>, and <code>selectionText</code>.",
+
+        "chrome.contextMenus.update": "<code>chrome.contextMenus.update</code> updates an existing context menu and accepts user-controlled input via metadata about the context menu right click action that occurred. Specifically for the callback <code>onclick</code>. The parameters <code>linkUrl</code>, <code>srcUrl</code>, <code>pageUrl</code>, <code>frameUrl</code>, and <code>selectionText</code>.",
+
+        "chrome.contextMenus.onClicked.addListener": "<code>chrome.contextMenus.onClicked.addListener</code> fires when a context menu is clicked on by a user. The parameters <code>linkUrl</code>, <code>srcUrl</code>, <code>pageUrl</code>, <code>frameUrl</code>, and <code>selectionText</code> can contain user-controlled values.",
+
+        "chrome.cookies.get": "<code>chrome.cookies.get</code> retrieves information about browser cookies. The metadata for these cookies can possible be user-controller, mainly the <code>name</code> and <code>value</code> of the <a target=\"_blank\" href=\"https://developer.chrome.com/extensions/cookies#type-Cookie\"><code>Cookie</code> object.",
+
+        "chrome.cookies.getAll": "<code>chrome.cookies.getAll</code> retrieves information about browser cookies. The metadata for these cookies can possible be user-controller, mainly the <code>name</code> and <code>value</code> of the <a target=\"_blank\" href=\"https://developer.chrome.com/extensions/cookies#type-Cookie\"><code>Cookie</code> object.",
+
+        "chrome.debugger.getTargets": "The <code>TargetInfo</code> object passed to the callback of this function has user-controllable parameters of <code>title</code>, <code>url</code> and <code>faviconUrl</code>."
     },
 
     "sinks": {
@@ -15,7 +44,44 @@
 
         "document.write": "<code>document.write</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.",
 
-        "document.writeln": "placeholder",
-        "jQuery.html": "placeholder"
+        "document.writeln": "<code>document.writeln</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.",
+        
+        "jQuery.html": "<code>.html()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.before": "<code>.before()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.insertBefore": "<code>.insertBefore()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.insertAfter": "<code>.insertAfter()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.after": "<code>.after()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.append": "<code>.append()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.prepend": "<code>.prepend()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.wrap": "<code>.wrap()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.wrapAll": "<code>.wrapAll()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.wrapInner": "<code>.wrapInner()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.appendTo": "<code>.appendTo()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.prependTo": "<code>.prependTo()</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities. When the CSP directive <code>'unsafe-eval'</code> is used unsafely in conjunction with this function, XSS is possible.",
+
+        "jQuery.attr.href": "<code>.attr(\"href\")</code> when combined with user input in a link can lead to Cross-site Scripting (XSS) vulnerabilities via <code>javascript:</code> URIs.",
+
+        "setAttribute.href": "<code>.setAttribute(\"href\")</code> when combined with user input in a link can lead to Cross-site Scripting (XSS) vulnerabilities via <code>javascript:</code> URIs.",
+        
+        "setAttribute.src": "<code>.setAttribute(\"src\")</code> when combined with user input and an iframe <code>src</code> can result in Cross-site Scripting (XSS) vulnerabilities via <code>javascript:</code> URIs.",
+
+        "chrome.tabs.update": "When the <code>url</code> property of the updateProperties argument is controlled by an attacker, a <code>javascript:</code> URI can be specified to obtain Cross-site Scripting (XSS) in the context of the origin running in the tab.",
+
+        "eval": "When user-controlled input is mixed unsafely with JavaScript code and passed to <code>eval</code>, Cross-site Scripting (XSS) vulnerabilities can occur.",
+
+        "jQuery.globalEval": "When user-controlled input is mixed unsafely with JavaScript code and passed to <code>globalEval</code>, Cross-site Scripting (XSS) vulnerabilities can occur.",
+
+        "Handlebars.SafeString": "When user-controlled input is mixed unsafely with HTML markup and passed to <code>SafeString</code>, Cross-site Scripting (XSS) vulnerabilities can occur."
     }
 }
