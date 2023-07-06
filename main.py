@@ -135,6 +135,7 @@ def static_analysis(extension: Path, soup):
 
     else:
         # loop through & append 1 card for each result
+        result_no = 1
         for result in results:
             # source = result['extra']['dataflow_trace']['taint_source'][1][1]
             # print('source: '+source)
@@ -151,7 +152,72 @@ def static_analysis(extension: Path, soup):
                 source_desc = content["sources"][source]
                 sink_desc = content["sinks"][sink]
 
-            print(f'{source}: {source_desc}\n{sink}: {sink_desc}')
+            # print(f'{source}: {source_desc}\n{sink}: {sink_desc}')
+
+            add = f'''
+<!-- Source-Sink pair -->
+        <div class="card static-result">
+            <div class="card-header">
+                <i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id-{result_no}">{vuln_id}</span>
+
+                <span class="float-end">
+                    <i class="fa fa-file-code-o" style="font-size:20px"></i> <span
+                        class="consolas" id="vuln-file-{result_no}">{vuln_id}</span>
+                </span>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                <div class="row">
+                    <div class="col-6 source-desc">
+                        <!-- Source -->
+                        <h5><u>Source: <code id="source-{result_no}">{source}</code></u></h5>
+                        <p id="source-desc-{result_no}">{source_desc}</p>
+                    </div>
+
+                    <div class="col-6 sink-desc">
+                        <!-- Sink -->
+                        <h5><u>Sink: <code id="sink-{result_no}">{sink}</code></u></h5>
+                        <p id="sink-desc-{result_no}">{sink_desc}</p>
+                    </div>
+
+                </div>
+                <br><br>
+
+
+
+
+
+                <!-- Location -->
+                <h5><u>Location of vulnerability:</u></h5>
+
+                <pre class="code-block">
+                    <code class="code-source">
+    20          ...
+    21          <mark>hello = window.name</mark>    <span class="code-comment">/* Source */</span>
+    22          ...
+                    </code>
+                    <hr>
+                    <code class="code-sink">
+    26          ...
+    27          <mark>document.getElementById('replace').innerHTML = hello</mark>    <span class="code-comment">/* Sink */</span>
+    28          ...
+                    </code>
+                </pre>
+
+                <i>*This code has been beautified by js-beautify.</i>
+
+
+                </p>
+
+            </div>
+        </div>
+'''
+            html_static_main = soup.find(id='static-main')
+            html_static_main.append(add)
+
+            result_no += 1
+
+
             
 
 

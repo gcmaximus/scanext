@@ -242,11 +242,11 @@
         <!-- Source-Sink pair -->
         <div class="card static-result">
             <div class="card-header">
-                <i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id">window_name-innerHTML</span>
+                <i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id-1">window_name-innerHTML</span>
 
                 <span class="float-end">
                     <i class="fa fa-file-code-o" style="font-size:20px"></i> <span
-                        class="consolas" id="vuln-file">h1-replacer/contentScript.js</span>
+                        class="consolas" id="vuln-file-1">h1-replacer/contentScript.js</span>
                 </span>
             </div>
             <div class="card-body">
@@ -254,18 +254,18 @@
                 <div class="row">
                     <div class="col-6 source-desc">
                         <!-- Source -->
-                        <h5><u>Source: <code id="source">window.name</code></u></h5>
-                        <code>window.name</code> can be used as an entry point for user-controlled data due to the fact
+                        <h5><u>Source: <code id="source-1">window.name</code></u></h5>
+                        <p id="source-desc-1"><code>window.name</code> can be used as an entry point for user-controlled data due to the fact
                         that
                         it's accessible cross-origin. Useful when combined with a resource specified under
-                        <code>web_accessible_resources</code>.
+                        <code>web_accessible_resources</code>.</p>
                     </div>
 
                     <div class="col-6 sink-desc">
                         <!-- Sink -->
-                        <h5><u>Sink: <code id="sink">innerHTML</code></u></h5>
-                        <code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS)
-                        vulnerabilities.
+                        <h5><u>Sink: <code id="sink-1">innerHTML</code></u></h5>
+                        <p id="sink-desc-1"><code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS)
+                        vulnerabilities.</p>
                     </div>
 
                 </div>
