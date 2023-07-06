@@ -43,6 +43,7 @@ def extraction():
                 jsbeautifier.write_beautified_output(
                     pretty, jsbeautifier.BeautifierOptions(), str(file)
                 )
+    return extensions
 
 
 # auto semgrep scan
@@ -92,6 +93,6 @@ def dynamic_anaylsis():
 
 if __name__ == "__main__":
     print("start of program")
-    extraction()
-    # static_analysis()
-    # dynamic_anaylsis()
+    for extension in extraction():
+        static_analysis()
+        # dynamic_anaylsis()
