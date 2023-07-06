@@ -1,5 +1,5 @@
 # ScanExt
-![alt text](https://github.com/gcmaximus/chrome-ext-scanner/blob/main/logo.png?raw=true) 
+![alt text](https://github.com/gcmaximus/scanext/blob/main/logo.png?raw=true) 
 <br><br>
 ## What is ScanExt?
 <b>ScanExt</b> is an open-source Chrome extension scanner which automatically detects XSS vulnerabilities in Chrome extensions using Manifest V3. Static and dynamic analysis techniques are used by ScanExt.
