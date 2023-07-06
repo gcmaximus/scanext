@@ -385,7 +385,7 @@ def cookie_get(extid, payload, ssm):
     for i in ssm:
         dots = '.'
         taintsource = i["source"]
-        cookie - ""
+        cookie = ""
         x = ""
         y = ""
         yvalue = ""
