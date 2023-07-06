@@ -47,6 +47,7 @@ def initialize_headless(path_to_extension,jsonfile):
     def json_results(path,json_file):
         f = open(json_file)
         results = json.load(f)
+        popup = ''
         data = []
         for i in results["results"]:
             data.append(i)
@@ -85,7 +86,7 @@ def initialize_headless(path_to_extension,jsonfile):
 
     data, popup = json_results(path_to_extension,jsonfile)
     url_path, abs_path = get_ext_id(path_to_extension,popup)
-    payloads = payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')
+    payload = payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')
 
     # initialize selenium and load extension
     options = ChromeOptions()
@@ -259,6 +260,7 @@ def runtime_onM(extid, payload, ssm):
         dots = '.'
         underscore = '_'
         message = k["message"]
+        sink = ''
         if html in message:
             sink_split = message.split('Sink:')
             sink = sink_split[-1]
@@ -271,6 +273,8 @@ def runtime_onM(extid, payload, ssm):
         
         taintsink = k["sink"]
         
+        obj = {}
+        var = ""
         varindex = taintsink.find(sink+"(") + sink.__len__() + 1
         for i in k["vars"]["content"]:
             msgindex = taintsink.find(i)
@@ -332,6 +336,7 @@ def runtime_onC(extid, payload, ssm):
         
         taintsink = i["sink"]
         taintsource = i["source"]
+        obj = {}
         try:
             if i["vars"]["OBJ"]:
                 x = i["vars"]["OBJ"]
@@ -375,38 +380,13 @@ def runtime_onC(extid, payload, ssm):
 def cookie_get(extid, payload, ssm):
     scripts = []
     for i in ssm:
-        html = 'rHTML'
         dots = '.'
-        underscore = '_'
-        message = i["message"]
-        if html in message:
-            sink_split = message.split("Sink:")
-            sink = sink_split[-1]
-        elif dots in message:
-            sink_split = message.split(dots)
-            sink = sink_split[-1]
-        elif underscore in message:
-            sink_split = message.split(underscore)
-            sink = sink_split[-1]
-        
         taintsource = i["source"]
         try:
             if i["vars"]["COOKIE"]:
                 cookie = i["vars"]["COOKIE"]
-            if i["vars"]["DETAILS"]:
-                details = i["vars"]["DETAILS"]
-            if i["vars"]["FUNC"]:
-                function = i["vars"]["FUNC"]
-        except:
-            function = False
-        try:
             if i["vars"]["X"]:
                 x = i["vars"]["X"]
-            if i["vars"]["W"]:
-                w = i["vars"]["W"]
-        except:
-            w = False
-        try:
             if i["vars"]["Y"]:
                 y = i["vars"]["Y"]
             try:
@@ -417,6 +397,7 @@ def cookie_get(extid, payload, ssm):
         except:
             y = False
         
+        obj = ''
         if cookie in taintsource and taintsource == x:
             if dots in x:
                 var = x.split(dots)
