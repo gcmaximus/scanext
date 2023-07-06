@@ -19,7 +19,7 @@ import json
 from functools import partial
 from pathlib import Path
 
-def initialize_headless(path_to_extension,jsonfile):
+def initialise_headless(path_to_extension,jsonfile):
     # Getting the source list
     sourcelist = {
         "chrome_contextMenu_create."
@@ -557,7 +557,7 @@ def main():
     # Run program
     with Display() as disp:
         print(disp.is_alive())
-        initialize_headless('EXTENSIONS/h1-replacer(v3)contextMenu')
+        initialise_headless('EXTENSIONS/h1-replacer(v3)contextMenu',"j.json")
 
 if __name__ == '__main__':
     main()
