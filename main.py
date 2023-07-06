@@ -4,7 +4,7 @@ import subprocess
 from os import makedirs
 from pathlib import Path
 from zipfile import ZipFile
-
+from  DYNAMIC_ANALYSIS.headless_cases import main as dynamic
 import jsbeautifier
 
 
@@ -106,7 +106,8 @@ def static_analysis(extension: Path):
 
 
 
-def dynamic_analysis():
+def dynamic_analysis(extracted: Path):
+    dynamic()
     pass
 
 
