@@ -21,10 +21,27 @@ from pathlib import Path
 
 def initialize_headless(path_to_extension,jsonfile):
     # Getting the source list
-    with open("DYNAMIC_ANALYSIS/source.txt") as s:
-        sourcelist = s.readlines()
-        for i in sourcelist:
-            sourcelist[sourcelist.index(i)] = i.strip()
+    sourcelist = {
+        "chrome_contextMenu_create."
+        "chrome_contextMenu_onClicked_addListener."
+        "chrome_contextMenu_update."
+        "chrome_cookies_get."
+        "chrome_cookies_getAll."
+        "chrome_debugger_getTargets."
+        "chrome_runtime_onConnect."
+        "chrome_runtime_onConnectExternal."
+        "chrome_runtime_onMessage."
+        "chrome_runtime_onMessageExternal."
+        "chrome_tabs_get."
+        "chrome_tabs_getCurrent."
+        "chrome_tabs_query."
+        "location_hash."
+        "location_href."
+        "location_search."
+        "window_addEventListener_message."
+        "window_name."
+        "html-inputs-and-buttons."
+    }
     
     # Getting the results from the json file
     def json_results(path,json_file):
@@ -372,7 +389,6 @@ def cookie_get(extid, payload, ssm):
             sink_split = message.split(underscore)
             sink = sink_split[-1]
         
-        taintsink = i["sink"]
         taintsource = i["source"]
         try:
             if i["vars"]["COOKIE"]:
