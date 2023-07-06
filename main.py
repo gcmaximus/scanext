@@ -37,24 +37,26 @@ def extraction():
         makedirs(indi_dir)
         with ZipFile(extension, "r") as zip:
             zip.extractall(indi_dir)
-        for file in indi_dir.glob("*"):
+        for file in indi_dir.glob("**/*.*"):
             if file.is_file():
                 pretty = jsbeautifier.beautify_file(file, opts)
+                local_options = jsbeautifier.BeautifierOptions()
+                local_options.keep_quiet = True
                 jsbeautifier.write_beautified_output(
-                    pretty, jsbeautifier.BeautifierOptions(), str(file)
+                    pretty, local_options, str(file)
                 )
-    return extensions
+    return Path(extraction_dir).glob('*')
 
 
 # auto semgrep scan
-def static_analysis():
+def static_analysis(extension: Path):
     # Config rules
     rules = "STATIC_ANALYSIS/semgrep_rules/"
     # rules = "STATIC_ANALYSIS/semgrep_rules/window_name"
     # rules = "auto"
 
     # Codes to be scanned
-    filename = "SHARED/EXTENSIONS"
+    # print("FKKKKKKKKK",filename)
     # filename = "STATIC_ANALYSIS/semgrep_rules/window_name/test_codes/semgrep_test.js"
     # filename = "EXTENSIONS/h1-replacer(v3)"
     # filename = "EXTENSIONS/emailextractor"
@@ -67,15 +69,16 @@ def static_analysis():
         "semgrep",
         "scan",
         f"--config={rules}",
-        filename,
+        str(extension),
+        "--quiet",
+        "--json", 
         "--output",
-        output_file,
-        "--json",
+        output_file
     ]
     try:
         subprocess.run(command, check=True)
-        print("Semgrep scan successful.")
-        print(f"JSON scan results of `{filename}` found in `{output_file}`")
+        print("Semgrep scan successful")
+        print(f"JSON scan results of `{extension.name}` found in `{output_file}`")
     except subprocess.CalledProcessError as e:
         print(f"Error running semgrep command: {e}")
         exit()
@@ -86,13 +89,16 @@ def static_analysis():
         sorted_results = sorted(results, key=lambda e: e["path"])
         sorted_results = sorted(sorted_results, key=lambda e: e["check_id"])
 
+    
 
-def dynamic_anaylsis():
+
+
+def dynamic_analysis():
     pass
 
 
 if __name__ == "__main__":
-    print("start of program")
+    print("Start of program")
     for extension in extraction():
-        static_analysis()
-        # dynamic_anaylsis()
+        static_analysis(extension)
+        # dynamic_anaylsis(extension)
