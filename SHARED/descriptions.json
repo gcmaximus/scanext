@@ -4,7 +4,8 @@
 
         "location.hash": "<code>location.hash</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>.",
 
-        "location.href": "placeholder"
+        "location.href": "placeholder",
+        "location.search": "placeholder"
     },
 
     "sinks": {
@@ -14,6 +15,7 @@
 
         "document.write": "<code>document.write</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.",
 
-        "document.writeln": "placeholder"
+        "document.writeln": "placeholder",
+        "jQuery.html": "placeholder"
     }
 }

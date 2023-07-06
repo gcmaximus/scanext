@@ -137,10 +137,7 @@ def static_analysis(extension: Path, soup):
         # loop through & append 1 card for each result
         result_no = 1
         for result in results:
-            # source = result['extra']['dataflow_trace']['taint_source'][1][1]
-            # print('source: '+source)
-            # sink = result['extra']['dataflow_trace']['taint_sink'][1][1]
-            # print('sink: '+sink)
+            print()
             vuln_id = result['check_id'].split('.')[-1]
             vuln_file = result['path'].split('SHARED/EXTRACTED/')[1]
 
@@ -152,10 +149,100 @@ def static_analysis(extension: Path, soup):
                 source_desc = content["sources"][source]
                 sink_desc = content["sinks"][sink]
 
-            # print(f'{source}: {source_desc}\n{sink}: {sink_desc}')
-
 
             # find line no. of vuln + the line itself
+
+            # get SS line numbers
+            source_line_no = result['extra']['dataflow_trace']['taint_source'][1][0]['start']['line']
+
+            sink_line_no = result['extra']['dataflow_trace']['taint_sink'][1][0]['start']['line']
+
+            print("Source Line: " + str(source_line_no))
+            print("Sink Line: " + str(sink_line_no))
+
+            # get SS lines
+            file = open(f'SHARED/EXTRACTED/{vuln_file}')
+
+            vulnerable_lines = {
+                "source_line": "",
+                "sink_line": ""
+            }
+            for i, line in enumerate(file):
+                if i == source_line_no-1:
+                    vulnerable_lines["source_line"] = line.strip()
+                
+                if i == sink_line_no-1:
+                    vulnerable_lines["sink_line"] = line.strip()
+
+            print(vulnerable_lines)
+
+            line_diff = abs(source_line_no - sink_line_no)
+
+            print('line diff: ', line_diff)
+            
+
+            # check if:
+            # 3. line difference < 1?
+            if line_diff < 1:
+                code_segment = f'''
+<pre class="code-block">
+                    <code class="code-source">
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>    <span class="code-comment">/* Source + Sink */</span></code>
+                </pre>'''
+
+            # 4. line difference == 1?
+            elif line_diff == 1:
+                code_segment = f'''
+<pre class="code-block">
+                    <code class="code-source">
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>    <span class="code-comment">/* Source */</span></code><code>
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{vulnerable_lines['sink_line']}</mark>    <span class="code-comment">/* Sink */</span></code>
+                </pre>'''
+
+            # 5. line difference > 1?
+            elif line_diff > 1:
+                code_segment = f'''
+<pre class="code-block">
+                    <code class="code-source">
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{vulnerable_lines['source_line']}</mark>    <span class="code-comment">/* Source */</span></code><code>
+    ...&#9;&#9;...</code><code class="code-sink">
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{vulnerable_lines['sink_line']}</mark>    <span class="code-comment">/* Sink */</span></code>
+                </pre>'''
+
+            # 6. intermediate vars > 1? (detailed tainted path)
+            try:
+                vars = result['extra']['dataflow_trace']['intermediate_vars']
+                no_of_vars = len(vars)
+                print("No. of intermediate vars:", no_of_vars)
+            except:
+                print("NO INTERMEDIATE VARS")
+            
+            if no_of_vars > 1:
+                # tainted_lines_no = []
+                tainted_lines = {}
+
+                for var in vars:
+
+                    # ignore first intermediate_vars obj
+                    if vars.index(var) == 0:
+                        print('ignoring')
+
+                    else:
+                        # print(var)
+
+                        # get tainted line numbers
+                        line_no = var['location']['start']['line']
+                        print(line_no)
+                        # get tainted lines
+                        file = open(f'SHARED/EXTRACTED/{vuln_file}')
+                        for i, line in enumerate(file):
+                            if i == line_no-1:
+                                tainted_lines[line_no] = line.strip()
+
+                print("Tainted Lines: ", tainted_lines)
+                        
+
+                
 
             add = f'''
 <!-- Source-Sink pair -->
@@ -193,16 +280,7 @@ def static_analysis(extension: Path, soup):
                 <!-- Location -->
                 <h5><u>Location of vulnerability:</u></h5>
 
-                <pre class="code-block">
-                    <code class="code-source">
-    20          ...
-    21          <mark id="code-source-{result_no}">hello = window.name</mark>    <span class="code-comment">/* Source */</span>
-    22          ...</code>
-                <hr><code class="code-sink">
-    26          ...
-    27          <mark id="code-sink-{result_no}">document.getElementById('replace').innerHTML = hello</mark>    <span class="code-comment">/* Sink */</span>
-    28          ...</code>
-                </pre>
+                {code_segment}
 
                 <i>*This code has been beautified by js-beautify.</i>
 
