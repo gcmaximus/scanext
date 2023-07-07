@@ -228,7 +228,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                             line_numbers_ordered.append(line_no)
                             print(line_no)
                             # get tainted lines
-                            with open(vuln_file):
+                            with open(vuln_file) as f:
                                 for i, line in enumerate(f):
                                     if i == line_no - 1:
                                         tainted_lines[line_no] = line.strip()
