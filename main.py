@@ -120,7 +120,20 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
     # append semgrep info to report
     if vulns_len == 0:
+
+        # no static results
         print("sibei secure")
+        add = f'''
+            <div class="card m-auto static-none border-success">
+                <div class="card-header none-header">Result</div>
+                <div class="card-body">
+                    <h5 class="card-title">No vulnerable codes found</h5>
+                    <p class="card-text">Our tool did not detect any vulnerable code segments or possible tainted data flows into vulnerable functions.</p>
+                </div>
+            </div>'''
+        
+        add_parsed = BeautifulSoup(add, "html.parser")
+        soup.find(id="static-main").append(add_parsed)
 
     else:
         # loop through & append 1 card for each result
