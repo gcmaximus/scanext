@@ -22,7 +22,7 @@
 
         "chrome.runtime.onConnectExternal": "<code>chrome.runtime.onConnectExternal</code> listens for messages sent from other apps/extensions/websites. Website(s) must be specified via the <code>externally_connectable</code> property in the extension manifest.",
 
-        "window.addEventListener(\"message\")": "<code>window.addEventListener(\"message\")</code> listens for messages sent from <code>postMessage</code>. If the <code>origin</code> of the message is not checked this can lead to security issues. Additionally, the <code>source</code> of the message should be checked to ensure it's the same <code>window</code> that the Content Script is running on.",
+        "window.addEventListener.message": "<code>window.addEventListener(\"message\")</code> listens for messages sent from <code>postMessage</code>. If the <code>origin</code> of the message is not checked this can lead to security issues. Additionally, the <code>source</code> of the message should be checked to ensure it's the same <code>window</code> that the Content Script is running on.",
 
         "chrome.contextMenus.create": "<code>chrome.contextMenus.create</code> creates a new context menu that accepts user-controlled input via metadata about the context menu right click action that occurred. Specifically for the callback <code>onclick</code>. The parameters <code>linkUrl</code>, <code>srcUrl</code>, <code>pageUrl</code>, <code>frameUrl</code>, and <code>selectionText</code>.",
 

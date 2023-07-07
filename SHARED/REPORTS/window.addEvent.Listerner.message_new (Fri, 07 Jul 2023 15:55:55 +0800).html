@@ -52,7 +52,8 @@
         }
 
         .card-header {
-            background-color: rgba(0, 0, 0, 0.3)
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
         }
 
         .static-result {
@@ -61,6 +62,7 @@
 
         .consolas {
             font-family: 'Source Code Pro', monospace;
+            font-weight: bold;
         }
 
         .header p {
@@ -175,6 +177,15 @@
         .mark-taint {
             background-color: aquamarine;
         }
+
+        .static-none, .dynamic-none {
+            width: 550px;
+        }
+
+        .none-header{
+            background-color: rgba(25, 135, 84, 0.9) !important;
+        }
+
     </style>
 </head>
 <body>
@@ -184,18 +195,18 @@
 <img alt="ScanExt Logo" id="logo" src="https://raw.githubusercontent.com/gcmaximus/scanext/main/logo.png"/>
 <div class="row files-header">
 <p style="color: white">Folder scanned:</p>
-<p><code id="scanned-folder">testing</code></p>
+<p><code id="scanned-folder">window.addEvent.Listerner.message_new</code></p>
 </div>
 <div class="row main-heading">
 <table class="table table-secondary table-bordered border-dark table-striped">
 <tbody>
 <tr>
 <td><b>Extension Name</b></td>
-<td id="ext-name">testing</td>
+<td id="ext-name">Message Extension</td>
 </tr>
 <tr>
 <td><b>Extension Version</b></td>
-<td id="ext-version">1.0.3</td>
+<td id="ext-version">1.0</td>
 </tr>
 <tr>
 <td><b>Manifest Version</b></td>
@@ -203,11 +214,11 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Fri, 07 Jul 2023 13:39:21 +0800</td>
+<td id="scan-date">Fri, 07 Jul 2023 15:55:55 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
-<td id="vulns">1 found</td>
+<td id="vulns">0 found</td>
 </tr>
 <tr>
 <td><b>POCs generated</b></td>
@@ -224,47 +235,6 @@
 <h2>Static Analysis Results</h2>
 </div>
 <!-- Static Results -->
-
-<!-- Source-Sink pair -->
-<div class="card static-result">
-<div class="card-header">
-<i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id-1">window_name-innerHTML</span>
-<span class="float-end">
-<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="consolas" id="vuln-file-1">testing/very_vuln.js</span>
-</span>
-</div>
-<div class="card-body">
-<p class="card-text">
-<div class="row">
-<div class="col-6 source-desc">
-<!-- Source -->
-<h5><u>Source ID: <code id="source-1">window.name</code></u></h5>
-<p id="source-desc-1"><code>window.name</code> can be used as an entry point for user-controlled data due the fact that it's accessible cross-origin. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
-</div>
-<div class="col-6 sink-desc">
-<!-- Sink -->
-<h5><u>Sink ID: <code id="sink-1">innerHTML</code></u></h5>
-<p id="sink-desc-1"><code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
-</div>
-</div>
-<br/><br/>
-<!-- Location -->
-<h5><u>Location of vulnerability</u></h5>
-<pre class="code-block">
-                    <code class="code-source">
-    2		<mark id="code-source-1">x = window.name</mark>	<span class="code-comment">/* Source */</span></code><code>
-    ...		...</code><code class="code-sink">
-    5		<mark id="code-sink-1">document.getElementById('replace').innerHTML = tainted_x</mark>	<span class="code-comment">/* Sink */</span></code>
-                </pre>
-<br/>
-<h5><u>More details on tainted variables</u></h5>
-<pre class="code-block"><code class="code-taint">
-    4		<mark class="mark-taint" id="code-taint-1">tainted_x = x + 'abc'</mark>	<span class="code-comment">/* Tainted */</span></code>
-                </pre>
-<i>*This code has been beautified by js-beautify.</i>
-</p>
-</div>
-</div>
 </div>
 <!-- Dynamic -->
 <div id="dynamic-main">
