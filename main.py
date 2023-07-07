@@ -153,9 +153,9 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             with open(vuln_file, "r") as f:
                 for i, line in enumerate(f):
                     if i == source_line_no - 1:
-                        setattr(vulnerable_lines, "source_line", line.strip())
+                        vulnerable_lines["source_line"] = line.strip()
                     if i == sink_line_no - 1:
-                        setattr(vulnerable_lines, "sink_line", line.strip())
+                        vulnerable_lines["sink_line"] = line.strip()
                     if len(vulnerable_lines) == 2:
                         break
             source_line = vulnerable_lines.setdefault("source_line", "")
