@@ -1,0 +1,36 @@
+{
+   "action": {
+      "default_popup": "/html/popup.html",
+      "default_title": "Cat Pet"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "content_scripts": [ {
+      "css": [ "/css/dist/catpet.css" ],
+      "exclude_globs": [ "*://*.meowthecatpet.com/game*", "*://*.meowplayground.com/game*", "*://localhost:5443/game*" ],
+      "js": [ "/js/dist/browserLoader.js", "/js/dist/runCat.js" ],
+      "matches": [ "\u003Call_urls>" ]
+   }, {
+      "js": [ "js/domain-sync.js" ],
+      "matches": [ "https://beta.meowthecatpet.com/game*", "https://www.meowplayground.com/game*", "http://localhost:5443/game/*" ]
+   } ],
+   "default_locale": "en",
+   "description": "__MSG_appDesc__",
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "128.png",
+      "16": "16.png",
+      "48": "48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1JQAuW1IlKVDcIuKzKzTMK+GxThDC22XFAE0T2gzNc4WwuS4r/1C5U8aMGCqHPhKOtLApjE9FeDmKmVC/PNi+1NWqtz5JxNoMxsJkIzwwOCyst6zkilGHldOagwbSsXO3IH2C74a5NBjZ6HDCUdsZIZSzodnlWCW/FdDiTJlFT+UfcKOmfipfpxEvvzl8ZsW9flDV8/s9346OqQN/g+qd8mhyB3zXCL0ucTXBuA/u0wBwejAM7ufTIOrhgFjH/Q7gao9uS1YclXi4EEDl1b3cAToHAdhzcOHFP4Jn/IK4fU0tSJ8tkwpBnHlfCeB7Nl+sOOiJw7d0a05U9z3Ir+CCQIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_appName__",
+   "permissions": [ "notifications", "storage", "alarms" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.12.2",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "images/*.png", "js/*.png", "images/*.jpg", "images/*.svg", "js/*.json", "js/*.atlas", "sound/*.mp3" ]
+   } ]
+}

@@ -1,0 +1,10 @@
+{
+   "appDesc": {
+      "description": "The description of the application, displayed in the web store.",
+      "message": "Meow is a virtual Cat pet who walks on your screen while you're browsing the web."
+   },
+   "appName": {
+      "description": "The title of the application, displayed in the web store.",
+      "message": "Meow, The Cat Pet"
+   }
+}

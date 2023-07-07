@@ -1,0 +1,768 @@
+@media print
+{    
+    .catpet, .catpet *
+    {
+        display: none !important;
+    }
+}
+
+.catpet {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome and Opera */
+}
+
+.catpet .pet-external{
+    cursor:pointer;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+.catpet .idle {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/idle.png') 0 0 no-repeat;
+    width: 125.2px; height: 100px; 
+
+        
+    animation-direction: normal;
+    animation: idle 1s steps(10) infinite;  
+    animation-direction: alternate;
+        
+}
+
+.catpet .idle.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+@keyframes idle {
+    from {background-position: -0px; }
+    to {background-position: -1252px 0;}
+}
+
+
+/**********************************/
+.catpet .walk {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/walk.png') 0 0 no-repeat;
+    width: 123.5px; height: 100px; 
+
+        
+    animation-direction: normal;
+    animation: walk .8s steps(10) infinite;  
+    
+        
+}
+
+.catpet .walk.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+        
+        
+}
+
+@keyframes walk {
+    from {background-position: 0px; }
+    to {background-position: -1235px;}
+}
+/**********************************/
+.catpet .run {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/run.png') 0 0 no-repeat;
+    width: 124.25px; height: 100px; 
+
+        
+    animation-direction: normal;
+    animation: run .8s steps(8) infinite;  
+    
+        
+}
+
+.catpet .run.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+        
+        
+}
+
+@keyframes run {
+    from {background-position: 0px; }
+    to {background-position: -994px;}
+}
+/**********************************/
+.catpet .hurt {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/hurt.png') 0 0 no-repeat;
+    width: 121.3px; height: 100px; 
+
+        
+    animation-direction: normal;
+    animation: hurt 1s steps(10) ;  
+    
+}
+
+.catpet .hurt.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+        
+        
+}
+
+@keyframes hurt {
+    from {background-position: 0px; }
+    to {background-position: -1213px;}
+}
+/**********************************/
+
+.catpet .throw {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/throw.png') 0 0 no-repeat;
+    width: 99.0666px; height: 100px; 
+
+        
+    animation-direction: normal;
+    animation: throw 1.1s steps(15) infinite;  
+           
+}
+.catpet .throw.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+
+
+@keyframes throw {
+   from { background-position: 0px; }
+     to { background-position: -1486px; }
+}
+
+/**********************************/
+
+
+
+
+.catpet .lick {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/lick.png') 0 0 no-repeat;
+    width: 104.93333px; height: 96px; 
+
+        
+    animation-direction: normal;
+    animation: lick 1.1s steps(15) infinite;  
+           
+}
+.catpet .lick.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+@keyframes lick {
+   from { background-position: 0px; }
+     to { background-position: -1574px; }
+}
+
+
+
+
+.catpet .sleep {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/sleep.png') 0 0 no-repeat;
+    width: 116.6px; height: 100px; 
+
+        
+    animation-direction: normal;
+    animation: sleep 1.1s steps(15) infinite;  
+           
+}
+.catpet .sleep.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+@keyframes sleep {
+   from { background-position: 0px; }
+     to { background-position: -1749px; }
+}
+
+
+
+.catpet .sad {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/sad.png') 0 0 no-repeat;
+    width: 85.4px; height: 100px; 
+
+        
+    animation-direction: normal;
+    animation: sad 1.1s steps(10) infinite;  
+           
+}
+.catpet .sad.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+@keyframes sad {
+   from { background-position: 0px; }
+     to { background-position: -854px; }
+}
+
+
+
+
+.catpet .bite {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/bite.png') 0 0 no-repeat;
+    width: 116.6px; height: 100px; 
+    animation-direction: normal;
+    animation: bite 1s steps(15) infinite;  
+}
+
+.catpet .bite.right {
+    margin-left:20px !important;
+}
+.catpet .bite.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+    margin-right:20px !important;    
+}
+@keyframes bite {
+   from { background-position: 0px; }
+     to { background-position: -1749px; }
+}
+
+
+
+
+.catpet .chew {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/chew.png') 0 0 no-repeat;
+    width: 116.6px; height: 100px; 
+    animation-direction: normal;
+    animation: chew 1s steps(15) infinite;
+    
+}
+.catpet .chew.right{
+    margin-left:20px !important;
+}
+.catpet .chew.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+    margin-right:20px !important;    
+}
+@keyframes chew {
+   from { background-position: 0px; }
+     to { background-position: -1749px; }
+}
+
+
+
+.catpet .petting {
+    background: url('chrome-extension://__MSG_@@extension_id__/images/pet.png') 0 0 no-repeat;
+    width: 102.93333px; height: 100px; 
+    animation-direction: normal;
+    animation: petting 1s steps(15) infinite;  
+    
+}
+.catpet .petting.right{
+    margin-left:10px !important;
+}
+
+.catpet .petting.left {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+    margin-right:10px !important;
+}
+
+
+@keyframes petting {
+   from { background-position: 0px; }
+     to { background-position: -1544px; }
+}
+
+
+
+
+
+#catpet-menu * {
+    margin: 0;
+    padding: 0;
+    line-height:normal;
+}
+
+#catpet-menu{
+    z-index:999;
+    width:200px !important;
+    margin:0; padding:10px; 
+    list-style:none !important;
+    background:#fff; 
+    color:#333 !important;
+    -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px !important;
+    -moz-box-shadow:0 0 5px #999; -webkit-box-shadow:0 0 5px #999; box-shadow:0 0 5px #999 !important;
+    font-family: Helvetica, Arial, sans-serif !important;
+}
+
+#catpet-menu hr {
+    border:0;
+    background: #d9d9d9;
+    border-width: 0;
+    color: #d9d9d9;
+    height: 1px;    
+    margin-top:5px;
+    margin-bottom:5px;
+}
+#catpet-menu ul {
+    list-style: none;
+    padding: 0;
+    margin:0;
+}
+
+#catpet-menu-header {
+    padding-left:7px;
+    padding-right:7px;
+}
+#catpet-menu b {
+    font-weight:bold;
+    font-size:12px !important;
+    line-height:15px;
+}
+
+#catpet-menu ul li {
+    padding:7px !important;
+    border-bottom: solid 1px #ccc !important;
+    font-size:14px !important;
+    cursor:pointer !important;
+    list-style: none;
+}
+#catpet-menu ul li:hover {
+    background:#EC6603 !important;
+    color:#fff !important;
+}
+#catpet-menu ul li:last-child { 
+    border:none !important;
+}
+
+#catpet-bubble, .catpet-bubble{
+    /* aspect - 1.17820 */
+    z-index:999999999;
+    opacity:0.95;
+    padding-bottom:35px;
+    margin-left:70px !important;
+    background:url('chrome-extension://__MSG_@@extension_id__/images/bubble.svg');
+    background-repeat:no-repeat !important;
+    background-size: 100% !important;
+    position:absolute !important;
+    text-align:center;
+    display:none;
+    padding-left:30px;
+    padding-right:30px;
+    box-sizing: border-box !important;
+    border:0 !important;
+    align-items: center;
+    word-break: break-word;
+    width: 230px;
+    height: 200px;
+}
+.catpet-bubble.bl, .catpet-bubble.br{
+    padding-top:75px;
+}
+
+#catpet-bubble-text, .catpet-bubble-text{
+    font-weight:bold;
+    font-size:14px !important;
+    color:#000 !important;
+    direction:ltr !important;
+    display:inline-block;
+    margin:auto;
+    font-family: Helvetica, Arial, sans-serif !important;
+}
+
+
+
+
+
+#catpet-playground .main, #catpet-playground #header .inner {
+    width:1300px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#catpet-playground #play-area #play-area-inner{
+    background: #ccc;
+    float:left;
+    width:1050px;
+    height:650px;
+    box-sizing:border-box;
+    //padding-right:20px;
+    position:relative;
+}
+
+#catpet-playground #log-out{
+    position:absolute;
+    top:15px;
+    right:0px;
+    display:none;
+    width:120px;
+}
+#catpet-playground #admin-button{
+    position:absolute;
+    top:15px;
+    right:120px;
+    width:120px;
+    display:none;    
+}
+
+#catpet-playground #room-desc{
+    background:#fff;
+    height:25px;
+    padding-left:5px;
+    padding-right:20px;
+    padding-top:2px;
+    font-weight:bold;
+    font-size:12px;
+}
+
+
+#catpet-playground #chat-area{
+    float:right;
+    width:240px;
+    background:#ddd;
+}
+
+#catpet-playground #header{
+    background: #4F5D75;
+    height:84px;
+    margin-bottom:10px;    
+}
+
+
+#catpet-playground #bottom-holder a{
+    text-decoration: none;
+    color: #eee;
+    font-size:14px;
+    font-weight:bold;    
+}
+#catpet-playground #bottom-holder{
+    text-align:center;
+    margin-top:10px;
+    background: #4F5D75;
+    padding-top:10px;
+    height:45px;
+}
+
+
+
+#catpet-playground #play-area .inner, #catpet-playground #chat-area .inner, #catpet-playground #say-something .inner{
+    border:1px solid #ccc;
+    
+}
+
+#catpet-playground #say-something{
+    width:1300px;
+    height:30px;
+    float:left;
+    margin-top:8px;
+    position:relative;
+}
+
+#catpet-playground input{
+    width:100%;
+    height:30px;
+    border:0;
+    text-indent:10px;
+    outline: none;
+}
+
+
+#catpet-playground #say-something button{
+    position:absolute;
+    top:0px;
+    right:0px;
+    height:30px;
+    cursor:pointer;
+}
+
+
+
+body#catpet-playground .inner{
+    position:relative;
+}
+
+body#catpet-playground{
+  content: "";
+  background:#2D3142;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+
+body#catpet-playground .message-holder{
+    font-size:14px;
+    border-bottom:1px solid #aaa;
+    font-weight:bold;
+    color: #000;
+    word-break: break-word;
+}
+
+body#catpet-playground .message-holder.green{color:green}
+body#catpet-playground .message-holder.black{color:black}
+body#catpet-playground .message-holder.blue{color:#224d9c;}
+body#catpet-playground .message-holder.red{color:#d83232}
+
+
+body#catpet-playground .message-holder .writer{
+    font-size:12px;
+    color:black;
+}
+
+body#catpet-playground #chat-history-window{
+    overflow-y:scroll;
+    height:623px;
+    padding:5px;
+}
+
+.catpet-name{
+    text-align:center;
+    font-weight:bold;
+    font-size:12px;
+}
+.catpet-level{
+    text-align:center;
+    font-weight:bold;
+    float:left;
+    font-size:122px;
+}
+
+body#catpet-playground .message-holder.system{
+    color:#B22222
+}
+
+.catpet-name.red, .message-holder.tag-red .writer{
+    color:#B22222 !important;
+}
+
+.catpet-name.blue, .message-holder.blue .writer{
+    color:#061dbf !important;
+}
+
+.catpet-name.purple, .message-holder.purple .writer{
+    color:#061dbf !important;
+}
+
+.catpet-name.rainbow, .message-holder.rainbow .writer{
+    color:#061dbf !important;
+}
+
+
+#change-username-holder{
+    position:absolute;
+    top:90px;
+    right:0px;
+    padding:10px;
+    background:#ddd;
+    z-index:100;
+    border: 1px solid #000;
+}
+#change-username-holder span{
+    font-size:12px;
+}
+
+#catpet-playground #change-username-holder input{
+    width:100px;
+}
+#catpet-playground #change-username-holder button{
+    height:30px;
+    cursor:pointer;
+    margin-right:3px;
+    padding:3px;
+    vertical-align:baseline;
+}
+
+
+
+
+
+#catpet-playground .cat-btn {
+    background-color:#EF8354;
+    border: 1px solid rgb(216, 121, 79);
+    border-radius: 0;
+    padding-top:3px;
+    height:30px;
+    font-size:14px;
+}
+#catpet-playground .cat-btn:focus{
+    background-color:#EF8354;
+    box-shadow: 0 0 0 0.2rem rgba(216, 121, 79,.5);
+}
+
+#catpet-playground .menu-btn {
+    margin-bottom:5px;
+    height:30px;
+    width:120px;
+    font-size:14px;
+    padding-top:3px;
+}
+
+#catpet-playground .cat-btn.red{
+    background-color: #c74444;
+    border: 1px solid #a02a42;
+    color:#fff;
+}
+
+#catpet-playground .cat-btn.green{
+    background-color:#44c767;
+    border: 1px solid rgb(40, 167, 69);
+}
+
+#catpet-playground .cat-btn.orange{
+    background-color:#EF8354;
+    border: 1px solid rgb(216, 121, 79);
+}
+
+#login-btn, #change-username{
+    position:absolute;
+    right:0px;
+    width:240px;
+    top:50px;
+    display:none;
+}
+
+
+
+
+#catpet-playground .remove-message{
+    cursor:pointer;
+    color:red;
+}
+#catpet-playground .report-message{
+    cursor:pointer;
+    color:red;
+}
+#catpet-playground .reported{
+    color:#000;
+}
+
+#catpet-playground #stats-window{
+    position:absolute;
+    right:270px;
+    top:10px;
+    width:190px;
+    font-size:14px;
+    height:70px;
+    padding:3px 8px;
+    border-radius: .25rem;
+    border:1px solid #EF8354;
+    color:#fff;
+}
+#catpet-playground .color-circle {
+    margin-top:2px;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background:#000;
+    border:1px solid #fff;
+    cursor:pointer;
+    /* width and height can be anything, as long as they're equal */
+}
+
+#catpet-playground .colors-holder{
+    height:30px;
+}
+#catpet-playground .colors-holder .color-circle{
+    width: 24px;
+    height: 24px;
+}
+#catpet-playground .colors-holder .color-circle.active:before{
+    color:#fff;
+    padding-left:6px;
+    content:"X"
+}
+#catpet-playground .color-circle.red {background:#d83232;}
+#catpet-playground .color-circle.green {background:green;}
+#catpet-playground .color-circle.blue {background:#224d9c;}
+
+#catpet-playground #stats-window dt{
+    padding-right:0;
+}
+
+#catpet-playground .shop-title{
+    padding:3px;
+}
+#catpet-playground .modal{
+    z-index:9999999999;
+}
+#catpet-playground #stats-window dd{
+    margin-bottom:0;
+}
+
+#catpet-playground .buttons-holder{
+    position:absolute;
+    right:470px;
+    top:10px;
+    width:130px;
+    height:80px;
+}
+
+.item.snowball{
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/snowball.png');
+}
+.food.fish{
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/fish.png');
+    background-size: 32px 32px;
+    width: 32px;
+    height: 32px;
+}
+.food.chicken{
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/chicken.png');
+    background-size: 32px 32px;
+    width: 32px;
+    height: 32px;
+}
+
+.unselectable{
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome and Opera */
+}
