@@ -76,9 +76,10 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     ]
 
     try:
+        print(f"Scanning {scanned_dir} ...")
         subprocess.run(command, check=True)
-        print("Semgrep scan successful")
-        print(f"JSON scan results of `{scanned_dir}` found in `{output_file}`")
+        print("Static analysis complete.")
+        # print(f"JSON scan results of `{scanned_dir}` found in `{output_file}`")
     except subprocess.CalledProcessError as e:
         print(f"Error running semgrep command: {e}")
         exit()
@@ -122,7 +123,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     if vulns_len == 0:
 
         # no static results
-        print("sibei secure")
+        print("extension sibei secure")
         add = f'''
             <div class="card m-auto static-none border-success">
                 <div class="card-header none-header">Result</div>
@@ -135,11 +136,12 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="static-main").append(add_parsed)
 
+        #add no results for dynamic too?
+
     else:
         # loop through & append 1 card for each result
         result_no = 1
         for result in results:
-            print()
             vuln_id = result["check_id"].split(".")[-1]
             vuln_file = Path(result["path"])
 
@@ -158,8 +160,8 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             source_line_no = dataflow_trace["taint_source"][1][0]["start"]["line"]
             sink_line_no = dataflow_trace["taint_sink"][1][0]["start"]["line"]
 
-            print("Source Line: " + str(source_line_no))
-            print("Sink Line: " + str(sink_line_no))
+            # print("Source Line: " + str(source_line_no))
+            # print("Sink Line: " + str(sink_line_no))
 
             # get source and sink lines
             vulnerable_lines = {}
@@ -174,8 +176,8 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             source_line = vulnerable_lines.setdefault("source_line", "")
             sink_line = vulnerable_lines.setdefault("sink_line", "")
             line_diff = abs(source_line_no - sink_line_no)
-            print(vulnerable_lines)
-            print("line diff: ", line_diff)
+            # print(vulnerable_lines)
+            # print("line diff: ", line_diff)
 
             # check if:
             # 3. line difference < 1?
@@ -211,7 +213,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             vars_len = 0
             if inter_vars:
                 vars_len = len(inter_vars)
-                print("No. of intermediate vars:", vars_len)
+                # print("No. of intermediate vars:", vars_len)
 
                 if vars_len > 1:
                     tainted_lines = {}
@@ -220,24 +222,25 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                     for var in inter_vars:
                         # ignore first intermediate_vars obj
                         if inter_vars.index(var) == 0:
-                            print("ignoring")
+                            # print("ignoring")
+                            pass
 
                         else:
                             # get tainted line numbers
                             line_no = var["location"]["start"]["line"]
                             line_numbers_ordered.append(line_no)
-                            print(line_no)
+                            # print(line_no)
                             # get tainted lines
                             with open(vuln_file) as f:
                                 for i, line in enumerate(f):
                                     if i == line_no - 1:
                                         tainted_lines[line_no] = line.strip()
 
-                    print("Tainted Lines: ", tainted_lines)
-                    print("Line numbers ordered: ", line_numbers_ordered)
+                    # print("Tainted Lines: ", tainted_lines)
+                    # print("Line numbers ordered: ", line_numbers_ordered)
                     more_details = """
     <br>
-    <h5><u>More details on tainted variables</u></h5>
+    <h5><u>Tainted variables</u></h5>
     <pre class="code-block">"""
 
                     for i, line in enumerate(tainted_lines):
@@ -247,7 +250,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                             line_diff = abs(
                                 line_numbers_ordered[i] - line_numbers_ordered[i + 1]
                             )
-                            print(line_diff)
+                            # print(line_diff)
 
                             if line_diff > 1:
                                 more_details += """
@@ -271,11 +274,10 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 <!-- Source-Sink pair -->
         <div class="card static-result">
             <div class="card-header">
-                <i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id-{result_no}">{vuln_id}</span>
 
-                <span class="float-end">
+                <span class="float-start">
                     <i class="fa fa-file-code-o" style="font-size:20px"></i> <span
-                        class="consolas" id="vuln-file-{result_no}">{str(vuln_file).split('SHARED/EXTRACTED/')[1]}</span>
+                        class="filename" id="vuln-file-{result_no}"><b>File:</b> {str(vuln_file).split('SHARED/EXTRACTED/')[1]}</span>
                 </span>
             </div>
             <div class="card-body">
@@ -327,6 +329,8 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     with open(report_path, "w") as file:
         file.write(str(soup))
 
+    print(f'Report generated at `{report_path}`')
+
 
 def dynamic_analysis(extension: Path):
     dynamic()
@@ -334,9 +338,10 @@ def dynamic_analysis(extension: Path):
 
 
 if __name__ == "__main__":
-    print("Start of program")
+    print("Running ScanExt ...")
 
     for extension in extraction():
+        print()
         with open("SHARED/REPORTS/report_template.html", "r") as f:
             html_content = f.read()
 
