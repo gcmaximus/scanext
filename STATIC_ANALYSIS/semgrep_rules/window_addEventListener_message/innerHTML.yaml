@@ -20,6 +20,7 @@ rules:
                   function $ANY($X,...){
                     ...
                   }
+          - focus-metavariable: $X
     pattern-sinks:
       - patterns:
           - pattern: document. ... .innerHTML = $X

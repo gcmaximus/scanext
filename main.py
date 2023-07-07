@@ -215,7 +215,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                             line_numbers_ordered.append(line_no)
                             print(line_no)
                             # get tainted lines
-                            file = open(f"SHARED/EXTRACTED/{vuln_file}")
+                            file = open(vuln_file)
                             for i, line in enumerate(file):
                                 if i == line_no - 1:
                                     tainted_lines[line_no] = line.strip()
@@ -229,7 +229,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
                     for i, line in enumerate(tainted_lines):
                         more_details += f"""<code class="code-taint">
-        {line}&#9;&#9;<mark class="mark-taint" id="code-taint-{result_no}">{tainted_lines[line]}</mark>&#9;<span class="code-comment">/* Tainted */</span></code>"""
+    {line}&#9;&#9;<mark class="mark-taint" id="code-taint-{result_no}">{tainted_lines[line]}</mark>&#9;<span class="code-comment">/* Tainted */</span></code>"""
                         if len(line_numbers_ordered) - i != 1:
                             line_diff = abs(
                                 line_numbers_ordered[i] - line_numbers_ordered[i + 1]
@@ -238,7 +238,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
                             if line_diff > 1:
                                 more_details += """
-        <code>...&#9;&#9;...</code>"""
+    <code>...&#9;&#9;...</code>"""
 
                     more_details += """
                     </pre>"""
@@ -262,7 +262,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
                 <span class="float-end">
                     <i class="fa fa-file-code-o" style="font-size:20px"></i> <span
-                        class="consolas" id="vuln-file-{result_no}">{vuln_file}</span>
+                        class="consolas" id="vuln-file-{result_no}">{str(vuln_file).split('SHARED/EXTRACTED/')[1]}</span>
                 </span>
             </div>
             <div class="card-body">

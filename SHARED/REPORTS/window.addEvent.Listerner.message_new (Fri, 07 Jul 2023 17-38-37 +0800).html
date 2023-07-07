@@ -214,11 +214,11 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Fri, 07 Jul 2023 15:55:55 +0800</td>
+<td id="scan-date">Fri, 07 Jul 2023 17:38:37 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
-<td id="vulns">0 found</td>
+<td id="vulns">1 found</td>
 </tr>
 <tr>
 <td><b>POCs generated</b></td>
@@ -235,6 +235,47 @@
 <h2>Static Analysis Results</h2>
 </div>
 <!-- Static Results -->
+
+<!-- Source-Sink pair -->
+<div class="card static-result">
+<div class="card-header">
+<i class="fa fa-search" style="font-size:20px"></i> <span class="consolas" id="vuln-id-1">window_addEventListener_message-innerHTML</span>
+<span class="float-end">
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="consolas" id="vuln-file-1">SHARED/EXTRACTED/window.addEvent.Listerner.message_new/window.addEvent.Listerner.message_new/popup.js</span>
+</span>
+</div>
+<div class="card-body">
+<p class="card-text">
+<div class="row">
+<div class="col-6 source-desc">
+<!-- Source -->
+<h5><u>Source ID: <code id="source-1">window.addEventListener.message</code></u></h5>
+<p id="source-desc-1"><code>window.addEventListener("message")</code> listens for messages sent from <code>postMessage</code>. If the <code>origin</code> of the message is not checked this can lead to security issues. Additionally, the <code>source</code> of the message should be checked to ensure it's the same <code>window</code> that the Content Script is running on.</p>
+</div>
+<div class="col-6 sink-desc">
+<!-- Sink -->
+<h5><u>Sink ID: <code id="sink-1">innerHTML</code></u></h5>
+<p id="sink-desc-1"><code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
+</div>
+</div>
+<br/><br/>
+<!-- Location -->
+<h5><u>Location of vulnerability</u></h5>
+<pre class="code-block">
+                    <code class="code-source">
+    2		<mark id="code-source-1">window.addEventListener("message", (event) =&gt; {</mark>	<span class="code-comment">/* Source */</span></code><code>
+    ...		...</code><code class="code-sink">
+    6		<mark id="code-sink-1">tags[0].innerHTML = xyz.message_1 + ' abc '</mark>	<span class="code-comment">/* Sink */</span></code>
+                </pre>
+<br/>
+<h5><u>More details on tainted variables</u></h5>
+<pre class="code-block"><code class="code-taint">
+    4		<mark class="mark-taint" id="code-taint-1">xyz = event.data</mark>	<span class="code-comment">/* Tainted */</span></code>
+                    </pre>
+<i>*This code has been beautified by js-beautify.</i>
+</p>
+</div>
+</div>
 </div>
 <!-- Dynamic -->
 <div id="dynamic-main">
