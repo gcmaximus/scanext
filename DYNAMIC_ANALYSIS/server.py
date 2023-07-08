@@ -23,7 +23,7 @@ async def process_data(data: Annotated[str, Form()]):
 @app.delete("/data")
 async def process_data(alldata=alldata):
     for i in alldata:
-        alldata.pop()
+        alldata.pop(i)
     return {"deleted"}
 
 if __name__ == "__main__":
