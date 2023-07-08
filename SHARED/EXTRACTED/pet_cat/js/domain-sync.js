@@ -15,23 +15,30 @@ window.addEventListener("message", function (event) {
     if (event.origin !== location.origin)
         return;
 
-    if(event.data === "page-ready"){
-        try{
-            chrome.runtime.sendMessage({method: "request-login"}, function(response) {
+    if (event.data === "page-ready") {
+        try {
+            chrome.runtime.sendMessage({
+                method: "request-login"
+            }, function (response) {
                 var token = response.data.token;
-                window.postMessage({name:"extension-token", token:token}, "*");
+                window.postMessage({
+                    name: "extension-token",
+                    token: token
+                }, "*");
             });
-        } catch(e){
+        } catch (e) {
             window.catpet.log("CatPet: Failed background request", e);
         }
     } else {
         try {
-            if (!event.data || !event.data.method || allowedMethods.indexOf(event.data.method) <= -1)
+            if (!event.data || !event.data.method || allowedMethods
+                .indexOf(event.data.method) <= -1)
                 return;
 
-            chrome.runtime.sendMessage(event.data, function(response) {});
-        } catch(e){
+            chrome.runtime.sendMessage(event.data, function (
+                response) {});
+        } catch (e) {
             window.catpet.log("CatPet: Failed background request 2", e);
-        }   
+        }
     }
 }, false);
