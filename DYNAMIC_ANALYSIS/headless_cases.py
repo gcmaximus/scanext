@@ -275,37 +275,19 @@ def runtime_onM(extid, payload, ssm):
         
         obj = {}
         var = ""
-        varindex = taintsink.find(sink+"(") + sink.__len__() + 1
-        for i in k["vars"]["content"]:
-            msgindex = taintsink.find(i)
-            if msgindex == -1:
-                continue
-            elif varindex == msgindex:
-                #source is here
-                endvarindex = taintsink.find(")",varindex)
-                if endvarindex == -1:
-                    endvarindex = 0
-                source = taintsink[varindex:endvarindex]
-                if dots in source:
-                    sourcel = source.split(dots)
-                    obj = {sourcel[1]:payload}
-                    obj = json.dumps(obj)
-                    var = f"obj = JSON.parse('{obj}');"
-                else:
-                    var = f"obj = '{payload}';"
-            else:
-                endvarindex = taintsink.find(")",msgindex)
-                if endvarindex == -1:
-                    endvarindex = 0
-                source = taintsink[msgindex:endvarindex]
-                if dots in source:
-                    sourcel = source.split(dots)
-                    obj = {sourcel[1]:payload}
-                    obj = json.dumps(obj)
-                    var = f"obj = JSON.parse('{obj}');"
-                else:
-                    var = f"obj = '{payload}';"
-        
+        #source is here
+        if dots in taintsink:
+            sinklist = taintsink.split(dots)
+            a = sinklist[-1]
+            if ")" in a:
+                b = a.find(")")
+                sinklist[-1] = a[:b]
+            obj = {sinklist[-1]:payload}
+            obj = json.dumps(obj)
+            var = f"obj = JSON.parse('{obj}');"
+        else:
+            var = f"obj = '{payload}';"
+
         script = f"{var}chrome.runtime.sendMessage({extid},obj)"
         scripts.append(script)
     
@@ -534,10 +516,17 @@ def interpreter(data,sourcelist):
         except:
             print('no obj')
         metavar = []
+        var = ""
         try:
             for j in i["extra"]["dataflow_trace"]["intermediate_vars"]:
                 metavar.append(j["content"])
-            metavars["content"] = metavar
+            try:
+                if metavar[1]:
+                    var = metavar[1]
+            except:
+                var = metavar[0]
+            metavars["content"] = var
+            other_vars.append(metavars)
         except:
             other_vars.append(metavars)
         message = i["extra"]["message"]
