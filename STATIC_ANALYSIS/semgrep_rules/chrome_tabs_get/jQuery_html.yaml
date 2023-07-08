@@ -8,7 +8,7 @@ rules:
           - pattern-either:
             - pattern-inside: await chrome.tabs.get(...)
             - pattern-inside: |
-                function $FUNC($TABS) {
+                function $FUNC($X) {
                   ...
                 }
                 ...
@@ -16,23 +16,23 @@ rules:
             - pattern-inside: |
                 chrome.tabs.get(..., $FUNC)
                 ...
-                function $FUNC($TABS) {
+                function $FUNC($X) {
                   ...
                 }
             - pattern-inside: |
-                chrome.tabs.get(..., function ($TABS) {
+                chrome.tabs.get(..., function ($X) {
                   ...
                 })
             - pattern-inside: |
-                chrome.tabs.get(..., function ([$TABS]) {
+                chrome.tabs.get(..., function ([$X]) {
                   ...
                 })
             - pattern-inside: |
-                chrome.tabs.get(...).then(function ($TABS) {
+                chrome.tabs.get(...).then(function ($X) {
                   ...
                 })
             - pattern-inside: |
-                chrome.tabs.get(...).then(function ([$TABS]) {
+                chrome.tabs.get(...).then(function ([$X]) {
                   ...
                 })
             - pattern-inside: |
@@ -43,7 +43,7 @@ rules:
                   return $Y
                 }
                 ...
-                $FUNC(...).then(function ($TABS) {...})
+                $FUNC(...).then(function ($X) {...})
             - pattern-inside: |
                 async function $FUNC(...) {
                   ...
@@ -52,7 +52,7 @@ rules:
                   return $Y
                 }
                 ...
-                $FUNC(...).then(function ([$TABS]) {...})
+                $FUNC(...).then(function ([$X]) {...})
             - pattern-inside: |
                 async function $FUNC(...) {
                   ...
@@ -61,16 +61,16 @@ rules:
                   return $Y
                 }
                 ...
-                $FUNC(...).then(function ($TABS) {...})
+                $FUNC(...).then(function ($X) {...})
             - pattern-inside: |
                 $Y = chrome.tabs.get(...)
                 ...
-                $Y.then(function ($TABS) {...})
+                $Y.then(function ($X) {...})
             - pattern-inside: |
                 $Y = chrome.tabs.get(...)
                 ...
-                $Y.then(function ([$TABS]) {...})
-          - pattern: $TABS
+                $Y.then(function ([$X]) {...})
+          - pattern: $X
     pattern-sinks:
       - patterns:
         - pattern: "$(...).html($X)"
