@@ -147,13 +147,13 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             vuln_id = result["check_id"].split(".")[-1]
             vuln_file = Path(result["path"])
 
-            source, sink = vuln_id.replace("_", ".").split("-")
+            source, sink = vuln_id.split("-")
 
             # find desc for source & sink
             with open(descs, "r") as f:
                 content = json.load(f)
-                source_desc = content["sources"][source]
-                sink_desc = content["sinks"][sink]
+                source_desc = content["sources"][source.replace('_', '.')]
+                sink_desc = content["sinks"][sink.replace('_', '.')]
 
             # find line no. of vuln + the line itself
 
