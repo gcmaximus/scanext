@@ -1,0 +1,155 @@
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "EXTENSIONS/Display Search Params/src/manifest.json",
+            "EXTENSIONS/Display Search Params/src/popup.html",
+            "EXTENSIONS/Display Search Params/src/popup.js"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.location_search.location_search-innerHTML",
+            "end": {
+                "col": 52,
+                "line": 12,
+                "offset": 448
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "query",
+                            "location": {
+                                "end": {
+                                    "col": 8,
+                                    "line": 3,
+                                    "offset": 50
+                                },
+                                "path": "EXTENSIONS/Display Search Params/src/popup.js",
+                                "start": {
+                                    "col": 3,
+                                    "line": 3,
+                                    "offset": 45
+                                }
+                            }
+                        },
+                        {
+                            "content": "query",
+                            "location": {
+                                "end": {
+                                    "col": 14,
+                                    "line": 10,
+                                    "offset": 352
+                                },
+                                "path": "EXTENSIONS/Display Search Params/src/popup.js",
+                                "start": {
+                                    "col": 9,
+                                    "line": 10,
+                                    "offset": 347
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+
+
+                                
+                                "end": {
+                                    "col": 52,
+                                    "line": 12,
+                                    "offset": 448
+                                },
+                                "path": "EXTENSIONS/Display Search Params/src/popup.js",
+                                "start": {
+                                    "col": 29,
+                                    "line": 12,
+                                    "offset": 425
+                                }
+                            },
+                            "`Your query is: ${query"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 33,
+                                    "line": 3,
+                                    "offset": 75
+                                },
+                                "path": "EXTENSIONS/Display Search Params/src/popup.js",
+                                "start": {
+                                    "col": 11,
+                                    "line": 3,
+                                    "offset": 53
+                                }
+                            },
+                            "window.location.search"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "cbcd2822dc9ebf3625a8347cc912d3e71d388ff223b493a97177f6662a08cfb4ff1c09b312a2ce3ddcc4f6840e13310058a6e70b24a99e7dd50c3d3a70e03637_0",
+                "is_ignored": false,
+                "lines": "    elements[i].innerHTML = `Your query is: ${query}`",
+                "message": "Source:location_search;Sink:innerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$INT": {
+                        "abstract_content": "i",
+                        "end": {
+                            "col": 15,
+                            "line": 12,
+                            "offset": 411
+                        },
+                        "start": {
+                            "col": 14,
+                            "line": 12,
+                            "offset": 410
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "`Your query is: query",
+                        "end": {
+                            "col": 52,
+                            "line": 12,
+                            "offset": 448
+                        },
+                        "start": {
+                            "col": 29,
+                            "line": 12,
+                            "offset": 425
+                        }
+                    },
+                    "$Y": {
+                        "abstract_content": "elements",
+                        "end": {
+                            "col": 17,
+                            "line": 6,
+                            "offset": 180
+                        },
+                        "start": {
+                            "col": 9,
+                            "line": 6,
+                            "offset": 172
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/Display Search Params/src/popup.js",
+            "start": {
+                "col": 29,
+                "line": 12,
+                "offset": 425
+            }
+        }
+    ],
+    "version":"1.22.0"
+}

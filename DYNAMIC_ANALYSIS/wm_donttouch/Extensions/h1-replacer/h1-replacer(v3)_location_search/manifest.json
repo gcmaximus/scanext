@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "location.search",
+    "version": "1.0",
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "permissions": ["tabs","scripting"],
+    "host_permissions": [
+      "http://*/",
+      "https://*/"
+    ]
+  }
+  

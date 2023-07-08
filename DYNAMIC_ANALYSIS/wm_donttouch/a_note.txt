@@ -1,0 +1,9 @@
+[To run in headless mode:]
+change value of %USERPROFILE%/.wslconfig value to false
+
+[To run with GUI:]
+change value of %USERPROFILE%/.wslconfig value to True
+
+=Sample=
+[wsl2]
+guiApplications=true

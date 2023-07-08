@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "FUCK",
+    "version": "1.0",
+    "permissions": ["contextMenus", "activeTab", "scripting"],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "host_permissions": [
+      "http://*/*",
+      "https://*/*",
+      "file:///*"
+    ]
+  }
+  

@@ -1,0 +1,184 @@
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "EXTENSIONS/h1_replacer_test/icon.png",
+            "EXTENSIONS/h1_replacer_test/manifest.json",
+            "EXTENSIONS/h1_replacer_test/popup.html",
+            "EXTENSIONS/h1_replacer_test/popup.js",
+            "EXTENSIONS/h1_replacer_test/tmp.yaml"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 46,
+                "line": 8,
+                "offset": 170
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_0",
+                "is_ignored": false,
+                "lines": "    <input type=\"text\" id=\"replacementInput\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 5,
+                "line": 8,
+                "offset": 129
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 70,
+                "line": 25,
+                "offset": 662
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_1",
+                "is_ignored": false,
+                "lines": "    <input type=\"radio\" id=\"tabfree\" name=\"mytabs\" checked=\"checked\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 5,
+                "line": 25,
+                "offset": 597
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 54,
+                "line": 32,
+                "offset": 1268
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_2",
+                "is_ignored": false,
+                "lines": "    <input type=\"radio\" id=\"tabsilver\" name=\"mytabs\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 5,
+                "line": 32,
+                "offset": 1219
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 52,
+                "line": 39,
+                "offset": 1767
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_3",
+                "is_ignored": false,
+                "lines": "    <input type=\"radio\" id=\"tabgold\" name=\"mytabs\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 5,
+                "line": 39,
+                "offset": 1720
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 48,
+                "line": 44,
+                "offset": 1961
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_4",
+                "is_ignored": false,
+                "lines": "      <input type=\"text\" id=\"replacementInput\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 7,
+                "line": 44,
+                "offset": 1920
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-button",
+            "end": {
+                "col": 47,
+                "line": 42,
+                "offset": 1874
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "75689d1083149aa5f7c02a436f0439f1462988ccdb806718c71bb336aa1c58005a53cb83645653617adb0659c6d831a12143beb44358cb3089dffd0f2fbc85b3_0",
+                "is_ignored": false,
+                "lines": "      <button id=\"testButton\">Replace</button>",
+                "message": "<button> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 7,
+                "line": 42,
+                "offset": 1834
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-button",
+            "end": {
+                "col": 50,
+                "line": 45,
+                "offset": 2011
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "75689d1083149aa5f7c02a436f0439f1462988ccdb806718c71bb336aa1c58005a53cb83645653617adb0659c6d831a12143beb44358cb3089dffd0f2fbc85b3_1",
+                "is_ignored": false,
+                "lines": "      <button id=\"replaceButton\">Replace</button>",
+                "message": "<button> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 7,
+                "line": 45,
+                "offset": 1968
+            }
+        }
+    ],
+    "version": "1.27.0"
+}

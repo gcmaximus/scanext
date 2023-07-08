@@ -1,0 +1,440 @@
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "EXTENSIONS/h1_replacer_test/icon.png",
+            "EXTENSIONS/h1_replacer_test/manifest.json",
+            "EXTENSIONS/h1_replacer_test/popup.html",
+            "EXTENSIONS/h1_replacer_test/popup.js",
+            "EXTENSIONS/h1_replacer_test/tmp.yaml"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 46,
+                "line": 8,
+                "offset": 170
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_0",
+                "is_ignored": false,
+                "lines": "    <input type=\"text\" id=\"replacementInput\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 5,
+                "line": 8,
+                "offset": 129
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 70,
+                "line": 25,
+                "offset": 662
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_1",
+                "is_ignored": false,
+                "lines": "    <input type=\"radio\" id=\"tabfree\" name=\"mytabs\" checked=\"checked\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 5,
+                "line": 25,
+                "offset": 597
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 54,
+                "line": 32,
+                "offset": 1268
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_2",
+                "is_ignored": false,
+                "lines": "    <input type=\"radio\" id=\"tabsilver\" name=\"mytabs\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 5,
+                "line": 32,
+                "offset": 1219
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 52,
+                "line": 39,
+                "offset": 1767
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_3",
+                "is_ignored": false,
+                "lines": "    <input type=\"radio\" id=\"tabgold\" name=\"mytabs\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 5,
+                "line": 39,
+                "offset": 1720
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-input",
+            "end": {
+                "col": 48,
+                "line": 44,
+                "offset": 1961
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "924ea33ed5363f5b3e6d1148da6be672021ae09ad99e13eef0ad78d949ed64add515b483dae2141a9df6cdd2f88e7515aae4156daa7e9b9b1057197f7b5d0700_4",
+                "is_ignored": false,
+                "lines": "      <input type=\"text\" id=\"replacementInput\">",
+                "message": "<input> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 7,
+                "line": 44,
+                "offset": 1920
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-button",
+            "end": {
+                "col": 47,
+                "line": 42,
+                "offset": 1874
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "75689d1083149aa5f7c02a436f0439f1462988ccdb806718c71bb336aa1c58005a53cb83645653617adb0659c6d831a12143beb44358cb3089dffd0f2fbc85b3_0",
+                "is_ignored": false,
+                "lines": "      <button id=\"testButton\">Replace</button>",
+                "message": "<button> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 7,
+                "line": 42,
+                "offset": 1834
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.html-inputs-and-buttons.scan-button",
+            "end": {
+                "col": 50,
+                "line": 45,
+                "offset": 2011
+            },
+            "extra": {
+                "engine_kind": "OSS",
+                "fingerprint": "75689d1083149aa5f7c02a436f0439f1462988ccdb806718c71bb336aa1c58005a53cb83645653617adb0659c6d831a12143beb44358cb3089dffd0f2fbc85b3_1",
+                "is_ignored": false,
+                "lines": "      <button id=\"replaceButton\">Replace</button>",
+                "message": "<button> detected",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "EXTENSIONS/h1_replacer_test/popup.html",
+            "start": {
+                "col": 7,
+                "line": 45,
+                "offset": 1968
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_runtime_onMessage.chrome_runtime_onMessage-jQuery_wrapAll",
+            "end": {
+                "col": 44,
+                "line": 6,
+                "offset": 304
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 44,
+                                    "line": 6,
+                                    "offset": 304
+                                },
+                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrapAll.js",
+                                "start": {
+                                    "col": 7,
+                                    "line": 6,
+                                    "offset": 267
+                                }
+                            },
+                            "$('#myElement').wrapAll(message.text)"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 6,
+                                    "line": 8,
+                                    "offset": 317
+                                },
+                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrapAll.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 3,
+                                    "offset": 68
+                                }
+                            },
+                            "chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {\n    if (message.action === 'wrapAllText') {\n      // wrapAll the received text to a specific element using jQuery\n      $('#myElement').wrapAll(message.text);\n    }\n  });"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "c1429648f3298a05534ebeaf937ada07c30a31d2228d2359de0cad7eb68dc74806c0f99f7b8b7e5c034bf0a7d1bf5d9be59a7b246b47534a20c96b63a6d818ca_0",
+                "is_ignored": false,
+                "lines": "      $('#myElement').wrapAll(message.text);",
+                "message": "Source:chrome.runtime.onMessage;Sink:jQuery.wrapAll",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrapAll.js",
+            "start": {
+                "col": 7,
+                "line": 6,
+                "offset": 267
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_runtime_onMessage.chrome_runtime_onMessage-jQuery_wrapAll",
+            "end": {
+                "col": 55,
+                "line": 14,
+                "offset": 642
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 55,
+                                    "line": 14,
+                                    "offset": 642
+                                },
+                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrapAll.js",
+                                "start": {
+                                    "col": 7,
+                                    "line": 14,
+                                    "offset": 594
+                                }
+                            },
+                            "$('<div>').text(message.content).wrapAll('body')"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 6,
+                                    "line": 16,
+                                    "offset": 655
+                                },
+                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrapAll.js",
+                                "start": {
+                                    "col": 3,
+                                    "line": 11,
+                                    "offset": 392
+                                }
+                            },
+                            "chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {\n    if (message.action === 'wrapAllElement') {\n      // wrapAll a new element with the received content using jQuery\n      $('<div>').text(message.content).wrapAll('body');\n    }\n  });"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "c1429648f3298a05534ebeaf937ada07c30a31d2228d2359de0cad7eb68dc74806c0f99f7b8b7e5c034bf0a7d1bf5d9be59a7b246b47534a20c96b63a6d818ca_1",
+                "is_ignored": false,
+                "lines": "      $('<div>').text(message.content).wrapAll('body');",
+                "message": "Source:chrome.runtime.onMessage;Sink:jQuery.wrapAll",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_wrapAll.js",
+            "start": {
+                "col": 7,
+                "line": 14,
+                "offset": 594
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_runtime_onMessage.chrome_runtime_onMessage-Handlebar_SafeString",
+            "end": {
+                "col": 78,
+                "line": 8,
+                "offset": 345
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 78,
+                                    "line": 8,
+                                    "offset": 345
+                                },
+                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/Handlebar_SafeString.js",
+                                "start": {
+                                    "col": 35,
+                                    "line": 8,
+                                    "offset": 302
+                                }
+                            },
+                            "new Handlebars.SafeString(message.greeting)"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 6,
+                                    "line": 14,
+                                    "offset": 479
+                                },
+                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/Handlebar_SafeString.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 4,
+                                    "offset": 57
+                                }
+                            },
+                            "chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {\n    // Handle the message\n    if (message.type === 'greeting') {\n      const template = Handlebars.compile('<p>{{greeting}}</p>');\n      const context = { greeting: new Handlebars.SafeString(message.greeting) };\n      const html = template(context);\n  \n      // Inject the HTML into the page\n      document.body.innerHTML += html;\n    }\n  });"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "fe4eba2a9f8b0528bc6779c268bad781497ca59f0d379834e9cff51b4f2f5b40c6be455218cf68f1eae2dd30edcf28981bb692c406e6579e3049d263db14d4f5_0",
+                "is_ignored": false,
+                "lines": "      const context = { greeting: new Handlebars.SafeString(message.greeting) };",
+                "message": "Source:chrome.runtime.onMessage;Sink:Handlebar_SafeString",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/Handlebar_SafeString.js",
+            "start": {
+                "col": 35,
+                "line": 8,
+                "offset": 302
+            }
+        },
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_runtime_onMessage.chrome_runtime_onMessage-jQuery_insertBefore",
+            "end": {
+                "col": 80,
+                "line": 7,
+                "offset": 400
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 80,
+                                    "line": 7,
+                                    "offset": 400
+                                },
+                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_insertBefore.js",
+                                "start": {
+                                    "col": 11,
+                                    "line": 7,
+                                    "offset": 331
+                                }
+                            },
+                            "$(`<img src=\"${iconUrl}\" class=\"custom-icon\">`).insertBefore(element)"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 6,
+                                    "line": 11,
+                                    "offset": 433
+                                },
+                                "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_insertBefore.js",
+                                "start": {
+                                    "col": 1,
+                                    "line": 2,
+                                    "offset": 76
+                                }
+                            },
+                            "chrome.runtime.onMessage.addListener(({ action, iconUrl, targetUrls }) => {\n    if (action === 'insertIconBeforeLinks') {\n      $('a').each((_, element) => {\n        const href = $(element).attr('href');\n        if (targetUrls.includes(href)) {\n          $(`<img src=\"${iconUrl}\" class=\"custom-icon\">`).insertBefore(element);\n        }\n      });\n    }\n  });"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "c70be4ecb6696b80ec3f366017f7871d42ff40e95ab45993a4d9d2ae1012e5fae6ba87561f0cbe0e3304cece3cec59ba1c4e18ff4474ad5c9bb07d41ee9b2314_0",
+                "is_ignored": false,
+                "lines": "          $(`<img src=\"${iconUrl}\" class=\"custom-icon\">`).insertBefore(element);",
+                "message": "Source:chrome.runtime.onMessage;Sink:jQuery.insertBefore",
+                "metadata": {},
+                "metavars": {},
+                "severity": "WARNING"
+            },
+            "path": "STATIC_ANALYSIS/semgrep_rules/chrome_runtime_onMessage/test_codes/jQuery_insertBefore.js",
+            "start": {
+                "col": 11,
+                "line": 7,
+                "offset": 331
+            }
+        }
+    ],
+    "version": "1.27.0"
+}
