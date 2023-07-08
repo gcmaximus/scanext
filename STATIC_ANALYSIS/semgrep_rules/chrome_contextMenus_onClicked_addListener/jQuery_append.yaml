@@ -8,7 +8,7 @@ rules:
       - patterns:
           - pattern-either:
               - pattern-inside: |
-                  function $FUNC($INFO, ...) {
+                  function $FUNC($X, ...) {
                     ...
                   }
                   ...
@@ -16,19 +16,19 @@ rules:
               - pattern-inside: |
                   chrome.contextMenus.onClicked.addListener($FUNC)
                   ...
-                  function $FUNC($INFO, ...) {
+                  function $FUNC($X, ...) {
                     ...
                   }
               - pattern-inside: |
-                  chrome.contextMenus.onClicked.addListener(function ($INFO, ...) {
+                  chrome.contextMenus.onClicked.addListener(function ($X, ...) {
                       ...
                     })
           - pattern-either:
-              - pattern: $INFO.linkUrl
-              - pattern: $INFO.srcUrl
-              - pattern: $INFO.pageUrl
-              - pattern: $INFO.frameUrl
-              - pattern: $INFO.selectionText
+              - pattern: $X.linkUrl
+              - pattern: $X.srcUrl
+              - pattern: $X.pageUrl
+              - pattern: $X.frameUrl
+              - pattern: $X.selectionText
     pattern-sinks:
       - patterns:
           - pattern: $(...).append($X)

@@ -8,7 +8,7 @@ rules:
       - patterns:
           - pattern-either:
               - pattern-inside: |
-                  function $FUNC($INFO, ...) {
+                  function $FUNC($X, ...) {
                     ...
                   }
                   ...
@@ -20,27 +20,27 @@ rules:
                     onclick: $FUNC
                   }, ...)
                   ...
-                  function $FUNC($INFO, ...) {
+                  function $FUNC($X, ...) {
                     ...
                   }
               - pattern-inside: |
                   chrome.contextMenus.update({
-                    onclick: function ($INFO, ...) {
+                    onclick: function ($X, ...) {
                       ...
                     }
                   }, ...)
               - pattern-inside: |
                   chrome.contextMenus.update({
-                    onclick: function $FUNC($INFO, ...) {
+                    onclick: function $FUNC($X, ...) {
                       ...
                     }
                   }, ...)
           - pattern-either:
-              - pattern: $INFO.linkUrl
-              - pattern: $INFO.srcUrl
-              - pattern: $INFO.pageUrl
-              - pattern: $INFO.frameUrl
-              - pattern: $INFO.selectionText
+              - pattern: $X.linkUrl
+              - pattern: $X.srcUrl
+              - pattern: $X.pageUrl
+              - pattern: $X.frameUrl
+              - pattern: $X.selectionText
     pattern-sinks:
       - pattern: document.write($X)
       - patterns:

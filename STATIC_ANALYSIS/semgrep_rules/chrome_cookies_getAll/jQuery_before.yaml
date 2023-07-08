@@ -8,7 +8,7 @@ rules:
       - patterns:
           - pattern-either:
               - pattern-inside: |
-                  function $FUNC($COOKIE, ...) {
+                  function $FUNC($X, ...) {
                     ...
                   }
                   ...
@@ -16,16 +16,16 @@ rules:
               - pattern-inside: |
                   chrome.cookies.getAll($DETAILS, $FUNC)
                   ...
-                  function $FUNC($COOKIE, ...) {
+                  function $FUNC($X, ...) {
                     ...
                   }
               - pattern-inside: |
-                  chrome.cookies.getAll($DETAILS, function ($COOKIE, ...) {
+                  chrome.cookies.getAll($DETAILS, function ($X, ...) {
                     ...
                   })
           - pattern-either:
-              - pattern: $COOKIE.name
-              - pattern: $COOKIE.value
+              - pattern: $X.name
+              - pattern: $X.value
     pattern-sinks:
       - patterns:
           - pattern: $(...).before($X)

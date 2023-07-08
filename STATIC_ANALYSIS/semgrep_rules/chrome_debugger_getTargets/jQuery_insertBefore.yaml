@@ -8,7 +8,7 @@ rules:
       - patterns:
           - pattern-either:
               - pattern-inside: |
-                  function $FUNC($TARGETINFO) {
+                  function $FUNC($X) {
                     ...
                   }
                   ...
@@ -16,15 +16,15 @@ rules:
               - pattern-inside: |
                   chrome.debugger.getTargets($FUNC)
                   ...
-                  function $FUNC($TARGETINFO) {
+                  function $FUNC($X) {
                     ...
                   }
               - pattern-inside: |
-                  chrome.debugger.getTargets(function ($TARGETINFO) {
+                  chrome.debugger.getTargets(function ($X) {
                     ...
                   })
               - pattern-inside: |
-                  function $FUNC($TARGETINFO) {
+                  function $FUNC($X) {
                     ...
                   }
                   ...
@@ -32,30 +32,30 @@ rules:
               - pattern-inside: |
                   chrome.debugger.getTargets().then($FUNC)
                   ...
-                  function $FUNC($TARGETINFO) {
+                  function $FUNC($X) {
                     ...
                   }
               - pattern-inside: |
-                  chrome.debugger.getTargets().then(function ($TARGETINFO) {
+                  chrome.debugger.getTargets().then(function ($X) {
                     ...
                   })
           - pattern-either:
-              - pattern: $TARGETINFO[$INT].title
-              - pattern: $TARGETINFO[$INT].url
-              - pattern: $TARGETINFO[$INT].faviconUrl
+              - pattern: $X[$INT].title
+              - pattern: $X[$INT].url
+              - pattern: $X[$INT].faviconUrl
               - patterns:
                   - pattern: |
-                      $Y = $TARGETINFO[$INT]
+                      $Y = $X[$INT]
                       ...
                       $Y.url
               - patterns:
                   - pattern: |
-                      $Y = $TARGETINFO[$INT]
+                      $Y = $X[$INT]
                       ...
                       $Y.title
               - patterns:
                   - pattern: |
-                      $Y = $TARGETINFO[$INT]
+                      $Y = $X[$INT]
                       ...
                       $Y.faviconUrl
     pattern-sinks:
