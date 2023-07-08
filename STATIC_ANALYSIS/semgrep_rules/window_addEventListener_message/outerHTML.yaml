@@ -1,5 +1,5 @@
 rules:
-  - id: window_addEventListener_message-innerHTML
+  - id: window_addEventListener_message-outerHTML
     mode: taint
     pattern-sources:
       - patterns:
@@ -46,7 +46,7 @@ rules:
               ...
               $Y[$INT]. ... .outerHTML = $X
           - focus-metavariable: $X
-    message: Source:window_addEventListener_message;Sink:innerHTML
+    message: Source:window_addEventListener_message;Sink:outerHTML
     languages:
       - js
     severity: WARNING
