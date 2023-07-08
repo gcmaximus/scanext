@@ -131,7 +131,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                 <div class="card-header none-header">Result</div>
                 <div class="card-body">
                     <h5 class="card-title">No vulnerable codes found</h5>
-                    <p class="card-text">Our tool did not detect any vulnerable code segments or possible tainted data flows into vulnerable functions.</p>
+                    <p class="card-text">Our tool did not detect any vulnerable code segments or possible tainted data flows into vulnerable functions that could lead to XSS.</p>
                 </div>
             </div>"""
 
