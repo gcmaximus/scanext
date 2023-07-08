@@ -5,21 +5,22 @@ rules:
       - patterns:
           - pattern-either:
               - pattern: |
-                  window.addEventListener("message", function($X){
+                  window.addEventListener($MESSAGE, function($X){
                   ...  
                   })  
               - pattern: |
-                  function $ANY(event){
+                  function $CALLBACK($X,...){
                     ...
                   }
                   ...
-                  window.addEventListener("message",$ANY)
+                  window.addEventListener($MESSAGE,$ANY)
               - pattern: |
-                  window.addEventListener("message",$ANY)
+                  window.addEventListener($MESSAGE,$ANY)
                   ...
                   function $ANY($X,...){
                     ...
                   }
+          - focus-metavariable: $X
     pattern-sinks:
       - patterns:
           - pattern: $(...).prepend($X)
