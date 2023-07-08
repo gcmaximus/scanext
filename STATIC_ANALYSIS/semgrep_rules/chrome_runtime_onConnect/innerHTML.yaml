@@ -773,6 +773,7 @@ rules:
                   function $ANY($PORT,...){
                     ...
                   }
+          - focus-metavariable: $X
     pattern-sinks:
       - patterns:
           - pattern: document. ... .innerHTML = $X
