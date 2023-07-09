@@ -7,10 +7,10 @@ import uvicorn
 # class InputData(BaseModel):
 #     data: str
 
+app = FastAPI()
+
 def main():
     data = []
-    
-    app = FastAPI()
 
     @app.get("/xss")
     async def get_xss(req: Request)
