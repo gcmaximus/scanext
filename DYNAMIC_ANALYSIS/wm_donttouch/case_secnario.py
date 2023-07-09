@@ -56,6 +56,7 @@ def initialize(path_to_extension):
 
     # case 2:
     # location_href(driver, abs_path, url_path, payloads)
+    # location_href_new(driver, abs_path, url_path, payloads)
 
 
     # case 3:
@@ -245,6 +246,110 @@ def location_href(driver, abs_path, url_path, payloads):
 
         except:
             print('Payload failed')
+
+def location_href_new(driver, abs_path, url_path, payloads):
+    try:
+        # Navigate to example.com
+        driver.get('https://www.example.com')
+        # set handler for example.com
+        example = driver.current_window_handle
+
+        # Wait up to 5 seconds for the title to become "Example Domain"
+        title_condition = EC.title_is('Example Domain')
+        WebDriverWait(driver, 5).until(title_condition)
+
+        # get page source code of example.com
+        example_source_code = driver.page_source
+
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        extension = driver.current_window_handle
+        driver.get(url_path)
+
+        # get page source code of extension
+        extension_source_code = driver.page_source
+    
+        # we can inject a script to change the location.href variable using query parameters or fragment Idenfiers
+        for j in range(2):
+            for payload in payloads:
+                print(payload)
+                driver.switch_to.window(extension)
+                driver.refresh()
+                driver.switch_to.window(example)
+
+                if j == 0:
+                    driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
+                else:
+                    driver.execute_script(f"location.href = `https://www.example.com/#{payload}`")
+                
+                time.sleep(0.5)
+
+                # check for alerts in example
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    print('[example] + Alert Detected +')
+                except TimeoutException:
+                    print('[example] = No alerts detected =')
+
+
+                driver.switch_to.window(extension)
+
+                # check for alerts in extensions
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    print('[extension] + Alert Detected +')
+                except TimeoutException:
+                    print('[extension] = No alerts detected =')
+
+                
+                # check for alerts in example after refreshing extension
+                driver.refresh()
+                driver.switch_to.window(example)
+
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    print('[example] + Alert Detected +')
+                except TimeoutException:
+                    print('[example] = No alerts detected =')
+
+
+                try: 
+                    # check modifications for example.com
+                    driver.switch_to.window(example)
+                    if example_source_code != driver.page_source:
+                        driver.get("https://www.example.com")
+                        print("Navigated back to 'https://www.example.com' due to page source changes")
+
+                except:
+                    print('error')
+
+
+                try: 
+                    # check modifications for extension
+                    driver.switch_to.window(extension)
+                    if extension_source_code != driver.page_source:
+                        driver.get(url_path)
+                        print(f"Navigated back to '{url_path}' due to extension page source changes")
+
+                except:
+                    print('error')
+
+    except TimeoutException:
+        # Handle TimeoutException when title condition is not met
+        print("Timeout: Title was not resolved to 'Example Domain'")
+
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
 
 # 3) Context_Menu
 def context_menu(driver, abs_path, url_path, payloads):
