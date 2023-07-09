@@ -7,8 +7,6 @@ import uvicorn
 # class InputData(BaseModel):
 #     data: str
 
-# app = FastAPI()
-
 def main():
     data = []
 
