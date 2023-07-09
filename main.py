@@ -96,11 +96,12 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
     try:
         # print(f"Scanning {scanned_dir} ... ")
+
         subprocess.run(command, check=True)
 
         spinner_running = False
         spinner_thread.join()
-        print()
+
         print("Static analysis complete.")
     except subprocess.CalledProcessError as err:
         print(f"Error running semgrep command: {err}")
