@@ -49,15 +49,13 @@ def initialize(path_to_extension):
 
 
 
-    # window_name_new(driver, abs_path, url_path, payloads)
     # case 1:
     # window_name(driver, abs_path, url_path, payloads)
-    # window_name_new(driver, abs_path, url_path, payloads)
+    window_name_new(driver, abs_path, url_path, payloads)
 
     # case 2:
     # location_href(driver, abs_path, url_path, payloads)
     # location_href_new(driver, abs_path, url_path, payloads)
-
 
     # case 3:
     # context_menu(driver, abs_path, url_path, payloads)
@@ -110,11 +108,7 @@ def window_name(driver, abs_path, url_path, payloads):
         except TimeoutException:
             print('= No alerts detected =')
 
-
-
- ##################################################
 def window_name_new(driver, abs_path, url_path, payloads):
-
     try:
         # Navigate to example.com
         driver.get('https://www.example.com')
@@ -136,12 +130,27 @@ def window_name_new(driver, abs_path, url_path, payloads):
         extension_source_code = driver.page_source
 
 
-
         for payload in payloads:
             # since window.name is obtained from the website url, we will inject javascript to change the window.name
             driver.switch_to.window(example)
 
-            driver.execute_script(f'window.name = `{payload}`;')
+            try:
+                driver.execute_script(f'window.name = `{payload}`;')
+            except Exception as e:
+                print(' !!!! PAYLOAD FAILLED !!!!')
+                print('Error: ', str(e))
+                continue
+
+            # check for alerts in example
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[example] + Alert Detected +')
+            except TimeoutException:
+                print('[example] = No alerts detected =')
+                
 
             driver.switch_to.window(extension)
             driver.refresh()
@@ -153,22 +162,21 @@ def window_name_new(driver, abs_path, url_path, payloads):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                print('[1] + Alert Detected +')
+                print('[extension] + Alert Detected +')
             except TimeoutException:
-                print('[1] = No alerts detected =')
+                print('[extension] = No alerts detected =')
 
             driver.switch_to.window(example)
 
-
-            # check for alerts in example
+            # check for alerts in example after refreshing extension
             try:
                 # wait 2 seconds to see if alert is detected
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                print('[2] + Alert Detected +')
+                print('[example] + Alert Detected +')
             except TimeoutException:
-                print('[2] = No alerts detected =')
+                print('[example] = No alerts detected =')
 
 
             try: 
@@ -199,18 +207,6 @@ def window_name_new(driver, abs_path, url_path, payloads):
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
 
-
-
-
-
-
-
-
-
-
-
-
-
 # 2) Location_href
 def location_href(driver, abs_path, url_path, payloads):
     # get www.example.com
@@ -229,10 +225,10 @@ def location_href(driver, abs_path, url_path, payloads):
         driver.refresh()
         driver.switch_to.window(example)
 
-
+        print(payload)
         try:
             # driver.execute_script(f"location.href = 'https://www.example.com/?p'{payload}")
-            driver.execute_script(f"location.href = 'https://www.example.com/?p'{payload}")
+            driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
 
             time.sleep(1)
             try:
@@ -278,11 +274,20 @@ def location_href_new(driver, abs_path, url_path, payloads):
                 driver.switch_to.window(example)
 
                 if j == 0:
-                    driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
+                    try:
+                        driver.execute_script(f"loca1tion.href = `https://www.example.com/?p={payload}`")
+                    except Exception as e:
+                        print(' !!!! PAYLOAD FAILLED !!!!')
+                        print('Error: ', str(e))
+                        continue
+                        
                 else:
-                    driver.execute_script(f"location.href = `https://www.example.com/#{payload}`")
-                
-                time.sleep(0.5)
+                    try:
+                        driver.execute_script(f"location.href = `https://www.example.com/#{payload}`")
+                    except Exception as e:
+                        print(' !!!! PAYLOAD FAILLED !!!!')
+                        print('Error: ', str(e))
+                        continue
 
                 # check for alerts in example
                 try:
@@ -605,37 +610,45 @@ def context_menu(driver, abs_path, url_path, payloads):
         extension = driver.current_window_handle
         driver.get(url_path)
     
-        driver.switch_to.window(example)
 
-        
-        target_element = driver.find_element(By.ID, 'srcUrl')
-        driver.execute_script("var range = document.createRange(); range.selectNode(arguments[0]); console.log(range);window.getSelection().addRange(range);", target_element)
+        for payload in payloads:
 
-        # # perform right click to open context menu
-        actions = ActionChains(driver)
-        actions.context_click(target_element).perform()
+            driver.switch_to.window(example)
+            target_element = driver.find_element(By.ID, 'srcUrl')
+            # driver.execute_script("var range = document.createRange(); range.selectNode(arguments[0]); console.log(range);window.getSelection().addRange(range);", target_element)
 
-        # navigate to extension context menu option
-        keyboard = Controller()
-        for _ in range(8):  
-            # Press the arrow key down
-            keyboard.press(Key.down)
-            # Release the arrow key
-            keyboard.release(Key.down)
+            driver.execute_script(f"document.getElementById('srcUrl').src = `{payload}`")
 
-        # Press the Enter key
-        keyboard.press(Key.enter)
-        # Release the Enter key
-        keyboard.release(Key.enter)
-        
-        try:
-            # wait 2 seconds to see if alert is detected
-            WebDriverWait(driver, 2).until(EC.alert_is_present())
-            alert = driver.switch_to.alert
-            alert.accept()
-            print('+ Alert Detected +')
-        except TimeoutException:
-            print('= No alerts detected =')
+            # # perform right click to open context menu
+            actions = ActionChains(driver)
+
+            actions.drag_and_drop_by_offset(actions.move_to_element_with_offset(target_element,50,0).release().perform(), -80,0).context_click().perform()
+
+            # navigate to extension context menu option
+            time.sleep(1)
+            keyboard = Controller()
+            for _ in range(7):  
+                # Press the arrow key down
+                keyboard.press(Key.down)
+                # Release the arrow key
+                keyboard.release(Key.down)
+
+            # Press the Enter key
+            keyboard.press(Key.enter)
+            # Release the Enter key
+            keyboard.release(Key.enter)
+            
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('+ Alert Detected +')
+            except TimeoutException:
+                print('= No alerts detected =')
+            
+            driver.switch_to.window(extension)
+            time.sleep(2)
 
     # Frame Url [GUI]
     def context_menu_frame_url():
@@ -777,9 +790,12 @@ def context_menu(driver, abs_path, url_path, payloads):
                     print('= No alerts detected =')
 
 
+    # context_menu_selectionText()
+    # context_menu_link_url()
+    context_menu_src_url()
+    # context_menu_frame_url()   
     # context_menu_page_url()
-    # context_menu_frame_url()    
-    # context_menu_src_url()
+ 
 
 # 4) onConnect (Hvt do)
 def onConnect(driver,abs_path, url_path, paylaods):
@@ -1061,10 +1077,43 @@ def windowAddEventListenerMessage(driver, abs_path, url_path, payloads):
         button.click()
 
 
+
+    # implement tommorow 
+
+    regex_results = ['data', 'log', 'cocksuker123', '123skd', 'message']
+    # regex_results = []
+
+    xss_payload = '<img src=x onerror=alert(1)>'
+
     driver.switch_to.window(example)
-    driver.execute_script('postMessage({ message: "1", cock: "2", dickless_dude: "3" }, "*")')
 
+    # check if regex scan found anything
+    # if regex able to find scan results, send payload as json object
+    if len(regex_results) > 0:
+        object_payload = {key: xss_payload for key in regex_results}
+        driver.execute_script(f"window.postMessage({object_payload},'*')")
 
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('+ Alert Detected +')
+        except TimeoutException:
+            print('= No alerts detected =')
+
+    # else, send payload as string
+    else:
+        driver.execute_script(f"window.postMessage(`{xss_payload}`,'*')")
+
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('+ Alert Detected +')
+        except TimeoutException:
+            print('= No alerts detected =')
 
 
 
@@ -1072,21 +1121,16 @@ def windowAddEventListenerMessage(driver, abs_path, url_path, payloads):
 
 
 # # Main Program #
+# initialize('Extensions/gtranslate')
+
 initialize('Extensions/h1-replacer/h1-replacer(v3)_window.name')
+# initialize('Extensions/h1-replacer/h1-replacer(v3)_location.href')
+
 # initialize('Extensions/h1-replacer/h1-replacer_button_paradox')
 # initialize('Extensions/h1-replacer/h1-replacer(v3)_context_menu')
 # initialize('Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query')
 # initialize('Extensions/h1-replacer/h1-replacer(v3)_location_search')
 # initialize('Extensions/h1-replacer/h1-replacer(v3)_window.addEventListernerMessage')
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1212,6 +1256,7 @@ def button_input_paradox():
         # for rank, button_id in enumerate(sorted_button_ids, start=1):
         #     common_prefix_length = common_prefix_lengths[button_id]
         #     print(f"Rank {rank}: Button ID {button_id} (Common Prefix Length: {common_prefix_length})")
+
 
 
 
