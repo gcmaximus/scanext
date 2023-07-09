@@ -399,10 +399,11 @@ banner5 = """
 ██     ███▄    ▄█   ██   ██    ██     ██     ▄█ ▄█▀ ██▄   ██   
 █▀█████▀ █████▀▀████▀██▄████  ████▄ ▄████████████▄   ▄██▄ ▀████"""
 
-banners = [banner1,banner2,banner3,banner4]
+banners = [banner1,banner2,banner3,banner4,banner5]
 if __name__ == "__main__":
-    print(random.choice(banners), end="\n")
-
+    random.shuffle(banners)
+    print(banners[-1], end="\n\n")
+    
     for extension in extraction():
         print()
 
