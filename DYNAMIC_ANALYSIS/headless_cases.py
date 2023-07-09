@@ -530,10 +530,10 @@ def interpreter(data,sourcelist):
         except:
             other_vars.append(metavars)
 
-        # wm added this
+        # added this
         line_start = i["extra"]["dataflow_trace"]["taint_source"][1][0]['start']['line']
         line_end = i["extra"]["dataflow_trace"]["taint_sink"][1][0]['end']['line']
-        # wm added this
+        # added this
 
 
         message = i["extra"]["message"]
@@ -541,10 +541,10 @@ def interpreter(data,sourcelist):
         taint["source"] = taint_source
         taint["sink"] = taint_sink
 
-        # wm added this
+        # added this
         taint["line_start"] = line_start 
         taint["line_end"] = line_end 
-        # wm added this
+        # added this
         
         tainted.append(taint)
         
