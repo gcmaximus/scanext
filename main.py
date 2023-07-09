@@ -5,6 +5,8 @@ from email.utils import formatdate
 from pathlib import Path
 from zipfile import ZipFile
 import random
+import time
+import threading
 
 import jsbeautifier
 from bs4 import BeautifulSoup
@@ -55,6 +57,19 @@ def extraction():
 
 
 def static_analysis(extension: Path, soup: BeautifulSoup):
+
+    # Loading spinner
+    def loading_spinner():
+        while spinner_running:
+            for char in ['\\', '|', '/', '-']:
+                print(f"Scanning... {char}", end="\r")
+                time.sleep(0.1)
+    global spinner_running 
+    spinner_running = True
+    spinner_thread = threading.Thread(target=loading_spinner)
+    spinner_thread.start()
+
+
     # Config rules
     rules = "STATIC_ANALYSIS/semgrep_rules/"
 
@@ -82,6 +97,10 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     try:
         print(f"Scanning {scanned_dir} ...")
         subprocess.run(command, check=True)
+
+        spinner_running = False
+        spinner_thread.join()
+
         print("Static analysis complete.")
     except subprocess.CalledProcessError as err:
         print(f"Error running semgrep command: {err}")
@@ -112,10 +131,11 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     # No of POCs (to be done after dynamic scan)
     # no_of_pocs =
 
+    soup.find('title').string += f' - {scanned_dir}'
+
     soup.find(id="scanned-folder").string = scanned_dir
     soup.find(id="ext-name").string = ext_name
     soup.find(id="ext-version").string = ext_version
-
     soup.find(id="manifest-version").string = manifest_version
     soup.find(id="vulns").string = str(vulns_len) + " found"
 
@@ -270,16 +290,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                     more_details += """
                     </pre>"""
                     code_segment += more_details
-
-                    # check for line diff between current tainted line and prev line (tainted OR source line)
-
-                    # if line diff == 1:
-                    #     dont add ...
-                    # else:
-                    #     add ...
-                    # add tainted line
-
-                    # check for line diff between sink and last tainted line (need add ...?)
 
             add = f"""
 <!-- Source-Sink pair -->
