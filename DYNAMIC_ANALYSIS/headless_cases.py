@@ -526,14 +526,30 @@ def interpreter(data,sourcelist):
             except:
                 var = metavar[0]
             metavars["content"] = var
-            taint["metavars"] = metavars
+            other_vars.append(metavars)
         except:
-            taint["metavars"] = metavars
+            other_vars.append(metavars)
+
+        # wm added this
+        line_start = i["extra"]["dataflow_trace"]["taint_source"][1][0]['start']['line']
+        line_end = i["extra"]["dataflow_trace"]["taint_sink"][1][0]['end']['line']
+        # wm added this
+
+
         message = i["extra"]["message"]
         taint["message"] = message
         taint["source"] = taint_source
         taint["sink"] = taint_sink
+
+        # wm added this
+        taint["line_start"] = line_start 
+        taint["line_end"] = line_end 
+        # wm added this
+        
         tainted.append(taint)
+        
+    for i in sourcelist:
+        i
         
 
 def main():
