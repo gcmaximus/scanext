@@ -11,10 +11,6 @@
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap" rel="stylesheet" />
-    <!-- Source Code Pro -->
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet"> -->
     <!-- Bebas Neue -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -153,17 +149,12 @@
         }
 
         .payload-table {
-            width: 70%;
+            width: 80%;
             margin: auto;
         }
 
         i {
             font-size: 0.8em;
-        }
-
-        .dynamic-info>.col-3,
-        .dynamic-info>.col-9 {
-            width: fit-content;
         }
 
         .dynamic-info {
@@ -318,94 +309,68 @@
                     <p class="card-text">
                     <div class="row dynamic-info">
 
-                        <!-- <div class="row mt-2">
-                            <i class="dynamic-info-icons float-end fa fa-file-text-o" style="font-size:36px;"></i>
-                            <h5 class="dynamic-info-icons float-start mt-2"><b>Payload list:
-                                </b><code><u>small-payloads.txt</u></code></h5>
-
-                        </div>
-                        <div class="row mt-2">
-
-                            <i class="dynamic-info-icons float-end fa fa-bomb" style="font-size:36px;"></i>
-                            <h5 class="dynamic-info-icons float-start mt-2"><b>Tested payloads: </b><u>100</u></h5>
-
-                        </div>
-                        <div class="row mt-2">
-                            <i class="dynamic-info-icons float-end fa fa-bug" style="font-size:36px;"></i>
-                            <h5 class="dynamic-info-icons float-start mt-2"><b>Successful payloads: </b><u>2</u></h5>
-
-                        </div> -->
-
                         <div class="row">
                             <!-- Payload List -->
                             <div class="col-4">
                                 <i class="dynamic-info-icons fa fa-file-text-o" style="font-size:36px;"></i>
                                 <h5><b>Payload list:</b></h5>
-                                <code><u>small-payloads.txt</u></code>
+                                <code><u id="payload-list">small-payloads.txt</u></code>
                             </div>
 
                             <!-- No. of tested payloads -->
                             <div class="col-4">
                                 <i class="dynamic-info-icons fa fa-bomb" style="font-size:36px;"></i>
                                 <h5><b>Tested:</b></h5>
-                                <code><u>40 payloads</u></code>
+                                <code><u id="tested-payloads">40 payloads</u></code>
                             </div>
 
                             <!-- No. of successful payloads -->
                             <div class="col-4">
                                 <i class="dynamic-info-icons fa fa-bug" style="font-size:36px;"></i>
                                 <h5><b>Successful:</b></h5>
-                                <code><u>2 payloads</u></code>
+                                <code><u id="success-payloads">2 payloads</u></code>
                             </div>
                         </div>
 
+
+
+                        <div class="row">
+                            <!-- List of successful payloads -->
+                            <table class="table table-bordered border-dark payload-table">
+                                <thead>
+                                    <tr class="table-head">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Payload</th>
+                                        <th scope="col">URL where payload was injected</th>
+                                        <th scope="col">Time of Injection</th>
+                                        <th scope="col">Time of Success</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" id="payload-no-1">1</th>
+                                        <td class="consolas" id="payload-1">&lt;img src=xss
+                                            onerror=&quot;alert(1)&quot;&gt;</td>
+                                        <td id="payload-url-1">https://www.example.com</td>
+                                        <td id="payload-start-1">14:30:05</td>
+                                        <td id="payload-end-1">14:30:07</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" id="payload-no-2">2</th>
+                                        <td class="consolas" id="payload-2">&lt;img src=abc
+                                            onerror=&quot;alert(&apos;xss&apos;)&quot;&gt;</td>
+                                        <td id="payload-url-2">https://www.example.com</td>
+                                        <td id="payload-start-2">14:31:21</td>
+                                        <td id="payload-end-2">14:31:27</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
                     </div>
 
 
-                    <table class="table table-bordered border-dark payload-table">
-                        <thead>
-                            <tr class="table-head">
-                                <th scope="col">#</th>
-                                <th scope="col">Payload</th>
-                                <th scope="col">URL where payload was injected</th>
-                                <th scope="col">Time of Injection</th>
-                                <th scope="col">Time of Success</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td class="consolas">&lt;img src=xss onerror=&quot;alert(1)&quot;&gt;</td>
-                                <td>https://www.example.com</td>
-                                <td>14:30:05</td>
-                                <td>14:30:07</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td class="consolas">&lt;img src=abc onerror=&quot;alert(&apos;xss&apos;)&quot;&gt;</td>
-                                <td>https://www.example.com</td>
-                                <td>14:31:21</td>
-                                <td>14:31:27</td>
-                            </tr>
-                        </tbody>
-                        <!-- <tbody>
-                        <tr class="table-head">
-                            <th colspan="2">Successfully Injected Payloads <i class="fa fa-check"
-                                    style="font-size:20px;color:green"></i></th>
-                        </tr>
-                        <tr>
-                            <td><b>Payload #1</b></td>
-                            <td class="consolas">&lt;img src=xss onerror=&quot;alert(1)&quot;&gt;</td>
-                        </tr>
-                        <tr>
-                            <td><b>Payload #2</b></td>
-                            <td class="consolas">&lt;img src=abc onerror=&quot;alert(&apos;xss&apos;)&quot;&gt;</td>
-                        </tr>
-
-
-
-                    </tbody> -->
-                    </table>
 
 
 

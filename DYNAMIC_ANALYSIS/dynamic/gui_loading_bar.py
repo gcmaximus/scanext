@@ -15,48 +15,6 @@ from functools import partial
 from tqdm import tqdm
 
 
-banner1 = """
-   _____                 ______      _  
-  / ____|               |  ____|    | |  
- | (___   ___ __ _ _ __ | |__  __  _| |_ 
-  \___ \ / __/ _` | '_ \|  __| \ \/ / __|
-  ____) | (_| (_| | | | | |____ >  <| |_ 
- |_____/ \___\__,_|_| |_|______/_/\_\\__|
- 
- """
-
-banner2 = """
-  .-')                ('-.         .-') _   ('-.  ) (`-.      .-') _    
- ( OO ).             ( OO ).-.    ( OO ) )_(  OO)  ( OO ).   (  OO) )   
-(_)---\_)   .-----.  / . --. /,--./ ,--,'(,------.(_/.  \_)-./     '._  
-/    _ |   '  .--./  | \-.  \ |   \ |  |\ |  .---' \  `.'  / |'--...__) 
-\  :` `.   |  |('-..-'-'  |  ||    \|  | )|  |      \     /\ '--.  .--' 
- '..`''.) /_) |OO  )\| |_.'  ||  .     |/(|  '--.    \   \ |    |  |    
-.-._)   \ ||  |`-'|  |  .-.  ||  |\    |  |  .--'   .'    \_)   |  |    
-\       /(_'  '--'\  |  | |  ||  | \   |  |  `---. /  .'.  \    |  |    
- `-----'    `-----'  `--' `--'`--'  `--'  `------''--'   '--'   `--'   
-"""
-
-banner3 = """
-   SSSSSSSSSSSSSSS                                                    EEEEEEEEEEEEEEEEEEEEEE                           tttt          
- SS:::::::::::::::S                                                   E::::::::::::::::::::E                        ttt:::t          
-S:::::SSSSSS::::::S                                                   E::::::::::::::::::::E                        t:::::t          
-S:::::S     SSSSSSS                                                   EE::::::EEEEEEEEE::::E                        t:::::t          
-S:::::S               cccccccccccccccc aaaaaaaaaaaaa nnnn  nnnnnnnn     E:::::E       EEEEExxxxxxx      xxxxxxttttttt:::::ttttttt    
-S:::::S             cc:::::::::::::::c a::::::::::::an:::nn::::::::nn   E:::::E             x:::::x    x:::::xt:::::::::::::::::t    
- S::::SSSS         c:::::::::::::::::c aaaaaaaaa:::::n::::::::::::::nn  E::::::EEEEEEEEEE    x:::::x  x:::::x t:::::::::::::::::t    
-  SS::::::SSSSS   c:::::::cccccc:::::c          a::::nn:::::::::::::::n E:::::::::::::::E     x:::::xx:::::x  tttttt:::::::tttttt    
-    SSS::::::::SS c::::::c     ccccccc   aaaaaaa:::::a n:::::nnnn:::::n E:::::::::::::::E      x::::::::::x         t:::::t          
-       SSSSSS::::Sc:::::c              aa::::::::::::a n::::n    n::::n E::::::EEEEEEEEEE       x::::::::x          t:::::t          
-            S:::::c:::::c             a::::aaaa::::::a n::::n    n::::n E:::::E                 x::::::::x          t:::::t          
-            S:::::c::::::c     cccccca::::a    a:::::a n::::n    n::::n E:::::E       EEEEEE   x::::::::::x         t:::::t    tttttt
-SSSSSSS     S:::::c:::::::cccccc:::::a::::a    a:::::a n::::n    n::::EE::::::EEEEEEEE:::::E  x:::::xx:::::x        t::::::tttt:::::t
-S::::::SSSSSS:::::Sc:::::::::::::::::a:::::aaaa::::::a n::::n    n::::E::::::::::::::::::::E x:::::x  x:::::x       tt::::::::::::::t
-S:::::::::::::::SS  cc:::::::::::::::ca::::::::::aa:::an::::n    n::::E::::::::::::::::::::Ex:::::x    x:::::x        tt:::::::::::tt
- SSSSSSSSSSSSSSS      cccccccccccccccc aaaaaaaaaa  aaaannnnnn    nnnnnEEEEEEEEEEEEEEEEEEEEExxxxxxx      xxxxxxx         ttttttttttt  """
-
-
-
 def logs(driver, alert, result, extension_name, payload):
     # !! [Selenium cant take screenshot of alerts as it occurs outside the DOM] !!
     # driver.save_screenshot("alert_screenshot.png")
@@ -178,8 +136,6 @@ def main():
         level=logging.ERROR,
         format='%(asctime)s, %(message)s'
     )
-    #display Banner
-    print(banner2)
 
     # Run program
     gui('Extensions/h1-replacer/h1-replacer_P')

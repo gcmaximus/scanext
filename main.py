@@ -346,9 +346,7 @@ banner1 = """
  | (___   ___ __ _ _ __ | |__  __  _| |_ 
   \___ \ / __/ _` | '_ \|  __| \ \/ / __|
   ____) | (_| (_| | | | | |____ >  <| |_ 
- |_____/ \___\__,_|_| |_|______/_/\_\\__|
- 
- """
+ |_____/ \___\__,_|_| |_|______/_/\_\\__|"""
 
 banner2 = """
   .-')                ('-.         .-') _   ('-.  ) (`-.      .-') _    
@@ -423,4 +421,5 @@ if __name__ == "__main__":
         # Start static analysis
         static_analysis(extension, soup)
 
-        # dynamic_anaylsis(extension)
+        # Start dynamic analysis
+        dynamic_analysis(extension)
