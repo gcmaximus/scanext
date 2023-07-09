@@ -58,15 +58,18 @@ def extraction():
 
 def static_analysis(extension: Path, soup: BeautifulSoup):
 
+    # Name of folder scanned
+    scanned_dir = extension.name
+
     # Loading spinner
-    def loading_spinner():
+    def loading_spinner(scanned_dir):
         while spinner_running:
             for char in ['\\', '|', '/', '-']:
-                print(f"Scanning... {char}", end="\r")
+                print(f"Scanning {scanned_dir} ... {char}", end="\r")
                 time.sleep(0.1)
     global spinner_running 
     spinner_running = True
-    spinner_thread = threading.Thread(target=loading_spinner)
+    spinner_thread = threading.Thread(target=loading_spinner,args=[scanned_dir])
     spinner_thread.start()
 
 
@@ -75,9 +78,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
     # Output file
     output_file = "STATIC_ANALYSIS/semgrep_results.json"
-
-    # Name of folder scanned
-    scanned_dir = extension.name
 
     # descriptions from Tarnish
     descs = "SHARED/descriptions.json"
@@ -95,12 +95,12 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     ]
 
     try:
-        print(f"Scanning {scanned_dir} ...")
+        # print(f"Scanning {scanned_dir} ... ")
         subprocess.run(command, check=True)
 
         spinner_running = False
         spinner_thread.join()
-
+        print()
         print("Static analysis complete.")
     except subprocess.CalledProcessError as err:
         print(f"Error running semgrep command: {err}")
