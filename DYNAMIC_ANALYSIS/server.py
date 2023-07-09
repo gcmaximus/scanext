@@ -15,14 +15,14 @@ def main():
     @app.get("/xss")
     async def get_xss(req: Request)
         nonlocal data
-        data.append(req)
+        data.append(await req)
         return {"message": 200}
 
     
     @app.post("/xss")
     async def post_xss(req: Request):
         nonlocal data
-        data.append(req)
+        data.append(await req)
         # Process the data as needed
         return {"message": 200}
 
