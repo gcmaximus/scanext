@@ -526,16 +526,14 @@ def interpreter(data,sourcelist):
             except:
                 var = metavar[0]
             metavars["content"] = var
-            other_vars.append(metavars)
+            taint["metavars"] = metavars
         except:
-            other_vars.append(metavars)
+            taint["metavars"] = metavars
         message = i["extra"]["message"]
         taint["message"] = message
         taint["source"] = taint_source
         taint["sink"] = taint_sink
         tainted.append(taint)
-        
-
         
 
 def main():
