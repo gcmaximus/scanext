@@ -1,4 +1,4 @@
-from fastapi import Fastapi, Request
+from fastapi import FastAPI, Request
 # from fastapi import FastAPI, Form
 # from typing import Annotated
 import uvicorn
@@ -7,13 +7,15 @@ import uvicorn
 # class InputData(BaseModel):
 #     data: str
 
-app = FastAPI()
+# app = FastAPI()
 
 def main():
     data = []
 
+    app = FastAPI()
+
     @app.get("/xss")
-    async def get_xss(req: Request)
+    async def get_xss(req: Request):
         nonlocal data
         data.append(await req)
         return {"message": 200}

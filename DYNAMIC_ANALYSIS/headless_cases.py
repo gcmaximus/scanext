@@ -535,8 +535,7 @@ def interpreter(data,sourcelist):
         taint["sink"] = taint_sink
         tainted.append(taint)
         
-    for i in sourcelist:
-        i
+
         
 
 def main():
