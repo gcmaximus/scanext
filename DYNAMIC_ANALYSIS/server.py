@@ -8,35 +8,35 @@ import uvicorn
 #     data: str
 
 def main():
-    datas = []
+    data = []
     
     app = FastAPI()
 
     @app.get("/xss")
     async def get_xss(req: Request)
-        nonlocal datas
-        datas.append(req)
+        nonlocal data
+        data.append(req)
         return {"message": 200}
 
     
     @app.post("/xss")
     async def post_xss(req: Request):
-        nonlocal datas
-        datas.append(req)
+        nonlocal data
+        data.append(req)
         # Process the data as needed
         return {"message": 200}
 
     
     @app.get("/data")
     async def get_data():
-        nonlocal datas
-        return {"datas": datas}
+        nonlocal data
+        return {"datas": data}
     
     
     @app.delete("/data")
     async def del_data():
-        nonlocal datas
-        datas = []
+        nonlocal data
+        data = []
         # for i in alldata:
         #     alldata.pop(i)
         return {"message": "deleted"}
