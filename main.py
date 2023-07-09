@@ -83,7 +83,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
         print(f"Scanning {scanned_dir} ...")
         subprocess.run(command, check=True)
         print("Static analysis complete.")
-        # print(f"JSON scan results of `{scanned_dir}` found in `{output_file}`")
     except subprocess.CalledProcessError as err:
         print(f"Error running semgrep command: {err}")
         exit()
@@ -110,7 +109,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     # No of vulnerabilities found
     vulns_len = len(results)
 
-    # No of POCs
+    # No of POCs (to be done after dynamic scan)
     # no_of_pocs =
 
     soup.find(id="scanned-folder").string = scanned_dir
@@ -120,13 +119,15 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     soup.find(id="manifest-version").string = manifest_version
     soup.find(id="vulns").string = str(vulns_len) + " found"
 
+    
     # html_pocs = soup.find(id="pocs")
     # html_pocs.string =
 
     # append semgrep info to report
     if vulns_len == 0:
-        # no static results
+
         print("extension sibei secure")
+        # no static results
         add = f"""
             <div class="card m-auto static-none border-success">
                 <div class="card-header none-header">Result</div>
@@ -139,7 +140,18 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="static-main").append(add_parsed)
 
-        # add no results for dynamic too?
+        # no dynamic results
+        add = f"""
+            <div class="card m-auto dynamic-none border-success">
+                <div class="card-header none-header">Result</div>
+                <div class="card-body">
+                    <h5 class="card-title">No POCs generated</h5>
+                    <p class="card-text">Our tool did not find any payloads that can exploit potential vulnerabilities in the code.</p>
+                </div>
+            </div>"""
+        
+        add_parsed = BeautifulSoup(add, "html.parser")
+        soup.find(id="dynamic-main").append(add_parsed)
 
     else:
         # loop through & append 1 card for each result
@@ -163,9 +175,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             source_line_no = dataflow_trace["taint_source"][1][0]["start"]["line"]
             sink_line_no = dataflow_trace["taint_sink"][1][0]["start"]["line"]
 
-            # print("Source Line: " + str(source_line_no))
-            # print("Sink Line: " + str(sink_line_no))
-
             # get source and sink lines
             vulnerable_lines = {}
             with vuln_file.open("r") as f:
@@ -179,8 +188,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             source_line = vulnerable_lines.setdefault("source_line", "")
             sink_line = vulnerable_lines.setdefault("sink_line", "")
             line_diff = abs(source_line_no - sink_line_no)
-            # print(vulnerable_lines)
-            # print("line diff: ", line_diff)
 
             # check if:
             # 3. line difference < 1?
@@ -323,6 +330,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             add_parsed = BeautifulSoup(add, "html.parser")
             soup.find(id="static-main").append(add_parsed)
 
+            # Move on to append next result
             result_no += 1
 
     # Initialise report name
@@ -422,4 +430,4 @@ if __name__ == "__main__":
         static_analysis(extension, soup)
 
         # Start dynamic analysis
-        dynamic_analysis(extension)
+        # dynamic_analysis(extension)
