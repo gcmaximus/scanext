@@ -111,9 +111,11 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
     # to code further 
     except KeyboardInterrupt:
-        print()
+        
+        spinner_running = False
         spinner_thread.join()
-        print('Scan terminated.')
+        print()
+        print(f'Skipping scan for {scanned_dir}.')
         return
 
     # read the static results
