@@ -4,7 +4,7 @@ import subprocess
 from email.utils import formatdate
 from pathlib import Path
 from zipfile import ZipFile
-import random
+import sys
 import time
 import threading
 
@@ -105,10 +105,13 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
         
         print("Static analysis complete.")
     except subprocess.CalledProcessError as err:
+        print()
         print(f"Error running semgrep command: {err}")
         exit()
     except KeyboardInterrupt:
-        print('Stopped')
+        print()
+        print('Scan terminated.')
+        sys.exit()
 
     # read the static results
     with open(output_file, "r") as static_result_file:
