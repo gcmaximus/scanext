@@ -4,9 +4,9 @@ import subprocess
 from email.utils import formatdate
 from pathlib import Path
 from zipfile import ZipFile
-import sys
 import time
 import threading
+import html
 
 import jsbeautifier
 from bs4 import BeautifulSoup
@@ -393,27 +393,212 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
         soup.find(id="dynamic-main").append(add_parsed)
     else:
 
+
         logs_obj = []
-        
         for log in logs:
+            # print('original log: ', log)
             log = json.loads(log)
-            
-            # Filter by outcome (only want SUCCESS)
-            if log['outcome'] == 'FAILURE':
-                pass
-            else:
-                logs_obj.append(log)
+            # print('modified log: ', log)
+            # print()
+            # print(type(log['packetInfo']))
+            # print(log['packetInfo'])
+            # input()
+
+            # log['packetInfo'] = json.dumps()
+
+
+            logs_obj.append(log)
 
         # Sort by source (window.name, etc.)
-        sorted_logs = sorted(logs_obj, key=lambda x: x['source'])
-        
-        # Sort by payload type
-        sorted_logs = sorted(sorted_logs, key=lambda x: x['payloadType'])
+        source_sorted_logs = sorted(logs_obj, key=lambda x: x['source'])
 
-        # Retrive info
-        for log in sorted_logs:
-            print(log)
-            input()
+
+        # creating dict of key(source) to value (list of objs with source)
+
+        separated_objects = {}
+
+        for obj in source_sorted_logs:
+            source = obj['source']
+
+            if source not in separated_objects:
+                separated_objects[source] = []
+
+            separated_objects[source].append(obj)
+
+
+        '''
+        {
+            'window.name': [
+                {'name': 'Object 1', 'source': 'window.name'},
+                {'name': 'Object 3', 'source': 'window.name'}
+            ],
+            'location.hash': [
+                {'name': 'Object 2', 'source': 'location.hash'},
+                {'name': 'Object 4', 'source': 'location.hash'}
+            ]
+        }
+        '''
+
+        for source in separated_objects:
+
+            results = separated_objects[source]
+
+            # retrieve information for one source
+            payload_list = results[0]['payload_fileName']
+            tested_payloads = len(results)
+
+            # Filter by outcome (only want SUCCESS)
+            success_results = []
+            for result in results:
+                if result['outcome'] != 'SUCCESS':
+                    pass
+                else:
+                    success_results.append(result)
+
+            success_payloads = len(success_results)
+
+            # print(payload_list)
+            # print(tested_payloads)
+            # print(success_payloads)
+
+
+            payload_table = ''
+            result_no = 1
+            for result in success_results:
+
+                # Retrieve information
+                payload = html.escape(result['payload'])
+                url = result['Url']
+                time_of_injection = result['timeOfInjection']
+                time_of_alert = result['timeOfAlert']
+
+                # Format packet info for payloadType:"server"
+                payload_type = result['payloadType']
+                packet_info = result['packetInfo']
+
+                if payload_type == 'server':
+                    # print('packet_info: ', packet_info)
+                    # print('type: ', type(packet_info))
+
+                    packet_info_obj = json.loads(packet_info)
+                    
+                    # print(packet_info_obj)
+
+                    packet_info = ""
+                    for key in packet_info_obj:
+                        packet_info += f'<b>{key}</b>: {packet_info_obj[key]}<br>'
+                        # if key == ''
+
+                    # packet_info = html.escape(packet_info)
+
+
+
+
+
+                    print('packetinfo: ', packet_info)
+                    
+                else:
+                    packet_info = "N.A."
+
+                payload_table += f'''
+<tr>
+    <th scope="row" id="payload-no-1">{result_no}</th>
+    <td class="consolas" id="payload-1">{payload}</td>
+    <td class="consolas" id="payload-url-{result_no}">{url}</td>
+    <td id="payload-start-{result_no}">{time_of_injection}</td>
+    <td id="payload-end-{result_no}">{time_of_alert}</td>
+    <td id="payload-packet-info={result_no}">{packet_info}</td>
+</tr>
+'''
+
+
+
+            add = f'''
+<!-- Source -->
+<div class="card dynamic-result">
+    <div class="card-header">
+        <i class="fa fa-flag-checkered" style="font-size:20px"></i> <span
+            style="font-size: 18px"><b>Source:</b> {source}</span>
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+        <div class="row dynamic-info">
+
+            <div class="row">
+                <!-- Payload List -->
+                <div class="col-4">
+                    <i class="dynamic-info-icons fa fa-file-text-o" style="font-size:36px;"></i>
+                    <h5><b>Payload list:</b></h5>
+                    <code><u id="payload-list">{payload_list}</u></code>
+                </div>
+
+                <!-- No. of tested payloads -->
+                <div class="col-4">
+                    <i class="dynamic-info-icons fa fa-bomb" style="font-size:36px;"></i>
+                    <h5><b>Tested:</b></h5>
+                    <code><u id="tested-payloads">{tested_payloads} payloads</u></code>
+                </div>
+
+                <!-- No. of successful payloads -->
+                <div class="col-4">
+                    <i class="dynamic-info-icons fa fa-bug" style="font-size:36px;"></i>
+                    <h5><b>Successful:</b></h5>
+                    <code><u id="success-payloads">{success_payloads} payloads</u></code>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <!-- List of successful payloads -->
+                <table class="table table-bordered border-dark payload-table">
+                    <thead>
+                        <tr class="table-head">
+                            <th scope="col">#</th>
+                            <th scope="col">Payload</th>
+                            <th scope="col">URL where payload was injected</th>
+                            <th scope="col">Time of Injection</th>
+                            <th scope="col">Time of Success</th>
+                            <th scope="col">Packet Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    {payload_table}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+
+
+
+
+        </p>
+
+    </div>
+</div>
+'''
+            add_parsed = BeautifulSoup(add, "html.parser")
+            soup.find(id="dynamic-main").append(add_parsed)
+
+            result_no += 1
+
+        # Initialise report name
+        report_path = Path(
+            f"SHARED/REPORTS/{extension.name} ({scan_start.replace(':','-')}).html"
+        )
+
+        with open(report_path, "w") as file:
+            file.write(str(soup))
+
+        print(f"Report generated at `{report_path}`")
+            
+            
+            
 
 
 
