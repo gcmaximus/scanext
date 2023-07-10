@@ -107,6 +107,8 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     except subprocess.CalledProcessError as err:
         print(f"Error running semgrep command: {err}")
         exit()
+    except KeyboardInterrupt:
+        print('Stopped')
 
     # read the static results
     with open(output_file, "r") as static_result_file:
