@@ -492,6 +492,10 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
                     # packet_info = html.escape(packet_info)
 
 
+                    #########################################
+                    #            CONTINUE HERE              #
+                    #########################################
+
 
 
 
