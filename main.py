@@ -108,10 +108,13 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
         print()
         print(f"Error running semgrep command: {err}")
         exit()
+
+    # to code further 
     except KeyboardInterrupt:
         print()
+        spinner_thread.join()
         print('Scan terminated.')
-        sys.exit()
+        return
 
     # read the static results
     with open(output_file, "r") as static_result_file:
