@@ -109,7 +109,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
         print(f"Error running semgrep command: {err}")
         exit()
 
-    # to code further 
+    # Skip scan for current folder
     except KeyboardInterrupt:
         
         spinner_running = False
@@ -158,7 +158,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     # append semgrep info to report
     if vulns_len == 0:
 
-        print("extension sibei secure")
         # no static results
         add = f"""
             <div class="card m-auto static-none border-success">
@@ -366,9 +365,55 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     print(f"Report generated at `{report_path}`")
 
 
-def dynamic_analysis(extension: Path):
-    dynamic()
-    pass
+def dynamic_analysis(extension: Path, soup: BeautifulSoup):
+
+    # i comment out first 
+    # dynamic()
+    
+    # Retrieve information from log file
+    dynamic_logfile = 'DYNAMIC_ANALYSIS/sample_logfile.txt'
+    with open(dynamic_logfile, 'r') as f:
+        logs = f.readlines()
+
+    # No of logs for all sources
+    log_len = len(logs)
+
+    if log_len == 0:
+        # no dynamic results
+        add = f"""
+            <div class="card m-auto dynamic-none border-success">
+                <div class="card-header none-header">Result</div>
+                <div class="card-body">
+                    <h5 class="card-title">No POCs generated</h5>
+                    <p class="card-text">Our tool did not find any payloads that can exploit potential vulnerabilities in the code.</p>
+                </div>
+            </div>"""
+        
+        add_parsed = BeautifulSoup(add, "html.parser")
+        soup.find(id="dynamic-main").append(add_parsed)
+    else:
+
+        logs_obj = []
+        
+        for log in logs:
+            log = json.loads(log)
+            
+            # Filter by outcome (only want SUCCESS)
+            if log['outcome'] == 'FAILURE':
+                pass
+            else:
+                logs_obj.append(log)
+
+        # Sort by source (window.name, etc.)
+        sorted_logs = sorted(logs_obj, key=lambda x: x['source'])
+        
+        # Sort by payload type
+        sorted_logs = sorted(sorted_logs, key=lambda x: x['payloadType'])
+
+        # Retrive info
+        for log in sorted_logs:
+            print(log)
+            input()
 
 
 
@@ -393,7 +438,7 @@ if __name__ == "__main__":
         soup.find(id="scan-date").string = scan_start
 
         # Start static analysis
-        static_analysis(extension, soup)
+        # static_analysis(extension, soup)
 
         # Start dynamic analysis
-        # dynamic_analysis(extension)
+        dynamic_analysis(extension, soup)
