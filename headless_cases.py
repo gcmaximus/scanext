@@ -553,14 +553,18 @@ def localserver():
     server()
 
 
-def main():
+def main(extension_path, semgrep_results_path):
     # preconfiguration (set active to false)
     preconfigure('ad')
 
+    # Can remove when done this main integrated with whole main.py
+    extension_path = 'EXTENSIONS/h1-replacer(v3)contextMenu'
+    semgrep_results_path = 'j.json'
     # Run program
     with Display() as disp:
         print(disp.is_alive())
-        initialise_headless('EXTENSIONS/h1-replacer(v3)contextMenu',"j.json")
+
+        initialise_headless(extension_path,semgrep_results_path)
 
 if __name__ == '__main__':
     main()

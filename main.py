@@ -140,9 +140,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     # No of vulnerabilities found
     vulns_len = len(results)
 
-    # No of POCs (to be done after dynamic scan)
-    # no_of_pocs =
-
     soup.find('title').string += f' - {scanned_dir}'
 
     soup.find(id="scanned-folder").string = scanned_dir
@@ -150,10 +147,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     soup.find(id="ext-version").string = ext_version
     soup.find(id="manifest-version").string = manifest_version
     soup.find(id="vulns").string = str(vulns_len) + " found"
-
-
-    # html_pocs = soup.find(id="pocs")
-    # html_pocs.string =
 
     # append semgrep info to report
     if vulns_len == 0:
@@ -372,16 +365,13 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
     
     # Retrieve information from log file
     logs_obj = []
+
+    # to change during integration
     dynamic_logfile = 'DYNAMIC_ANALYSIS/sample_logfile.txt'
+
     with open(dynamic_logfile, 'r') as f:
-        # logs = f.readlines()
         for line in f:
             logs_obj.append(json.loads(line))
-
-
-
-    # for log in logs:
-    #     log = json.loads(log)
 
     # Sort by source (window.name, etc.)
     source_sorted_logs = sorted(logs_obj, key=lambda x: x['source'])
@@ -400,14 +390,10 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
             source_dict["results"].append(obj)
             source_dict["total success"] += 1
             succ_counter += 1
+
+    # Update no. of POCs found
+    soup.find(id='pocs').string = str(succ_counter) + ' found'
     
-
-        # if source not in separated_objects:
-        #     separated_objects[source] = []
-
-        # separated_objects[source].append(obj)
-
-
     '''
     {
         'window.name': [
@@ -421,21 +407,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
     }
     '''
 
-
-
-    # # Filter by outcome (only want SUCCESS)
-    # success_results = []
-    # for result in results:
-    #     if result['outcome'] != 'SUCCESS':
-    #         pass
-    #     else:
-    #         success_results.append(result)
-
-    # success_payloads = len(success_results)
-
     if succ_counter == 0:
-        print("no dynamic results")
-
         # no dynamic results
         add = f"""
             <div class="card m-auto dynamic-none border-success">
@@ -450,6 +422,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
         soup.find(id="dynamic-main").append(add_parsed)
 
     else: 
+        # loop through dynamic results
         add = ""
         source_no = 1
         for source in separated_objects:
@@ -467,8 +440,6 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
             payload_table = ''
             
             for i, result in enumerate(results):
-                print(i)
-                input()
 
                 # Retrieve information
                 payload = html.escape(result['payload'])
@@ -488,7 +459,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
 
                 if payload_type == 'server':
 
-                    print('packet_info: ', packet_info)
+                    # print('packet_info: ', packet_info)
                     packet_info_obj = packet_info[0]
                     
                     # print(packet_info_obj)
@@ -612,7 +583,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
             
             
             
-            print('source_no: ', source_no)
+            # print('source_no: ', source_no)
             
             # limit to display 3 payloads 
 
@@ -664,13 +635,10 @@ if __name__ == "__main__":
         scan_start = formatdate(localtime=True)
 
         # Update scan date in report
-        # html_scan_date = soup.find(id="scan-date")
-        # assert type(html_scan_date) == Tag
-        # html_scan_date.string = scan_start
         soup.find(id="scan-date").string = scan_start
 
         # Start static analysis
-        # static_analysis(extension, soup)
+        static_analysis(extension, soup)
 
         # Start dynamic analysis
         dynamic_analysis(extension, soup)
