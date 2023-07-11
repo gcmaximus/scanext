@@ -11,7 +11,128 @@ import hashlib
 import time
 import os
 
+import json
+import logging
+from datetime import datetime
+
+
+
+
+# Logging framework
+# Logging framework
+# Logging framework
+
+def setup_logger(log_file):
+    # Create a logger
+    logger = logging.getLogger()
+    logger.setLevel(logging.ERROR)
+
+    # Create a file handler and set the log level
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(logging.CRITICAL)
+
+    # Create a formatter and add it to the handlers
+    log_format = '%(message)s'
+    formatter = logging.Formatter(log_format)
+    file_handler.setFormatter(formatter)
+
+    # Add the handlers to the logger
+    logger.addHandler(file_handler)
+
+    return logger
+
+logger = setup_logger('PENETRATION_LOG.txt')
+
+
+def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
+    # Convert sets to lists
+    payload = str(payload)
+    packet_info = str(packet_info)
+
+    payload_log = {
+        "outcome": outcome,
+        "source": source,
+        "extensionId": extension_id,
+        "extensionName": extension_name,
+        "Url": url_of_website,
+        "payloadType": payload_type,
+        "payload": payload,
+        "timeOfInjection": time_of_injection,
+        "timeOfAlert": time_of_alert,
+        "payload_fileName": payload_filename,
+        "packetInfo": packet_info
+    }
+
+    log_message = json.dumps(payload_log)
+    logger.critical(log_message)
+
+# Logging framework
+# Logging framework
+# Logging framework
+
+
+
 def initialize(path_to_extension):
+    # obtain relevant extension information'
+    def get_ext_id(path_to_extension):
+        abs_path = path.abspath(path_to_extension)
+        m = hashlib.sha256()
+        m.update(abs_path.encode("utf-8"))
+        ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
+        url_path = f"chrome-extension://{ext_id}/popup.html"
+        return url_path, abs_path, ext_id
+    
+    def payloads(path_to_payload):
+        payload_array = []
+        try:
+            with open(path_to_payload, 'r') as file:
+                # Read the contents of the file
+                for line in file:
+                    payload = line.rstrip('\n')
+                    payload_array.append(payload)
+        except FileNotFoundError:
+            print("File not found.")
+        except IOError:
+            print("An error occurred while reading the file.")
+        
+        return payload_array
+
+    url_path, abs_path, ext_id = get_ext_id(path_to_extension)
+    payloads = payloads('payloads/extra_small_payload.txt')
+
+    # initialize selenium and load extension
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option('detach', True)
+    load_ext_arg = "load-extension=" + abs_path
+    options.add_argument(load_ext_arg)
+    options.add_argument("--enable-logging")
+    driver = webdriver.Chrome('./chromedriver', options=options)
+
+
+
+    # case 1:
+    # window_name(driver, ext_id, url_path, payloads)
+    window_name_new(driver, ext_id, url_path, payloads)
+
+    # case 2:
+    # location_href(driver, ext_id, url_path, payloads)
+    # location_href_new(driver, ext_id, url_path, payloads)
+
+    # case 3:
+    # context_menu(driver, ext_id, url_path, payloads)
+
+    # case 4: (still doing)
+
+    # case 5: 
+    # chromeTabsQuery(driver, ext_id, url_path, payloads)
+
+    # case 6:
+    # locationSearch(driver, ext_id, url_path, payloads)
+
+    # case 7:
+    # windowAddEventListenerMessage(driver, ext_id, url_path, payloads)
+
+def initialize_with_dev_tools(path_to_extension):
     # obtain relevant extension information'
     def get_ext_id(path_to_extension):
         abs_path = path.abspath(path_to_extension)
@@ -45,38 +166,20 @@ def initialize(path_to_extension):
     load_ext_arg = "load-extension=" + abs_path
     options.add_argument(load_ext_arg)
     options.add_argument("--enable-logging")
+    # options.add_argument("auto-open-devtools-for-tabs") ### OPEN DEV TOOLS
     driver = webdriver.Chrome('./chromedriver', options=options)
 
 
-
-    # case 1:
-    # window_name(driver, abs_path, url_path, payloads)
-    window_name_new(driver, abs_path, url_path, payloads)
-
-    # case 2:
-    # location_href(driver, abs_path, url_path, payloads)
-    # location_href_new(driver, abs_path, url_path, payloads)
-
-    # case 3:
-    # context_menu(driver, abs_path, url_path, payloads)
-
-    # case 4: (still doing)
-
-    # case 5: 
-    # chromeTabsQuery(driver, abs_path, url_path, payloads)
-
-    # case 6:
-    # locationSearch(driver, abs_path, url_path, payloads)
-
-    # case 7:
-    # windowAddEventListenerMessage(driver, abs_path, url_path, payloads)
+    # case 8: 
+    # run function direclty (changes made when initlising driver)
+    chromeDebuggerGetTargets(driver, abs_path, url_path, payloads)
 
 ################
 # Case Scenario#
 ################
 
 # 1) Window_name
-def window_name(driver, abs_path, url_path, payloads):
+def window_name(driver, ext_id, url_path, payloads):
 
     # get www.example.com
     driver.get('https://www.example.com')
@@ -108,7 +211,13 @@ def window_name(driver, abs_path, url_path, payloads):
         except TimeoutException:
             print('= No alerts detected =')
 
-def window_name_new(driver, abs_path, url_path, payloads):
+def window_name_new(driver, ext_id, url_path, payloads):
+    source = 'window.name'
+    ext_id = ext_id
+    url_of_injection_example = 'https://www.example.com'
+    url_of_injection_extension = url_path
+    payload_file = 'small_payload.txt'
+
     try:
         # Navigate to example.com
         driver.get('https://www.example.com')
@@ -136,6 +245,10 @@ def window_name_new(driver, abs_path, url_path, payloads):
 
             try:
                 driver.execute_script(f'window.name = `{payload}`;')
+
+                # get time of injection
+                time_of_injection = datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+
             except Exception as e:
                 print(' !!!! PAYLOAD FAILLED !!!!')
                 print('Error: ', str(e))
@@ -148,8 +261,15 @@ def window_name_new(driver, abs_path, url_path, payloads):
                 alert = driver.switch_to.alert
                 alert.accept()
                 print('[example] + Alert Detected +')
+
+                # get time of success [1) example]
+                time_of_success = datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil')
+            
             except TimeoutException:
                 print('[example] = No alerts detected =')
+                payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil')
+
                 
 
             driver.switch_to.window(extension)
@@ -162,22 +282,35 @@ def window_name_new(driver, abs_path, url_path, payloads):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
+
                 print('[extension] + Alert Detected +')
+
+                # get time of success [2) extension]
+                time_of_success = datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_extension, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil')
+
             except TimeoutException:
                 print('[extension] = No alerts detected =')
+                payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_extension, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil')
+
 
             driver.switch_to.window(example)
 
-            # check for alerts in example after refreshing extension
+            # check for alerts in example
             try:
                 # wait 2 seconds to see if alert is detected
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
                 print('[example] + Alert Detected +')
+
+                # get time of success [1) example]
+                time_of_success = datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil')
             except TimeoutException:
                 print('[example] = No alerts detected =')
 
+                payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil')
 
             try: 
                 # check modifications for example.com
@@ -208,7 +341,7 @@ def window_name_new(driver, abs_path, url_path, payloads):
         print("An error occurred:", str(e))
 
 # 2) Location_href
-def location_href(driver, abs_path, url_path, payloads):
+def location_href(driver, ext_id, url_path, payloads):
     # get www.example.com
     driver.get('https://www.example.com')
     # set handler for example.com
@@ -243,7 +376,7 @@ def location_href(driver, abs_path, url_path, payloads):
         except:
             print('Payload failed')
 
-def location_href_new(driver, abs_path, url_path, payloads):
+def location_href_new(driver, ext_id, url_path, payloads):
     try:
         # Navigate to example.com
         driver.get('https://www.example.com')
@@ -275,7 +408,7 @@ def location_href_new(driver, abs_path, url_path, payloads):
 
                 if j == 0:
                     try:
-                        driver.execute_script(f"loca1tion.href = `https://www.example.com/?p={payload}`")
+                        driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
                     except Exception as e:
                         print(' !!!! PAYLOAD FAILLED !!!!')
                         print('Error: ', str(e))
@@ -289,7 +422,9 @@ def location_href_new(driver, abs_path, url_path, payloads):
                         print('Error: ', str(e))
                         continue
 
-                # check for alerts in example
+                # observe behavior after payload injection
+
+                # 1) Check for alerts in example
                 try:
                     # wait 2 seconds to see if alert is detected
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
@@ -299,10 +434,8 @@ def location_href_new(driver, abs_path, url_path, payloads):
                 except TimeoutException:
                     print('[example] = No alerts detected =')
 
-
+                # 2) Check for alerts in extensions
                 driver.switch_to.window(extension)
-
-                # check for alerts in extensions
                 try:
                     # wait 2 seconds to see if alert is detected
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
@@ -313,7 +446,7 @@ def location_href_new(driver, abs_path, url_path, payloads):
                     print('[extension] = No alerts detected =')
 
                 
-                # check for alerts in example after refreshing extension
+                # 3) Check for alerts in example after refreshing extension
                 driver.refresh()
                 driver.switch_to.window(example)
 
@@ -357,7 +490,7 @@ def location_href_new(driver, abs_path, url_path, payloads):
         print("An error occurred:", str(e))
 
 # 3) Context_Menu
-def context_menu(driver, abs_path, url_path, payloads):
+def context_menu(driver, ext_id, url_path, payloads):
     from selenium.webdriver.common.action_chains import ActionChains
     from pynput.keyboard import Controller, Key
     import urllib.parse
@@ -370,9 +503,6 @@ def context_menu(driver, abs_path, url_path, payloads):
 
     # Selection Text [GUI]
     def context_menu_selectionText():
-        from selenium.webdriver.common.action_chains import ActionChains
-        from pynput.keyboard import Controller, Key
-
         # get www.example.com
         driver.get('file:///home/showloser/localhost/dynamic/miscellaneous/xss_website.html')
         # set handler for example.com
@@ -419,7 +549,147 @@ def context_menu(driver, abs_path, url_path, payloads):
             except TimeoutException:
                 print('= No alerts detected =')
 
-        time.sleep(2)
+
+    def context_menu_selectionText_new():
+        
+        try:
+            # get www.example.com
+            driver.get('file:///home/showloser/localhost/dynamic/miscellaneous/xss_website.html')
+            # set handler for example.com
+            example = driver.current_window_handle
+
+            # Wait up to 5 seconds for the title to become "Xss Website"
+            title_condition = EC.title_is('Xss Website')
+            WebDriverWait(driver, 5).until(title_condition)
+
+            # get page source code of example.com
+            example_source_code = driver.page_source
+
+            # get extension popup.html
+            driver.switch_to.new_window('tab')
+            extension = driver.current_window_handle
+            driver.get(url_path)
+
+            # get page source code of extension
+            extension_source_code = driver.page_source
+
+
+            for payload in payloads:
+                
+                # change to example tab
+                driver.switch_to.window(example)
+
+                try:
+                    # using javascript, change the value of selectionText of predefined web element
+                    driver.execute_script(f'document.getElementById("h1_element").innerText = `{payload}`')
+                except Exception as e:
+                    print(' !!!! PAYLOAD FAILLED !!!!')
+                    print('Error: ', str(e))
+                    continue
+
+                # find h1_element to begin using extension
+                target_element = driver.find_element(By.ID, 'h1_element')
+
+                try:
+                    # Select the text using JavaScript
+                    driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
+                except Exception as e:
+                    print(' !!!! Error Selecting Text !!!!')
+                    print('Error: ', str(e))
+                    continue
+
+                
+                # usage of context menu
+                try:
+                    # perform right click to open context menu
+                    actions = ActionChains(driver)
+                    actions.context_click(target_element).perform()
+
+                    # navigate to extension context menu option
+                    keyboard = Controller()
+                    for _ in range(6):  
+                        # Press the arrow key down
+                        keyboard.press(Key.down)
+                        # Release the arrow key
+                        keyboard.release(Key.down)
+
+                    # Press the Enter key
+                    keyboard.press(Key.enter)
+                    # Release the Enter key
+                    keyboard.release(Key.enter)
+                except Exception as e:
+                    print(' !!!! Error using Context Menu !!!!')
+                    print('Error: ', str(e))
+                    continue
+
+                
+                # observe behavior after payload injection
+                # 1) Check for alerts in example.com
+                driver.switch_to.window(example)
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    print('+ Alert Detected +')
+                except TimeoutException:
+                    print('= No alerts detected =')
+                        
+                # 2) Check for alerts in extension
+                driver.switch_to.window(extension)
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    print('[extension] + Alert Detected +')
+                except TimeoutException:
+                    print('[extension] = No alerts detected =')
+                    
+                # 3) Check for alerts in example after refreshing extension
+                driver.refresh()
+                driver.switch_to.window(example)
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    print('[example] + Alert Detected +')
+                except TimeoutException:
+                    print('[example] = No alerts detected =')
+
+
+                # check for any modifications (snapshot back to original)
+                try: 
+                    # [1] check modifications for example.com
+                    driver.switch_to.window(example)
+                    if example_source_code != driver.page_source:
+                        driver.get("https://www.example.com")
+                        print("Navigated back to 'https://www.example.com' due to page source changes")
+
+                except:
+                    print('error')
+
+
+                try: 
+                    # [2] check modifications for extension
+                    driver.switch_to.window(extension)
+                    if extension_source_code != driver.page_source:
+                        driver.get(url_path)
+                        print(f"Navigated back to '{url_path}' due to extension page source changes")
+
+                except:
+                    print('error')
+
+        except TimeoutException:
+            # Handle TimeoutException when title condition is not met
+            print("Timeout: Title was not resolved to 'Example Domain'")
+
+        except Exception as e:
+            # Handle any other exceptions that occur
+            print("An error occurred:", str(e))
+
+
 
     # Selection Text [Headless]
     def context_menu_selectionText_headless():
@@ -798,7 +1068,7 @@ def context_menu(driver, abs_path, url_path, payloads):
  
 
 # 4) onConnect (Hvt do)
-def onConnect(driver,abs_path, url_path, paylaods):
+def onConnect(driver,ext_id, url_path, paylaods):
     print('in progress')
     payload = '''
     const extId = "lghkoafcpkdkfgmdfobfcdcgeijohgnj";
@@ -807,7 +1077,7 @@ def onConnect(driver,abs_path, url_path, paylaods):
     '''
 
 # 5) chromeTabsQuery
-def chromeTabsQuery(driver,abs_path, url_path, payloads, variable_to_change=1):
+def chromeTabsQuery(driver,ext_id, url_path, payloads, variable_to_change=1):
     properties = ['favIconUrl', 'sessionId', 'title', 'url']
 
     def chromeTabQuery_title():
@@ -1021,9 +1291,8 @@ def chromeTabsQuery(driver,abs_path, url_path, payloads, variable_to_change=1):
     # case 3 favIconUrl
     # chromeTabQuery_favIconUrl()
 
-
 # 6) location.search
-def locationSearch(driver, abs_path, url_path, payloads):
+def locationSearch(driver, ext_id, url_path, payloads):
 
     # get www.example.com
     driver.get('https://www.example.com')
@@ -1055,9 +1324,8 @@ def locationSearch(driver, abs_path, url_path, payloads):
         except TimeoutException:
             print('= No alerts detected =')
 
-
 # 7) window.addEventListerner.message
-def windowAddEventListenerMessage(driver, abs_path, url_path, payloads):
+def windowAddEventListenerMessage(driver, ext_id, url_path, payloads):
     # PAYLOAD: 
     # postMessage({ message: "<img src=x onerror=alert(1)>" }, "*")
     
@@ -1116,21 +1384,27 @@ def windowAddEventListenerMessage(driver, abs_path, url_path, payloads):
             print('= No alerts detected =')
 
 
+# 8) chrome.debugger.getTargets
+def chromeDebuggerGetTargets(driver, ext_id, url_path, payloads):
+    from selenium.webdriver.common.action_chains import ActionChains
+    from selenium.webdriver.common.keys import Keys
+
+    # entry points:
+    # 1) title
+    # 2) url
+    # 3) faviconUrl
+
+    # get www.example.com
+    driver.get('https://www.example.com')
+    # set handler for example.com
+    example = driver.current_window_handle
+
+
+    driver.execute_cdp_cmd("Inspector.enable", {"tabId": example})
 
 
 
 
-# # Main Program #
-# initialize('Extensions/gtranslate')
-
-initialize('Extensions/h1-replacer/h1-replacer(v3)_window.name')
-# initialize('Extensions/h1-replacer/h1-replacer(v3)_location.href')
-
-# initialize('Extensions/h1-replacer/h1-replacer_button_paradox')
-# initialize('Extensions/h1-replacer/h1-replacer(v3)_context_menu')
-# initialize('Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query')
-# initialize('Extensions/h1-replacer/h1-replacer(v3)_location_search')
-# initialize('Extensions/h1-replacer/h1-replacer(v3)_window.addEventListernerMessage')
 
 
 
@@ -1263,4 +1537,13 @@ def button_input_paradox():
 
 
 
-
+# # Main Program #
+# initialize('Extensions/gtranslate')
+initialize('Extensions/h1-replacer/h1-replacer(v3)_window.name')
+# initialize('Extensions/h1-replacer/h1-replacer(v3)_location.href')
+# initialize('Extensions/h1-replacer/h1-replacer_button_paradox')
+# initialize('Extensions/h1-replacer/h1-replacer(v3)_context_menu')
+# initialize('Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query')
+# initialize('Extensions/h1-replacer/h1-replacer(v3)_location_search')
+# initialize('Extensions/h1-replacer/h1-replacer(v3)_window.addEventListernerMessage')
+# initialize_with_dev_tools('Extensions/h1-replacer/h1-replacer(v3)_chromeDebuggerGetTarget')
