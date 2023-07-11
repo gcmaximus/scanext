@@ -47,7 +47,7 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
 
 
 import requests
-server_info: list = requests.get("http://127.0.0.1:8000/data").json()["data"]
+server_info: list = requests.get("http://127.0.0.1:8000/data").json()["data"][0]
 
 # server_info = json.loads(server_info)
 # payload_normal_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'normal','<img src=x onerror=alert("normal_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', 'nil')
