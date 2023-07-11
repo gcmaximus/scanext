@@ -213,6 +213,16 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             sink_line = vulnerable_lines.setdefault("sink_line", "")
             line_diff = abs(source_line_no - sink_line_no)
 
+            # read config.json - get number of adjacent lines
+
+            #################################################
+            #         TO DO: READ CONFIG FILE, SHOW         #
+            #    n lines before source, n lines after sink  #
+            #################################################
+
+            
+
+
             # check if:
             # 3. line difference < 1?
             code_segment = ""
@@ -453,39 +463,21 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
                 time_of_injection = result['timeOfInjection']
                 time_of_alert = result['timeOfAlert']
 
-                # print('we gucci')
-
                 # Format packet info for payloadType:"server"
                 payload_type = result['payloadType']
                 packet_info_obj = result['packetInfo'][0]
 
-                # print(type(packet_info))
-
-                # input()
-
                 if payload_type == 'server':
-
-                    # # print('packet_info: ', packet_info)
-                    # packet_info_obj = packet_info[0]
-                    
-                    # print(packet_info_obj)
 
                     packet_info = ""
                     for key in packet_info_obj:
                         packet_info += f'<p><b>{key}</b>: {packet_info_obj[key]}</p><br>'
-                        # if key == ''
 
-                    # packet_info = html.escape(packet_info)
-
-
-                    #########################################
-                    #            CONTINUE HERE              #
-                    #########################################
+                        #########################################
+                        #            DO NICER STYLING           #
+                        #########################################
 
 
-
-
-                    # print('packetinfo: ', packet_info)
                     
                 else:
                     packet_info = "N.A."
