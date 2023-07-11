@@ -481,12 +481,14 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
                     # print('type: ', type(packet_info))
 
                     packet_info_obj = json.loads(packet_info)
+                    print('obj: ', packet_info_obj)
+                    input()
                     
                     # print(packet_info_obj)
 
                     packet_info = ""
                     for key in packet_info_obj:
-                        packet_info += f'<b>{key}</b>: {packet_info_obj[key]}<br>'
+                        packet_info += f'<p><b>{key}</b>: {packet_info_obj[key]}</p><br>'
                         # if key == ''
 
                     # packet_info = html.escape(packet_info)
@@ -505,15 +507,43 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
                     packet_info = "N.A."
 
                 payload_table += f'''
-<tr>
-    <th scope="row" id="payload-no-1">{result_no}</th>
-    <td class="consolas" id="payload-1">{payload}</td>
-    <td class="consolas" id="payload-url-{result_no}">{url}</td>
-    <td id="payload-start-{result_no}">{time_of_injection}</td>
-    <td id="payload-end-{result_no}">{time_of_alert}</td>
-    <td id="payload-packet-info={result_no}">{packet_info}</td>
-</tr>
+<!-- Payload Info -->
+
+<h5 id="payload-no-1">Payload #{result_no}</h5>
+<table class="table border-dark payload-table mb-3">
+    <tbody>
+        <tr class="table-head">
+            <th>Payload</th>
+            <th>URL where payload was injected</th>
+        </tr>
+
+        <tr>
+            <td id="payload-{result_no}" class="consolas">{payload}</td>
+            <td id="payload-url-{result_no}" class="consolas">{url}</td>
+        </tr>
+
+        <tr class="table-head">
+            <th>Time of Injection</th>
+            <th>Time of Alert</th>
+        </tr>
+
+        <tr>
+            <td id="payload-start-{result_no}">{time_of_injection}</td>
+            <td id="payload-end-{result_no}">{time_of_alert}</td>
+        </tr>
+
+        <tr class="table-head">
+            <th colspan="2">Packet Info</th>
+        </tr>
+
+        <tr>
+            <td colspan="2" id="payload-packet-info-{result_no}">{packet_info}</td>
+        </tr>
+    </tbody>
+
+</table>
 '''
+                result_no += 1
 
 
 
@@ -553,26 +583,11 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
 
 
 
-            <div class="row">
-                <!-- List of successful payloads -->
-                <table class="table table-bordered border-dark payload-table">
-                    <thead>
-                        <tr class="table-head">
-                            <th scope="col">#</th>
-                            <th scope="col">Payload</th>
-                            <th scope="col">URL where payload was injected</th>
-                            <th scope="col">Time of Injection</th>
-                            <th scope="col">Time of Success</th>
-                            <th scope="col">Packet Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="row table-row">
 
-                    {payload_table}
 
-                    </tbody>
+            {payload_table}
 
-                </table>
 
             </div>
         </div>
@@ -589,7 +604,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
             add_parsed = BeautifulSoup(add, "html.parser")
             soup.find(id="dynamic-main").append(add_parsed)
 
-            result_no += 1
+            
 
         # Initialise report name
         report_path = Path(

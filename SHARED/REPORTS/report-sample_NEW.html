@@ -85,7 +85,6 @@
 
         .static-header {
             background-color: rgba(0, 0, 0, 0.15);
-            ;
             color: white;
             font-weight: bolder;
         }
@@ -193,6 +192,10 @@
 
         .dynamic-info-icons {
             margin: 8px;
+        }
+
+        table,th,td {
+            border: 2px solid black;
         }
     </style>
 </head>
@@ -334,34 +337,40 @@
 
 
 
-                        <div class="row">
-                            <!-- List of successful payloads -->
-                            <table class="table table-bordered border-dark payload-table">
-                                <thead>
-                                    <tr class="table-head">
-                                        <th scope="col">#</th>
-                                        <th scope="col">Payload</th>
-                                        <th scope="col">URL where payload was injected</th>
-                                        <th scope="col">Time of Injection</th>
-                                        <th scope="col">Time of Success</th>
-                                    </tr>
-                                </thead>
+                        <div class="row mt-3">
+
+                            <!-- Payload Info -->
+
+                            <h5 id="payload-no-1">Payload #1</h5>
+                            <table class="table border-dark payload-table mb-3">
                                 <tbody>
+                                    <tr class="table-head">
+                                        <th>Payload</th>
+                                        <th>URL where payload was injected</th>
+                                    </tr>
+
                                     <tr>
-                                        <th scope="row" id="payload-no-1">1</th>
-                                        <td class="consolas" id="payload-1">&lt;img src=xss
+                                        <td id="payload-1" class="consolas">&lt;img src=xss
                                             onerror=&quot;alert(1)&quot;&gt;</td>
-                                        <td class="consolas" id="payload-url-1">https://www.example.com</td>
+                                        <td id="payload-url-1" class="consolas">https://www.example.com</td>
+                                    </tr>
+
+                                    <tr class="table-head">
+                                        <th>Time of Injection</th>
+                                        <th>Time of Success</th>
+                                    </tr>
+
+                                    <tr>
                                         <td id="payload-start-1">14:30:05</td>
                                         <td id="payload-end-1">14:30:07</td>
                                     </tr>
+
+                                    <tr class="table-head">
+                                        <th colspan="2">Packet Info</th>
+                                    </tr>
+
                                     <tr>
-                                        <th scope="row" id="payload-no-2">2</th>
-                                        <td class="consolas" id="payload-2">&lt;img src=abc
-                                            onerror=&quot;alert(&apos;xss&apos;)&quot;&gt;</td>
-                                        <td class="consolas" id="payload-url-2">https://www.example.com</td>
-                                        <td id="payload-start-2">14:31:21</td>
-                                        <td id="payload-end-2">14:31:27</td>
+                                        <td colspan="2" id="payload-packet-info-1">N.A.</td>
                                     </tr>
                                 </tbody>
 
