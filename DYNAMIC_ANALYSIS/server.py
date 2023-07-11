@@ -9,7 +9,6 @@ import uvicorn
 
 async def extract_data(req: Request):
     obj = {}
-    print(req['method'])
     keys = ["method", "url", "headers", "path_params", "query_params", "client", "cookies"]
     for key in keys:
         obj[key] = getattr(req, key)
@@ -41,7 +40,7 @@ def main():
     @app.get("/data")
     async def get_data():
         nonlocal data
-        return {"datas": data}
+        return {"data": data}
     
     
     @app.delete("/data")
@@ -53,7 +52,7 @@ def main():
         return {"message": "deleted"}
 
 
-    uvicorn.run(app=app, host="127.0.0.1", port=8000)
+    uvicorn.run(app=app, host="127.0.0.1", port=8000, log_level='critical')
 
 if __name__ == "__main__":
     main()
@@ -62,6 +61,6 @@ if __name__ == "__main__":
 # 
 # <form action="http://127.0.0.1:8000/xss" method="post">
 #     <label for="data">Data:</label>
-#     <input type="text" id="data" name="data" value="<img src=x onerror=alert(document.cookie)>">
+#     <input type="text" id="data" name="data">
 #     <input type="submit" value="Submit">
 # </form>

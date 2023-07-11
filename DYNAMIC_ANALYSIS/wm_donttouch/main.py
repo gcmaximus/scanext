@@ -26,7 +26,7 @@ logger = setup_logger('penetration_logv2_GUI.txt')
 def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
     # Convert sets to lists
     payload = str(payload)
-    packet_info = str(packet_info)
+    # packet_info = str(packet_info)
 
     payload_log = {
         "outcome": outcome,
@@ -46,14 +46,14 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     logger.info(log_message)
 
 
+import requests
+server_info: list = requests.get("http://127.0.0.1:8000/data").json()["data"]
 
-server_info = '''{"method":"POST","url":{"_url":"http://127.0.0.1:8000/xss"},"headers":{"host":"127.0.0.1:8000","connection":"keep-alive","content-length":"59","cache-control":"max-age=0","sec-ch-ua":"\"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"114\", \"Google Chrome\";v=\"114\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"Windows\"","upgrade-insecure-requests":"1","origin":"null","content-type":"application/x-www-form-urlencoded","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36","accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","sec-fetch-site":"cross-site","sec-fetch-mode":"navigate","sec-fetch-user":"?1","sec-fetch-dest":"document","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9"},"path_params":{},"query_params":{},"client":["127.0.0.1",59450],"cookies":{},"form":{"data":"<img src=x onerror=alert(document.domain)>"}}'''
-
-
-payload_normal_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'normal','<img src=x onerror=alert("normal_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', 'nil')
-payload_normal_failure = payload_logging("FAILURE", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'normal','<img src=x onerror=alert("normal_failure")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', 'nil')
-payload_server_success = payload_logging(f"SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', {server_info})
-payload_server_failure = payload_logging(f"FAILURE", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_failure")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', 'nil')
+# server_info = json.loads(server_info)
+# payload_normal_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'normal','<img src=x onerror=alert("normal_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', 'nil')
+# payload_normal_failure = payload_logging("FAILURE", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'normal','<img src=x onerror=alert("normal_failure")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', 'nil')
+payload_server_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', server_info)
+# payload_server_failure = payload_logging(f"FAILURE", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_failure")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'shit_ass_payload_file.txt', 'nil')
 
 
 

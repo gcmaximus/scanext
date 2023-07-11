@@ -1,33 +1,11 @@
 import json
 
-with open("j.json") as f:
+with open("e.json") as f:
     results = json.load(f)
 
 data = []
 for i in results["results"]:
     data.append(i)
-
-sourcelist = {
-    "chrome_contextMenu_create."
-    "chrome_contextMenu_onClicked_addListener."
-    "chrome_contextMenu_update."
-    "chrome_cookies_get."
-    "chrome_cookies_getAll."
-    "chrome_debugger_getTargets."
-    "chrome_runtime_onConnect."
-    "chrome_runtime_onConnectExternal."
-    "chrome_runtime_onMessage."
-    "chrome_runtime_onMessageExternal."
-    "chrome_tabs_get."
-    "chrome_tabs_getCurrent."
-    "chrome_tabs_query."
-    "location_hash."
-    "location_href."
-    "location_search."
-    "window_addEventListener_message."
-    "window_name."
-    "html-inputs-and-buttons."
-}
 
 tainted = []
 other_vars = []
@@ -275,3 +253,36 @@ def interpreter(data,sourcelist):
 
 # for i in scripts:
 #     print(i)
+
+sourcelist = {
+    "chrome_contextMenu_create":"yeet",
+    "chrome_contextMenu_onClicked_addListener":"yeet",
+    "chrome_contextMenu_update":"yeet",
+    "chrome_cookies_get":cookie_get,
+    "chrome_cookies_getAll":"yeet",
+    "chrome_debugger_getTargets":"yeet",
+    "chrome_runtime_onConnect":runtime_onC,
+    "chrome_runtime_onConnectExternal":"yeet",
+    "chrome_runtime_onMessage":runtime_onM,
+    "chrome_runtime_onMessageExternal":"yeet",
+    "chrome_tabs_get":"yeet",
+    "chrome_tabs_getCurrent":"yeet",
+    "chrome_tabs_query":"yeet",
+    "location_hash":location_hash,
+    "location_href":"yeet",
+    "location_search":"yeet",
+    "window_addEventListener_message":"yeet",
+    "window_name":"yeet",
+    "html-inputs-and-buttons":"yeet"
+}
+
+b = "Source:chrome_runtime_onConnect;Sink:outerHTML"
+c = b.split("Source:")
+d = c[1].split(";")
+e = d[0]
+for i in sourcelist:
+    match e:
+        case i:
+            a = sourcelist[i]
+            print(a)
+    

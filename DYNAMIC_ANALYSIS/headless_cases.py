@@ -10,11 +10,14 @@ from pyvirtualdisplay.display import Display
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.chrome.service import Service
 import logging
-from multiprocessing import Pool
+from multiprocessing import Pool, Process
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 import json
+
+import server
+import requests
 
 from functools import partial
 from pathlib import Path
@@ -87,6 +90,7 @@ def initialise_headless(path_to_extension,jsonfile):
     data, popup = json_results(path_to_extension,jsonfile)
     url_path, abs_path = get_ext_id(path_to_extension,popup)
     payload = payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')
+    data = interpreter(data,sourcelist)
 
     # initialize selenium and load extension
     options = ChromeOptions()
@@ -478,7 +482,6 @@ def preconfigure(dir):
 #interpreter
 def interpreter(data,sourcelist):
     tainted = []
-    other_vars = []
     for i in data:
         taint = {}
         taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
@@ -526,31 +529,29 @@ def interpreter(data,sourcelist):
             except:
                 var = metavar[0]
             metavars["content"] = var
-            other_vars.append(metavars)
+            taint["metavars"] = metavars
         except:
-            other_vars.append(metavars)
-
+            taint["metavars"] = metavars
         # added this
         line_start = i["extra"]["dataflow_trace"]["taint_source"][1][0]['start']['line']
         line_end = i["extra"]["dataflow_trace"]["taint_sink"][1][0]['end']['line']
         # added this
-
-
         message = i["extra"]["message"]
         taint["message"] = message
         taint["source"] = taint_source
         taint["sink"] = taint_sink
-
         # added this
         taint["line_start"] = line_start 
         taint["line_end"] = line_end 
         # added this
-        
         tainted.append(taint)
         
-    for i in sourcelist:
-        i
         
+        
+#server
+def localserver():
+    server.main()
+
 
 def main():
     # preconfiguration (set active to false)
