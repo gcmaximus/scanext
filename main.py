@@ -451,7 +451,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
 
                 # Format packet info for payloadType:"server"
                 payload_type = result['payloadType']
-                packet_info = result['packetInfo'] # packet_info is a list
+                packet_info_obj = result['packetInfo'][0]
 
                 # print(type(packet_info))
 
@@ -459,8 +459,8 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
 
                 if payload_type == 'server':
 
-                    # print('packet_info: ', packet_info)
-                    packet_info_obj = packet_info[0]
+                    # # print('packet_info: ', packet_info)
+                    # packet_info_obj = packet_info[0]
                     
                     # print(packet_info_obj)
 
