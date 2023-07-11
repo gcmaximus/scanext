@@ -59,6 +59,23 @@ def extraction():
 
 def static_analysis(extension: Path, soup: BeautifulSoup):
 
+    # Load and check validity of configs.
+
+    # Get number of adjacent lines to display
+    with open('SHARED/config.json') as f:
+        no_of_adjecent_lines = json.loads(f.read())['display_adjacent_lines']
+
+        # if value not int
+        if not isinstance(no_of_adjecent_lines, int):
+            print("Please set display_adjacent_lines to be an integer, 0 or more!")
+            exit() 
+
+        # if int, check if < 0
+        elif no_of_adjecent_lines < 0:
+            print("Please set display_adjacent_lines to be an integer, 0 or more!")
+            exit()
+
+
     # Name of folder scanned
     scanned_dir = extension.name
 
@@ -72,6 +89,8 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     spinner_running = True
     spinner_thread = threading.Thread(target=loading_spinner,args=[scanned_dir])
     spinner_thread.start()
+
+
 
 
     # Config rules
@@ -204,60 +223,47 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             with vuln_file.open("r") as f:
                 for i, line in enumerate(f):
                     if i == source_line_no - 1:
-                        vulnerable_lines["source_line"] = line.strip()
+                        vulnerable_lines["source_line"] = html.escape(line.rstrip())
                     if i == sink_line_no - 1:
-                        vulnerable_lines["sink_line"] = line.strip()
+                        vulnerable_lines["sink_line"] = html.escape(line.rstrip())
                     if len(vulnerable_lines) == 2:
                         break
             source_line = vulnerable_lines.setdefault("source_line", "")
             sink_line = vulnerable_lines.setdefault("sink_line", "")
             line_diff = abs(source_line_no - sink_line_no)
 
-            # read config.json - get number of adjacent lines
-
-            #################################################
-            #         TO DO: READ CONFIG FILE, SHOW         #
-            #    n lines before source, n lines after sink  #
-            #################################################
 
             
 
 
             # check if:
-            # 3. line difference < 1?
+            # line difference < 1?
             code_segment = ""
             if line_diff < 1:
                 code_segment = f"""
-<pre class="code-block">
-                    <code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source + Sink */</span></code>
-                </pre>"""
+<pre class="code-block" id="code-block-{result_no}"><code class="code-source">
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source + Sink */</span></code></pre>"""
 
-            # 4. line difference == 1?
+            # line difference == 1?
             elif line_diff == 1:
                 code_segment = f"""
-<pre class="code-block">
-                    <code class="code-source">
+<pre class="code-block" id="code-block-{result_no}"><code class="code-source">
     {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
-                </pre>"""
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code></pre>"""
 
-            # 5. line difference > 1?
+            # line difference > 1?
             elif line_diff > 1:
                 code_segment = f"""
-<pre class="code-block">
-                    <code class="code-source">
+<pre class="code-block" id="code-block-{result_no}"><code class="code-source">
     {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
     ...&#9;&#9;...</code><code class="code-sink">
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
-                </pre>"""
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code></pre>"""
 
-            # 6. intermediate vars > 1? (detailed tainted path)
+            # intermediate vars > 1? (provide detailed tainted path)
             inter_vars = dataflow_trace.get("intermediate_vars")
             vars_len = 0
             if inter_vars:
                 vars_len = len(inter_vars)
-                # print("No. of intermediate vars:", vars_len)
 
                 if vars_len > 1:
                     tainted_lines = {}
@@ -266,23 +272,19 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                     for var in inter_vars:
                         # ignore first intermediate_vars obj
                         if inter_vars.index(var) == 0:
-                            # print("ignoring")
                             pass
-
                         else:
                             # get tainted line numbers
                             line_no = var["location"]["start"]["line"]
                             line_numbers_ordered.append(line_no)
-                            # print(line_no)
+
                             # get tainted lines
                             with vuln_file.open("r") as f:
                                 for i, line in enumerate(f):
                                     if i == line_no - 1:
-                                        tainted_lines[line_no] = line.strip()
+                                        tainted_lines[line_no] = html.escape(line.rstrip())
                                         break
 
-                    # print("Tainted Lines: ", tainted_lines)
-                    # print("Line numbers ordered: ", line_numbers_ordered)
                     more_details = """
     <br>
     <h5><u>Tainted variables</u></h5>
@@ -295,7 +297,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                             line_diff = abs(
                                 line_numbers_ordered[i] - line_numbers_ordered[i + 1]
                             )
-                            # print(line_diff)
 
                             if line_diff > 1:
                                 more_details += """
@@ -305,6 +306,70 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                     </pre>"""
                     code_segment += more_details
 
+            
+            
+
+
+
+            soup_code_segment = BeautifulSoup(code_segment, "html.parser")
+
+            # check file length
+            with open(vuln_file, 'r') as f:
+                total_file_len = len(f.readlines())
+
+            # {line no:line content}
+            prepend_lines = {source_line_no - x - 1: "" for x in range(no_of_adjecent_lines) if source_line_no - x - 1 > 0}
+            append_lines = {sink_line_no + x + 1: "" for x in range(no_of_adjecent_lines) if sink_line_no + x + 1 <= total_file_len}
+
+            with open(vuln_file, 'r') as f:
+                for i, line in enumerate(f):
+                    if i+1 in prepend_lines.keys():
+                        prepend_lines[i+1] = html.escape(line.rstrip())
+                    if i+1 in append_lines.keys():
+                        append_lines[i+1] = html.escape(line.rstrip())
+
+            # print("prepend_lines: ", prepend_lines)
+            # print("append_lines: ", append_lines)
+
+            # input()
+                
+                        
+            prepend_lines = dict(sorted(prepend_lines.items(), reverse=True))
+
+            # print("prepending...")
+            # Prepending lines
+            for line_no, line in prepend_lines.items():
+                soup_prepend_content = BeautifulSoup(f"""<code>
+    {line_no}&#9;&#9;{line}</code>""", 'html.parser')
+                soup_code_segment.find(id=f'code-block-{result_no}').insert(0, soup_prepend_content)
+                
+
+
+            # Appending lines
+            for line_no, line in append_lines.items():
+                soup_append_content = BeautifulSoup(f"""<code>
+    {line_no}&#9;&#9;{line}</code>""", 'html.parser')
+                soup_code_segment.find(id=f'code-block-{result_no}').append(soup_append_content)
+
+                # if last line, append one more newline in <pre>
+                if line_no == max(append_lines.keys()):
+                    soup_code_segment.find(id=f'code-block-{result_no}').append("""
+
+""")
+
+                    
+
+            # print(soup_code_segment)
+
+            
+
+            # input()
+
+            # new_soup_code_segment = BeautifulSoup(soup_code_segment, "html.parser")
+
+            # input()
+
+            
             add = f"""
 <!-- Source-Sink pair -->
         <div class="card static-result">
@@ -340,7 +405,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                 <!-- Location -->
                 <h5><u>Location of vulnerability</u></h5>
 
-                {code_segment}
+                {str(soup_code_segment)}
 
                 <i>*This code has been beautified by js-beautify.</i>
 
@@ -471,7 +536,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
 
                     packet_info = ""
                     for key in packet_info_obj:
-                        packet_info += f'<p><b>{key}</b>: {packet_info_obj[key]}</p><br>'
+                        packet_info += f'<b>{key}</b>: {packet_info_obj[key]}; '
 
                         #########################################
                         #            DO NICER STYLING           #
