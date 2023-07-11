@@ -16,7 +16,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 import json
 
-import server
+# import server
 import requests
 
 from functools import partial

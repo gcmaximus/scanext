@@ -11,7 +11,7 @@ import html
 import jsbeautifier
 from bs4 import BeautifulSoup
 
-from DYNAMIC_ANALYSIS.headless_cases import main as dynamic
+from headless_cases import main as dynamic
 from banners import get_banner
 
 
@@ -375,10 +375,56 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
     with open(dynamic_logfile, 'r') as f:
         logs = f.readlines()
 
-    # No of logs for all sources
-    log_len = len(logs)
 
-    if log_len == 0:
+    logs_obj = []
+    for log in logs:
+        log = json.loads(log)
+        logs_obj.append(log)
+
+    # Sort by source (window.name, etc.)
+    source_sorted_logs = sorted(logs_obj, key=lambda x: x['source'])
+
+
+    # creating dict of key(source) to value (list of objs with source)
+
+    separated_objects = {}
+
+    for obj in source_sorted_logs:
+        source = obj['source']
+
+        if source not in separated_objects:
+            separated_objects[source] = []
+
+        separated_objects[source].append(obj)
+
+
+    '''
+    {
+        'window.name': [
+            {'name': 'Object 1', 'source': 'window.name'},
+            {'name': 'Object 3', 'source': 'window.name'}
+        ],
+        'location.hash': [
+            {'name': 'Object 2', 'source': 'location.hash'},
+            {'name': 'Object 4', 'source': 'location.hash'}
+        ]
+    }
+    '''
+
+
+
+    # Filter by outcome (only want SUCCESS)
+    success_results = []
+    for result in results:
+        if result['outcome'] != 'SUCCESS':
+            pass
+        else:
+            success_results.append(result)
+
+    success_payloads = len(success_results)
+
+    if success_payloads == 0:
+
         # no dynamic results
         add = f"""
             <div class="card m-auto dynamic-none border-success">
@@ -391,53 +437,10 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
         
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
-    else:
 
+    else: 
 
-        logs_obj = []
-        for log in logs:
-            # print('original log: ', log)
-            log = json.loads(log)
-            # print('modified log: ', log)
-            # print()
-            # print(type(log['packetInfo']))
-            # print(log['packetInfo'])
-            # input()
-
-            # log['packetInfo'] = json.dumps()
-
-
-            logs_obj.append(log)
-
-        # Sort by source (window.name, etc.)
-        source_sorted_logs = sorted(logs_obj, key=lambda x: x['source'])
-
-
-        # creating dict of key(source) to value (list of objs with source)
-
-        separated_objects = {}
-
-        for obj in source_sorted_logs:
-            source = obj['source']
-
-            if source not in separated_objects:
-                separated_objects[source] = []
-
-            separated_objects[source].append(obj)
-
-
-        '''
-        {
-            'window.name': [
-                {'name': 'Object 1', 'source': 'window.name'},
-                {'name': 'Object 3', 'source': 'window.name'}
-            ],
-            'location.hash': [
-                {'name': 'Object 2', 'source': 'location.hash'},
-                {'name': 'Object 4', 'source': 'location.hash'}
-            ]
-        }
-        '''
+        result_no = 1
 
         for source in separated_objects:
 
@@ -447,15 +450,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
             payload_list = results[0]['payload_fileName']
             tested_payloads = len(results)
 
-            # Filter by outcome (only want SUCCESS)
-            success_results = []
-            for result in results:
-                if result['outcome'] != 'SUCCESS':
-                    pass
-                else:
-                    success_results.append(result)
 
-            success_payloads = len(success_results)
 
             # print(payload_list)
             # print(tested_payloads)
@@ -463,8 +458,12 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
 
 
             payload_table = ''
-            result_no = 1
+            
             for result in success_results:
+
+                # print('result: \n', result)
+
+                # input()
 
                 # Retrieve information
                 payload = html.escape(result['payload'])
@@ -472,17 +471,18 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
                 time_of_injection = result['timeOfInjection']
                 time_of_alert = result['timeOfAlert']
 
+                # print('we gucci')
+
                 # Format packet info for payloadType:"server"
                 payload_type = result['payloadType']
-                packet_info = result['packetInfo']
+                packet_info = result['packetInfo'] # packet_info is a list
+
+                # print(type(packet_info))
+
+                # input()
 
                 if payload_type == 'server':
-                    # print('packet_info: ', packet_info)
-                    # print('type: ', type(packet_info))
-
-                    packet_info_obj = json.loads(packet_info)
-                    print('obj: ', packet_info_obj)
-                    input()
+                    packet_info_obj = packet_info[result_no-1]
                     
                     # print(packet_info_obj)
 
@@ -507,10 +507,10 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
                     packet_info = "N.A."
 
                 payload_table += f'''
-<!-- Payload Info -->
+    <!-- Payload Info -->
 
-<h5 id="payload-no-1">Payload #{result_no}</h5>
-<table class="table border-dark payload-table mb-3">
+    <h5 id="payload-no-1">Payload #{result_no}</h5>
+    <table class="table border-dark payload-table mb-3">
     <tbody>
         <tr class="table-head">
             <th>Payload</th>
@@ -541,15 +541,15 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
         </tr>
     </tbody>
 
-</table>
-'''
+    </table>
+    '''
                 result_no += 1
 
 
 
             add = f'''
-<!-- Source -->
-<div class="card dynamic-result">
+    <!-- Source -->
+    <div class="card dynamic-result">
     <div class="card-header">
         <i class="fa fa-flag-checkered" style="font-size:20px"></i> <span
             style="font-size: 18px"><b>Source:</b> {source}</span>
@@ -599,12 +599,12 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
         </p>
 
     </div>
-</div>
-'''
-            add_parsed = BeautifulSoup(add, "html.parser")
-            soup.find(id="dynamic-main").append(add_parsed)
+    </div>
+    '''
+        add_parsed = BeautifulSoup(add, "html.parser")
+        soup.find(id="dynamic-main").append(add_parsed)
 
-            
+        
 
         # Initialise report name
         report_path = Path(
