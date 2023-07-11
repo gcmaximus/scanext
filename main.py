@@ -66,7 +66,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     def loading_spinner(scanned_dir):
         while spinner_running:
             for char in ['\\', '|', '/', '-']:
-                print(f"Scanning {scanned_dir} ... {char}", end="\r")
+                print(f"Scanning {scanned_dir} for vulnerabilities ... {char}", end="\r")
                 time.sleep(0.1)
     global spinner_running 
     spinner_running = True
@@ -101,7 +101,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
         spinner_running = False
         spinner_thread.join()
-        print(f"Scanning {scanned_dir} ... ")
+        print(f"Scanning {scanned_dir} for vulnerabilities ... ")
         
         print("Static analysis complete.")
     except subprocess.CalledProcessError as err:
@@ -355,13 +355,19 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     with open(report_path, "w") as file:
         file.write(str(soup))
 
-    
+
 
 
 def dynamic_analysis(extension: Path, soup: BeautifulSoup):
 
-    # i comment out first 
+    print()
+    print('Conducting dynamic analysis ...')
+
+    # call selenium main.py
     # dynamic()
+
+    print('Dynamic analysis complete.')
+    print()
     
     # Retrieve information from log file
     logs_obj = []
