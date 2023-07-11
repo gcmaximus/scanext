@@ -586,19 +586,6 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
     '''
             
             
-            
-            
-            
-            # print('source_no: ', source_no)
-            
-            # limit to display 3 payloads 
-
-
-            #########################
-            #       TO FIX??        #
-            #########################
-            if source_no > 3:
-                break
 
             source_no += 1
 
@@ -609,7 +596,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
 
-            
+    
 
     # Initialise report name
     report_path = Path(
