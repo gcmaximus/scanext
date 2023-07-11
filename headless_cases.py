@@ -90,7 +90,7 @@ def initialise_headless(path_to_extension,jsonfile):
     data, popup = json_results(path_to_extension,jsonfile)
     url_path, abs_path = get_ext_id(path_to_extension,popup)
     payload = payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')
-    data = interpreter(data,sourcelist)
+    l = interpreter(data)        
 
     # initialize selenium and load extension
     options = ChromeOptions()
@@ -100,6 +100,11 @@ def initialise_headless(path_to_extension,jsonfile):
     options.add_argument("--enable-logging")
     driver = Chrome(service=Service(), options=options)
 
+    for result in l:
+        a = result["message"].split("Source:")
+        b = a[1].split(";")
+        c = sourcelist[b]
+        c()
 
     # case 1:
     # window_name(driver, url_path, payloads)
@@ -257,7 +262,7 @@ def context_menu(driver, url_path, payloads):
 ##########################
 
 # 1) onMessage 
-def runtime_onM(extid, payload, ssm):
+def runtime_onM(payload, ssm):
     scripts = []
     for k in ssm:
         html = 'rHTML'
@@ -292,13 +297,13 @@ def runtime_onM(extid, payload, ssm):
         else:
             var = f"obj = '{payload}';"
 
-        script = f"{var}chrome.runtime.sendMessage({extid},obj)"
+        script = f"{var}chrome.runtime.sendMessage(obj)"
         scripts.append(script)
     
     return scripts
 
 # 2) onConnect
-def runtime_onC(extid, payload, ssm):
+def runtime_onC(payload, ssm):
     scripts = []
     for i in ssm:
         html = 'rHTML'
@@ -361,12 +366,12 @@ def runtime_onC(extid, payload, ssm):
             var = f"obj = JSON.parse('{obj}');"
             func = f"obj.postMessage({payload})"
 
-        script = f"{var}chrome.runtime.connect({extid},{func})"
+        script = f"{var}chrome.runtime.connect({func})"
         scripts.append(script)
     return scripts
 
 # 3) get cookies
-def cookie_get(extid, payload, ssm):
+def cookie_get(payload, ssm):
     scripts = []
     for i in ssm:
         dots = '.'
@@ -418,7 +423,7 @@ def cookie_get(extid, payload, ssm):
     return scripts
 
 # 4) location.hash
-def location_hash(payload):
+def location_hash(payload, ssm):
     script = f"window.location.hash = {payload}"
     return script
 
@@ -437,7 +442,7 @@ def headless_driver(driver, url_path, scripts):
 
     for script in scripts:
 
-        print(script)
+        # print(script)
         driver.execute_script(script)
 
         driver.switch_to.window(extension)
@@ -495,14 +500,14 @@ def interpreter(data,sourcelist):
             if i["extra"]["metavars"]["$FUNC"]:
                 metavars["FUNC"] = i["extra"]["metavars"]["$FUNC"]["abstract_content"]
         except:
-            print("no function")
+            print("no cookie/details/function")
         try:
             if i["extra"]["metavars"]["$X"]:
                 metavars["X"] = i["extra"]["metavars"]["$X"]["abstract_content"]
             if i["extra"]["metavars"]["$W"]:
                 metavars["W"] = i["extra"]["metavars"]["$W"]["abstract_content"]
         except:
-            print("no w")
+            print("no x/w")
         try:
             if i["extra"]["metavars"]["$Y"]:
                 metavars["Y"] = i["extra"]["metavars"]["$Y"]["abstract_content"]
@@ -545,7 +550,6 @@ def interpreter(data,sourcelist):
         taint["line_end"] = line_end 
         # added this
         tainted.append(taint)
-        
         
         
 #server
