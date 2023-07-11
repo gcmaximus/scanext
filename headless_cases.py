@@ -22,28 +22,33 @@ import requests
 from functools import partial
 from pathlib import Path
 
+import logging
+
 def initialise_headless(path_to_extension,jsonfile):
+    # preconfiguration (set active to false)
+    preconfigure(path_to_extension)
+
     # Getting the source list
     sourcelist = {
-        "chrome_contextMenu_create."
-        "chrome_contextMenu_onClicked_addListener."
-        "chrome_contextMenu_update."
-        "chrome_cookies_get."
-        "chrome_cookies_getAll."
-        "chrome_debugger_getTargets."
-        "chrome_runtime_onConnect."
-        "chrome_runtime_onConnectExternal."
-        "chrome_runtime_onMessage."
-        "chrome_runtime_onMessageExternal."
-        "chrome_tabs_get."
-        "chrome_tabs_getCurrent."
-        "chrome_tabs_query."
-        "location_hash."
-        "location_href."
-        "location_search."
-        "window_addEventListener_message."
-        "window_name."
-        "html-inputs-and-buttons."
+        "chrome_contextMenu_create":".",
+        "chrome_contextMenu_onClicked_addListener":".",
+        "chrome_contextMenu_update":".",
+        "chrome_cookies_get":cookie_get,
+        "chrome_cookies_getAll":".",
+        "chrome_debugger_getTargets":".",
+        "chrome_runtime_onConnect":runtime_onC,
+        "chrome_runtime_onConnectExternal":".",
+        "chrome_runtime_onMessage":runtime_onM,
+        "chrome_runtime_onMessageExternal":".",
+        "chrome_tabs_get":".",
+        "chrome_tabs_getCurrent":".",
+        "chrome_tabs_query":".",
+        "location_hash":location_hash,
+        "location_href":".",
+        "location_search":".",
+        "window_addEventListener_message":".",
+        "window_name":".",
+        "html-inputs-and-buttons":"."
     }
     
     # Getting the results from the json file
@@ -87,6 +92,8 @@ def initialise_headless(path_to_extension,jsonfile):
         
         return payload_array
 
+    localserver = Process(target=server)
+    localserver.start()
     data, popup = json_results(path_to_extension,jsonfile)
     url_path, abs_path = get_ext_id(path_to_extension,popup)
     payload = payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')
@@ -104,25 +111,61 @@ def initialise_headless(path_to_extension,jsonfile):
         a = result["message"].split("Source:")
         b = a[1].split(";")
         c = sourcelist[b]
-        c()
+        c(payload,result)
 
-    # case 1:
-    # window_name(driver, url_path, payloads)
+    # logging for server
+    def setup_logger(log_file):
+        # Create a logger
+        logger = logging.getLogger()
+        logger.setLevel(logging.DEBUG)
 
-    # case 2:
-    # location_href(driver, url_path, payloads)
+        # Create a file handler and set the log level
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setLevel(logging.DEBUG)
 
-    # context_menu(driver, url_path, payloads)
+        # Create a formatter and add it to the handlers
+        log_format = '%(message)s'
+        formatter = logging.Formatter(log_format)
+        file_handler.setFormatter(formatter)
+
+        # Add the handlers to the logger
+        logger.addHandler(file_handler)
+
+        return logger
+
+    def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
+        # Convert sets to lists
+        payload = str(payload)
+        # packet_info = str(packet_info)
+        logger = setup_logger('penetration_logv2_GUI.txt')
+
+        payload_log = {
+            "outcome": outcome,
+            "source": source,
+            "extensionId": extension_id,
+            "extensionName": extension_name,
+            "Url": url_of_website,
+            "payloadType": payload_type,
+            "payload": payload,
+            "timeOfInjection": time_of_injection,
+            "timeOfAlert": time_of_alert,
+            "payload_fileName": payload_filename,
+            "packetInfo": packet_info
+        }
+
+        log_message = json.dumps(payload_log)
+        logger.info(log_message)
+
+    server_info: list = requests.get("http://127.0.0.1:8000/data").json()["data"][0]
+    payload_server_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'small-payloads.txt', server_info)
 
     
-
-
 
 #####################
 # Case Scenario gui #
 #####################
 
-# 1) Window_name Entry Point
+# 1) window.name
 def window_name(driver, url_path, payloads):
 
     # get www.example.com
@@ -261,25 +304,11 @@ def context_menu(driver, url_path, payloads):
 # Case Scenario headless #
 ##########################
 
-# 1) onMessage 
+# 1) runtime.onMessage 
 def runtime_onM(payload, ssm):
     scripts = []
     for k in ssm:
-        html = 'rHTML'
         dots = '.'
-        underscore = '_'
-        message = k["message"]
-        sink = ''
-        if html in message:
-            sink_split = message.split('Sink:')
-            sink = sink_split[-1]
-        elif dots in message:
-            sink_split = message.split(dots)
-            sink = sink_split[-1]
-        elif underscore in message:
-            sink_split = message.split(underscore)
-            sink = sink_split[-1]
-        
         taintsink = k["sink"]
         
         obj = {}
@@ -302,75 +331,51 @@ def runtime_onM(payload, ssm):
     
     return scripts
 
-# 2) onConnect
+# 2) runtime.onConnect
 def runtime_onC(payload, ssm):
     scripts = []
     for i in ssm:
-        html = 'rHTML'
         dots = '.'
-        underscore = '_'
-        function = 'function'
-        ifs = 'if'
-        openb = '('
-        closeb = ')'
-        equivalent = '==='
-        message = i["message"]
-        if html in message:
-            sink_split = message.split("Sink:")
-            sink = sink_split[-1]
-        elif dots in message:
-            sink_split = message.split(dots)
-            sink = sink_split[-1]
-        elif underscore in message:
-            sink_split = message.split(underscore)
-            sink = sink_split[-1]
-        
         taintsink = i["sink"]
-        taintsource = i["source"]
         obj = {}
         var = ""
         func = ""
-        x = ""
+        connect = ""
         try:
-            if i["vars"]["OBJ"]:
-                x = i["vars"]["OBJ"]
+            if i["metavars"]["PORT"]:
+                port = i["metavars"]["PORT"]
         except:
-            x = i["vars"]["X"]
-        functionvar = taintsource.find(function)
-        varfirst = taintsource.find(x)
-        if varfirst == -1:
-            if dots in taintsink:
-                tsink = taintsink.split(dots)
-                obj = {tsink[-1]:payload}
-                obj = json.dumps(obj)
-            var = f"obj = JSON.parse('{obj}');"
-            func = f'obj.postMessage({payload})'
-        elif functionvar < varfirst:
-            ifvar = taintsource.find(ifs,varfirst)
-            if ifvar:
-                obrack = taintsource.find(openb,ifvar)
-                equiv = taintsource.find(equivalent,ifvar)
-                cbrack = taintsource.find(closeb,obrack)
-                if obrack<equiv<cbrack and obrack!=-1:
-                    constvar = taintsource[obrack:cbrack]
-                    constvar = constvar.replace(" ","")
-                    constvar = constvar.split(equivalent)
-                    if dots in constvar[0]:
-                        portvar = constvar[0].split(dots)
-                        constvar[0] = portvar[1]
-                    if "'" in constvar[1]:
-                        constvar[1] = constvar[1].replace("'",'')
-                    obj = {constvar[0]:constvar[1]}
-                    obj = json.dumps(obj)
+            port = ""
+        try:
+            if i["metavars"]["PORTPROPERTY"]:
+                portproperty = i["metavars"]["PORTPROPERTY"]
+        except:
+            portproperty = ""
+        try:
+            if i["metavars"]["PORTPASSWORD"]:
+                portpassword = i["metavars"]["PORTPASSWORD"]
+        except:
+            portpassword = ""
+        if dots in taintsink:
+            tsink = taintsink.split(dots)
+            obj = {tsink[-1]:payload}
+            obj = json.dumps(obj)
+        else:
+            obj = {taintsink:payload}
+            obj = json.dumps(obj)
 
-            var = f"obj = JSON.parse('{obj}');"
-            func = f"obj.postMessage({payload})"
+        if port!="" and portproperty!="" and portpassword!="":
+            connect = {portproperty:portpassword}
+            connect = json.dumps(connect)
 
-        script = f"{var}chrome.runtime.connect({func})"
+        var = f"obj = JSON.parse('{obj}');"
+        func = f".postMessage(obj)"
+
+        script = f"{var}chrome.runtime.connect({connect}){func}"
         scripts.append(script)
     return scripts
 
-# 3) get cookies
+# 3) cookies.get
 def cookie_get(payload, ssm):
     scripts = []
     for i in ssm:
@@ -426,6 +431,8 @@ def cookie_get(payload, ssm):
 def location_hash(payload, ssm):
     script = f"window.location.hash = {payload}"
     return script
+
+
 
 # running the driver
 def headless_driver(driver, url_path, scripts):
@@ -485,13 +492,25 @@ def preconfigure(dir):
                         print(line, end="")
 
 #interpreter
-def interpreter(data,sourcelist):
+def interpreter(data):
     tainted = []
     for i in data:
         taint = {}
         taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
         taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
         metavars = {}
+        try:
+            if i["extra"]["metavars"]["$PORT"]:
+                metavars["PORT"] = i["extra"]["metavars"]["$PORT"]
+            try:
+                if i["extra"]["metavars"]["$PORTPASSWORD"]:
+                    metavars["PORTPASSWORD"] = i["extra"]["metavars"]["$PORTPASSWORD"]
+                if i["extra"]["metavars"]["$PORTPROPERTY"]:
+                    metavars["PORTPROPERTY"] = i["extra"]["metavars"]["$PORTPROPERTY"]
+            except:
+                print('no port property/password')
+        except:
+            print('no port')
         try:
             if i["extra"]["metavars"]["$COOKIE"]:
                 metavars["COOKIE"] = i["extra"]["metavars"]["$COOKIE"]["abstract_content"]
@@ -550,17 +569,10 @@ def interpreter(data,sourcelist):
         taint["line_end"] = line_end 
         # added this
         tainted.append(taint)
-        
-        
-#server
-def localserver():
-    server()
+    return tainted
 
-
+#main
 def main(extension_path, semgrep_results_path):
-    # preconfiguration (set active to false)
-    preconfigure('ad')
-
     # Can remove when done this main integrated with whole main.py
     extension_path = 'EXTENSIONS/h1-replacer(v3)contextMenu'
     semgrep_results_path = 'j.json'
