@@ -16,7 +16,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 import json
 
-import server
+from server import main as server
 import requests
 
 from functools import partial
@@ -550,7 +550,7 @@ def interpreter(data,sourcelist):
         
 #server
 def localserver():
-    server.main()
+    server()
 
 
 def main():
