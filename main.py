@@ -355,7 +355,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     with open(report_path, "w") as file:
         file.write(str(soup))
 
-    print(f"Report generated at `{report_path}`")
+    
 
 
 def dynamic_analysis(extension: Path, soup: BeautifulSoup):
