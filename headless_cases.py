@@ -110,7 +110,7 @@ def initialise_headless(path_to_extension,jsonfile):
     for result in l:
         a = result["message"].split("Source:")
         b = a[1].split(";")
-        c = sourcelist[b]
+        c = sourcelist[b[0]]
         c(payload,result)
 
     # logging for server
@@ -334,34 +334,35 @@ def runtime_onM(payload, ssm):
 # 2) runtime.onConnect
 def runtime_onC(payload, ssm):
     scripts = []
-    for i in ssm:
+    for i in payload:
         dots = '.'
-        taintsink = i["sink"]
+        taintsink = ssm["sink"]
+        taintsource = ssm["source"]
         obj = {}
         var = ""
         func = ""
         connect = ""
         try:
-            if i["metavars"]["PORT"]:
-                port = i["metavars"]["PORT"]
+            if ssm["metavars"]["PORT"]:
+                port = ssm["metavars"]["PORT"]
         except:
             port = ""
         try:
-            if i["metavars"]["PORTPROPERTY"]:
-                portproperty = i["metavars"]["PORTPROPERTY"]
+            if ssm["metavars"]["PORTPROPERTY"]:
+                portproperty = ssm["metavars"]["PORTPROPERTY"]
         except:
             portproperty = ""
         try:
-            if i["metavars"]["PORTPASSWORD"]:
-                portpassword = i["metavars"]["PORTPASSWORD"]
+            if ssm["metavars"]["PORTPASSWORD"]:
+                portpassword = ssm["metavars"]["PORTPASSWORD"]
         except:
             portpassword = ""
         if dots in taintsink:
             tsink = taintsink.split(dots)
-            obj = {tsink[-1]:payload}
+            obj = {tsink[-1]:i}
             obj = json.dumps(obj)
         else:
-            obj = {taintsink:payload}
+            obj = {taintsource:i}
             obj = json.dumps(obj)
 
         if port!="" and portproperty!="" and portpassword!="":
@@ -372,29 +373,28 @@ def runtime_onC(payload, ssm):
         func = f".postMessage(obj)"
 
         script = f"{var}chrome.runtime.connect({connect}){func}"
+        print(script)
         scripts.append(script)
     return scripts
 
 # 3) cookies.get
 def cookie_get(payload, ssm):
     scripts = []
-    for i in ssm:
+    for i in payload:
         dots = '.'
-        taintsource = i["source"]
+        taintsource = ssm["source"]
         cookie = ""
         x = ""
-        y = ""
-        yvalue = ""
         try:
-            if i["vars"]["COOKIE"]:
-                cookie = i["vars"]["COOKIE"]
-            if i["vars"]["X"]:
-                x = i["vars"]["X"]
-            if i["vars"]["Y"]:
-                y = i["vars"]["Y"]
+            if ssm["metavars"]["COOKIE"]:
+                cookie = ssm["metavars"]["COOKIE"]
+            if ssm["metavars"]["X"]:
+                x = ssm["metavars"]["X"]
+            if ssm["metavars"]["Y"]:
+                y = ssm["metavars"]["Y"]
             try:
-                if i["vars"]["yvalue"]:
-                    yvalue = i["vars"]["yvalue"]
+                if ssm["metavars"]["yvalue"]:
+                    yvalue = ssm["metavars"]["yvalue"]
             except:
                 yvalue = ""
         except:
@@ -405,23 +405,23 @@ def cookie_get(payload, ssm):
             if dots in x:
                 var = x.split(dots)
                 if var[1] == "name":
-                    obj = f'{payload}=value;'
+                    obj = f'{i}=value;'
                 elif var[1] == "value":
-                    obj = f'cookie={payload};'                
+                    obj = f'cookie={i};'                
         elif cookie in taintsource and taintsource == y:
             if dots in y:
                 var = x.split(dots)
                 if var[1] == "name":
-                    obj = f'{payload}=value;'
+                    obj = f'{i}=value;'
                 elif var[1] == "value":
-                    obj = f'cookie={payload};'
+                    obj = f'cookie={i};'
         elif cookie in taintsource and taintsource == yvalue:
             if dots in yvalue:
                 var = x.split(dots)
                 if var[1] == "name":
-                    obj = f'{payload}=value;'
+                    obj = f'{i}=value;'
                 elif var[1] == "value":
-                    obj = f'cookie={payload};'
+                    obj = f'cookie={i};'
         
         script = f'document.cookie = {obj} + document.cookie'
         scripts.append(script) 
@@ -501,12 +501,12 @@ def interpreter(data):
         metavars = {}
         try:
             if i["extra"]["metavars"]["$PORT"]:
-                metavars["PORT"] = i["extra"]["metavars"]["$PORT"]
+                metavars["PORT"] = i["extra"]["metavars"]["$PORT"]["abstract_content"]
             try:
                 if i["extra"]["metavars"]["$PORTPASSWORD"]:
-                    metavars["PORTPASSWORD"] = i["extra"]["metavars"]["$PORTPASSWORD"]
+                    metavars["PORTPASSWORD"] = i["extra"]["metavars"]["$PORTPASSWORD"]["abstract_content"]
                 if i["extra"]["metavars"]["$PORTPROPERTY"]:
-                    metavars["PORTPROPERTY"] = i["extra"]["metavars"]["$PORTPROPERTY"]
+                    metavars["PORTPROPERTY"] = i["extra"]["metavars"]["$PORTPROPERTY"]["abstract_content"]
             except:
                 print('no port property/password')
         except:
@@ -575,7 +575,7 @@ def interpreter(data):
 def main(extension_path, semgrep_results_path):
     # Can remove when done this main integrated with whole main.py
     extension_path = 'EXTENSIONS/h1-replacer(v3)contextMenu'
-    semgrep_results_path = 'j.json'
+    semgrep_results_path = 'e.json'
     # Run program
     with Display() as disp:
         print(disp.is_alive())
@@ -583,5 +583,5 @@ def main(extension_path, semgrep_results_path):
         initialise_headless(extension_path,semgrep_results_path)
 
 if __name__ == '__main__':
-    main()
+    main('a','s')
 
