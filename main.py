@@ -242,14 +242,16 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
             if line_diff < 1:
                 code_segment = f"""
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source + Sink */</span></code></pre>"""
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source + Sink */</span></code>
+    </pre>"""
 
             # line difference == 1?
             elif line_diff == 1:
                 code_segment = f"""
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
     {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code></pre>"""
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
+    </pre>"""
 
             # line difference > 1?
             elif line_diff > 1:
@@ -257,7 +259,8 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
     {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
     ...&#9;&#9;...</code><code class="code-sink">
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code></pre>"""
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
+    </pre>"""
 
             # intermediate vars > 1? (provide detailed tainted path)
             inter_vars = dataflow_trace.get("intermediate_vars")
