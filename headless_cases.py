@@ -485,11 +485,12 @@ def preconfigure(dir):
                         # Replace "active: true" with "active: false"
                         if "active: !0" in line:
                             a = "active: !0"
+                            line = line.replace(a, "active: false")
                         elif "active: true" in line:
                             a = "active: true"
-                        
-                        line = line.replace(a, "active: false")
+                            line = line.replace(a, "active: false")
                         print(line, end="")
+                        
 
 #interpreter
 def interpreter(data):
