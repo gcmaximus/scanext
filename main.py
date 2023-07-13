@@ -4,8 +4,6 @@ import subprocess
 from email.utils import formatdate
 from pathlib import Path
 from zipfile import ZipFile
-import time
-import threading
 import html
 
 import jsbeautifier
@@ -13,6 +11,17 @@ from bs4 import BeautifulSoup
 
 from headless_cases import main as dynamic
 from banners import get_banner
+from spinner import main as spinner
+
+
+cross = "⤫"
+tick = "✓"
+
+
+def icon(boolean: bool):
+    if boolean:
+        return tick
+    return cross
 
 
 # extract extensions and format the extracted files
@@ -31,24 +40,29 @@ def extraction():
     opts.space_after_anon_function = True
 
     status = extraction_dir.exists()
-    print(f"Checking existence of {extraction_dir} ... {status}")
+    print(f"Checking existence of {extraction_dir} ... {icon(status)}")
     if status:
-        print(f"Removing existing {extraction_dir} ...")
+        print(f"Removing existing {extraction_dir} ... ", end="")
         shutil.rmtree(extraction_dir)
-    print(f"Making {extraction_dir} ...")
+        print(tick)
+    print(f"Making {extraction_dir} ... ", end="")
     extraction_dir.mkdir()
+    print(tick)
 
     for extension in extensions:
         indi_dir = Path(extraction_dir, extension.stem)
-        print(f"Making {indi_dir} ...")
+        print(f"Making {indi_dir} ... ", end="")
         indi_dir.mkdir()
+        print(tick)
+
         with ZipFile(extension, "r") as zip:
-            print(f"Extracting {extension.name} ...", end=" ")
+            print(f"Extracting {extension.name} ... ", end="")
             zip.extractall(indi_dir)
-        if not Path(indi_dir, "manifest.json").exists():
-            print(f"manifest.json not found in root", end="")
+        manifest_exists = Path(indi_dir, "manifest.json").exists()
+        print(icon(manifest_exists))
+        if not manifest_exists:
+            print(f"{cross} manifest.json not found in root", end="")
             shutil.rmtree(indi_dir)
-        print()
         for file in indi_dir.glob("**/*.js"):
             pretty = jsbeautifier.beautify_file(file, opts)
             local_options = jsbeautifier.BeautifierOptions()
@@ -57,40 +71,10 @@ def extraction():
     return Path(extraction_dir).glob("*")
 
 
-def static_analysis(extension: Path, soup: BeautifulSoup):
-
-    # Load and check validity of configs.
-
-    # Get number of adjacent lines to display
-    with open('SHARED/config.json') as f:
-        no_of_adjecent_lines = json.loads(f.read())['display_adjacent_lines']
-
-        # if value not int
-        if not isinstance(no_of_adjecent_lines, int):
-            print("Please set display_adjacent_lines to be an integer, 0 or more!")
-            exit() 
-
-        # if int, check if < 0
-        elif no_of_adjecent_lines < 0:
-            print("Please set display_adjacent_lines to be an integer, 0 or more!")
-            exit()
-
+def static_analysis(extension: Path, soup: BeautifulSoup, config):
 
     # Name of folder scanned
     scanned_dir = extension.name
-
-    # Loading spinner
-    def loading_spinner(scanned_dir):
-        while spinner_running:
-            for char in ['\\', '|', '/', '-']:
-                print(f"Scanning {scanned_dir} for vulnerabilities ... {char}", end="\r")
-                time.sleep(0.1)
-    global spinner_running 
-    spinner_running = True
-    spinner_thread = threading.Thread(target=loading_spinner,args=[scanned_dir])
-    spinner_thread.start()
-
-
 
 
     # Config rules
@@ -113,29 +97,20 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
         "--output",
         output_file,
     ]
-
-    try:
-        
-        subprocess.run(command, check=True)
-
-        spinner_running = False
-        spinner_thread.join()
-        print(f"Scanning {scanned_dir} for vulnerabilities ... ")
-        
-        print("Static analysis complete.")
-    except subprocess.CalledProcessError as err:
-        print()
-        print(f"Error running semgrep command: {err}")
-        exit()
-
-    # Skip scan for current folder
+    try: 
+        spinner_event, spinner_thread = spinner(scanned_dir)
+        spinner_event.set()
+        spinner_thread.start()
+        subprocess.run(command)
     except KeyboardInterrupt:
-        
-        spinner_running = False
+        spinner_event.clear()
         spinner_thread.join()
-        print()
-        print(f'Skipping scan for {scanned_dir}.')
-        return
+        print(f"Scanning {scanned_dir} for vulnerabilities ... {cross}  ")
+        print("Terminating program ...")
+        exit()
+    spinner_event.clear()
+    spinner_thread.join()
+    print(f"Scanning {scanned_dir} for vulnerabilities ... {tick}")
 
     # read the static results
     with open(output_file, "r") as static_result_file:
@@ -318,8 +293,9 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                 total_file_len = len(f.readlines())
 
             # {line no:line content}
-            prepend_lines = {source_line_no - x - 1: "" for x in range(no_of_adjecent_lines) if source_line_no - x - 1 > 0}
-            append_lines = {sink_line_no + x + 1: "" for x in range(no_of_adjecent_lines) if sink_line_no + x + 1 <= total_file_len}
+            report_display_adjacent_lines = config['report_display_adjacent_lines']
+            prepend_lines = {source_line_no - x - 1: "" for x in range(report_display_adjacent_lines) if source_line_no - x - 1 > 0}
+            append_lines = {sink_line_no + x + 1: "" for x in range(report_display_adjacent_lines) if sink_line_no + x + 1 <= total_file_len}
 
             with open(vuln_file, 'r') as f:
                 for i, line in enumerate(f):
@@ -327,16 +303,9 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
                         prepend_lines[i+1] = html.escape(line.rstrip())
                     if i+1 in append_lines.keys():
                         append_lines[i+1] = html.escape(line.rstrip())
-
-            # print("prepend_lines: ", prepend_lines)
-            # print("append_lines: ", append_lines)
-
-            # input()
-                
                         
             prepend_lines = dict(sorted(prepend_lines.items(), reverse=True))
 
-            # print("prepending...")
             # Prepending lines
             for line_no, line in prepend_lines.items():
                 soup_prepend_content = BeautifulSoup(f"""<code>
@@ -357,17 +326,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
 
 """)
 
-                    
-
-            # print(soup_code_segment)
-
-            
-
-            # input()
-
-            # new_soup_code_segment = BeautifulSoup(soup_code_segment, "html.parser")
-
-            # input()
 
             
             add = f"""
@@ -430,16 +388,20 @@ def static_analysis(extension: Path, soup: BeautifulSoup):
     with open(report_path, "w") as file:
         file.write(str(soup))
 
+    return results
 
 
 
-def dynamic_analysis(extension: Path, soup: BeautifulSoup):
+
+def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config):
+
+
 
     print()
     print('Conducting dynamic analysis ...')
 
     # call selenium main.py
-    # dynamic()
+    dynamic(extension, results)
 
     print('Dynamic analysis complete.')
     print()
@@ -448,7 +410,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
     logs_obj = []
 
     # to change during integration
-    dynamic_logfile = 'DYNAMIC_ANALYSIS/sample_logfile.txt'
+    dynamic_logfile = 'dynamic_logs.txt'
 
     with open(dynamic_logfile, 'r') as f:
         for line in f:
@@ -667,18 +629,40 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup):
             
             
             
+def load_config():
+    # Load and check validity of config.
+
+    # Get number of adjacent lines to display in report
+    with open('SHARED/config.json') as f:
+        config = json.loads(f.read())
+    
+    # initialise
+    report_display_adjacent_lines = config['report_display_adjacent_lines']
+
+    # validate if value not int
+    if not isinstance(report_display_adjacent_lines, int):
+        print("Please set display_adjacent_lines to be an integer, 0 or more!")
+        exit() 
+
+    # if int, check if < 0
+    elif report_display_adjacent_lines < 0:
+        print("Please set display_adjacent_lines to be an integer, 0 or more!")
+        exit()
 
 
-
+    return config
+    
 
 if __name__ == "__main__":
     print(get_banner())
+
+    config = load_config()
     
     for extension in extraction():
         print()
 
         # Parse report template HTML content
-        with open("SHARED/REPORTS/report_template.html", "r") as f:
+        with open("report_template.html", "r") as f:
             soup = BeautifulSoup(f, "html.parser")
 
         # Get scan date
@@ -688,7 +672,7 @@ if __name__ == "__main__":
         soup.find(id="scan-date").string = scan_start
 
         # Start static analysis
-        static_analysis(extension, soup)
+        results = static_analysis(extension, soup, config)
 
         # Start dynamic analysis
-        dynamic_analysis(extension, soup)
+        dynamic_analysis(results, extension, soup, config)

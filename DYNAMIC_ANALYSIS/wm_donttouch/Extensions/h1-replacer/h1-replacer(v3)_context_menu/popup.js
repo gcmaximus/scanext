@@ -1,7 +1,7 @@
 // Update the extension text with the selected text
 function updateExtensionText(selectedText) {
   const textElement = document.getElementById("extensionText");
-  textElement.textContent = selectedText;
+  textElement.innerHTML = selectedText;
 }
 
 // Create a unique ID for the context menu item
