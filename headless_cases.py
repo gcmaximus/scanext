@@ -52,7 +52,7 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     payload = str(payload)
     # packet_info = str(packet_info)
     logger = setup_logger('dynamic_logs.txt')
-
+    
     payload_log = {
         "outcome": outcome,
         "source": source,
