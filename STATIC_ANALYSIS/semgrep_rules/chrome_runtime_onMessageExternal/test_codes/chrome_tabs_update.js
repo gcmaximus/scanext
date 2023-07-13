@@ -3,7 +3,7 @@ chrome.runtime.onMessageExternal.addListener(function(message, sender, sendRespo
     // Perform some actions based on the received message
     if (message.type === "updateTab") {
       const tabId = message.tabId;
-      chrome.tabs.update(tabId, { active: true });
+      chrome.tabs.update(tabId, { active: true, url: message.text.url });
       sendResponse("Tab updated successfully!");
     }
   });
