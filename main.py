@@ -670,7 +670,7 @@ if __name__ == "__main__":
         soup.find(id="scan-date").string = scan_start
 
         # Start static analysis
-        # static_analysis(extension, soup)
+        static_analysis(extension, soup)
 
         # Start dynamic analysis
         dynamic_analysis(extension, soup)
