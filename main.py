@@ -112,31 +112,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config):
     spinner_thread.join()
     print(f"Scanning {scanned_dir} for vulnerabilities ... {tick}")
 
-
-
-    # try:
-        
-    #     subprocess.run(command, check=True)
-
-    #     spinner_running = False
-    #     spinner_thread.join()
-    #     print(f"Scanning {scanned_dir} for vulnerabilities ... ")
-        
-    #     print("Static analysis complete.")
-    # except subprocess.CalledProcessError as err:
-    #     print()
-    #     print(f"Error running semgrep command: {err}")
-    #     exit()
-
-    # # Skip scan for current folder
-    # except KeyboardInterrupt:
-        
-    #     spinner_running = False
-    #     spinner_thread.join()
-    #     print()
-    #     print(f'Skipping scan for {scanned_dir}.')
-    #     return
-
     # read the static results
     with open(output_file, "r") as static_result_file:
         results: list[dict] = json.load(static_result_file)["results"]
@@ -328,16 +303,9 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config):
                         prepend_lines[i+1] = html.escape(line.rstrip())
                     if i+1 in append_lines.keys():
                         append_lines[i+1] = html.escape(line.rstrip())
-
-            # print("prepend_lines: ", prepend_lines)
-            # print("append_lines: ", append_lines)
-
-            # input()
-                
                         
             prepend_lines = dict(sorted(prepend_lines.items(), reverse=True))
 
-            # print("prepending...")
             # Prepending lines
             for line_no, line in prepend_lines.items():
                 soup_prepend_content = BeautifulSoup(f"""<code>
@@ -358,17 +326,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config):
 
 """)
 
-                    
-
-            # print(soup_code_segment)
-
-            
-
-            # input()
-
-            # new_soup_code_segment = BeautifulSoup(soup_code_segment, "html.parser")
-
-            # input()
 
             
             add = f"""
