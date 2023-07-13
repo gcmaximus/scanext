@@ -158,19 +158,6 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config):
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="static-main").append(add_parsed)
 
-        # no dynamic results
-        add = f"""
-            <div class="card m-auto dynamic-none border-success">
-                <div class="card-header none-header">Result</div>
-                <div class="card-body">
-                    <h5 class="card-title">No POCs generated</h5>
-                    <p class="card-text">Our tool did not find any payloads that can exploit potential vulnerabilities in the code.</p>
-                </div>
-            </div>"""
-        
-        add_parsed = BeautifulSoup(add, "html.parser")
-        soup.find(id="dynamic-main").append(add_parsed)
-
     else:
         # loop through & append 1 card for each result
         result_no = 1

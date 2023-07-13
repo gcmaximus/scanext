@@ -129,19 +129,12 @@ def initialise_headless(path_to_extension,results):
 
     # initialize selenium and load extension
     options = ChromeOptions()
-    print(1)
     options.add_experimental_option('detach', True)
-    print(2)
     load_ext_arg = "load-extension=" + abs_path
-    print(3)
     options.add_argument(load_ext_arg)
-    print(2)
     options.add_argument("--enable-logging")
-    print(2)
     options.add_argument("--disable-dev-shm-usage")
-    print(2)
     driver = Chrome(service=Service(), options=options)
-    print(4)
 
     for result in l:
         source = result["message"].split(";")[0][7:]
@@ -1912,14 +1905,10 @@ def interpreter(data):
 
 #main
 def main(extension_path, semgrep_results):
-
-    print('hello')
     
     # Run program
     with Display() as disp:
         print(disp.is_alive())
-        print('hello2')
-
         initialise_headless(extension_path,semgrep_results)
 
 
