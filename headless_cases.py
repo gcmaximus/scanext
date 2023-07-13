@@ -37,9 +37,9 @@ def initialise_headless(path_to_extension,jsonfile):
         "chrome_cookies_getAll":".",
         "chrome_debugger_getTargets":".",
         "chrome_runtime_onConnect":runtime_onC,
-        "chrome_runtime_onConnectExternal":".",
+        "chrome_runtime_onConnectExternal":runtime_onCE,
         "chrome_runtime_onMessage":runtime_onM,
-        "chrome_runtime_onMessageExternal":".",
+        "chrome_runtime_onMessageExternal":runtime_onME,
         "chrome_tabs_get":".",
         "chrome_tabs_getCurrent":".",
         "chrome_tabs_query":".",
@@ -108,10 +108,8 @@ def initialise_headless(path_to_extension,jsonfile):
     driver = Chrome(service=Service(), options=options)
 
     for result in l:
-        a = result["message"].split("Source:")
-        b = a[1].split(";")
-        c = sourcelist[b[0]]
-        c(payload,result)
+        source = result["message"].split(";")[0][7:]
+        sourcelist[source]()
 
     # logging for server
     def setup_logger(log_file):
@@ -305,26 +303,24 @@ def context_menu(driver, url_path, payloads):
 ##########################
 
 # 1) runtime.onMessage 
-def runtime_onM(payload, ssm):
+def runtime_onM(driver, url_path, payload, ssm):
     scripts = []
-    for k in ssm:
+    for k in payload:
         dots = '.'
-        taintsink = k["sink"]
-        
+        taintsink = ssm["sink"]
         obj = {}
         var = ""
-        #source is here
         if dots in taintsink:
             sinklist = taintsink.split(dots)
             a = sinklist[-1]
             if ")" in a:
                 b = a.find(")")
                 sinklist[-1] = a[:b]
-            obj = {sinklist[-1]:payload}
+            obj = {sinklist[-1]:k}
             obj = json.dumps(obj)
             var = f"obj = JSON.parse('{obj}');"
         else:
-            var = f"obj = '{payload}';"
+            var = f"obj = '{k}';"
 
         script = f"{var}chrome.runtime.sendMessage(obj)"
         scripts.append(script)
@@ -332,7 +328,7 @@ def runtime_onM(payload, ssm):
     return scripts
 
 # 2) runtime.onConnect
-def runtime_onC(payload, ssm):
+def runtime_onC(driver, url_path, payload, ssm):
     scripts = []
     for i in payload:
         dots = '.'
@@ -373,12 +369,11 @@ def runtime_onC(payload, ssm):
         func = f".postMessage(obj)"
 
         script = f"{var}chrome.runtime.connect({connect}){func}"
-        print(script)
         scripts.append(script)
     return scripts
 
 # 3) cookies.get
-def cookie_get(payload, ssm):
+def cookie_get(driver, url_path, payload, ssm):
     scripts = []
     for i in payload:
         dots = '.'
@@ -428,11 +423,58 @@ def cookie_get(payload, ssm):
     return scripts
 
 # 4) location.hash
-def location_hash(payload, ssm):
+def location_hash(driver, url_path, payload, ssm):
     script = f"window.location.hash = {payload}"
     return script
 
+# 5) runtime.onMessageExternal
+def runtime_onME(driver, url_path, payload, ssm):
+    payload
 
+# 6) runtime.onConnectExternal
+def runtime_onCE(driver, url_path, payload, ssm):
+    scripts = []
+    for i in payload:
+        dots = '.'
+        taintsink = ssm["sink"]
+        taintsource = ssm["source"]
+        obj = {}
+        var = ""
+        func = ""
+        connect = ""
+        try:
+            if ssm["metavars"]["PORT"]:
+                port = ssm["metavars"]["PORT"]
+        except:
+            port = ""
+        try:
+            if ssm["metavars"]["PORTPROPERTY"]:
+                portproperty = ssm["metavars"]["PORTPROPERTY"]
+        except:
+            portproperty = ""
+        try:
+            if ssm["metavars"]["PORTPASSWORD"]:
+                portpassword = ssm["metavars"]["PORTPASSWORD"]
+        except:
+            portpassword = ""
+        if dots in taintsink:
+            tsink = taintsink.split(dots)
+            obj = {tsink[-1]:i}
+            obj = json.dumps(obj)
+        else:
+            obj = {taintsource:i}
+            obj = json.dumps(obj)
+
+        if port!="" and portproperty!="" and portpassword!="":
+            connect = {portproperty:portpassword}
+            connect = json.dumps(connect)
+
+        var = f"obj = JSON.parse('{obj}');"
+        func = f".postMessage(obj)"
+
+        script = f"{var}chrome.runtime.connect({connect}){func}"
+        print(script)
+        scripts.append(script)
 
 # running the driver
 def headless_driver(driver, url_path, scripts):
@@ -491,7 +533,6 @@ def preconfigure(dir):
                             line = line.replace(a, "active: false")
                         print(line, end="")
                         
-
 #interpreter
 def interpreter(data):
     tainted = []
