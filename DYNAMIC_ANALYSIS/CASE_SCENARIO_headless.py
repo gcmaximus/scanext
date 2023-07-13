@@ -280,9 +280,12 @@ b = "Source:chrome_runtime_onConnect;Sink:outerHTML"
 c = b.split("Source:")
 d = c[1].split(";")
 e = d[0]
-for i in sourcelist:
-    match e:
-        case i:
-            a = sourcelist[i]
-            print(a)
+print(sourcelist)
+for key,value in sourcelist.items():
+    print(key)
+match e:
+    case e:
+        a = sourcelist[e]
+        print(a)
+
     

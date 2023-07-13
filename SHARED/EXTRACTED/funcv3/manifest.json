@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "<h1> replacer",
+  "name": "testing",
   "version": "1.0",
-  "description": "A simple extension that accepts user input",
+  "description": "testing script",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
