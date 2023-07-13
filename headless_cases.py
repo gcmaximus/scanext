@@ -52,7 +52,7 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     payload = str(payload)
     # packet_info = str(packet_info)
     logger = setup_logger('dynamic_logs.txt')
-    
+
     payload_log = {
         "outcome": outcome,
         "source": source,
@@ -129,15 +129,24 @@ def initialise_headless(path_to_extension,results):
 
     # initialize selenium and load extension
     options = ChromeOptions()
+    print(1)
     options.add_experimental_option('detach', True)
+    print(2)
     load_ext_arg = "load-extension=" + abs_path
+    print(3)
     options.add_argument(load_ext_arg)
+    print(2)
     options.add_argument("--enable-logging")
+    print(2)
+    options.add_argument("--disable-dev-shm-usage")
+    print(2)
     driver = Chrome(service=Service(), options=options)
+    print(4)
 
     for result in l:
         source = result["message"].split(";")[0][7:]
-        # sourcelist[source](driver,ext_id,url_path,payload,result)
+        print(source)
+        sourcelist[source](driver,ext_id,url_path,payload,result)
 
     # server_info: list = requests.get("http://127.0.0.1:8000/data").json()["data"][0]
     # payload_server_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'small-payloads.txt', server_info)
@@ -763,8 +772,8 @@ def context_menu(driver, ext_id, url_path, payloads, result):
             
         with Display() as disp:
 
-            payloads = payloads('payloads/small_payload.txt')
-            url_path, abs_path = get_ext_id('Extensions/h1-replacer/h1-replacer(v3)_context_menu')
+            payloads = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
+            url_path, abs_path = get_ext_id('DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu')
 
             print(disp.is_alive())
             print(disp.display)
@@ -776,7 +785,7 @@ def context_menu(driver, ext_id, url_path, payloads, result):
             driver = Chrome(service=Service(), options=options)
 
             # get www.example.com
-            driver.get('file:///home/showloser/localhost/dynamic/miscellaneous/xss_website.html')
+            driver.get('file:///home/jerald/chrome-ext-scanner/chrome-ext-scanner/DYNAMIC_ANALYSIS/wm_donttouch/miscellaneous/xss_website.html')
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -1903,8 +1912,144 @@ def interpreter(data):
 
 #main
 def main(extension_path, semgrep_results):
+
+    print('hello')
+    
     # Run program
     with Display() as disp:
         print(disp.is_alive())
+        print('hello2')
 
         initialise_headless(extension_path,semgrep_results)
+
+
+if __name__ == '__main__':
+
+    print('starting program')
+    
+    extension_path = 'SHARED/EXTRACTED/funcv3/'
+    with open("STATIC_ANALYSIS/semgrep_results.json", "r") as file:
+        results = json.load(file)["results"]
+    main(extension_path, results)
+
+
+
+# # Selection Text [Headless]
+# def context_menu_selectionText_headless():
+#     from pyvirtualdisplay.display import Display
+#     from os import path
+#     import hashlib
+#     import time
+
+#     from selenium.webdriver.common.by import By
+#     from selenium.webdriver import ActionChains, Chrome, ChromeOptions, Keys
+#     from selenium.webdriver.support.wait import WebDriverWait
+#     from selenium.webdriver import Chrome, ChromeOptions
+#     from selenium.webdriver.chrome.service import Service
+
+#     import subprocess
+
+#     def payloads(path_to_payload):
+#         payload_array = []
+#         try:
+#             with open(path_to_payload, 'r') as file:
+#                 # Read the contents of the file
+#                 for line in file:
+#                     payload_array.append(line)
+#         except FileNotFoundError:
+#             print("File not found.")
+#         except IOError:
+#             print("An error occurred while reading the file.")
+
+#         return payload_array
+
+#     def get_ext_id(path_to_extension):
+#         abs_path = path.abspath(path_to_extension)
+#         m = hashlib.sha256()
+#         m.update(abs_path.encode("utf-8"))
+#         ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
+#         url_path = f"chrome-extension://{ext_id}/popup.html"
+#         return url_path, abs_path
+        
+#     with Display() as disp:
+
+#         payloads = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
+#         url_path, abs_path = get_ext_id('DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu')
+
+#         print(disp.is_alive())
+#         print(disp.display)
+#         options = ChromeOptions()
+#         options.add_argument("--disable-dev-shm-usage")
+#         options.add_argument("--no-sandbox")
+#         load_ext_arg = "load-extension=" + abs_path
+#         options.add_argument(load_ext_arg)
+#         driver = Chrome(service=Service(), options=options)
+
+#         # get www.example.com
+#         driver.get('file:///home/jerald/chrome-ext-scanner/chrome-ext-scanner/DYNAMIC_ANALYSIS/wm_donttouch/miscellaneous/xss_website.html')
+#         # set handler for example.com
+#         example = driver.current_window_handle
+
+#         # get extension popup.html
+#         driver.switch_to.new_window('tab')
+#         extension = driver.current_window_handle
+#         driver.get(url_path)
+#         driver.save_screenshot('ss.png')
+#         time.sleep(2)
+
+#         for payload in payloads:
+#             print(payload)
+#             # driver.switch_to.window(extension)
+#             # driver.refresh()
+
+#             driver.switch_to.window(example)
+
+#             driver.execute_script(f'document.getElementById("h1_element").innerText = `{payload}`')
+#             target_element = driver.find_element(By.ID, 'h1_element')
+
+#             # Select the text using JavaScript
+#             driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
+
+
+#             actions = ActionChains(driver)
+#             actions.context_click(target_element).perform()
+
+
+#             driver.save_screenshot('ss.png')
+#             time.sleep(2)
+
+
+#             for _ in range(6):
+#                 subprocess.call(['xdotool', 'key', 'Down'])
+
+#             # Simulate pressing the "Enter" key
+#             subprocess.call(['xdotool', 'key', 'Return'])
+
+#             try:
+#                 # wait 2 seconds to see if alert is detected
+#                 WebDriverWait(driver, 2).until(EC.alert_is_present())
+#                 alert = driver.switch_to.alert
+#                 alert.accept()
+#                 print('+ Alert Detected +')
+#             except TimeoutException:
+#                 print('= No alerts detected =')
+
+
+#             driver.switch_to.window(extension)
+#             driver.save_screenshot('ss.png')
+#             time.sleep(1)
+
+
+#             driver.switch_to.window(example)
+#             driver.save_screenshot('ss.png')
+#             time.sleep(1)
+
+
+
+
+
+
+
+
+
+# context_menu_selectionText_headless()
