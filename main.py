@@ -678,7 +678,7 @@ if __name__ == "__main__":
         print()
 
         # Parse report template HTML content
-        with open("SHARED/REPORTS/report_template.html", "r") as f:
+        with open("report_template.html", "r") as f:
             soup = BeautifulSoup(f, "html.parser")
 
         # Get scan date

@@ -2,7 +2,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>ScanExt Report - funcv3</title>
+<title>ScanExt Report - window</title>
 <!-- Bootstrap -->
 <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet"/>
 <!-- Poppins -->
@@ -203,6 +203,10 @@
         .table-row h3 {
             margin-top:35px;
         }
+
+        pre {
+            overflow:hidden;
+        }
     </style>
 </head>
 <body>
@@ -214,14 +218,14 @@
 </div>
 <div class="row files-header">
 <p style="color: white">Folder scanned:</p>
-<p><code id="scanned-folder">funcv3</code></p>
+<p><code id="scanned-folder">window</code></p>
 </div>
 <div class="row main-heading">
 <table class="table table-secondary table-bordered border-dark table-striped">
 <tbody>
 <tr>
 <td><b>Extension Name</b></td>
-<td id="ext-name">testing</td>
+<td id="ext-name">Message Extension</td>
 </tr>
 <tr>
 <td><b>Extension Version</b></td>
@@ -233,7 +237,7 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Wed, 12 Jul 2023 04:03:03 +0800</td>
+<td id="scan-date">Thu, 13 Jul 2023 13:27:47 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
@@ -259,7 +263,7 @@
 <div class="card static-result">
 <div class="card-header">
 <span class="float-start">
-<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-1"><b>File:</b> funcv3/script.js</span>
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-1"><b>File:</b> window/popup.js</span>
 </span>
 </div>
 <div class="card-body">
@@ -267,36 +271,32 @@
 <div class="row">
 <div class="col-6 source-desc">
 <!-- Source -->
-<h5><u>Source ID: <code id="source-1">window_name</code></u></h5>
-<p id="source-desc-1"><code>window.name</code> can be used as an entry point for user-controlled data due the fact that it's accessible cross-origin. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
+<h5><u>Source ID: <code id="source-1">window_addEventListener_message</code></u></h5>
+<p id="source-desc-1"><code>window.addEventListener("message")</code> listens for messages sent from <code>postMessage</code>. If the <code>origin</code> of the message is not checked this can lead to security issues. Additionally, the <code>source</code> of the message should be checked to ensure it's the same <code>window</code> that the Content Script is running on.</p>
 </div>
 <div class="col-6 sink-desc">
 <!-- Sink -->
-<h5><u>Sink ID: <code id="sink-1">outerHTML</code></u></h5>
-<p id="sink-desc-1"><code>.outerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
+<h5><u>Sink ID: <code id="sink-1">innerHTML</code></u></h5>
+<p id="sink-desc-1"><code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
 </div>
 </div>
 <br/><br/>
 <!-- Location -->
 <h5><u>Location of vulnerability</u></h5>
 <pre class="code-block" id="code-block-1"><code>
-    2		y = "&lt;div&gt;pls no xss the report&lt;/div&gt;"</code><code>
-    3		console.log('nothing')</code><code>
-    4		console.log('abc')</code><code>
-    5		</code><code>
-    6		function abc() {</code><code class="code-source">
-    7		<mark id="code-source-1">    x = "&lt;h1&gt;" + window.name + "&lt;/h1&gt;"</mark>	<span class="code-comment">/* Source */</span></code><code>
+    1		function abc() {</code><code class="code-source">
+    2		<mark id="code-source-1">    window.addEventListener("message", (event) =&gt; {</mark>	<span class="code-comment">/* Source */</span></code><code>
     ...		...</code><code class="code-sink">
-    9		<mark id="code-sink-1">    document.getElementById('replace').outerHTML = tainted_x</mark>	<span class="code-comment">/* Sink */</span></code><code>
-    10		}</code><code>
-    11		console.log('last line bye bye')</code><code>
-    12		z = "&lt;img src=x&gt;"</code>
+    6		<mark id="code-sink-1">        tags[0].innerHTML = xyz.message + ' abc '</mark>	<span class="code-comment">/* Sink */</span></code><code>
+    7		    })</code><code>
+    8		}</code><code>
+    9		</code>
 
 </pre>
 <br>
 <h5><u>Tainted variables</u></h5>
 <pre class="code-block"><code class="code-taint">
-    8		<mark class="mark-taint" id="code-taint-1">    tainted_x = "&lt;div&gt;" + x + "&lt;/div&gt;"</mark>	<span class="code-comment">/* Tainted */</span></code>
+    4		<mark class="mark-taint" id="code-taint-1">        xyz = event.data</mark>	<span class="code-comment">/* Tainted */</span></code>
                     </pre>
 <i>*This code has been beautified by js-beautify.</i>
 </br></p>
