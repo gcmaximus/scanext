@@ -19,10 +19,56 @@ import json
 from server import main as server
 import requests
 
-from functools import partial
+from functools import partial, reduce
 from pathlib import Path
 
+import subprocess
+
 import logging
+from datetime import datetime
+
+# Logging framework
+def setup_logger(log_file):
+    # Create a logger
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    # Create a file handler and set the log level
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(logging.DEBUG)
+
+    # Create a formatter and add it to the handlers
+    log_format = '%(message)s'
+    formatter = logging.Formatter(log_format)
+    file_handler.setFormatter(formatter)
+
+    # Add the handlers to the logger
+    logger.addHandler(file_handler)
+
+    return logger
+
+def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
+    # Convert sets to lists
+    payload = str(payload)
+    # packet_info = str(packet_info)
+    logger = setup_logger('penetration_logv2_GUI.txt')
+
+    payload_log = {
+        "outcome": outcome,
+        "source": source,
+        "extensionId": extension_id,
+        "extensionName": extension_name,
+        "Url": url_of_website,
+        "payloadType": payload_type,
+        "payload": payload,
+        "timeOfInjection": time_of_injection,
+        "timeOfAlert": time_of_alert,
+        "payload_fileName": payload_filename,
+        "packetInfo": packet_info
+    }
+
+    log_message = json.dumps(payload_log)
+    logger.info(log_message)
 
 def initialise_headless(path_to_extension,jsonfile):
     # preconfiguration (set active to false)
@@ -75,7 +121,7 @@ def initialise_headless(path_to_extension,jsonfile):
         m.update(abs_path.encode("utf-8"))
         ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
         url_path = f"chrome-extension://{ext_id}" + p
-        return url_path, abs_path
+        return url_path, abs_path, ext_id
     
     # definind payloads
     def payloads(path_to_payload):
@@ -95,7 +141,7 @@ def initialise_headless(path_to_extension,jsonfile):
     localserver = Process(target=server)
     localserver.start()
     data, popup = json_results(path_to_extension,jsonfile)
-    url_path, abs_path = get_ext_id(path_to_extension,popup)
+    url_path, abs_path, ext_id = get_ext_id(path_to_extension,popup)
     payload = payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')
     l = interpreter(data)        
 
@@ -109,55 +155,10 @@ def initialise_headless(path_to_extension,jsonfile):
 
     for result in l:
         source = result["message"].split(";")[0][7:]
-        sourcelist[source]()
+        # sourcelist[source](driver,ext_id,url_path,payload,result)
 
-    # logging for server
-    def setup_logger(log_file):
-        # Create a logger
-        logger = logging.getLogger()
-        logger.setLevel(logging.DEBUG)
-
-        # Create a file handler and set the log level
-        file_handler = logging.FileHandler(log_file)
-        file_handler.setLevel(logging.DEBUG)
-
-        # Create a formatter and add it to the handlers
-        log_format = '%(message)s'
-        formatter = logging.Formatter(log_format)
-        file_handler.setFormatter(formatter)
-
-        # Add the handlers to the logger
-        logger.addHandler(file_handler)
-
-        return logger
-
-    def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
-        # Convert sets to lists
-        payload = str(payload)
-        # packet_info = str(packet_info)
-        logger = setup_logger('penetration_logv2_GUI.txt')
-
-        payload_log = {
-            "outcome": outcome,
-            "source": source,
-            "extensionId": extension_id,
-            "extensionName": extension_name,
-            "Url": url_of_website,
-            "payloadType": payload_type,
-            "payload": payload,
-            "timeOfInjection": time_of_injection,
-            "timeOfAlert": time_of_alert,
-            "payload_fileName": payload_filename,
-            "packetInfo": packet_info
-        }
-
-        log_message = json.dumps(payload_log)
-        logger.info(log_message)
-
-    server_info: list = requests.get("http://127.0.0.1:8000/data").json()["data"][0]
-    payload_server_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'small-payloads.txt', server_info)
-
-    
+    # server_info: list = requests.get("http://127.0.0.1:8000/data").json()["data"][0]
+    # payload_server_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'small-payloads.txt', server_info)
 
 
 ##########################
@@ -165,11 +166,11 @@ def initialise_headless(path_to_extension,jsonfile):
 ##########################
 
 # 1) runtime.onMessage 
-def runtime_onM(driver, url_path, payload, ssm):
+def runtime_onM(driver, ext_id, url_path, payload, result):
     scripts = []
     for k in payload:
         dots = '.'
-        taintsink = ssm["sink"]
+        taintsink = result["sink"]
         obj = {}
         var = ""
         if dots in taintsink:
@@ -190,29 +191,29 @@ def runtime_onM(driver, url_path, payload, ssm):
     return scripts
 
 # 2) runtime.onConnect
-def runtime_onC(driver, url_path, payload, ssm):
+def runtime_onC(driver, ext_id, url_path, payload, result):
     scripts = []
     for i in payload:
         dots = '.'
-        taintsink = ssm["sink"]
-        taintsource = ssm["source"]
+        taintsink = result["sink"]
+        taintsource = result["source"]
         obj = {}
         var = ""
         func = ""
         connect = ""
         try:
-            if ssm["metavars"]["PORT"]:
-                port = ssm["metavars"]["PORT"]
+            if result["metavars"]["PORT"]:
+                port = result["metavars"]["PORT"]
         except:
             port = ""
         try:
-            if ssm["metavars"]["PORTPROPERTY"]:
-                portproperty = ssm["metavars"]["PORTPROPERTY"]
+            if result["metavars"]["PORTPROPERTY"]:
+                portproperty = result["metavars"]["PORTPROPERTY"]
         except:
             portproperty = ""
         try:
-            if ssm["metavars"]["PORTPASSWORD"]:
-                portpassword = ssm["metavars"]["PORTPASSWORD"]
+            if result["metavars"]["PORTPASSWORD"]:
+                portpassword = result["metavars"]["PORTPASSWORD"]
         except:
             portpassword = ""
         if dots in taintsink:
@@ -234,24 +235,24 @@ def runtime_onC(driver, url_path, payload, ssm):
         scripts.append(script)
     return scripts
 
-# 3) cookies.get
-def cookie_get(driver, url_path, payload, ssm):
+# 3) cookies.get && cookies.getAll
+def cookie_get(driver, ext_id, url_path, payload, result):
     scripts = []
     for i in payload:
         dots = '.'
-        taintsource = ssm["source"]
+        taintsource = result["source"]
         cookie = ""
         x = ""
         try:
-            if ssm["metavars"]["COOKIE"]:
-                cookie = ssm["metavars"]["COOKIE"]
-            if ssm["metavars"]["X"]:
-                x = ssm["metavars"]["X"]
-            if ssm["metavars"]["Y"]:
-                y = ssm["metavars"]["Y"]
+            if result["metavars"]["COOKIE"]:
+                cookie = result["metavars"]["COOKIE"]
+            if result["metavars"]["X"]:
+                x = result["metavars"]["X"]
+            if result["metavars"]["Y"]:
+                y = result["metavars"]["Y"]
             try:
-                if ssm["metavars"]["yvalue"]:
-                    yvalue = ssm["metavars"]["yvalue"]
+                if result["metavars"]["yvalue"]:
+                    yvalue = result["metavars"]["yvalue"]
             except:
                 yvalue = ""
         except:
@@ -285,38 +286,45 @@ def cookie_get(driver, url_path, payload, ssm):
     return scripts
 
 # 4) location.hash
-def location_hash(driver, url_path, payload, ssm):
+def location_hash(driver, ext_id, url_path, payload, result):
     script = f"window.location.hash = {payload}"
     return script
 
 # 5) runtime.onMessageExternal
-def runtime_onME(driver, url_path, payload, ssm):
-    payload
-
-# 6) runtime.onConnectExternal
-def runtime_onCE(driver, url_path, payload, ssm):
+def runtime_onME(driver, ext_id, url_path, payload, result):
     scripts = []
     for i in payload:
         dots = '.'
-        taintsink = ssm["sink"]
-        taintsource = ssm["source"]
+        taintsink = result["sink"]
+        obj = {}
+        var = ""
+        script = f"chrome.runtime.sendMessage('{ext_id}',)"
+        scripts.append(script)
+
+# 6) runtime.onConnectExternal
+def runtime_onCE(driver, ext_id, url_path, payload, result):
+    scripts = []
+    for i in payload:
+        dots = '.'
+        taintsink = result["sink"]
+        taintsource = result["source"]
         obj = {}
         var = ""
         func = ""
         connect = ""
         try:
-            if ssm["metavars"]["PORT"]:
-                port = ssm["metavars"]["PORT"]
+            if result["metavars"]["PORT"]:
+                port = result["metavars"]["PORT"]
         except:
             port = ""
         try:
-            if ssm["metavars"]["PORTPROPERTY"]:
-                portproperty = ssm["metavars"]["PORTPROPERTY"]
+            if result["metavars"]["PORTPROPERTY"]:
+                portproperty = result["metavars"]["PORTPROPERTY"]
         except:
             portproperty = ""
         try:
-            if ssm["metavars"]["PORTPASSWORD"]:
-                portpassword = ssm["metavars"]["PORTPASSWORD"]
+            if result["metavars"]["PORTPASSWORD"]:
+                portpassword = result["metavars"]["PORTPASSWORD"]
         except:
             portpassword = ""
         if dots in taintsink:
@@ -338,285 +346,9 @@ def runtime_onCE(driver, url_path, payload, ssm):
         print(script)
         scripts.append(script)
 
-# running the driver
-def headless_driver(driver, url_path, scripts):
-    # get www.example.com
-    driver.get('https://www.example.com')
-    # set handler for example.com
-    example = driver.current_window_handle
-
-    # get extension popup.html
-    driver.switch_to.new_window('tab')
-    extension = driver.current_window_handle
-    driver.get(url_path)
-    driver.switch_to.window(example)
-
-    for script in scripts:
-
-        # print(script)
-        driver.execute_script(script)
-
-        driver.switch_to.window(extension)
-        driver.refresh()
-        driver.switch_to.window(example)
-
-        try:
-            # wait 2 seconds to see if alert is detected
-            WebDriverWait(driver, 2).until(EC.alert_is_present())
-            alert = driver.switch_to.alert
-            alert.accept()
-            print('+ Alert Detected +')
-        except TimeoutException:
-            print('= No alerts detected =')
-        
-        driver.refresh()
-
-#preconfiguration
-def preconfigure(dir):
-    # Specify the folder path containing the JavaScript files
-    folder_path = dir
-    a = ""
-
-    for root, dirs, files in os.walk(folder_path):
-        # Perform the find and replace operation on each JavaScript file in the folder
-        for filename in files:
-            if filename.endswith(".js"):
-                file_path = os.path.join(root, filename)
-
-                # Perform the find and replace operation
-                with fileinput.FileInput(file_path, inplace=True,) as file:
-                    for line in file:
-                        # Replace "active: true" with "active: false"
-                        if "active: !0" in line:
-                            a = "active: !0"
-                            line = line.replace(a, "active: false")
-                        elif "active: true" in line:
-                            a = "active: true"
-                            line = line.replace(a, "active: false")
-                        print(line, end="")
-                        
-#interpreter
-def interpreter(data):
-    tainted = []
-    for i in data:
-        taint = {}
-        taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
-        taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
-        metavars = {}
-        try:
-            if i["extra"]["metavars"]["$PORT"]:
-                metavars["PORT"] = i["extra"]["metavars"]["$PORT"]["abstract_content"]
-            try:
-                if i["extra"]["metavars"]["$PORTPASSWORD"]:
-                    metavars["PORTPASSWORD"] = i["extra"]["metavars"]["$PORTPASSWORD"]["abstract_content"]
-                if i["extra"]["metavars"]["$PORTPROPERTY"]:
-                    metavars["PORTPROPERTY"] = i["extra"]["metavars"]["$PORTPROPERTY"]["abstract_content"]
-            except:
-                print('no port property/password')
-        except:
-            print('no port')
-        try:
-            if i["extra"]["metavars"]["$COOKIE"]:
-                metavars["COOKIE"] = i["extra"]["metavars"]["$COOKIE"]["abstract_content"]
-            if i["extra"]["metavars"]["$DETAILS"]:
-                metavars["DETAILS"] = i["extra"]["metavars"]["$DETAILS"]["abstract_content"]
-            if i["extra"]["metavars"]["$FUNC"]:
-                metavars["FUNC"] = i["extra"]["metavars"]["$FUNC"]["abstract_content"]
-        except:
-            print("no cookie/details/function")
-        try:
-            if i["extra"]["metavars"]["$X"]:
-                metavars["X"] = i["extra"]["metavars"]["$X"]["abstract_content"]
-            if i["extra"]["metavars"]["$W"]:
-                metavars["W"] = i["extra"]["metavars"]["$W"]["abstract_content"]
-        except:
-            print("no x/w")
-        try:
-            if i["extra"]["metavars"]["$Y"]:
-                metavars["Y"] = i["extra"]["metavars"]["$Y"]["abstract_content"]
-            try:
-                if i["extra"]["metavars"]["$Y"]["propagated_value"]:
-                    metavars["yvalue"] = i["extra"]["metavars"]["$Y"]["propagated_value"]["svalue_abstract_content"]
-            except:
-                print("no y value")
-        except:
-            print("no y")
-        try:
-            if i["extra"]["metavars"]["$OBJ"]:
-                metavars["OBJ"] = i["extra"]["metavars"]["$OBJ"]["abstract_content"]
-        except:
-            print('no obj')
-        metavar = []
-        var = ""
-        try:
-            for j in i["extra"]["dataflow_trace"]["intermediate_vars"]:
-                metavar.append(j["content"])
-            try:
-                if metavar[1]:
-                    var = metavar[1]
-            except:
-                var = metavar[0]
-            metavars["content"] = var
-            taint["metavars"] = metavars
-        except:
-            taint["metavars"] = metavars
-        # added this
-        line_start = i["extra"]["dataflow_trace"]["taint_source"][1][0]['start']['line']
-        line_end = i["extra"]["dataflow_trace"]["taint_sink"][1][0]['end']['line']
-        # added this
-        message = i["extra"]["message"]
-        taint["message"] = message
-        taint["source"] = taint_source
-        taint["sink"] = taint_sink
-        # added this
-        taint["line_start"] = line_start 
-        taint["line_end"] = line_end 
-        # added this
-        tainted.append(taint)
-    return tainted
-
-#main
-def main(extension_path, semgrep_results_path):
-    # Can remove when done this main integrated with whole main.py
-    extension_path = 'EXTENSIONS/h1-replacer(v3)contextMenu'
-    semgrep_results_path = 'e.json'
-    # Run program
-    with Display() as disp:
-        print(disp.is_alive())
-
-        initialise_headless(extension_path,semgrep_results_path)
-
-if __name__ == '__main__':
-    main('a','s')
-
-
-
-
-
-################
-# DRAFT
-################
-
-# Logging framework
-# Logging framework
-# Logging framework
-
-def setup_logger(log_file):
-    # Create a logger
-    logger = logging.getLogger()
-    logger.setLevel(logging.ERROR)
-
-    # Create a file handler and set the log level
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setLevel(logging.CRITICAL)
-
-    # Create a formatter and add it to the handlers
-    log_format = '%(message)s'
-    formatter = logging.Formatter(log_format)
-    file_handler.setFormatter(formatter)
-
-    # Add the handlers to the logger
-    logger.addHandler(file_handler)
-
-    return logger
-
-logger = setup_logger('PENETRATION_LOG.txt')
-
-def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
-    # Convert sets to lists
-    payload = str(payload)
-    packet_info = str(packet_info)
-
-    payload_log = {
-        "outcome": outcome,
-        "source": source,
-        "extensionId": extension_id,
-        "extensionName": extension_name,
-        "Url": url_of_website,
-        "payloadType": payload_type,
-        "payload": payload,
-        "timeOfInjection": time_of_injection,
-        "timeOfAlert": time_of_alert,
-        "payload_fileName": payload_filename,
-        "packetInfo": packet_info
-    }
-
-    log_message = json.dumps(payload_log)
-    logger.critical(log_message)
-
-# Logging framework
-# Logging framework
-# Logging framework
-
-def initialize(path_to_extension):
-    # obtain relevant extension information'
-    def get_ext_id(path_to_extension):
-        abs_path = path.abspath(path_to_extension)
-        m = hashlib.sha256()
-        m.update(abs_path.encode("utf-8"))
-        ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
-        url_path = f"chrome-extension://{ext_id}/popup.html"
-        return url_path, abs_path, ext_id
-    
-    def payloads(path_to_payload):
-        payload_array = []
-        try:
-            with open(path_to_payload, 'r') as file:
-                # Read the contents of the file
-                for line in file:
-                    payload = line.rstrip('\n')
-                    payload_array.append(payload)
-        except FileNotFoundError:
-            print("File not found.")
-        except IOError:
-            print("An error occurred while reading the file.")
-        
-        return payload_array
-
-    url_path, abs_path, ext_id = get_ext_id(path_to_extension)
-    payloads = payloads('payloads/extra_small_payload.txt')
-
-    # initialize selenium and load extension
-    options = webdriver.ChromeOptions()
-    options.add_experimental_option('detach', True)
-    load_ext_arg = "load-extension=" + abs_path
-    options.add_argument(load_ext_arg)
-    options.add_argument("--enable-logging")
-    driver = webdriver.Chrome('./chromedriver', options=options)
-
-
-
-    # case 1:
-    # window_name(driver, ext_id, url_path, payloads)
-    window_name_new(driver, ext_id, url_path, payloads)
-
-    # case 2:
-    # location_href(driver, ext_id, url_path, payloads)
-    # location_href_new(driver, ext_id, url_path, payloads)
-
-    # case 3:
-    # context_menu(driver, ext_id, url_path, payloads)
-
-    # case 4: (still doing)
-
-    # case 5: 
-    # chromeTabsQuery(driver, ext_id, url_path, payloads)
-
-    # case 6:
-    # locationSearch(driver, ext_id, url_path, payloads)
-
-    # case 7:
-    # windowAddEventListenerMessage(driver, ext_id, url_path, payloads)
-
-    # case 8: 
-    # run function direclty (changes made when initlising driver)
-    chromeDebuggerGetTargets(driver, abs_path, url_path, payloads)
-
-
-# 1) Window.name
-def window_name_new(driver, ext_id, url_path, payloads):
+# 7) Window.name
+def window_name_new(driver, ext_id, url_path, payloads, result):
     source = 'window.name'
-    ext_id = ext_id
     url_of_injection_example = 'https://www.example.com'
     url_of_injection_extension = url_path
     payload_file = 'small_payload.txt'
@@ -743,8 +475,8 @@ def window_name_new(driver, ext_id, url_path, payloads):
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
 
-# location.href
-def location_href_new(driver, ext_id, url_path, payloads):
+# 8) location.href
+def location_href_new(driver, ext_id, url_path, payloads, result):
     try:
         # Navigate to example.com
         driver.get('https://www.example.com')
@@ -857,8 +589,8 @@ def location_href_new(driver, ext_id, url_path, payloads):
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
 
-# 3) Context_menu'
-def context_menu(driver, ext_id, url_path, payloads):
+# 9) Context_menu'
+def context_menu(driver, ext_id, url_path, payloads, result):
     from pynput.keyboard import Controller, Key
     import urllib.parse
     # entry points:
@@ -868,54 +600,7 @@ def context_menu(driver, ext_id, url_path, payloads):
     # 4) frame Url
     # 5) Page Url
 
-    # Selection Text [GUI]
-    def context_menu_selectionText():
-        # get www.example.com
-        driver.get('file:///home/showloser/localhost/dynamic/miscellaneous/xss_website.html')
-        # set handler for example.com
-        example = driver.current_window_handle
-
-        # get extension popup.html
-        driver.switch_to.new_window('tab')
-        extension = driver.current_window_handle
-        driver.get(url_path)
-        print(payloads)
-        for payload in payloads:
-            driver.switch_to.window(example)
-            driver.execute_script(f'document.getElementById("h1_element").innerText = `{payload}`')
-
-            target_element = driver.find_element(By.ID, 'h1_element')
-
-            # Select the text using JavaScript
-            driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
-
-            # perform right click to open context menu
-            actions = ActionChains(driver)
-            actions.context_click(target_element).perform()
-
-            # navigate to extension context menu option
-            keyboard = Controller()
-            for _ in range(6):  
-                # Press the arrow key down
-                keyboard.press(Key.down)
-                # Release the arrow key
-                keyboard.release(Key.down)
-
-            # Press the Enter key
-            keyboard.press(Key.enter)
-            # Release the Enter key
-            keyboard.release(Key.enter)
-
-
-            try:
-                # wait 2 seconds to see if alert is detected
-                WebDriverWait(driver, 2).until(EC.alert_is_present())
-                alert = driver.switch_to.alert
-                alert.accept()
-                print('+ Alert Detected +')
-            except TimeoutException:
-                print('= No alerts detected =')
-
+    # Selection Text 
     def context_menu_selectionText_new():
         website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
         
@@ -1167,70 +852,7 @@ def context_menu(driver, ext_id, url_path, payloads):
                 driver.save_screenshot('ss.png')
                 time.sleep(1)
 
-    # Link Url [GUI]    
-    def context_menu_link_url():
-        # get www.example.com
-        driver.get('file:///home/showloser/localhost/dynamic/test.html')
-        # set handler for example.com
-        example = driver.current_window_handle
-
-        # get extension popup.html
-        driver.switch_to.new_window('tab')
-        extension = driver.current_window_handle
-        driver.get(url_path)
-        
-
-    
-    # there are 2 possible ways to insert paylaod, either directly or using query parameters.
-        for i in range(2):
-            for payload in payloads:
-                # for link url, inject our payload into the link.
-                driver.switch_to.window(example)
-
-                # using selenium to find element by ID
-                target_element = driver.find_element(By.ID, 'linkUrl')
-                
-                # Payload Injection (Href)
-                if i == 0:
-                    # PAYLOAD INJECTION CASE 1 (Directly Injecting)
-                    print("direct")
-                    driver.execute_script(f'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`')
-                elif i == 1:
-                    print('query params')
-                    # PAYLOAD INJECTION CASE 2 (Injecting Query Parameters)
-                    driver.execute_script(f'var linkElement = document.getElementById("linkUrl"); linkElement.href = ?q=`{payload}`')
-                else:
-                    print("ERROR")
-
-                # perform text highlight/selection
-                driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
-                # perform right click to open context menu
-                actions = ActionChains(driver)
-                actions.context_click(target_element).perform()
-
-
-                # navigate to extension context menu option
-                keyboard = Controller()
-                for _ in range(11):  
-                    # Press the arrow key down
-                    keyboard.press(Key.down)
-                    # Release the arrow key
-                    keyboard.release(Key.down)
-
-                # Press the Enter key
-                keyboard.press(Key.enter)
-                # Release the Enter key
-                keyboard.release(Key.enter)
-                
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
-                    print('+ Alert Detected +')
-                except TimeoutException:
-                    print('= No alerts detected =')
-    
+    # Link Url     
     def context_menu_link_url_new():
 
         website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
@@ -1446,73 +1068,7 @@ def context_menu(driver, ext_id, url_path, payloads):
             driver.switch_to.window(extension)
             time.sleep(2)
 
-    # Frame Url [GUI]
-    def context_menu_frame_url():
-        # get www.example.com
-        driver.get('file:////home/showloser/localhost/dynamic/test.html')
-        # set handler for example.com
-        example = driver.current_window_handle
-
-        # get extension popup.html
-        driver.switch_to.new_window('tab')
-        extension = driver.current_window_handle
-        driver.get(url_path)
-
-
-        cases = ['queryParams', 'fragementIdentifier']
-
-        for i in range(len(cases)):
-            
-            for payload in payloads:
-                print(payload)
-
-
-                driver.switch_to.window(example)
-
-                wait = WebDriverWait(driver, 5)  # Maximum wait time of 5 seconds
-                iframeElement = wait.until(EC.presence_of_element_located((By.ID, 'frameUrl')))
-
-                if i == 0:
-                    print('queryParams')
-                    driver.execute_script(f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`')
-                elif i == 1:
-                    print('fragmentIdentifier')
-                    driver.execute_script(f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS#{payload}`')
-                else:
-                    print("ERROR")
-
-
-                # # perform right click to open context menu
-                actions = ActionChains(driver)
-                actions.move_to_element(iframeElement)
-                actions.context_click().perform()
-
-                # navigate to extension context menu option
-                keyboard = Controller()
-                for _ in range(8):  
-                    # Press the arrow key down
-                    keyboard.press(Key.down)
-                    # Release the arrow key
-                    keyboard.release(Key.down)
-
-                # Press the Enter key
-                keyboard.press(Key.enter)
-                # Release the Enter key
-                keyboard.release(Key.enter)
-
-                driver.switch_to.window(extension)
-                driver.switch_to.window(example)
-
-                
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
-                    print('+ Alert Detected +')
-                except TimeoutException:
-                    print('= No alerts detected =')
-
+    # Frame Url 
     def context_menu_frame_url_new():
         
         website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
@@ -1658,79 +1214,7 @@ def context_menu(driver, ext_id, url_path, payloads):
             # Handle any other exceptions that occur
             print("An error occurred:", str(e))
 
-
-    # PageUrl [GUI]
-    def context_menu_page_url():
-        # Maximum wait time of 5 seconds
-        wait = WebDriverWait(driver,5)
-
-        # get www.example.com
-        driver.get('file:////home/showloser/localhost/dynamic/test.html')
-        # set handler for example.com
-        example = driver.current_window_handle
-
-        # get extension popup.html
-        driver.switch_to.new_window('tab')
-        extension = driver.current_window_handle
-        driver.get(url_path)
-
-
-        cases = ['queryParams', 'fragementIdentifier']
-        for i in range(len(cases)):
-            for payload in payloads:
-                print(payload)
-                # switch to example.com
-                driver.switch_to.window(example)
-                # Reset the URL to the original URL
-                driver.execute_script(f"window.history.replaceState(null, null, `file:////home/showloser/localhost/dynamic/test.html`)")
-
-
-                # url encode xss payload 
-                encoded_payload = urllib.parse.quote(payload)
-
-                if i == 0:
-                    print('queryParams')
-                    driver.execute_script(f"window.history.replaceState(null, null, `{driver.current_url}?qureyParam={encoded_payload}`)")
-                elif i ==1:
-                    print('fragmentIdentifier')
-                    driver.execute_script(f"window.history.replaceState(null, null, `{driver.current_url}#{encoded_payload}`)")
-                else:
-                    print("ERROR")
-
-
-                PageUrlElement = wait.until(EC.presence_of_element_located((By.ID, 'pageUrl')))
-
-                # # perform right click to open context menu
-                actions = ActionChains(driver)
-                actions.move_to_element(PageUrlElement)
-                actions.context_click().perform()
-
-                # navigate to extension context menu option
-                keyboard = Controller()
-                for _ in range(8):  
-                    # Press the arrow key down
-                    keyboard.press(Key.down)
-                    # Release the arrow key
-                    keyboard.release(Key.down)
-
-                # Press the Enter key
-                keyboard.press(Key.enter)
-                # Release the Enter key
-                keyboard.release(Key.enter)
-
-                driver.switch_to.window(extension)
-                driver.switch_to.window(example)
-
-                
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
-                    print('+ Alert Detected +')
-                except TimeoutException:
-                    print('= No alerts detected =')
-
+    # PageUrl 
     def context_menu_page_url_new():
         website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
         
@@ -1880,23 +1364,9 @@ def context_menu(driver, ext_id, url_path, payloads):
         except Exception as e:
             # Handle any other exceptions that occur
             print("An error occurred:", str(e))
-
-    # context_menu_selectionText()
-    # context_menu_selectionText_new()
-
-    # context_menu_link_url()
-    # context_menu_link_url_new()
-
-    # context_menu_src_url()
-
-    # context_menu_frame_url()  
-    # context_menu_frame_url_new()
-
-    # context_menu_page_url()
-    # context_menu_page_url_new()
  
-# 4) chromeTabsQuery
-def chromeTabsQuery(driver,ext_id, url_path, payloads, variable_to_change=1):
+# 10) chromeTabsQuery
+def chromeTabsQuery(driver,ext_id, url_path, payloads, result):
     properties = ['favIconUrl', 'sessionId', 'title', 'url']
 
     def chromeTabQuery_title():
@@ -2006,7 +1476,6 @@ def chromeTabsQuery(driver,ext_id, url_path, payloads, variable_to_change=1):
 
         favIconUrl_payloads = payload_generation(payloads)
 
-
         def rename_file_with_payloads(favIconUrl_payloads):
 
             folder_path = "miscellaneous/favIconUrl_payload"
@@ -2064,8 +1533,6 @@ def chromeTabsQuery(driver,ext_id, url_path, payloads, variable_to_change=1):
         extension = driver.current_window_handle
         driver.get(url_path)
 
-
-
         for i in favIconUrl_payloads:
             time.sleep(1)
             driver.switch_to.window(example)
@@ -2102,16 +1569,8 @@ def chromeTabsQuery(driver,ext_id, url_path, payloads, variable_to_change=1):
             except TimeoutException:
                 print('= No alerts detected =')
 
-
-    # case 1 title:
-    # chromeTabQuery_title()
-    # case 2 url:
-    # chromeTabQuery_url()
-    # case 3 favIconUrl
-    # chromeTabQuery_favIconUrl()
-
-# 5) locationSearch
-def locationSearch(driver, ext_id, url_path, payloads):
+# 11) locationSearch
+def locationSearch(driver, ext_id, url_path, payloads, result):
 
     # get www.example.com
     driver.get('https://www.example.com')
@@ -2143,8 +1602,8 @@ def locationSearch(driver, ext_id, url_path, payloads):
         except TimeoutException:
             print('= No alerts detected =')
 
-# 6) window.addEventLister.msg
-def windowAddEventListenerMessage(driver, ext_id, url_path, payloads):
+# 12) window.addEventLister.msg
+def windowAddEventListenerMessage(driver, ext_id, url_path, payloads, result):
     # PAYLOAD: 
     # postMessage({ message: "<img src=x onerror=alert(1)>" }, "*")
     
@@ -2162,8 +1621,6 @@ def windowAddEventListenerMessage(driver, ext_id, url_path, payloads):
     buttons = driver.find_elements(By.TAG_NAME,"button")
     for button in buttons:
         button.click()
-
-
 
     # implement tommorow 
 
@@ -2202,6 +1659,7 @@ def windowAddEventListenerMessage(driver, ext_id, url_path, payloads):
         except TimeoutException:
             print('= No alerts detected =')
 
+# html inputs and buttons
 def button_input_paradox():
     from bs4 import BeautifulSoup
     def hierarchy_method():
@@ -2322,3 +1780,158 @@ def button_input_paradox():
         # for rank, button_id in enumerate(sorted_button_ids, start=1):
         #     common_prefix_length = common_prefix_lengths[button_id]
         #     print(f"Rank {rank}: Button ID {button_id} (Common Prefix Length: {common_prefix_length})")
+
+
+# running the driver
+def headless_driver(driver, url_path, scripts):
+    # get www.example.com
+    driver.get('https://www.example.com')
+    # set handler for example.com
+    example = driver.current_window_handle
+
+    # get extension popup.html
+    driver.switch_to.new_window('tab')
+    extension = driver.current_window_handle
+    driver.get(url_path)
+    driver.switch_to.window(example)
+
+    for script in scripts:
+
+        # print(script)
+        driver.execute_script(script)
+
+        driver.switch_to.window(extension)
+        driver.refresh()
+        driver.switch_to.window(example)
+
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('+ Alert Detected +')
+        except TimeoutException:
+            print('= No alerts detected =')
+        
+        driver.refresh()
+
+#preconfiguration
+def preconfigure(dir):
+    # Specify the folder path containing the JavaScript files
+    folder_path = dir
+    a = ""
+
+    for root, dirs, files in os.walk(folder_path):
+        # Perform the find and replace operation on each JavaScript file in the folder
+        for filename in files:
+            if filename.endswith(".js"):
+                file_path = os.path.join(root, filename)
+
+                # Perform the find and replace operation
+                with fileinput.FileInput(file_path, inplace=True,) as file:
+                    for line in file:
+                        # Replace "active: true" with "active: false"
+                        if "active: !0" in line:
+                            a = "active: !0"
+                            line = line.replace(a, "active: false")
+                        elif "active: true" in line:
+                            a = "active: true"
+                            line = line.replace(a, "active: false")
+                        print(line, end="")
+                        
+#interpreter
+def interpreter(data):
+    tainted = []
+    for i in data:
+        taint = {}
+        taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
+        taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
+        metavars = {}
+        try:
+            if i["extra"]["metavars"]["$PORT"]:
+                metavars["PORT"] = i["extra"]["metavars"]["$PORT"]["abstract_content"]
+            try:
+                if i["extra"]["metavars"]["$PORTPASSWORD"]:
+                    metavars["PORTPASSWORD"] = i["extra"]["metavars"]["$PORTPASSWORD"]["abstract_content"]
+                if i["extra"]["metavars"]["$PORTPROPERTY"]:
+                    metavars["PORTPROPERTY"] = i["extra"]["metavars"]["$PORTPROPERTY"]["abstract_content"]
+            except:
+                print('no port property/password')
+        except:
+            print('no port')
+        try:
+            if i["extra"]["metavars"]["$COOKIE"]:
+                metavars["COOKIE"] = i["extra"]["metavars"]["$COOKIE"]["abstract_content"]
+            if i["extra"]["metavars"]["$DETAILS"]:
+                metavars["DETAILS"] = i["extra"]["metavars"]["$DETAILS"]["abstract_content"]
+            if i["extra"]["metavars"]["$FUNC"]:
+                metavars["FUNC"] = i["extra"]["metavars"]["$FUNC"]["abstract_content"]
+        except:
+            print("no cookie/details/function")
+        try:
+            if i["extra"]["metavars"]["$X"]:
+                metavars["X"] = i["extra"]["metavars"]["$X"]["abstract_content"]
+            if i["extra"]["metavars"]["$W"]:
+                metavars["W"] = i["extra"]["metavars"]["$W"]["abstract_content"]
+        except:
+            print("no x/w")
+        try:
+            if i["extra"]["metavars"]["$Y"]:
+                metavars["Y"] = i["extra"]["metavars"]["$Y"]["abstract_content"]
+            try:
+                if i["extra"]["metavars"]["$Y"]["propagated_value"]:
+                    metavars["yvalue"] = i["extra"]["metavars"]["$Y"]["propagated_value"]["svalue_abstract_content"]
+            except:
+                print("no y value")
+        except:
+            print("no y")
+        try:
+            if i["extra"]["metavars"]["$OBJ"]:
+                metavars["OBJ"] = i["extra"]["metavars"]["$OBJ"]["abstract_content"]
+        except:
+            print('no obj')
+        metavar = []
+        var = ""
+        try:
+            for j in i["extra"]["dataflow_trace"]["intermediate_vars"]:
+                metavar.append(j["content"])
+            try:
+                if metavar[1]:
+                    var = metavar[1]
+            except:
+                var = metavar[0]
+            metavars["content"] = var
+            taint["metavars"] = metavars
+        except:
+            taint["metavars"] = metavars
+        # added this
+        line_start = i["extra"]["dataflow_trace"]["taint_source"][1][0]['start']['line']
+        line_end = i["extra"]["dataflow_trace"]["taint_sink"][1][0]['end']['line']
+        # added this
+        message = i["extra"]["message"]
+        taint["message"] = message
+        taint["source"] = taint_source
+        taint["sink"] = taint_sink
+        # added this
+        taint["line_start"] = line_start 
+        taint["line_end"] = line_end 
+        # added this
+        tainted.append(taint)
+    return tainted
+
+#main
+def main(extension_path, semgrep_results_path):
+    # Can remove when done this main integrated with whole main.py
+    extension_path = 'EXTENSIONS/h1-replacer(v3)contextMenu'
+    semgrep_results_path = 'e.json'
+    # Run program
+    with Display() as disp:
+        print(disp.is_alive())
+
+        initialise_headless(extension_path,semgrep_results_path)
+
+if __name__ == '__main__':
+    main('a','s')
+
+
+
