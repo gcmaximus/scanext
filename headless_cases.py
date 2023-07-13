@@ -51,7 +51,7 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     # Convert sets to lists
     payload = str(payload)
     # packet_info = str(packet_info)
-    logger = setup_logger('penetration_logv2_GUI.txt')
+    logger = setup_logger('dynamic_logs.txt')
 
     payload_log = {
         "outcome": outcome,
@@ -70,7 +70,7 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     log_message = json.dumps(payload_log)
     logger.info(log_message)
 
-def initialise_headless(path_to_extension,jsonfile):
+def initialise_headless(path_to_extension,results):
     # preconfiguration (set active to false)
     preconfigure(path_to_extension)
 
@@ -97,30 +97,13 @@ def initialise_headless(path_to_extension,jsonfile):
         "html-inputs-and-buttons":"."
     }
     
-    # Getting the results from the json file
-    def json_results(path,json_file):
-        f = open(json_file)
-        results = json.load(f)
-        popup = ''
-        data = []
-        for i in results["results"]:
-            data.append(i)
-        for i in results["paths"]["scanned"]:
-            if "popup.html" in i:
-                if path in i:
-                    i = i[path.__len__():]
-                    if i[0] != "/":
-                        popup = "/" + i
-        
-        return data, popup
-    
     # obtain relevant extension information'
-    def get_ext_id(path_to_extension, p):
+    def get_ext_id(path_to_extension):
         abs_path = path.abspath(path_to_extension)
         m = hashlib.sha256()
         m.update(abs_path.encode("utf-8"))
         ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
-        url_path = f"chrome-extension://{ext_id}" + p
+        url_path = f"chrome-extension://{ext_id}"
         return url_path, abs_path, ext_id
     
     # definind payloads
@@ -140,10 +123,9 @@ def initialise_headless(path_to_extension,jsonfile):
 
     localserver = Process(target=server)
     localserver.start()
-    data, popup = json_results(path_to_extension,jsonfile)
-    url_path, abs_path, ext_id = get_ext_id(path_to_extension,popup)
+    url_path, abs_path, ext_id = get_ext_id(path_to_extension)
     payload = payloads('DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt')
-    l = interpreter(data)        
+    l = interpreter(results)        
 
     # initialize selenium and load extension
     options = ChromeOptions()
@@ -1920,18 +1902,9 @@ def interpreter(data):
     return tainted
 
 #main
-def main(extension_path, semgrep_results_path):
-    # Can remove when done this main integrated with whole main.py
-    extension_path = 'EXTENSIONS/h1-replacer(v3)contextMenu'
-    semgrep_results_path = 'e.json'
+def main(extension_path, semgrep_results):
     # Run program
     with Display() as disp:
         print(disp.is_alive())
 
-        initialise_headless(extension_path,semgrep_results_path)
-
-if __name__ == '__main__':
-    main('a','s')
-
-
-
+        initialise_headless(extension_path,semgrep_results)

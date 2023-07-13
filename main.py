@@ -388,16 +388,20 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config):
     with open(report_path, "w") as file:
         file.write(str(soup))
 
+    return results
 
 
 
-def dynamic_analysis(extension: Path, soup: BeautifulSoup, config):
+
+def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config):
+
+
 
     print()
     print('Conducting dynamic analysis ...')
 
     # call selenium main.py
-    # dynamic()
+    dynamic(extension, results)
 
     print('Dynamic analysis complete.')
     print()
@@ -406,7 +410,7 @@ def dynamic_analysis(extension: Path, soup: BeautifulSoup, config):
     logs_obj = []
 
     # to change during integration
-    dynamic_logfile = 'DYNAMIC_ANALYSIS/sample_logfile.txt'
+    dynamic_logfile = 'dynamic_logs.txt'
 
     with open(dynamic_logfile, 'r') as f:
         for line in f:
@@ -668,7 +672,7 @@ if __name__ == "__main__":
         soup.find(id="scan-date").string = scan_start
 
         # Start static analysis
-        static_analysis(extension, soup, config)
+        results = static_analysis(extension, soup, config)
 
         # Start dynamic analysis
-        dynamic_analysis(extension, soup, config)
+        dynamic_analysis(results, extension, soup, config)
