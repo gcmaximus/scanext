@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "testing",
-  "version": "1.0",
-  "description": "testing script",
+  "name": "test extension",
+  "version": "5.0.3",
+  "description": "Testing ScanExt",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",

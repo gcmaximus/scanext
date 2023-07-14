@@ -1,3 +1,4 @@
+# return random ScanExt banner
 def get_banner():
 
     import random
