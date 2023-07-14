@@ -136,7 +136,6 @@ def load_config():
 
     return config
     
-
 if __name__ == "__main__":
     print(get_banner())
 
@@ -161,5 +160,6 @@ if __name__ == "__main__":
         # Start static analysis
         results = static_analysis(extension, soup, config, report_path)
 
-        # Start dynamic analysis
-        dynamic_analysis(results, extension, soup, config, report_path)
+        if results:
+            # Start dynamic analysis
+            dynamic_analysis(results, extension, soup, config, report_path)

@@ -49,6 +49,20 @@ def static_results_report(results, extension: Path, soup, config, report_path):
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="static-main").append(add_parsed)
 
+
+        # no dynamic results
+        add = f"""
+            <div class="card m-auto dynamic-none border-success">
+                <div class="card-header none-header">Result</div>
+                <div class="card-body">
+                    <h5 class="card-title">No POCs generated</h5>
+                    <p class="card-text">Our tool did not find any payloads that can exploit potential vulnerabilities in the code.</p>
+                </div>
+            </div>"""
+        
+        add_parsed = BeautifulSoup(add, "html.parser")
+        soup.find(id="dynamic-main").append(add_parsed)
+
     else:
         # loop through & append 1 card for each result
         result_no = 1
@@ -261,6 +275,8 @@ def static_results_report(results, extension: Path, soup, config, report_path):
             # Move on to append next result
             result_no += 1
 
+    print(f"Report generated at `{report_path}`")
+
     with open(report_path, "w") as file:
         file.write(str(soup))
 
@@ -461,5 +477,3 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
         file.write(str(soup))
 
     print(f"Report generated at `{report_path}`")
-
-

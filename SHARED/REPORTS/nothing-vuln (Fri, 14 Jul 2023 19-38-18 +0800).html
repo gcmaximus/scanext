@@ -2,7 +2,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>ScanExt Report - vuln</title>
+<title>ScanExt Report - nothing-vuln</title>
 <!-- Bootstrap -->
 <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet"/>
 <!-- Poppins -->
@@ -218,18 +218,18 @@
 </div>
 <div class="row files-header">
 <p style="color: white">Folder scanned:</p>
-<p><code id="scanned-folder">vuln</code></p>
+<p><code id="scanned-folder">nothing-vuln</code></p>
 </div>
 <div class="row main-heading">
 <table class="table table-secondary table-bordered border-dark table-striped">
 <tbody>
 <tr>
 <td><b>Extension Name</b></td>
-<td id="ext-name">test extension</td>
+<td id="ext-name">No Vulnerabilities Extension</td>
 </tr>
 <tr>
 <td><b>Extension Version</b></td>
-<td id="ext-version">5.0.3</td>
+<td id="ext-version">4.2</td>
 </tr>
 <tr>
 <td><b>Manifest Version</b></td>
@@ -237,15 +237,15 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Fri, 14 Jul 2023 17:08:18 +0800</td>
+<td id="scan-date">Fri, 14 Jul 2023 19:38:18 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
-<td id="vulns">1 found</td>
+<td id="vulns">0 found</td>
 </tr>
 <tr>
 <td><b>POCs generated</b></td>
-<td id="pocs">2 found</td>
+<td id="pocs"></td>
 </tr>
 </tbody>
 </table>
@@ -259,38 +259,13 @@
 </div>
 <!-- Static Results -->
 
-<!-- Source-Sink pair -->
-<div class="card static-result">
-<div class="card-header">
-<span class="float-start">
-<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-1"><b>File:</b> vuln/vuln.js</span>
-</span>
-</div>
+<div class="card m-auto static-none border-success">
+<div class="card-header none-header">Result</div>
 <div class="card-body">
-<p class="card-text">
-<div class="row">
-<div class="col-6 source-desc">
-<!-- Source -->
-<h5><u>Source ID: <code id="source-1">window_name</code></u></h5>
-<p id="source-desc-1"><code>window.name</code> can be used as an entry point for user-controlled data due the fact that it's accessible cross-origin. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
+<h5 class="card-title">No vulnerable codes found</h5>
+<p class="card-text">Our tool did not detect any vulnerable code segments or possible tainted data flows into vulnerable functions that could lead to XSS.</p>
 </div>
-<div class="col-6 sink-desc">
-<!-- Sink -->
-<h5><u>Sink ID: <code id="sink-1">jQuery_attr_href</code></u></h5>
-<p id="sink-desc-1"><code>.attr("href")</code> when combined with user input in a link can lead to Cross-site Scripting (XSS) vulnerabilities via <code>javascript:</code> URIs.</p>
-</div>
-</div>
-<br/><br/>
-<!-- Location -->
-<h5><u>Location of vulnerability</u></h5>
-<pre class="code-block" id="code-block-1"><code>
-    1		x = window.name</code><code class="code-source">
-    2		<mark id="code-source-1">$('abc').attr("href", window.name)</mark>	<span class="code-comment">/* Source + Sink */</span></code></pre>
-<i>*This code has been beautified by js-beautify.</i>
-</p>
-</div>
-</div>
-</div>
+</div></div>
 <!-- Dynamic -->
 <div id="dynamic-main">
 <!-- Dynamic Analysis Header -->
@@ -299,97 +274,13 @@
 </div>
 <!-- Dynamic Results -->
 
-<!-- Source -->
-<div class="card dynamic-result">
-<div class="card-header">
-<i class="fa fa-flag-checkered" style="font-size:20px"></i> <span style="font-size: 18px"><b>Source 1 :</b> <u>location.hash</u></span>
-</div>
+<div class="card m-auto dynamic-none border-success">
+<div class="card-header none-header">Result</div>
 <div class="card-body">
-<p class="card-text">
-<div class="row dynamic-info">
-<div class="row">
-<!-- Payload List -->
-<div class="col-4">
-<i class="dynamic-info-icons fa fa-file-text-o" style="font-size:36px;"></i>
-<h5><b>Payload list:</b></h5>
-<code><u id="payload-list">small-payload.txt</u></code>
+<h5 class="card-title">No POCs generated</h5>
+<p class="card-text">Our tool did not find any payloads that can exploit potential vulnerabilities in the code.</p>
 </div>
-<!-- No. of tested payloads -->
-<div class="col-4">
-<i class="dynamic-info-icons fa fa-bomb" style="font-size:36px;"></i>
-<h5><b>Tested:</b></h5>
-<code><u id="tested-payloads">2 payloads</u></code>
-</div>
-<!-- No. of successful payloads -->
-<div class="col-4">
-<i class="dynamic-info-icons fa fa-bug" style="font-size:36px;"></i>
-<h5><b>Successful:</b></h5>
-<code><u id="success-payloads">2 payloads</u></code>
-</div>
-</div>
-<div class="row table-row">
-<!-- Payload Info -->
-<h3 id="payload-no-1"><u><b>Payload #1</b></u></h3>
-<table class="table border-dark payload-table mb-3">
-<tbody>
-<tr class="table-head">
-<th>Payload</th>
-<th>Location of Injection</th>
-</tr>
-<tr>
-<td class="consolas" id="payload-1">&lt;img src=x onerror=alert(4)&gt;</td>
-<td class="consolas" id="payload-url-1">file:///test.html</td>
-</tr>
-<tr class="table-head">
-<th>Time of Injection</th>
-<th>Time of Alert</th>
-</tr>
-<tr>
-<td id="payload-start-1">2023-07-09 16:30:20,956</td>
-<td id="payload-end-1">2023-07-09 16:30:21,55</td>
-</tr>
-<tr class="table-head">
-<th colspan="2">Packet Info</th>
-</tr>
-<tr>
-<td colspan="2" id="payload-packet-info-1"><b>method</b>: POST; <b>url</b>: {'_url': 'http://127.0.0.1:8000/xss'}; <b>headers</b>: {'host': '127.0.0.1:8000', 'connection': 'keep-alive', 'content-length': '6', 'cache-control': 'max-age=0', 'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'upgrade-insecure-requests': '1', 'origin': 'null', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7', 'sec-fetch-site': 'cross-site', 'sec-fetch-mode': 'navigate', 'sec-fetch-user': '?1', 'sec-fetch-dest': 'document', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9'}; <b>path_params</b>: {}; <b>query_params</b>: {}; <b>client</b>: ['127.0.0.1', 54716]; <b>cookies</b>: {}; <b>form</b>: {'data': '1'}; </td>
-</tr>
-</tbody>
-</table>
-<!-- Payload Info -->
-<h3 id="payload-no-1"><u><b>Payload #2</b></u></h3>
-<table class="table border-dark payload-table mb-3">
-<tbody>
-<tr class="table-head">
-<th>Payload</th>
-<th>Location of Injection</th>
-</tr>
-<tr>
-<td class="consolas" id="payload-2">&lt;img src=x onerror=alert(5)&gt;</td>
-<td class="consolas" id="payload-url-2">file:///test.html</td>
-</tr>
-<tr class="table-head">
-<th>Time of Injection</th>
-<th>Time of Alert</th>
-</tr>
-<tr>
-<td id="payload-start-2">2023-07-09 16:30:20,956</td>
-<td id="payload-end-2">2023-07-09 16:30:21,55</td>
-</tr>
-<tr class="table-head">
-<th colspan="2">Packet Info</th>
-</tr>
-<tr>
-<td colspan="2" id="payload-packet-info-2">N.A.</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</p>
-</div>
-</div>
-</div>
+</div></div>
 </div>
 </body>
 <!-- Bootstrap -->
