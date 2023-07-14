@@ -373,6 +373,7 @@ def window_name_new(driver, ext_id, url_path, payloads, result):
             try: 
                 # check modifications for example.com
                 driver.switch_to.window(example)
+                print('checking example')
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
                     print("Navigated back to 'https://www.example.com' due to page source changes")
@@ -383,6 +384,7 @@ def window_name_new(driver, ext_id, url_path, payloads, result):
             try: 
                 # check modifications for extension
                 driver.switch_to.window(extension)
+                print('checking extension')
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
                     print(f"Navigated back to '{url_path}' due to extension page source changes")
