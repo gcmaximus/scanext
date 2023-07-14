@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import html
 
 
-# interpret static analysis results and append results to report
+# interpret static analysis results and inserts results into report
 def static_results_report(results, extension: Path, soup, config, report_path):
     # Retrieving information from Static Analysis for report
 
@@ -278,7 +278,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
     with open(report_path, "w") as file:
         file.write(str(soup))
 
-# interpret dynamic analysis results and append results to report
+# interpret dynamic analysis results and inserts results into report
 def dynamic_results_report(source_sorted_logs, extension, soup, config, report_path):
     # creating dict of key(source) to value (list of objs with source)
 
