@@ -7,7 +7,7 @@ from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.chrome.service import Service
 
 
-from DYNAMIC_ANALYSIS_v2.case_secnario_functions import *
+from DYNAMIC_ANALYSIS_v2.case_scenario_functions import *
 from DYNAMIC_ANALYSIS_v2.preconfigure import *
 
 
@@ -25,7 +25,7 @@ def main(path_to_extension, semgrep_results):
     # interprete semgrep scan results
     interpreted_results = interpreter(semgrep_results)
 
-    # define source list (map source to case_secnario function)
+    # define source list (map source to case_scenario function)
     sourcelist = {
         "chrome_contextMenu_create":".",
         "chrome_contextMenu_onClicked_addListener":".",
@@ -68,7 +68,7 @@ def main(path_to_extension, semgrep_results):
 
 
         except Exception as e:
-            print("Error while initializing haedless chrome driver ")
+            print("Error while initializing headless chrome driver ")
             print(str(e))
     
 

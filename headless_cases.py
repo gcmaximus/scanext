@@ -1339,7 +1339,7 @@ def chromeTabsQuery(driver,ext_id, url_path, payloads, result):
     properties = ['favIconUrl', 'sessionId', 'title', 'url']
 
     def chromeTabQuery_title():
-        # Case Secnario for chromeTabQuery_Title
+        # Case Scenario for chromeTabQuery_Title
 
         # get www.example.com
         driver.get('https://www.example.com')
@@ -1377,7 +1377,7 @@ def chromeTabsQuery(driver,ext_id, url_path, payloads, result):
                 print('= No alerts detected =')
 
     def chromeTabQuery_url():
-        # Case Secnario for chromeTabQuery_Title
+        # Case Scenario for chromeTabQuery_Title
 
         # get www.example.com
         driver.get('https://www.example.com')
