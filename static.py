@@ -7,14 +7,13 @@ from spinner import main as spinner
 cross = "⤫"
 tick = "✓"
 
-
+# return cross or tick icon
 def icon(boolean: bool):
     if boolean:
         return tick
     return cross
 
-
-
+# run Semgrep scan for static analysis
 def main(extension: Path):
 
     # Config rules
