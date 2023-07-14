@@ -135,8 +135,9 @@ def load_config():
 
 
     return config
-    
-if __name__ == "__main__":
+
+# main program
+def main():
     print(get_banner())
 
     config = load_config()
@@ -160,6 +161,10 @@ if __name__ == "__main__":
         # Start static analysis
         results = static_analysis(extension, soup, config, report_path)
 
+        # If static analysis found vulns, start dynamic analysis
         if results:
-            # Start dynamic analysis
+           
             dynamic_analysis(results, extension, soup, config, report_path)
+
+if __name__ == "__main__":
+    main()

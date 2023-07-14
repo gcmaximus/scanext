@@ -56,7 +56,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
                 <div class="card-header none-header">Result</div>
                 <div class="card-body">
                     <h5 class="card-title">No POCs generated</h5>
-                    <p class="card-text">Our tool did not find any payloads that can exploit potential vulnerabilities in the code.</p>
+                    <p class="card-text">Our tool did not find any payloads that can exploit potential XSS vulnerabilities in the code.</p>
                 </div>
             </div>"""
         
@@ -112,14 +112,16 @@ def static_results_report(results, extension: Path, soup, config, report_path):
             if line_diff < 1:
                 code_segment = f"""
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source + Sink */</span></code></pre>"""
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source + Sink */</span></code>
+    </pre>"""
 
             # line difference == 1?
             elif line_diff == 1:
                 code_segment = f"""
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
     {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code></pre>"""
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
+    </pre>"""
 
             # line difference > 1?
             elif line_diff > 1:
@@ -127,7 +129,8 @@ def static_results_report(results, extension: Path, soup, config, report_path):
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
     {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
     ...&#9;&#9;...</code><code class="code-sink">
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code></pre>"""
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
+    </pre>"""
 
             # intermediate vars > 1? (provide detailed tainted path)
             inter_vars = dataflow_trace.get("intermediate_vars")
@@ -176,51 +179,46 @@ def static_results_report(results, extension: Path, soup, config, report_path):
                     </pre>"""
                     code_segment += more_details
 
-            
-            
-
-
-
             soup_code_segment = BeautifulSoup(code_segment, "html.parser")
-
-            # check file length
-            with open(vuln_file, 'r') as f:
-                total_file_len = len(f.readlines())
-
-            # {line no:line content}
+            
+            # check no. of adjacent lines to display in report
             report_display_adjacent_lines = config['report_display_adjacent_lines']
-            prepend_lines = {source_line_no - x - 1: "" for x in range(report_display_adjacent_lines) if source_line_no - x - 1 > 0}
-            append_lines = {sink_line_no + x + 1: "" for x in range(report_display_adjacent_lines) if sink_line_no + x + 1 <= total_file_len}
 
-            with open(vuln_file, 'r') as f:
-                for i, line in enumerate(f):
-                    if i+1 in prepend_lines.keys():
-                        prepend_lines[i+1] = html.escape(line.rstrip())
-                    if i+1 in append_lines.keys():
-                        append_lines[i+1] = html.escape(line.rstrip())
-                        
-            prepend_lines = dict(sorted(prepend_lines.items(), reverse=True))
-
-            # Prepending lines
-            for line_no, line in prepend_lines.items():
-                soup_prepend_content = BeautifulSoup(f"""<code>
-    {line_no}&#9;&#9;{line}</code>""", 'html.parser')
-                soup_code_segment.find(id=f'code-block-{result_no}').insert(0, soup_prepend_content)
+            # if 1 or more adj lines to display
+            if report_display_adjacent_lines:
                 
 
+                # check file length
+                with open(vuln_file, 'r') as f:
+                    total_file_len = len(f.readlines())
 
-            # Appending lines
-            for line_no, line in append_lines.items():
-                soup_append_content = BeautifulSoup(f"""<code>
+
+                
+                prepend_lines = {source_line_no - x - 1: "" for x in range(report_display_adjacent_lines) if source_line_no - x - 1 > 0}
+                append_lines = {sink_line_no + x + 1: "" for x in range(report_display_adjacent_lines) if sink_line_no + x + 1 <= total_file_len}
+
+                with open(vuln_file, 'r') as f:
+                    for i, line in enumerate(f):
+                        if i+1 in prepend_lines.keys():
+                            prepend_lines[i+1] = html.escape(line.rstrip())
+                        if i+1 in append_lines.keys():
+                            append_lines[i+1] = html.escape(line.rstrip())
+                            
+                prepend_lines = dict(sorted(prepend_lines.items(), reverse=True))
+
+                # Prepending lines
+                for line_no, line in prepend_lines.items():
+                    soup_prepend_content = BeautifulSoup(f"""<code>
     {line_no}&#9;&#9;{line}</code>""", 'html.parser')
-                soup_code_segment.find(id=f'code-block-{result_no}').append(soup_append_content)
+                    soup_code_segment.find(id=f'code-block-{result_no}').insert(0, soup_prepend_content)
+                    
 
-                # if last line, append one more newline in <pre>
-                if line_no == max(append_lines.keys()):
-                    soup_code_segment.find(id=f'code-block-{result_no}').append("""
 
-""")
-
+                # Appending lines
+                for line_no, line in append_lines.items():
+                    soup_append_content = BeautifulSoup(f"""<code>
+    {line_no}&#9;&#9;{line}</code>""", 'html.parser')
+                    soup_code_segment.find(id=f'code-block-{result_no}').insert(-1, soup_append_content)
 
             
             add = f"""
@@ -319,7 +317,7 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
                 <div class="card-header none-header">Result</div>
                 <div class="card-body">
                     <h5 class="card-title">No POCs generated</h5>
-                    <p class="card-text">Our tool did not find any payloads that can exploit potential vulnerabilities in the code.</p>
+                    <p class="card-text">Our tool did not find any payloads that can exploit potential XSS vulnerabilities in the code.</p>
                 </div>
             </div>"""
         
