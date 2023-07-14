@@ -1,6 +1,5 @@
 import json
 import shutil
-import subprocess
 from email.utils import formatdate
 from pathlib import Path
 from zipfile import ZipFile
@@ -10,19 +9,19 @@ import jsbeautifier
 from bs4 import BeautifulSoup
 
 from headless_cases import main as dynamic
+from static import main as static
 from banners import get_banner
-from spinner import main as spinner
+
 
 
 cross = "⤫"
 tick = "✓"
 
-
+# return cross or tick icon
 def icon(boolean: bool):
     if boolean:
         return tick
     return cross
-
 
 # extract extensions and format the extracted files
 def extraction():
@@ -70,47 +69,13 @@ def extraction():
             jsbeautifier.write_beautified_output(pretty, local_options, str(file))
     return Path(extraction_dir).glob("*")
 
-
+# conduct static analysis using Semgrep 
 def static_analysis(extension: Path, soup: BeautifulSoup, config):
 
     # Name of folder scanned
     scanned_dir = extension.name
 
-
-    # Config rules
-    rules = "STATIC_ANALYSIS/semgrep_rules/"
-
-    # Output file
-    output_file = "STATIC_ANALYSIS/semgrep_results.json"
-
-    # descriptions from Tarnish
-    descs = "SHARED/descriptions.json"
-
-    # Command to run on CLI
-    command = [
-        "semgrep",
-        "scan",
-        f"--config={rules}",
-        str(extension),
-        "--quiet",
-        "--json",
-        "--output",
-        output_file,
-    ]
-    try: 
-        spinner_event, spinner_thread = spinner(scanned_dir)
-        spinner_event.set()
-        spinner_thread.start()
-        subprocess.run(command)
-    except KeyboardInterrupt:
-        spinner_event.clear()
-        spinner_thread.join()
-        print(f"Scanning {scanned_dir} for vulnerabilities ... {cross}  ")
-        print("Terminating program ...")
-        exit()
-    spinner_event.clear()
-    spinner_thread.join()
-    print(f"Scanning {scanned_dir} for vulnerabilities ... {tick}")
+    output_file = static(scanned_dir)
 
     # read the static results
     with open(output_file, "r") as static_result_file:
@@ -166,6 +131,9 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config):
             vuln_file = Path(result["path"])
 
             source, sink = vuln_id.split("-")
+
+            # descriptions from Tarnish
+            descs = "SHARED/descriptions.json"
 
             # find desc for source & sink
             with open(descs, "r") as f:
@@ -377,12 +345,8 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config):
 
     return results
 
-
-
-
+# conduct dynamic analysis using Selenium
 def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config):
-
-
 
     print()
     print('Conducting dynamic analysis ...')
@@ -614,8 +578,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config):
 
     print(f"Report generated at `{report_path}`")
             
-            
-            
+# load configurations set by user
 def load_config():
     # Load and check validity of config.
 

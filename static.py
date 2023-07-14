@@ -1,0 +1,55 @@
+import subprocess
+from spinner import main as spinner
+
+
+
+cross = "⤫"
+tick = "✓"
+
+
+def icon(boolean: bool):
+    if boolean:
+        return tick
+    return cross
+
+
+
+def main(extension):
+
+    # Config rules
+    rules = "STATIC_ANALYSIS/semgrep_rules/"
+
+    # Output file
+    output_file = "STATIC_ANALYSIS/semgrep_results.json"
+
+
+
+    # Command to run on CLI
+    command = [
+        "semgrep",
+        "scan",
+        f"--config={rules}",
+        str(extension),
+        "--quiet",
+        "--json",
+        "--output",
+        output_file,
+    ]
+    try: 
+        spinner_event, spinner_thread = spinner(extension)
+        spinner_event.set()
+        spinner_thread.start()
+        subprocess.run(command)
+    except KeyboardInterrupt:
+        spinner_event.clear()
+        spinner_thread.join()
+        print(f"Scanning {extension} for vulnerabilities ... {cross}  ")
+        print("Terminating program ...")
+        exit()
+    spinner_event.clear()
+    spinner_thread.join()
+    print(f"Scanning {extension} for vulnerabilities ... {tick}")
+    return output_file
+
+if __name__ == '__main__':
+    main()
