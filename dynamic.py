@@ -77,5 +77,5 @@ with open("DYNAMIC_ANALYSIS_v2/window_name_w.json", "r") as file:
     semgrep_results = json.load(file)["results"]
 
 
-
-main("DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_window.name", semgrep_results)
+if __name__ == '__main__':
+    main("DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_window.name", semgrep_results)
