@@ -82,7 +82,7 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     logger.critical(log_message)
 
 
-logger = setup_logger('DYNAMIC_ANALYSIS_v2/dynamic_Logs.txt')
+logger = setup_logger('DYNAMIC_ANALYSIS_v2/dynamic_logs.txt')
 
 
 ##########################
