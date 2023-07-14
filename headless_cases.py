@@ -755,6 +755,13 @@ def context_menu(driver, ext_id, url_path, payloads, result):
         payloads = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
         url_path, abs_path = get_ext_id('DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu')
 
+        options = ChromeOptions()
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
+        load_ext_arg = "load-extension=" + abs_path
+        options.add_argument(load_ext_arg)
+        driver = Chrome(service=Service(), options=options)
+
         # get www.example.com
         driver.get('file:///home/jerald/chrome-ext-scanner/chrome-ext-scanner/DYNAMIC_ANALYSIS/wm_donttouch/miscellaneous/xss_website.html')
         # set handler for example.com
