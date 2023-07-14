@@ -727,19 +727,7 @@ def context_menu(driver, ext_id, url_path, payloads, result):
             print("An error occurred:", str(e))
 
     # Selection Text [Headless]
-    def context_menu_selectionText_headless():
-        from pyvirtualdisplay.display import Display
-        from os import path
-        import hashlib
-        import time
-
-        from selenium.webdriver.common.by import By
-        from selenium.webdriver import ActionChains, Chrome, ChromeOptions, Keys
-        from selenium.webdriver.support.wait import WebDriverWait
-        from selenium.webdriver import Chrome, ChromeOptions
-        from selenium.webdriver.chrome.service import Service
-
-        import subprocess
+    def context_menu_selectionText_headless(driver):
 
         def payloads(path_to_payload):
             payload_array = []
@@ -763,78 +751,68 @@ def context_menu(driver, ext_id, url_path, payloads, result):
             url_path = f"chrome-extension://{ext_id}/popup.html"
             return url_path, abs_path
             
-        with Display() as disp:
 
-            payloads = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
-            url_path, abs_path = get_ext_id('DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu')
+        payloads = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
+        url_path, abs_path = get_ext_id('DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu')
 
-            print(disp.is_alive())
-            print(disp.display)
-            options = ChromeOptions()
-            options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--no-sandbox")
-            load_ext_arg = "load-extension=" + abs_path
-            options.add_argument(load_ext_arg)
-            driver = Chrome(service=Service(), options=options)
+        # get www.example.com
+        driver.get('file:///home/jerald/chrome-ext-scanner/chrome-ext-scanner/DYNAMIC_ANALYSIS/wm_donttouch/miscellaneous/xss_website.html')
+        # set handler for example.com
+        example = driver.current_window_handle
 
-            # get www.example.com
-            driver.get('file:///home/jerald/chrome-ext-scanner/chrome-ext-scanner/DYNAMIC_ANALYSIS/wm_donttouch/miscellaneous/xss_website.html')
-            # set handler for example.com
-            example = driver.current_window_handle
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        extension = driver.current_window_handle
+        driver.get(url_path)
+        driver.save_screenshot('ss.png')
+        time.sleep(2)
 
-            # get extension popup.html
-            driver.switch_to.new_window('tab')
-            extension = driver.current_window_handle
-            driver.get(url_path)
+        for payload in payloads:
+            print(payload)
+            # driver.switch_to.window(extension)
+            # driver.refresh()
+
+            driver.switch_to.window(example)
+
+            driver.execute_script(f'document.getElementById("h1_element").innerText = `{payload}`')
+            target_element = driver.find_element(By.ID, 'h1_element')
+
+            # Select the text using JavaScript
+            driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
+
+
+            actions = ActionChains(driver)
+            actions.context_click(target_element).perform()
+
+
             driver.save_screenshot('ss.png')
             time.sleep(2)
 
-            for payload in payloads:
-                print(payload)
-                # driver.switch_to.window(extension)
-                # driver.refresh()
 
-                driver.switch_to.window(example)
+            for _ in range(6):
+                subprocess.call(['xdotool', 'key', 'Down'])
 
-                driver.execute_script(f'document.getElementById("h1_element").innerText = `{payload}`')
-                target_element = driver.find_element(By.ID, 'h1_element')
+            # Simulate pressing the "Enter" key
+            subprocess.call(['xdotool', 'key', 'Return'])
 
-                # Select the text using JavaScript
-                driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
-
-
-                actions = ActionChains(driver)
-                actions.context_click(target_element).perform()
-
-
-                driver.save_screenshot('ss.png')
-                time.sleep(2)
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('+ Alert Detected +')
+            except TimeoutException:
+                print('= No alerts detected =')
 
 
-                for _ in range(6):
-                    subprocess.call(['xdotool', 'key', 'Down'])
-
-                # Simulate pressing the "Enter" key
-                subprocess.call(['xdotool', 'key', 'Return'])
-
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
-                    print('+ Alert Detected +')
-                except TimeoutException:
-                    print('= No alerts detected =')
+            driver.switch_to.window(extension)
+            driver.save_screenshot('ss.png')
+            time.sleep(1)
 
 
-                driver.switch_to.window(extension)
-                driver.save_screenshot('ss.png')
-                time.sleep(1)
-
-
-                driver.switch_to.window(example)
-                driver.save_screenshot('ss.png')
-                time.sleep(1)
+            driver.switch_to.window(example)
+            driver.save_screenshot('ss.png')
+            time.sleep(1)
 
     # Link Url     
     def context_menu_link_url_new():
