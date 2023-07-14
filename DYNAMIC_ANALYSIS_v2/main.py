@@ -17,10 +17,10 @@ def main(path_to_extension, semgrep_results):
     url_path, abs_path, ext_id = get_ext_id(path_to_extension)
 
     # obtain payloads
-    payload = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
+    payload1 = payloads('DYNAMIC_ANALYSIS_v2/payload.txt')
 
     # preconfiguration (set active to false)
-    preconfigure(path_to_extension)
+    # preconfigure(path_to_extension)
 
     # interprete semgrep scan results
     interpreted_results = interpreter(semgrep_results)
@@ -44,7 +44,7 @@ def main(path_to_extension, semgrep_results):
         "location_href":location_href_new,
         "location_search":locationSearch,
         "window_addEventListener_message":windowAddEventListenerMessage,
-        "window_name":location_href_new,
+        "window_name":window_name_new,
     }
 
 
@@ -61,9 +61,43 @@ def main(path_to_extension, semgrep_results):
                 driver = Chrome(service=Service(), options=options)
 
 
-                source = result["message"].split(";")[0][7:]
-                print('SOURCE: ', source)
-                sourcelist[source](driver,ext_id,url_path,payload,result)
+
+
+                # source = result["message"].split(";")[0][7:]
+                # print('SOURCE: ', source)
+                # sourcelist[source](driver,ext_id,url_path,payload,result)
+
+
+
+                    # get www.example.com
+                driver.get('https://www.example.com')
+                # set handler for example.com
+                example = driver.current_window_handle
+
+                # get extension popup.html
+                driver.switch_to.new_window('tab')
+                extension = driver.current_window_handle
+                driver.get(url_path)
+
+
+                for payload in payload1:
+                    # since window.name is obtained from the website url, we will inject javascript to change the window.name
+                    driver.switch_to.window(example)
+
+                    driver.execute_script(f'window.name = `{payload}`;')
+
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
+                    try:
+                        # wait 3 seconds to see if alert is detected
+                        WebDriverWait(driver, 3).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
+                        print('+ Alert Detected +')
+                        print(payload)
+                    except TimeoutException:
+                        print('= No alerts detected =')
 
 
 
