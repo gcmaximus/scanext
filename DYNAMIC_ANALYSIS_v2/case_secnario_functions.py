@@ -29,20 +29,25 @@ import logging
 # 12) chrome.runtime.onConnectExternal
 # 13) chrome.debugger.getTargets
 # 14) chrome.runtime.onMessageExternal 
+# logging framework
+
+
+
+
 
 
 #####################
 # Logging Framework #
 #####################
-# Logging framework
+
 def setup_logger(log_file):
     # Create a logger
     logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.ERROR)
 
     # Create a file handler and set the log level
     file_handler = logging.FileHandler(log_file)
-    file_handler.setLevel(logging.DEBUG)
+    file_handler.setLevel(logging.CRITICAL)
 
     # Create a formatter and add it to the handlers
     log_format = '%(message)s'
@@ -57,8 +62,7 @@ def setup_logger(log_file):
 def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
     # Convert sets to lists
     payload = str(payload)
-    # packet_info = str(packet_info)
-    logger = setup_logger('dynamic_logs.txt')
+    packet_info = str(packet_info)
 
     payload_log = {
         "outcome": outcome,
@@ -75,10 +79,10 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     }
 
     log_message = json.dumps(payload_log)
-    logger.info(log_message)
+    logger.critical(log_message)
 
 
-
+logger = setup_logger('DYNAMIC_ANALYSIS_v2/Dynamic_Logs.txt')
 
 
 ##########################
@@ -302,8 +306,7 @@ def window_name_new(driver, ext_id, url_path, payloads, result):
                 driver.execute_script(f'window.name = `{payload}`;')
 
                 # get time of injection
-                time_of_injection = datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-
+                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
             except Exception as e:
                 print(' !!!! PAYLOAD FAILLED !!!!')
                 print('Error: ', str(e))
