@@ -1,7 +1,7 @@
 import time
 import threading
 
-
+# spinner animation for static analysis
 def main(scanned_dir):
     # Loading spinner
     def loading_spinner(scanned_dir, event):
