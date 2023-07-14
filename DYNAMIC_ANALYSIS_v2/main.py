@@ -7,8 +7,8 @@ from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.chrome.service import Service
 
 
-from case_secnario_functions import *
-from preconfigure import *
+from DYNAMIC_ANALYSIS_v2.case_secnario_functions import *
+from DYNAMIC_ANALYSIS_v2.preconfigure import *
 
 
 

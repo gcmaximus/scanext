@@ -7,7 +7,8 @@ from zipfile import ZipFile
 import jsbeautifier
 from bs4 import BeautifulSoup
 
-from headless_cases import main as dynamic
+# from headless_cases import main as dynamic
+from DYNAMIC_ANALYSIS_v2.main import main as dynamic
 from static import main as static
 from banners import get_banner
 import report_gen
@@ -91,7 +92,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     print('Conducting dynamic analysis ...')
 
     # call selenium main.py
-    # dynamic(extension, results)
+    dynamic(extension, results)
 
     print('Dynamic analysis complete.')
     print()
