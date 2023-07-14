@@ -1,7 +1,6 @@
 import os
 import time
 import json
-import logging
 import datetime
 
 from selenium.webdriver import ActionChains
@@ -9,6 +8,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
+
+import logging
+
+
+# from main import payload_logging
 
 # Chrome Extension Entry points
 # 1) window.name
@@ -25,8 +29,6 @@ from selenium.webdriver.support import expected_conditions as EC
 # 12) chrome.runtime.onConnectExternal
 # 13) chrome.debugger.getTargets
 # 14) chrome.runtime.onMessageExternal 
-
-
 
 
 #####################
@@ -74,6 +76,8 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
 
     log_message = json.dumps(payload_log)
     logger.info(log_message)
+
+
 
 
 
