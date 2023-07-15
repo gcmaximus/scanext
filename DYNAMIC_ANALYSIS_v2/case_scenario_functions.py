@@ -760,7 +760,7 @@ def context_menu(driver, ext_id, url_path, payloads, result):
                     print('[example] + Alert Detected +')
 
                     # get time of success [1) example]
-                    time_of_success = datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                 
                 except TimeoutException:
                     print('[example] = No alerts detected =')

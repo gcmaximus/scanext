@@ -84,6 +84,6 @@ with open("DYNAMIC_ANALYSIS_v2/window_name_w.json", "r") as file:
 if __name__ == '__main__':
     semgrep_results = ['123']
 
-    path_to_extension = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menuFilePerms'
+    path_to_extension = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu'
 
     main(path_to_extension, semgrep_results)
