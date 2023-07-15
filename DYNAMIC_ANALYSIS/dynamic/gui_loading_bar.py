@@ -1,7 +1,6 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -11,10 +10,12 @@ import logging
 from multiprocessing import Pool, cpu_count
 from selenium.common.exceptions import NoAlertPresentException
 
-from functools import partial
+
 from tqdm import tqdm
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.service import Service
+
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 
 def logs(driver, alert, result, extension_name, payload):
@@ -180,9 +181,21 @@ def gui(extension_path: str, payload_file_path: str, n: int):
         )
         for order in range(n)
     ]
+
+    # ============ #
+    
     with Pool(n) as pool:
         for _ in pool.imap_unordered(process_wrapper, args):
             pass
+
+    # with ThreadPoolExecutor(n) as executor: # ^C DOES NOT KILL THREADS NEED Event() SHIT LIKE SPINNER
+    #     for _ in executor.map(process_wrapper, args):
+    #         pass
+
+    # with ProcessPoolExecutor(n) as executor:
+    #     for _ in executor.map(process_wrapper, args):
+    #         pass
+    # ============ #
 
         # partial_process_payload = partial(
         #     process_payload, url_path=url_path, abs_path=abs_path
@@ -206,7 +219,7 @@ def main():
     gui(
         "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer_P",
         "DYNAMIC_ANALYSIS/dynamic/payloads/payloads.txt",
-        12,
+        11,
     )
 
 
