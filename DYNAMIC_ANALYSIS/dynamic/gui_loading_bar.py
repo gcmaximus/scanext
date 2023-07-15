@@ -105,8 +105,8 @@ def process_payload(options, order, payload_gen, url_path):
 
 
 def gui(extension_path: str, payload_file_path: str, n: int):
-    if n > cpu_count():
-        print("number of instances requested > number of threads in the system. Not advisable to do so")
+    if n >= cpu_count():
+        print("number of instances requested >= number of threads in the system. Not advisable to do so")
         print("Exiting ... ")
         exit()  
 
