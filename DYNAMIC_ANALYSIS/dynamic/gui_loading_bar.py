@@ -105,10 +105,17 @@ def process_payload(options, order, payload_gen, url_path):
 
 
 def gui(extension_path: str, payload_file_path: str, n: int):
-    if n >= cpu_count():
-        print("number of instances requested >= number of threads in the system. Not advisable to do so")
+    thread_count = cpu_count()
+    if n > thread_count:
+        print("Warning, number of instances requested > number of threads of CPU.")
+        print("Not advisable to do so.")
         print("Exiting ... ")
         exit()  
+    if n == thread_count:
+        print("Warning, number of instances requested == number of threads of CPU.")
+        print("If user wishes to perform other tasks on the system,")
+        print("then the recommended max number of instances = number of threads CPU - 1")
+        print("Continuing ... ")
 
     # Getting id of extension [start]
     def get_ext_id(path_to_extension):
@@ -199,7 +206,7 @@ def main():
     gui(
         "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer_P",
         "DYNAMIC_ANALYSIS/dynamic/payloads/payloads.txt",
-        8,
+        12,
     )
 
 
