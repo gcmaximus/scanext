@@ -23,7 +23,9 @@ def main(path_to_extension, semgrep_results):
     preconfigure(path_to_extension)
 
     # interprete semgrep scan results
-    interpreted_results = interpreter(semgrep_results)
+    # interpreted_results = interpreter(semgrep_results)
+
+    interpreted_results = [123]
 
     # define source list (map source to case_scenario function)
     sourcelist = {
@@ -61,9 +63,11 @@ def main(path_to_extension, semgrep_results):
                 driver = Chrome(service=Service(), options=options)
 
 
-                source = result["message"].split(";")[0][7:]
-                print('SOURCE: ', source)
-                sourcelist[source](driver,ext_id,url_path,payload,result)
+                # source = result["message"].split(";")[0][7:]
+                # print('SOURCE: ', source)
+                # sourcelist[source](driver,ext_id,url_path,payload,result)
+
+                context_menu(driver,ext_id,url_path,payload,result)
 
 
 
@@ -78,4 +82,8 @@ with open("DYNAMIC_ANALYSIS_v2/window_name_w.json", "r") as file:
 
 
 if __name__ == '__main__':
-    main("DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_window.name", semgrep_results)
+    semgrep_results = ['123']
+
+    path_to_extension = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menuFilePerms'
+
+    main(path_to_extension, semgrep_results)
