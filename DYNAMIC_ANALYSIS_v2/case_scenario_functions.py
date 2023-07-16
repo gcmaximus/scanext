@@ -104,13 +104,7 @@ def runtime_onM(option, ext_id, url_path, payload, result):
         obj = {}
         var = ""
         if dots in taintsink:
-            sinklist = taintsink.split(dots)
-            a = sinklist[-1]
-            if ")" in a:
-                b = a.find(")")
-                sinklist[-1] = a[:b]
-            obj = {sinklist[-1]:k}
-            obj = json.dumps(obj)
+            obj = nomagic(taintsink,k)
             var = f"obj = JSON.parse('{obj}');"
         else:
             var = f"obj = '{k}';"
@@ -119,6 +113,79 @@ def runtime_onM(option, ext_id, url_path, payload, result):
         scripts.append(script)
     
     driver = Chrome(service=Service(), options=option)
+    source = 'chrome.runtime.onMessage'
+    url_of_injection_example = 'https://www.example.com'
+    payload_file = 'small_payload.txt'
+
+    try:
+        # Navigate to example.com
+        driver.get(url_of_injection_example)
+        example = driver.current_window_handle
+
+        # Wait up to 5 seconds for the title to become "Example Domain"
+        title_condition = EC.title_is('Example Domain')
+        WebDriverWait(driver, 5).until(title_condition)
+
+        # get page source code of example.com
+        example_source_code = driver.page_source
+
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        driver.get(url_path)
+        extension = driver.current_window_handle
+
+        # get page source code of extension
+        extension_source_code = driver.page_source
+
+        for script in scripts:
+            # for runtime.onMessage, scripts shall be executed in the chrome extension popup
+            try:
+                driver.execute_script(script)
+                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+            except Exception as e:
+                print(' !!!! PAYLOAD FAILLED !!!!')
+                print('Error: ', str(e))
+                continue
+            # check for alerts in example
+            driver.switch_to.window(example)
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[extension] + Alert Detected +')
+
+                # get time of success [2) extension]
+                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_path, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil')
+            except TimeoutException:
+                print('[extension] = No alerts detected =')
+                payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_path, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil')
+
+            try: 
+                # check modifications for example.com
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+                    print("Navigated back to 'https://www.example.com' due to page source changes")
+            except:
+                print('error')
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+            except:
+                print('error')
+            # refresh popup.html
+            driver.refresh()
+    except TimeoutException:
+        # Handle TimeoutException when title condition is not met
+        print("Timeout: Title was not resolved to 'Example Domain'")
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
 
 # 2) runtime.onConnect
 def runtime_onC(option, ext_id, url_path, payload, result):
@@ -126,7 +193,6 @@ def runtime_onC(option, ext_id, url_path, payload, result):
     for i in payload:
         dots = '.'
         taintsink = result["sink"]
-        taintsource = result["source"]
         obj = {}
         var = ""
         func = ""
@@ -147,12 +213,9 @@ def runtime_onC(option, ext_id, url_path, payload, result):
         except:
             portpassword = ""
         if dots in taintsink:
-            tsink = taintsink.split(dots)
-            obj = {tsink[-1]:i}
-            obj = json.dumps(obj)
+            obj = nomagic(taintsink,i)
         else:
-            obj = {taintsource:i}
-            obj = json.dumps(obj)
+            obj = i
 
         if port!="" and portproperty!="" and portpassword!="":
             connect = {portproperty:portpassword}
@@ -164,6 +227,80 @@ def runtime_onC(option, ext_id, url_path, payload, result):
         script = f"{var}chrome.runtime.connect({connect}){func}"
         scripts.append(script)
     driver = Chrome(service=Service(), options=option)
+    source = 'chrome.runtime.onConnect'
+    url_of_injection_example = 'https://www.example.com'
+    payload_file = 'small_payload.txt'
+
+    try:
+        # Navigate to example.com
+        driver.get(url_of_injection_example)
+        example = driver.current_window_handle
+
+        # Wait up to 5 seconds for the title to become "Example Domain"
+        title_condition = EC.title_is('Example Domain')
+        WebDriverWait(driver, 5).until(title_condition)
+
+        # get page source code of example.com
+        example_source_code = driver.page_source
+
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        driver.get(url_path)
+        extension = driver.current_window_handle
+
+        # get page source code of extension
+        extension_source_code = driver.page_source
+
+        for script in scripts:
+            # for runtime.onConnect, scripts shall be executed in the chrome extension popup
+            try:
+                driver.execute_script(script)
+                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+            except Exception as e:
+                print(' !!!! PAYLOAD FAILLED !!!!')
+                print('Error: ', str(e))
+                continue
+            # check for alerts in example
+            driver.switch_to.window(example)
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[extension] + Alert Detected +')
+
+                # get time of success [2) extension]
+                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_path, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil')
+            except TimeoutException:
+                print('[extension] = No alerts detected =')
+                payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_path, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil')
+
+            try: 
+                # check modifications for example.com
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+                    print("Navigated back to 'https://www.example.com' due to page source changes")
+            except:
+                print('error')
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+            except:
+                print('error')
+            # refresh popup.html
+            driver.refresh()
+    except TimeoutException:
+        # Handle TimeoutException when title condition is not met
+        print("Timeout: Title was not resolved to 'Example Domain'")
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
+
 
 # 3) cookies.get && cookies.getAll
 def cookie_get(option, ext_id, url_path, payload, result):
@@ -284,7 +421,7 @@ def window_name_new(driver, ext_id, url_path, payloads, result):
 
     source = 'window.name'
     url_of_injection_example = 'https://www.example.com'
-    url_of_injection_extension = url_path
+    url_path = url_path
     payload_file = 'small_payload.txt'
 
     try:

@@ -1,0 +1,12 @@
+beautifulsoup4
+fastapi
+jsbeautifier
+pynput
+selenium
+semgrep
+tqdm
+xvfbwrapper
+uvicorn
+pyvirtualdisplay
+webdriver-manager
+xdotool
