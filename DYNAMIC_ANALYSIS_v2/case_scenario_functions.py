@@ -2653,7 +2653,6 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
 
 
 def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
-    print('CHAO NI MAMA')
     import shutil
 
     def create_directory(pid):
@@ -2697,7 +2696,7 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         print(f"File renamed to: {new_filename}, ")
         old_filename = new_filename
 
-    def changeFavIconUrl(driver, number ,payload):
+    def changeFavIconUrl(driver, pid ,payload):
         # remove current favIconUrl
         driver.execute_script("""
         var linkElement = document.querySelector('link[rel="icon"]');
@@ -2706,24 +2705,31 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         }
         """)
 
-        # set new favIconUrl
-        driver.execute_script(f"""
-        var link = document.createElement('link');
-        link.type = 'image/jpg';
-        link.rel = 'icon';
-        link.href = 'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.jpg';
-        document.head.appendChild(link);
-        """)
+        try:
+            # set new favIconUrl
+            driver.execute_script(f"""
+            var link = document.createElement('link');
+            link.type = 'image/jpg';
+            link.rel = 'icon';
+            link.href = '/ChromeTabQueryFiles/favIconUrl_instance_1/blaoejds222.jpg';
+            document.head.appendChild(link);
+            """)
+        except Exception as e:
+            print('fk error lah')
+            print(str(e))
+
 
     print(payloads)
 
     # preconfigure files required
-    access_directory(pid)
+    # access_directory(pid)
 
 
 
     # get www.example.com
-    driver.get('file:///home/showloser/dynamic/miscellaneous/xss_website.html')
+    driver.get('file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html')
+    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+
     # set handler for example.com
     example = driver.current_window_handle
     # add a default favIconUrl
@@ -2757,17 +2763,20 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         # use filename as payload in ext
         changeFavIconUrl(driver, pid, payload)
 
+
         try:
             # wait 2 seconds to see if alert is detected
             WebDriverWait(driver, 2).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.accept()
-            print('[FALSE] Alert Detected [FALSE]')
+            print('[True] Alert Detected [True]')
         except TimeoutException:
             print('[FALSE] No alerts detected [FALSE]')
 
-            
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+
         driver.switch_to.window(extension)
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
         # hard coded interactions
         # hard coded interactions
@@ -2778,6 +2787,12 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
 
 
         driver.switch_to.window(example)
+        
+        time.sleep(2)
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+        time.sleep(2)
+
+
         try:
             # wait 2 seconds to see if alert is detected
             WebDriverWait(driver, 2).until(EC.alert_is_present())
