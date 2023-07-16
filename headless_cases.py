@@ -134,12 +134,11 @@ def initialise_headless(path_to_extension,results):
     options.add_argument(load_ext_arg)
     options.add_argument("--enable-logging")
     options.add_argument("--disable-dev-shm-usage")
-    driver = Chrome(service=Service(), options=options)
 
     for result in l:
         source = result["message"].split(";")[0][7:]
         print(source)
-        sourcelist[source](driver,ext_id,url_path,payload,result)
+        sourcelist[source](options,ext_id,url_path,payload,result)
 
     # server_info: list = requests.get("http://127.0.0.1:8000/data").json()["data"][0]
     # payload_server_success = payload_logging("SUCCESS", "window.name", 'cjjdmmmccadnnnfjabpoboknknpiioge', 'h1-replacer(v3)', 'file:///test.html', 'server','<img src=x onerror=alert("server_success")>', '2023-07-09 16:30:20,956', '2023-07-09 16:30:21,55', 'small-payloads.txt', server_info)

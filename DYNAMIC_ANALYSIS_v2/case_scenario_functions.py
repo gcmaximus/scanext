@@ -8,6 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver.chrome.service import Service
 
 import logging
 
@@ -90,7 +92,7 @@ logger = setup_logger('DYNAMIC_ANALYSIS_v2/dynamic_logs.txt')
 ##########################
 
 # 1) runtime.onMessage 
-def runtime_onM(driver, ext_id, url_path, payload, result):
+def runtime_onM(option, ext_id, url_path, payload, result):
     scripts = []
     for k in payload:
         dots = '.'
@@ -112,10 +114,10 @@ def runtime_onM(driver, ext_id, url_path, payload, result):
         script = f"{var}chrome.runtime.sendMessage(obj)"
         scripts.append(script)
     
-    return scripts
+    driver = Chrome(service=Service(), options=option)
 
 # 2) runtime.onConnect
-def runtime_onC(driver, ext_id, url_path, payload, result):
+def runtime_onC(option, ext_id, url_path, payload, result):
     scripts = []
     for i in payload:
         dots = '.'
@@ -157,10 +159,10 @@ def runtime_onC(driver, ext_id, url_path, payload, result):
 
         script = f"{var}chrome.runtime.connect({connect}){func}"
         scripts.append(script)
-    return scripts
+    driver = Chrome(service=Service(), options=option)
 
 # 3) cookies.get && cookies.getAll
-def cookie_get(driver, ext_id, url_path, payload, result):
+def cookie_get(option, ext_id, url_path, payload, result):
     scripts = []
     for i in payload:
         dots = '.'
@@ -207,15 +209,15 @@ def cookie_get(driver, ext_id, url_path, payload, result):
         
         script = f'document.cookie = {obj} + document.cookie'
         scripts.append(script) 
-    return scripts
+    driver = Chrome(service=Service(), options=option)
 
 # 4) location.hash
-def location_hash(driver, ext_id, url_path, payload, result):
+def location_hash(option, ext_id, url_path, payload, result):
     script = f"window.location.hash = {payload}"
-    return script
+    driver = Chrome(service=Service(), options=option)
 
 # 5) runtime.onMessageExternal
-def runtime_onME(driver, ext_id, url_path, payload, result):
+def runtime_onME(option, ext_id, url_path, payload, result):
     scripts = []
     for i in payload:
         dots = '.'
@@ -224,9 +226,10 @@ def runtime_onME(driver, ext_id, url_path, payload, result):
         var = ""
         script = f"chrome.runtime.sendMessage('{ext_id}',)"
         scripts.append(script)
+    driver = Chrome(service=Service(), options=option)
 
 # 6) runtime.onConnectExternal
-def runtime_onCE(driver, ext_id, url_path, payload, result):
+def runtime_onCE(option, ext_id, url_path, payload, result):
     scripts = []
     for i in payload:
         dots = '.'
@@ -269,6 +272,7 @@ def runtime_onCE(driver, ext_id, url_path, payload, result):
         script = f"{var}chrome.runtime.connect({connect}){func}"
         print(script)
         scripts.append(script)
+    driver = Chrome(service=Service(), options=option)
 
 # 7) Window.name (works)
 def window_name_new(driver, ext_id, url_path, payloads, result):
