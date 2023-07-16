@@ -4,10 +4,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from os import path
+from os import path, cpu_count
 import hashlib
 import logging
-from multiprocessing import Pool, cpu_count
+from multiprocessing import Pool
 from selenium.common.exceptions import NoAlertPresentException
 
 
