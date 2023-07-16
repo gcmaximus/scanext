@@ -11,6 +11,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.chrome.service import Service
 
+from functools import reduce
+
 import logging
 
 
@@ -33,9 +35,11 @@ import logging
 # 14) chrome.runtime.onMessageExternal 
 # logging framework
 
-
-
-
+# magic function (name to be changed)
+def nomagic(chain, payload):
+    keys = chain.split('.')[1:]
+    obj = json.dumps(reduce(lambda x, y: {y: x}, reversed(keys), payload))
+    return obj
 
 
 #####################
@@ -222,9 +226,13 @@ def runtime_onME(option, ext_id, url_path, payload, result):
     for i in payload:
         dots = '.'
         taintsink = result["sink"]
-        obj = {}
-        var = ""
-        script = f"chrome.runtime.sendMessage('{ext_id}',)"
+        obj = ""
+        if dots in taintsink:
+            obj = nomagic(taintsink,i)
+            script = f"chrome.runtime.sendMessage('{ext_id}',{obj})"
+        else:
+            obj = i
+            script = f"chrome.runtime.sendMessage('{ext_id}','{obj}')"
         scripts.append(script)
     driver = Chrome(service=Service(), options=option)
 
