@@ -3037,21 +3037,24 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         }
         """)
 
+        
+
+        print('pid: ', pid)
+        print('payload ', payload)
         try:
             # set new favIconUrl
             driver.execute_script(f"""
             var link = document.createElement('link');
             link.type = 'image/jpg';
             link.rel = 'icon';
-            link.href = '/ChromeTabQueryFiles/favIconUrl_instance_1/blaoejds222.jpg';
+            link.href = '/ChromeTabQueryFiles/favIconUrl_instance_1/test123.jpg';
             document.head.appendChild(link);
             """)
         except Exception as e:
             print('fk error lah')
             print(str(e))
 
-
-    print(payloads)
+        input("INPUT: ")
 
     # preconfigure files required
     access_directory(pid)
@@ -3113,7 +3116,12 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         driver.execute_script("document.getElementById('entryPoint').value = '0';")
         driver.execute_script("document.getElementById('submit').click();")
 
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+        time.sleep(2)
+
         driver.switch_to.window(example)
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+
         try:
             # wait 2 seconds to see if alert is detected
             WebDriverWait(driver, 2).until(EC.alert_is_present())
