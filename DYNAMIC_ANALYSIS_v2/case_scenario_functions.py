@@ -2971,10 +2971,123 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
         print("An error occurred:", str(e))
 
 # # 10.2) chromeTabsQuery_url (works)
-# def chromeTabQuery_url(driver,ext_id, url_path, payloads, result):
-#     # Case Secnario for chromeTabQuery_url_new
-#     try:
+def chromeTabQuery_url(driver,ext_id, url_path, payloads, result):
+    # Case Secnario for chromeTabQuery_url_new
+    try:
+        # Navigate to example.com
+        driver.get('https://www.example.com')
+        # set handler for example.com
+        example = driver.current_window_handle
 
+        # Wait up to 5 seconds for the title to become "Example Domain"
+        title_condition = EC.title_is('Example Domain')
+        WebDriverWait(driver, 5).until(title_condition)
+
+        # get page source code of example.com
+        example_source_code = driver.page_source
+
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        extension = driver.current_window_handle
+        driver.get(url_path)
+
+        # get page source code of extension
+        extension_source_code = driver.page_source
+
+
+        for payload in payloads:
+            payload = payload.strip()
+
+            # change to example.com to change url property
+            driver.switch_to.window(example)
+            try:
+                driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
+            except Exception as e:
+                print(' !!!! PAYLOAD FAILLED !!!!')
+                print('Error: ', str(e))
+                continue
+
+
+
+            # hardcode some interactions
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.execute_script("document.getElementById('entryPoint').value = '3';")
+            driver.execute_script("document.getElementById('submit').click();")
+            # hardcode some interactions
+
+
+
+            # observe behavior after payload injection
+            # 1) Check for alerts in example
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[example] + Alert Detected +')
+            except TimeoutException:
+                print('[example] = No alerts detected =')
+
+            # 2) Check for alerts in extensions
+            driver.switch_to.window(extension)
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[extension] + Alert Detected +')
+            except TimeoutException:
+                print('[extension] = No alerts detected =')
+
+            
+            # 3) Check for alerts in example after refreshing extension
+            driver.refresh()
+            driver.switch_to.window(example)
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[example] + Alert Detected +')
+            except TimeoutException:
+                print('[example] = No alerts detected =')
+
+
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+                    print("Navigated back to 'https://www.example.com' due to page source changes")
+
+            except:
+                print('error')
+
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+
+            except:
+                print('error')
+
+
+    except TimeoutException:
+        # Handle TimeoutException when title condition is not met
+        print("Timeout: Title was not resolved to 'Example Domain'")
+
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
+
+# 10.3) chromeTabQuery_favIconUrl (in prog)
 def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
     import shutil
     driver = Chrome(service=Service(), options=option)
