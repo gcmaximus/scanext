@@ -16,6 +16,8 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.service import Service
 
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+from threading import Event
+from itertools import cycle
 
 
 def logs(driver, alert, result, extension_name, payload):
@@ -31,7 +33,7 @@ def logs(driver, alert, result, extension_name, payload):
             )
         else:
             logging.error(
-                f"{time.strftime('%Y-%m-%d %H:%M:%S')}, {result}, {logging.getLevelName(logging.info)}, {extension_name}, 'NIL', {payload}"
+                f"{time.strftime('%Y-%m-%d %H:%M:%S')}, {result}, {logging.getLevelName(logging.INFO)}, {extension_name}, 'NIL', {payload}"
             )
     except NoAlertPresentException:
         logging.warning("No alert present")
@@ -43,29 +45,14 @@ def logs(driver, alert, result, extension_name, payload):
 
 
 def process_wrapper(args_tuple):
-    process, n, order, opt, payload_file_path, url_path = args_tuple
-    # def subset_payloads(file_path: str, n: int, order: int):
-    #     def payload_gen(file_path, cycle_size: int, start: int):
-    #         with open(file_path, "r") as file:
-    #             for row, line in enumerate(file):
-    #                 if row == start:
-    #                     start += cycle_size
-    #                     yield line.rstrip()
-
-    #     return payload_gen(file_path, n, order)
-    def payload_gen(start):
-        with open(payload_file_path, "r") as file:
-            for row, line in enumerate(file):
-                if row == start:
-                    start += n
-                    yield line.rstrip()
-    
-    return process(opt, order, payload_gen, url_path)
+    event, process, order, opt, payloads, url_path = args_tuple
+    # process, order, opt, payloads, url_path = args_tuple
+    return process(event, opt, order, payloads, url_path)
 
 
-def process_payload(options, order, payload_gen, url_path):
+def process_payload(event, options, order, payloads, url_path):
     global progress_bars
-    payloads = payload_gen(order)
+    # payloads = payload_gen(order)
     driver = Chrome(service=Service(), options=options)
     driver.get(url_path)
     original = driver.current_window_handle
@@ -76,33 +63,37 @@ def process_payload(options, order, payload_gen, url_path):
     driver.switch_to.window(original)
 
     for payload in payloads:
-        a = driver.find_element(By.ID, "replacementInput")
-        a.clear()
-        a.send_keys(payload)
-        button = driver.find_element(By.ID, "replaceButton")
-        button.click()
+        if event.is_set():
+            a = driver.find_element(By.ID, "replacementInput")
+            a.clear()
+            a.send_keys(payload)
+            button = driver.find_element(By.ID, "replaceButton")
+            button.click()
 
-        driver.switch_to.window(new)
+            driver.switch_to.window(new)
+            # raise NameError # TO-DO how to handle error from a process?
+            try:
+                # wait 3 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                # logs(driver, alert, "Success", url_path, payload) # this bloody function fks it up, maybe use logging module directly
 
-        try:
-            # wait 3 seconds to see if alert is detected
-            WebDriverWait(driver, 2).until(EC.alert_is_present())
-            alert = driver.switch_to.alert
-            logs(driver, alert, "Success", url_path, payload)
-            # print('+ Alert Detected +')
-        except TimeoutException:
-            logs(driver, "NIL", "Fail", url_path, payload)
-            # print('= No alerts detected =')
+                logging.critical(
+                    f"{time.strftime('%Y-%m-%d %H:%M:%S')}, Success, {logging.getLevelName(logging.CRITICAL)}, {url_path}, {alert.text}, {payload}"
+                )
+                # print('+ Alert Detected +')
+            except TimeoutException:
+                logging.error(
+                    f"{time.strftime('%Y-%m-%d %H:%M:%S')}, Failure, {logging.getLevelName(logging.INFO)}, {url_path}, 'NIL', {payload}"
+                )
+                # logs(driver, "NIL", "Fail", url_path, payload) # this bloody function fks it up, maybe use logging module directly
+                # print('= No alerts detected =')
 
-        # change back to popup.html to try another payload
-        driver.switch_to.window(original)
+            # change back to popup.html to try another payload
+            driver.switch_to.window(original)
 
-        # update progress bar
-        progress_bars[order].update(1)  # Subtract 1 to match the index
-
-    # close driver after  loop gaodim
-    # driver.quit()
-
+            # update progress bar
+            progress_bars[order].update(1)
 
 
 def gui(extension_path: str, payload_file_path: str, n: int):
@@ -111,11 +102,13 @@ def gui(extension_path: str, payload_file_path: str, n: int):
         print("Warning, number of instances requested > number of threads of CPU.")
         print("Not advisable to do so.")
         print("Exiting ... ")
-        exit()  
+        exit()
     if n == thread_count:
         print("Warning, number of instances requested == number of threads of CPU.")
         print("If user wishes to perform other tasks on the system,")
-        print("then the recommended max number of instances = number of threads CPU - 1")
+        print(
+            "then the recommended max number of instances = number of threads CPU - 1"
+        )
         print("Continuing ... ")
 
     # Getting id of extension [start]
@@ -135,76 +128,62 @@ def gui(extension_path: str, payload_file_path: str, n: int):
     options.add_argument(load_ext_arg)
     options.add_argument("--enable-logging")
 
-    # payloads1 = []
-    # payloads2 = []
-    # payloads3 = []
+    def payloads_cycle(n: int, file_path: str):
+        c = cycle(range(n))
+        payloads = [[] for _ in range(n)]
+        with open(file_path, "r") as file:
+            for line in file:
+                if line != "\n":
+                    payloads[c.__next__()].append(line.rstrip())
+        return [len(p) for p in payloads], tuple(tuple(s) for s in payloads)
 
-    # with open(file_path, 'r') as file:
-    #     for line in file:
-    #         payload = line.strip()  # Remove leading/trailing whitespace
-    #         # Assign the payload to one of the subsets
-    #         if len(payloads1) < len(payloads2) and len(payloads1) < len(payloads3):
-    #             payloads1.append(payload)
-    #         elif len(payloads2) < len(payloads3):
-    #             payloads2.append(payload)
-    #         else:
-    #             payloads3.append(payload)
+    totals, payloads = payloads_cycle(n, payload_file_path)
 
-    # return payloads1, payloads2, payloads3
-
-    # # progress_bars = [tqdm(total=len(payloads1), desc=f'Instance {item}') for item in items]
-
-    q, r = divmod(sum(1 for _ in open(payload_file_path)), n)
-    approxs = [q + 1 if i < r else q for i in range(n)]
-    global progress_bars 
+    global progress_bars
     progress_bars = [
         tqdm(
-            total=approxs[order],
+            total=totals[order],
             desc=f"Instance {order}",
             bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
         )
         for order in range(n)
     ]
 
-    # num_processes = 3  # Define the number of concurrent processes
-    # payloads = subset_payloads(payload_file_path, n)
+    # args = [
+    #     (process_payload, order, options, payloads[order], url_path)
+    #     for order in range(n)
+    # ]
 
-    # process, n, order, opt, payload_file, url_path, progress_bar
+    event = Event()
+    event.set()
     args = [
-        (
-            process_payload,
-            n,
-            order,
-            options,
-            payload_file_path,
-            url_path
-        )
+        (event, process_payload, order, options, payloads[order], url_path)
         for order in range(n)
     ]
 
-    # ============ #
+    # ================ #
+
+    # loading bar issue, when all finish loading bar freaks out
+    # slightly faster
+
+    # with Pool(n) as pool:
+    #     for _ in pool.imap(process_wrapper, args):
+    #         pass
+
+    # ==== #
+
+    # ^C DOES NOT KILL THREADS NEED Event() SHIT LIKE SPINNER
+    # NO loading bar issue
+    # slightly slower
+
+    with ThreadPoolExecutor(n) as executor:
+        for _ in executor.map(process_wrapper, args):
+            try:
+                pass
+            except KeyboardInterrupt:
+                event.clear()
     
-    with Pool(n) as pool:
-        for _ in pool.imap_unordered(process_wrapper, args):
-            pass
-
-    # with ThreadPoolExecutor(n) as executor: # ^C DOES NOT KILL THREADS NEED Event() SHIT LIKE SPINNER
-    #     for _ in executor.map(process_wrapper, args):
-    #         pass
-
-    # with ProcessPoolExecutor(n) as executor:
-    #     for _ in executor.map(process_wrapper, args):
-    #         pass
-    # ============ #
-
-        # partial_process_payload = partial(
-        #     process_payload, url_path=url_path, abs_path=abs_path
-        # )
-
-        # for _ in pool.imap(
-        #     partial_process_payload, zip(items, [payloads1, payloads2, payloads3])
-        # ):
-        #     pass
+    # ================ #
 
 
 def main():
@@ -219,7 +198,7 @@ def main():
     gui(
         "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer_P",
         "DYNAMIC_ANALYSIS/dynamic/payloads/payloads.txt",
-        11,
+        3,
     )
 
 
