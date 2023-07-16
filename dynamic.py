@@ -67,7 +67,7 @@ def main(path_to_extension, semgrep_results):
                 # print('SOURCE: ', source)
                 # sourcelist[source](driver,ext_id,url_path,payload,result)
 
-                locationSearch(driver,ext_id, url_path, payload, result)
+                chromeTabQuery_favIconUrl(driver,ext_id, url_path, payload, result,9)
 
 
         except Exception as e:
@@ -83,6 +83,6 @@ with open("DYNAMIC_ANALYSIS_v2/window_name_w.json", "r") as file:
 if __name__ == '__main__':
     semgrep_results = ['123']
 
-    path_to_extension = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location_search'
+    path_to_extension = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query'
 
     main(path_to_extension, semgrep_results)
