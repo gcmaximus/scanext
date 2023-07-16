@@ -3160,7 +3160,8 @@ def locationSearch(option, ext_id, url_path, payloads, result):
             print('= No alerts detected =')
 
 # 11) locationSearch (works)
-def locationSearch(driver, ext_id, url_path, payloads, result):
+def locationSearch(option, ext_id, url_path, payloads, result):
+    driver = Chrome(service=Service(), options=option)
     try:
         # navigate to example.com
         driver.get('https://www.example.com')
