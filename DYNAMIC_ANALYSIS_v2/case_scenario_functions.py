@@ -2859,7 +2859,7 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
     print(payloads)
 
     # preconfigure files required
-    # access_directory(pid)
+    access_directory(pid)
 
 
 
@@ -2900,36 +2900,25 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         # use filename as payload in ext
         changeFavIconUrl(driver, pid, payload)
 
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
         try:
             # wait 2 seconds to see if alert is detected
             WebDriverWait(driver, 2).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.accept()
-            print('[True] Alert Detected [True]')
+            print('[TRUE] Alert Detected [TRUE]')
         except TimeoutException:
             print('[FALSE] No alerts detected [FALSE]')
 
-        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-
+            
         driver.switch_to.window(extension)
-        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
-        # hard coded interactions
-        # hard coded interactions
+        # use the extension
         driver.execute_script("document.getElementById('entryPoint').value = '0';")
         driver.execute_script("document.getElementById('submit').click();")
-        # hard coded interactions
-        # hard coded interactions
-
 
         driver.switch_to.window(example)
-        
-        time.sleep(2)
-        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-        time.sleep(2)
-
-
         try:
             # wait 2 seconds to see if alert is detected
             WebDriverWait(driver, 2).until(EC.alert_is_present())
@@ -2938,7 +2927,6 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
             print('+ Alert Detected +')
         except TimeoutException:
             print('= No alerts detected =')
-
 
 
 
