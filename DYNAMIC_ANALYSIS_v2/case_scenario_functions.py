@@ -2680,7 +2680,7 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
                 print("Picture path doesn't exist!")
 
     def rename_file_with_payloads(pid,payload):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_payload_{pid}'
+        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
 
         files = os.listdir(directory_name)
         if len(files) == 0:
@@ -2711,7 +2711,7 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         var link = document.createElement('link');
         link.type = 'image/jpg';
         link.rel = 'icon';
-        link.href = 'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_payload_{number}/{payload}.jpg';
+        link.href = 'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.jpg';
         document.head.appendChild(link);
         """)
 
