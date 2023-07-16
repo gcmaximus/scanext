@@ -793,8 +793,8 @@ def runtime_onCE(option, ext_id, url_path, payload, result):
         print("An error occurred:", str(e))
 
 # 7) Window.name (works)
-def window_name_new(driver, ext_id, url_path, payloads, result):
-
+def window_name_new(option, ext_id, url_path, payloads, result):
+    driver = Chrome(service=Service(), options=option)
     source = 'window.name'
     url_of_injection_example = 'https://www.example.com'
     payload_file = 'small_payload.txt'
@@ -896,8 +896,9 @@ def window_name_new(driver, ext_id, url_path, payloads, result):
         print("An error occurred:", str(e))
 
 # 8) location.href (works)
-def location_href_new(driver, ext_id, url_path, payloads, result):
+def location_href_new(option, ext_id, url_path, payloads, result):
     print('location.href')
+    driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
         driver.get('https://www.example.com')
@@ -998,9 +999,10 @@ def location_href_new(driver, ext_id, url_path, payloads, result):
         print("An error occurred:", str(e))
 
 # 9) Context_menu (to be removed)
-def context_menu(driver, ext_id, url_path, payloads, result):
+def context_menu(option, ext_id, url_path, payloads, result):
     from pynput.keyboard import Controller, Key
     import urllib.parse
+    driver = Chrome(service=Service(), options=option)
     # entry points:
     # 1) Selection Text
     # 2) Link Url 
@@ -1750,9 +1752,9 @@ def context_menu(driver, ext_id, url_path, payloads, result):
     context_menu_selectionText_headless()
 
 # 9.1) Context_menu_selectionText (works)
-def context_menu_selectionText(driver, ext_id, url_path, payloads, result):
+def context_menu_selectionText(option, ext_id, url_path, payloads, result):
     import subprocess
-
+    driver = Chrome(service=Service(), options=option)
     try:
         # website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
         website = "file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html"
@@ -1893,9 +1895,9 @@ def context_menu_selectionText(driver, ext_id, url_path, payloads, result):
         print("An error occurred:", str(e))
 
 # 9.2) Context_menu_link_Url (works)
-def context_menu_link_url(driver, ext_id, url_path, payloads, result):
+def context_menu_link_url(option, ext_id, url_path, payloads, result):
     import subprocess
-
+    driver = Chrome(service=Service(), options=option)
     website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
 
     try:
@@ -2045,9 +2047,9 @@ def context_menu_link_url(driver, ext_id, url_path, payloads, result):
         print("An error occurred:", str(e))
 
 # 9.3) Context_menu_Src_Url (error)
-def context_menu_src_url(driver, ext_id, url_path, payloads, result):
+def context_menu_src_url(option, ext_id, url_path, payloads, result):
     from pynput.keyboard import Controller, Key
-
+    driver = Chrome(service=Service(), options=option)
     # get www.example.com
     driver.get('file:////home/showloser/localhost/dynamic/test.html')
     # set handler for example.com
@@ -2099,9 +2101,9 @@ def context_menu_src_url(driver, ext_id, url_path, payloads, result):
         time.sleep(2)
 
 # 9.4) Context_menu_frame_Url (works)
-def context_menu_frame_url(driver, ext_id, url_path, payloads, result):
+def context_menu_frame_url(option, ext_id, url_path, payloads, result):
     import subprocess
-
+    driver = Chrome(service=Service(), options=option)
     try:
 
         website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
@@ -2238,10 +2240,10 @@ def context_menu_frame_url(driver, ext_id, url_path, payloads, result):
         print("An error occurred:", str(e))
 
 # 9.5) Context_menu_PageUrl (works)
-def context_menu_pageUrl(driver, ext_id, url_path, payloads, result):
+def context_menu_pageUrl(option, ext_id, url_path, payloads, result):
     import urllib.parse
     import subprocess
-
+    driver = Chrome(service=Service(), options=option)
     website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
     
     # Maximum wait time of 5 seconds
@@ -2379,9 +2381,9 @@ def context_menu_pageUrl(driver, ext_id, url_path, payloads, result):
  
 
 # 10) chromeTabsQuery
-def chromeTabsQuery(driver,ext_id, url_path, payloads, result):
+def chromeTabsQuery(option,ext_id, url_path, payloads, result):
     properties = ['favIconUrl', 'sessionId', 'title', 'url']
-
+    driver = Chrome(service=Service(), options=option)
     def chromeTabQuery_title():
         # Case Secnario for chromeTabQuery_Title
 
@@ -2859,7 +2861,8 @@ def chromeTabsQuery(driver,ext_id, url_path, payloads, result):
 
 
 # 10.1) chromeTabsQuery_title
-def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
+def chromeTabsQuery_title(option,ext_id, url_path, payloads, result):
+    driver = Chrome(service=Service(), options=option)
     try:
         # get www.example.com
         driver.get('https://www.example.com')
@@ -2955,9 +2958,9 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
         print("An error occurred:", str(e))
 
 
-def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
+def chromeTabQuery_favIconUrl(option,ext_id, url_path, payloads, result, pid):
     import shutil
-
+    driver = Chrome(service=Service(), options=option)
     def create_directory(pid):
         directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
         if not os.path.exists(directory_name):
@@ -3105,8 +3108,8 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
 
 
 # 11) locationSearch
-def locationSearch(driver, ext_id, url_path, payloads, result):
-
+def locationSearch(option, ext_id, url_path, payloads, result):
+    driver = Chrome(service=Service(), options=option)
     # get www.example.com
     driver.get('https://www.example.com')
     # set handler for example.com
@@ -3138,10 +3141,10 @@ def locationSearch(driver, ext_id, url_path, payloads, result):
             print('= No alerts detected =')
 
 # 12) window.addEventLister.msg
-def windowAddEventListenerMessage(driver, ext_id, url_path, payloads, result):
+def windowAddEventListenerMessage(option, ext_id, url_path, payloads, result):
     # PAYLOAD: 
     # postMessage({ message: "<img src=x onerror=alert(1)>" }, "*")
-    
+    driver = Chrome(service=Service(), options=option)
     # get xss test website
     driver.get('file:////home/showloser/localhost/dynamic/test.html')
     # set handler for example.com
