@@ -263,12 +263,9 @@ def runtime_onCE(option, ext_id, url_path, payload, result):
         except:
             portpassword = ""
         if dots in taintsink:
-            tsink = taintsink.split(dots)
-            obj = {tsink[-1]:i}
-            obj = json.dumps(obj)
+            obj = nomagic(taintsink,i)
         else:
-            obj = {taintsource:i}
-            obj = json.dumps(obj)
+            obj = i
 
         if port!="" and portproperty!="" and portpassword!="":
             connect = {portproperty:portpassword}
