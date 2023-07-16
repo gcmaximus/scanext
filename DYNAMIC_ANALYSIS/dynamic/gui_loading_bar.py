@@ -52,9 +52,9 @@ from itertools import cycle
 
 def process_payload(args_tuple):
     order, options, payloads, url_path = args_tuple
-    
+
     global progress_bars
-    
+
     driver = Chrome(service=Service(), options=options)
     driver.get(url_path)
     original = driver.current_window_handle
@@ -108,23 +108,17 @@ def process_payload(args_tuple):
     return logs
 
 
-def gui(extension_path: str, payload_file_path: str, n: int):
+def gui(extension_path: str, payload_file_path: str, n: int = 4):
     thread_count = cpu_count()
     if thread_count is None:
         print("Unable to determind the number of threads the CPU has.")
         print("Exiting ... ")
         exit()
-    elif n > thread_count:
-        print("Warning, number of instances requested > threads the CPU has.")
-        print("Not advisable to do so.")
-        print("Exiting ... ")
-        exit()
-    elif n == thread_count:
-        print("Warning, number of instances requested == threads the CPU has.")
-        print("If user wishes to perform other tasks on the system,")
-        print(
-            "then the recommended max number of instances = number of threads CPU - 1"
-        )
+    
+    thread_count //= 3
+    if n > thread_count:
+        print(f"Warning, {n} instances requested is > than the {thread_count} recommended for your CPU.")
+        print("Recommendation = CPU's thread count // 3.")
         print("Continuing ... ")
 
     # Getting id of extension [start]
@@ -173,20 +167,21 @@ def gui(extension_path: str, payload_file_path: str, n: int):
     # loading bar issue, when all finish loading bar freaks out
     # slightly faster
 
-    with Pool(n) as pool:
-        for logs in pool.imap_unordered(process_payload, args):
-            for level, log in logs:
-                getattr(logging, level)(log)
+    # with Pool(n) as pool:
+    #     for logs in pool.imap_unordered(process_payload, args):
+    #         for level, log in logs:
+    #             getattr(logging, level)(log)
 
     # ==== #
 
     # NO loading bar issue
     # slightly slower
 
-    # with ThreadPoolExecutor(n) as executor:
-    #     for logs in executor.map(process_payload, args):
-    #         for level, log in logs:
-    #             getattr(logging, level, log)
+    with ThreadPoolExecutor(n) as executor:
+        for logs in executor.map(process_payload, args):
+            for level, log in logs:
+                getattr(logging, level, log)
+
     # ================ #
 
 
@@ -202,7 +197,7 @@ def main():
     gui(
         "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer_P",
         "DYNAMIC_ANALYSIS/dynamic/payloads/payloads.txt",
-        6,
+        4,
     )
 
 
