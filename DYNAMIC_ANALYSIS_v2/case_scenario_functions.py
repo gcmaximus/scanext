@@ -2530,6 +2530,124 @@ def chromeTabsQuery(driver,ext_id, url_path, payloads, result):
             """)
 
 
+# 10.1) chromeTabsQuery_title
+def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
+    try:
+        # get www.example.com
+        driver.get('https://www.example.com')
+        # set handler for example.com
+        example = driver.current_window_handle
+
+        # Wait up to 5 seconds for the title to become "Example Domain"
+        title_condition = EC.title_is('Example Domain')
+        WebDriverWait(driver, 5).until(title_condition)
+
+        # get page source code of example.com
+        example_source_code = driver.page_source
+
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        extension = driver.current_window_handle
+        driver.get(url_path)
+
+        # get page source code of extension
+        extension_source_code = driver.page_source
+
+
+        for payload in payloads:
+
+            # change to example.com to change document.title property
+            driver.switch_to.window(example)
+            driver.refresh()
+
+            try:
+                driver.execute_script(f'document.title = `{payload}`;')
+            except Exception as e:
+                print(' !!!! PAYLOAD FAILLED !!!!')
+                print('Error: ', str(e))
+                continue
+
+            
+
+            # hardcode some interactions
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.execute_script("document.getElementById('entryPoint').value = '2';")
+            driver.execute_script("document.getElementById('submit').click();")
+            # hardcode some interactions
+
+
+
+            # observe behavior after payload injection
+            # 1) Check for alerts in example
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[example] + Alert Detected +')
+            except TimeoutException:
+                print('[example] = No alerts detected =')
+
+            # 2) Check for alerts in extensions
+            driver.switch_to.window(extension)
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[extension] + Alert Detected +')
+            except TimeoutException:
+                print('[extension] = No alerts detected =')
+
+            
+            # 3) Check for alerts in example after refreshing extension
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[example] + Alert Detected +')
+            except TimeoutException:
+                print('[example] = No alerts detected =')
+
+
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+                    print("Navigated back to 'https://www.example.com' due to page source changes")
+
+            except:
+                print('error')
+
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+
+            except:
+                print('error')
+
+
+
+    except TimeoutException:
+        # Handle TimeoutException when title condition is not met
+        print("Timeout: Title was not resolved to 'Example Domain'")
+
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
+
+
+
 
 # 11) locationSearch
 def locationSearch(driver, ext_id, url_path, payloads, result):
@@ -2622,3 +2740,10 @@ def windowAddEventListenerMessage(driver, ext_id, url_path, payloads, result):
             print('= No alerts detected =')
 
 
+
+
+# to test)
+# 1)chrome_tab_query_title
+# 2)chromeTabQuery_url_new
+# 3)chromeTabQuery_favIconUrl_new
+# DID NOT IMPLEMENT SESSION ID(becuz idk how)
