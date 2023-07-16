@@ -103,6 +103,18 @@ def runtime_onM(option, ext_id, url_path, payload, result):
         taintsink = result["sink"]
         obj = {}
         var = ""
+        try:
+            if result["metavars"]["MESSAGEPROPERTY"]:
+                msgproperty = result["metavars"]["MESSAGEPROPERTY"]
+        except:
+            msgproperty = ""
+        try:
+            if result["metavars"]["MESSAGEPASSWORD"]:
+                msgpassword = result["metavars"]["MESSAGEPASSWORD"]
+        except:
+            msgpassword = ""
+        if msgpassword!="" and msgproperty!="":
+            obj[msgproperty] = msgpassword
         if dots in taintsink:
             obj = nomagic(taintsink,k)
             var = f"obj = JSON.parse('{obj}');"
