@@ -26,7 +26,7 @@ chrome.contextMenus.remove(contextMenuItemId, () => {
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === contextMenuItemId) {
     // Update the extension text with the selected text
-    updateExtensionText(info.selectionText);
+    updateExtensionText(info.pageUrl);
     console.log("INFO: ", info)
     console.log("TAB: ", tab)
 

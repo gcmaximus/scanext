@@ -67,7 +67,7 @@ def main(path_to_extension, semgrep_results):
                 # print('SOURCE: ', source)
                 # sourcelist[source](driver,ext_id,url_path,payload,result)
 
-                context_menu(driver,ext_id,url_path,payload,result)
+                context_menu_pageUrl(driver,ext_id,url_path,payload,result)
 
 
 
