@@ -39,6 +39,13 @@ def interpreter(data):
         taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
         metavars = {}
         try:
+            if i["extra"]["metavars"]["$MESSAGEPASSWORD"]:
+                metavars["MESSAGEPASSWORD"] = i["extra"]["metavars"]["$MESSAGEPASSWORD"]["abstract_content"]
+            if i["extra"]["metavars"]["$MESSAGEPROPERTY"]:
+                metavars["MESSAGEPROPERTY"] = i["extra"]["metavars"]["$MESSAGEPROPERTY"]["abstract_content"]
+        except:
+            print('no port property/password')
+        try:
             if i["extra"]["metavars"]["$PORT"]:
                 metavars["PORT"] = i["extra"]["metavars"]["$PORT"]["abstract_content"]
             try:
