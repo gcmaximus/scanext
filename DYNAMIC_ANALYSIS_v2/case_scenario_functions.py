@@ -2656,69 +2656,139 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
 
 
 def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
+    print('CHAO NI MAMA')
     import shutil
 
-        def create_directory(pid):
-            directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
-            if not os.path.exists(directory_name):
-                os.makedirs(directory_name)
-                return True  # Directory was created
+    def create_directory(pid):
+        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
+        if not os.path.exists(directory_name):
+            os.makedirs(directory_name)
+            return True  # Directory was created
+        else:
+            print(f"Directory already exists: {directory_name}")
+            return False  # Directory already existed
+        
+    def copy_picture_to_directory(picture_path, directory):
+        shutil.copy2(picture_path, directory)
+
+    def access_directory(pid):
+        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
+        picture_path = 'DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg'  # Specify the path of the picture you want to copy
+
+        if create_directory(pid):
+            if os.path.exists(picture_path):
+                copy_picture_to_directory(picture_path, directory_name)
+                print(f"Picture copied to directory: {directory_name}")
             else:
-                print(f"Directory already exists: {directory_name}")
-                return False  # Directory already existed
+                print("Picture path doesn't exist!")
+
+    def rename_file_with_payloads(pid,payload):
+        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_payload_{pid}'
+
+        files = os.listdir(directory_name)
+        if len(files) == 0:
+            print("No files found in the test folder.")
+            return
+        elif len(files) > 1:
+            print("Multiple files found in the test folder. Please ensure there is only one file.")
+            return
+
+        old_filename = os.path.join(directory_name, files[0])
+
+        new_filename = os.path.join(directory_name, payload + ".jpg")
+        os.rename(old_filename, new_filename)
+        print(f"File renamed to: {new_filename}, ")
+        old_filename = new_filename
+
+    def changeFavIconUrl(driver, number ,payload):
+        # remove current favIconUrl
+        driver.execute_script("""
+        var linkElement = document.querySelector('link[rel="icon"]');
+        if (linkElement) {
+        linkElement.parentNode.removeChild(linkElement);
+        }
+        """)
+
+        # set new favIconUrl
+        driver.execute_script(f"""
+        var link = document.createElement('link');
+        link.type = 'image/jpg';
+        link.rel = 'icon';
+        link.href = 'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_payload_{number}/{payload}.jpg';
+        document.head.appendChild(link);
+        """)
+
+    print(payloads)
+
+    # preconfigure files required
+    access_directory(pid)
+
+
+
+    # get www.example.com
+    driver.get('file:///home/showloser/dynamic/miscellaneous/xss_website.html')
+    # set handler for example.com
+    example = driver.current_window_handle
+    # add a default favIconUrl
+    driver.execute_script("""
+    var link = document.createElement('link');
+    link.type = 'image/jpg';
+    link.rel = 'icon';
+    link.href = 'default.jpg';
+    document.head.appendChild(link);
+    """)
+
+    # get extension popup.html
+    driver.switch_to.new_window('tab')
+    extension = driver.current_window_handle
+    driver.get(url_path)
+
+    
+    for payload in payloads:
+
+        # forbidden_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|', "'"]
+        forbidden_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
+        # skip payloads that contain forbidden_chars
+        if any(char in payload for char in forbidden_chars):
+            continue
+
+        driver.switch_to.window(example)
+
+        # change filename to payloads
+        rename_file_with_payloads(pid,payload)
+
+        # use filename as payload in ext
+        changeFavIconUrl(driver, pid, payload)
+
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('[FALSE] Alert Detected [FALSE]')
+        except TimeoutException:
+            print('[FALSE] No alerts detected [FALSE]')
+
             
-        def copy_picture_to_directory(picture_path, directory):
-            shutil.copy2(picture_path, directory)
+        driver.switch_to.window(extension)
 
-        def access_directory(pid):
-            directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
-            picture_path = 'miscellaneous/default.jpg'  # Specify the path of the picture you want to copy
-
-            if create_directory(pid):
-                if os.path.exists(picture_path):
-                    copy_picture_to_directory(picture_path, directory_name)
-                    print(f"Picture copied to directory: {directory_name}")
-                else:
-                    print("Picture path doesn't exist!")
+        # hard coded interactions
+        # hard coded interactions
+        driver.execute_script("document.getElementById('entryPoint').value = '0';")
+        driver.execute_script("document.getElementById('submit').click();")
+        # hard coded interactions
+        # hard coded interactions
 
 
-
-        def rename_file_with_payloads(pid,payload):
-            directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_payload_{pid}'
-
-            files = os.listdir(directory_name)
-            if len(files) == 0:
-                print("No files found in the test folder.")
-                return
-            elif len(files) > 1:
-                print("Multiple files found in the test folder. Please ensure there is only one file.")
-                return
-
-            old_filename = os.path.join(directory_name, files[0])
-
-            new_filename = os.path.join(directory_name, payload + ".jpg")
-            os.rename(old_filename, new_filename)
-            print(f"File renamed to: {new_filename}, ")
-            old_filename = new_filename
-
-        def changeFavIconUrl(driver, number ,payload):
-            # remove current favIconUrl
-            driver.execute_script("""
-            var linkElement = document.querySelector('link[rel="icon"]');
-            if (linkElement) {
-            linkElement.parentNode.removeChild(linkElement);
-            }
-            """)
-
-            # set new favIconUrl
-            driver.execute_script(f"""
-            var link = document.createElement('link');
-            link.type = 'image/jpg';
-            link.rel = 'icon';
-            link.href = 'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_payload_{number}/{payload}.jpg';
-            document.head.appendChild(link);
-            """)
-
+        driver.switch_to.window(example)
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('+ Alert Detected +')
+        except TimeoutException:
+            print('= No alerts detected =')
 
 
 
