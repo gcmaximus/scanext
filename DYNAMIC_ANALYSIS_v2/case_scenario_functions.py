@@ -2021,6 +2021,9 @@ def context_menu_pageUrl(driver, ext_id, url_path, payloads, result):
  
 
 
+
+
+
 # 10) chromeTabsQuery
 def chromeTabsQuery(driver,ext_id, url_path, payloads, result):
     properties = ['favIconUrl', 'sessionId', 'title', 'url']
