@@ -2170,7 +2170,4 @@ def windowAddEventListenerMessage(option, ext_id, url_path, payloads, result):
 
 
 # to test)
-# 1)chrome_tab_query_title
-# 2)chromeTabQuery_url_new
-# 3)chromeTabQuery_favIconUrl_new
 # DID NOT IMPLEMENT SESSION ID(becuz idk how)
