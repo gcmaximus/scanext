@@ -87,9 +87,7 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     log_message = json.dumps(payload_log)
     logger.critical(log_message)
 
-
 logger = setup_logger('DYNAMIC_ANALYSIS_v2/dynamic_logs.txt')
-
 
 ##########################
 # Case Scenario headless #
@@ -1856,7 +1854,7 @@ def chromeTabQuery_url(driver,ext_id, url_path, payloads, result):
 # 10.3) chromeTabQuery_favIconUrl (in prog)
 def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
     import shutil
-    driver = Chrome(service=Service(), options=option)
+
     def create_directory(pid):
         directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
         if not os.path.exists(directory_name):
@@ -1911,9 +1909,6 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         """)
 
         
-
-        print('pid: ', pid)
-        print('payload ', payload)
         try:
             # set new favIconUrl
             driver.execute_script(f"""
@@ -1924,15 +1919,11 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
             document.head.appendChild(link);
             """)
         except Exception as e:
-            print('fk error lah')
             print(str(e))
 
-        input("INPUT: ")
 
     # preconfigure files required
     access_directory(pid)
-
-
 
     # get www.example.com
     driver.get('file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html')
