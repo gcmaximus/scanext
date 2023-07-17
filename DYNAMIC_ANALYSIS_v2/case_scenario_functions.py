@@ -1383,9 +1383,13 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
 
             # 2) Check for alerts in example after refreshing extension\
             driver.switch_to.window(extension)
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            time.sleep(2)
+
+
             driver.refresh()
             driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-            time.sleep(3)
+            time.sleep(2)
 
             driver.switch_to.window(example)
             driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
@@ -1424,6 +1428,9 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
     except Exception as e:
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
+
+
+
 
 # 9.4) Context_menu_frame_Url (works)
 def context_menu_frame_url(option, ext_id, url_path, payloads, result):
