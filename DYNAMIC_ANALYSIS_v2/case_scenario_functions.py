@@ -1384,9 +1384,13 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
 
             # 2) Check for alerts in example after refreshing extension\
             driver.switch_to.window(extension)
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            time.sleep(2)
+
+
             driver.refresh()
             driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-            time.sleep(3)
+            time.sleep(2)
 
             driver.switch_to.window(example)
             driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
@@ -1425,6 +1429,80 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
     except Exception as e:
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
+
+def context_menu_src_url_Cao(option, ext_id, url_path, payloads, result):
+    import subprocess
+    driver = Chrome(service=Service(), options=option)
+
+    # get www.example.com
+    driver.get('file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html')
+    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+
+    # set handler for example.com
+    example = driver.current_window_handle
+
+    # get extension popup.html
+    driver.switch_to.new_window('tab')
+    extension = driver.current_window_handle
+    driver.get(url_path)
+
+
+    for payload in payloads:
+        print(payload)
+
+        driver.switch_to.window(example)
+        driver.refresh()
+        target_element = driver.find_element(By.ID, 'srcUrl')
+        # driver.execute_script("var range = document.createRange(); range.selectNode(arguments[0]); console.log(range);window.getSelection().addRange(range);", target_element)
+
+        driver.execute_script(f"document.getElementById('srcUrl').src = `{payload}`")
+
+        # # perform right click to open context menu
+        actions = ActionChains(driver)
+
+        actions.drag_and_drop_by_offset(actions.move_to_element_with_offset(target_element,50,0).release().perform(), -50,0)
+
+        actions.move_to_element_with_offset(target_element, 25,0).context_click().perform()
+
+        # navigate to extension context menu option
+        time.sleep(1)
+
+        for _ in range(7):
+            subprocess.call(['xdotool', 'key', 'Down'])
+
+        # Simulate pressing the "Enter" key
+        subprocess.call(['xdotool', 'key', 'Return'])
+
+
+
+
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('+ Alert Detected +')
+        except TimeoutException:
+            print('= No alerts detected =')
+
+        
+
+        driver.switch_to.window(extension)
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('+ Alert Detected +')
+        except TimeoutException:
+            print('= No alerts detected =')
+
+
+
 
 # 9.4) Context_menu_frame_Url (works)
 def context_menu_frame_url(option, ext_id, url_path, payloads, result):
