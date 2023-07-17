@@ -1922,16 +1922,14 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
 
         try:
             # set new favIconUrl
-            link_value = driver.execute_script(f"""
+            driver.execute_script(f"""
             var link = document.createElement('link');
             link.type = 'image/jpg';
             link.rel = 'icon';
-            link.href = '/ChromeTabQueryFiles/favIconUrl_instance_4/test123.jpg';
+            link.href = './ChromeTabQueryFiles/favIconUrl_instance_{pid}/{payload}.jpg';
             document.head.appendChild(link);
-            return link.herf;
             """)
 
-            print(link_value)
 
         except Exception as e:
             print(str(e))
