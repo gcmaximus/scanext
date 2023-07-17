@@ -3238,40 +3238,6 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         except TimeoutException:
             print('= No alerts detected =')
 
-
-# 11) locationSearch
-def locationSearch(option, ext_id, url_path, payloads, result):
-    driver = Chrome(service=Service(), options=option)
-    # get www.example.com
-    driver.get('https://www.example.com')
-    # set handler for example.com
-    example = driver.current_window_handle
-
-    # get extension popup.html
-    driver.switch_to.new_window('tab')
-    extension = driver.current_window_handle
-    driver.get(url_path)
-
-    for payload in payloads:
-
-        # define a query parameter
-        driver.switch_to.window(example)
-        driver.execute_script(f'window.location.search=`?q={payload}`')
-
-        driver.switch_to.window(extension)
-        driver.refresh()
-        driver.switch_to.window(example)
-
-
-        try:
-            # wait 2 seconds to see if alert is detected
-            WebDriverWait(driver, 2).until(EC.alert_is_present())
-            alert = driver.switch_to.alert
-            alert.accept()
-            print('+ Alert Detected +')
-        except TimeoutException:
-            print('= No alerts detected =')
-
 # 11) locationSearch (works)
 def locationSearch(driver, ext_id, url_path, payloads, result):
     try:
