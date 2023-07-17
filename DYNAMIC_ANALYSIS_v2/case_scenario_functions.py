@@ -1305,59 +1305,122 @@ def context_menu_link_url(option, ext_id, url_path, payloads, result):
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
 
-# 9.3) Context_menu_Src_Url (error)
+# 9.3) Context_menu_Src_Url (in progress)
 def context_menu_src_url(option, ext_id, url_path, payloads, result):
-    from pynput.keyboard import Controller, Key
+    import subprocess
+
     driver = Chrome(service=Service(), options=option)
-    # get www.example.com
-    driver.get('file:////home/showloser/localhost/dynamic/test.html')
-    # set handler for example.com
-    example = driver.current_window_handle
 
-    # get extension popup.html
-    driver.switch_to.new_window('tab')
-    extension = driver.current_window_handle
-    driver.get(url_path)
+    try: 
+        # get www.example.com
+        driver.get('file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html')
+        # set handler for example.com
+        example = driver.current_window_handle
 
 
-    for payload in payloads:
+        # Wait up to 5 seconds for the title to become "Xss Website"
+        title_condition = EC.title_is('Xss Website')
+        WebDriverWait(driver, 5).until(title_condition)
 
-        driver.switch_to.window(example)
-        target_element = driver.find_element(By.ID, 'srcUrl')
-        # driver.execute_script("var range = document.createRange(); range.selectNode(arguments[0]); console.log(range);window.getSelection().addRange(range);", target_element)
+        # get page source code of example.com
+        example_source_code = driver.page_source
 
-        driver.execute_script(f"document.getElementById('srcUrl').src = `{payload}`")
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        extension = driver.current_window_handle
+        driver.get(url_path)
 
-        # # perform right click to open context menu
-        actions = ActionChains(driver)
+        # get page source code of extension
+        extension_source_code = driver.page_source
 
-        actions.drag_and_drop_by_offset(actions.move_to_element_with_offset(target_element,50,0).release().perform(), -80,0).context_click().perform()
+        for payload in payloads:
+            driver.switch_to.window(example)
+            driver.refresh()
 
-        # navigate to extension context menu option
-        time.sleep(1)
-        keyboard = Controller()
-        for _ in range(7):  
-            # Press the arrow key down
-            keyboard.press(Key.down)
-            # Release the arrow key
-            keyboard.release(Key.down)
+            try:
+                # using javascript, change the SRC value of an oredefined image element
+                target_element = driver.find_element(By.ID, 'srcUrl')
+                driver.execute_script(f"document.getElementById('srcUrl').src = `{payload}`")
 
-        # Press the Enter key
-        keyboard.press(Key.enter)
-        # Release the Enter key
-        keyboard.release(Key.enter)
+            except Exception as e:
+                print(' !!!! PAYLOAD FAILLED !!!!')
+                print('Error: ', str(e))
+                continue
+
+            # usage of contextMenu
+            try:
+                # # perform right click to open context menu
+                actions = ActionChains(driver)
+                actions.drag_and_drop_by_offset(actions.move_to_element_with_offset(target_element,50,0).release().perform(), -50,0)
+                actions.move_to_element_with_offset(target_element, 25,0).context_click().perform()
+
+                # navigate to extension context menu option
+                time.sleep(1)
+                for _ in range(7):
+                    subprocess.call(['xdotool', 'key', 'Down'])
+
+                # Simulate pressing the "Enter" key
+                subprocess.call(['xdotool', 'key', 'Return'])
+
+            except Exception as e:
+                print(' !!!! Error using Context Menu !!!!')
+                print('Error: ', str(e))
+                continue
         
-        try:
-            # wait 2 seconds to see if alert is detected
-            WebDriverWait(driver, 2).until(EC.alert_is_present())
-            alert = driver.switch_to.alert
-            alert.accept()
-            print('+ Alert Detected +')
-        except TimeoutException:
-            print('= No alerts detected =')
-        
-        driver.switch_to.window(extension)
-        time.sleep(2)
+
+            # observe behavior after payload injection
+            # 1) check for alerts in example
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[example] + Alert Detected +')
+            except TimeoutException:
+                print('[example] = No alerts detected =')
+
+
+            # 2) Check for alerts in example after refreshing extension\
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+                print('[example] + Alert Detected +')
+            except TimeoutException:
+                print('[example] = No alerts detected =')
+
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+                    print("Navigated back to 'https://www.example.com' due to page source changes")
+            except:
+                print('error')
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+            except:
+                print('error')
+
+    except TimeoutException:
+        # Handle TimeoutException when title condition is not met
+        print("Timeout: Title was not resolved to 'Example Domain'")
+
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
+
+
 
 # 9.4) Context_menu_frame_Url (works)
 def context_menu_frame_url(option, ext_id, url_path, payloads, result):
@@ -2244,5 +2307,4 @@ def windowAddEventListenerMessage(option, ext_id, url_path, payloads, result):
 
 
 # to do/test)
-# 1) DID NOT IMPLEMENT SESSION ID(becuz idk how)
-# 2) windowAddEventListernerMessage(test this shit)
+# 1) windowAddEventListernerMessage(test this shit)
