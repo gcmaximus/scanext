@@ -19,7 +19,7 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from threading import Event
 from itertools import cycle
 
-from pyvirtualdisplay import Display
+from pyvirtualdisplay.display import Display
 # def logs(driver, alert, result, extension_name, payload):
 #     # !! [Selenium cant take screenshot of alerts as it occurs outside the DOM] !!
 #     # driver.save_screenshot("alert_screenshot.png")
@@ -136,7 +136,10 @@ def gui(extension_path: str, payload_file_path: str, n: int = 4):
     # options.add_experimental_option("detach", True)
     load_ext_arg = "load-extension=" + abs_path
     options.add_argument(load_ext_arg)
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--enable-logging")
+
 
     def payloads_cycle(n: int, file_path: str):
         c = cycle(range(n))
@@ -195,6 +198,7 @@ def main():
 
     # Run program
     with Display() as disp:
+        print(disp.is_alive())
         gui(
             "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer_P",
             "DYNAMIC_ANALYSIS/dynamic/payloads/payloads.txt",
