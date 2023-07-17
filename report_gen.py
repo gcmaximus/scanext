@@ -49,6 +49,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="static-main").append(add_parsed)
 
+        soup.find(id='pocs').string = '0 found'
 
         # no dynamic results
         add = f"""
@@ -62,6 +63,8 @@ def static_results_report(results, extension: Path, soup, config, report_path):
         
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
+
+        
 
     else:
         # loop through & append 1 card for each result
