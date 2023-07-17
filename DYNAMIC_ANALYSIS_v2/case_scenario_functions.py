@@ -1309,7 +1309,6 @@ def context_menu_link_url(option, ext_id, url_path, payloads, result):
 def context_menu_src_url(option, ext_id, url_path, payloads, result):
     import subprocess
     website = 'file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
-
     driver = Chrome(service=Service(), options=option)
 
     try: 
