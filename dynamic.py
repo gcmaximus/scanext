@@ -67,7 +67,7 @@ def main(path_to_extension, semgrep_results):
                 # print('SOURCE: ', source)
                 # sourcelist[source](driver,ext_id,url_path,payload,result)
 
-                chromeTabQuery_favIconUrl(driver,ext_id, url_path, payload, result,1)
+                chromeTabsQuery_title(driver,ext_id, url_path, payload, result)
 
 
         except Exception as e:

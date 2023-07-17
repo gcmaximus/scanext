@@ -2860,7 +2860,7 @@ def chromeTabsQuery(driver,ext_id, url_path, payloads, result):
             """)
 
 
-# 10.1) chromeTabsQuery_title
+# 10.1) chromeTabsQuery_title (works)
 def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
     try:
         # get www.example.com
@@ -2884,7 +2884,6 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
 
         # get page source code of extension
         extension_source_code = driver.page_source
-
 
         for payload in payloads:
 
@@ -2919,6 +2918,7 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
                 print('[example] = No alerts detected =')
 
             driver.switch_to.window(extension)
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
             try:
                 # wait 2 seconds to see if alert is detected
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
@@ -2931,6 +2931,7 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
             # 2) Check for alerts in example after refreshing extension
             driver.refresh()
             driver.switch_to.window(example)
+            
             try:
                 # wait 2 seconds to see if alert is detected
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
@@ -2941,6 +2942,7 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
             except TimeoutException:
                 print('[example] = No alerts detected =')
 
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
             try: 
                 # check modifications for example.com
@@ -2960,8 +2962,6 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
             except:
                 print('error')
 
-
-
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
         print("Timeout: Title was not resolved to 'Example Domain'")
@@ -2970,10 +2970,10 @@ def chromeTabsQuery_title(driver,ext_id, url_path, payloads, result):
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
 
-# 10.2) chromeTabsQuery_url (works)
-def chromeTabQuery_url(driver,ext_id, url_path, payloads, result):
-    # Case Secnario for chromeTabQuery_url_new
-    try:
+# # 10.2) chromeTabsQuery_url (works)
+# def chromeTabQuery_url(driver,ext_id, url_path, payloads, result):
+#     # Case Secnario for chromeTabQuery_url_new
+#     try:
 
 def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
     import shutil
