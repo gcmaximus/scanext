@@ -36,11 +36,11 @@ import logging
 # logging framework
 
 # magic function (name to be changed)
-def nomagic(chain, payload):
+def nomagic(chain, payload, msg):
     keys = chain.split('.')[1:]
-    obj = json.dumps(reduce(lambda x, y: {y: x}, reversed(keys), payload))
+    msg.update(reduce(lambda x, y: {y: x}, reversed(keys), payload))
+    obj = json.dumps(x)
     return obj
-
 
 #####################
 # Logging Framework #
@@ -101,8 +101,20 @@ def runtime_onM(option, ext_id, url_path, payload, result):
         taintsink = result["sink"]
         obj = {}
         var = ""
+        try:
+            if result["metavars"]["MESSAGEPROPERTY"]:
+                msgproperty = result["metavars"]["MESSAGEPROPERTY"]
+        except:
+            msgproperty = ""
+        try:
+            if result["metavars"]["MESSAGEPASSWORD"]:
+                msgpassword = result["metavars"]["MESSAGEPASSWORD"]
+        except:
+            msgpassword = ""
+        if msgpassword!="" and msgproperty!="":
+            obj[msgproperty] = msgpassword
         if dots in taintsink:
-            obj = nomagic(taintsink,k)
+            obj = nomagic(taintsink,k,obj)
             var = f"obj = JSON.parse('{obj}');"
         else:
             var = f"obj = '{k}';"
@@ -212,7 +224,7 @@ def runtime_onC(option, ext_id, url_path, payload, result):
         except:
             portpassword = ""
         if dots in taintsink:
-            obj = nomagic(taintsink,i)
+            obj = nomagic(taintsink,i,obj)
         else:
             obj = i
 
@@ -553,7 +565,7 @@ def runtime_onME(option, ext_id, url_path, payload, result):
         taintsink = result["sink"]
         obj = ""
         if dots in taintsink:
-            obj = nomagic(taintsink,i)
+            obj = nomagic(taintsink,i,obj)
             script = f"chrome.runtime.sendMessage('{ext_id}',{obj})"
         else:
             obj = i
@@ -681,7 +693,7 @@ def runtime_onCE(option, ext_id, url_path, payload, result):
         except:
             portpassword = ""
         if dots in taintsink:
-            obj = nomagic(taintsink,i)
+            obj = nomagic(taintsink,i,obj)
         else:
             obj = i
 
