@@ -129,7 +129,7 @@ def initialise_headless(path_to_extension,results):
 
     # initialize selenium and load extension
     options = ChromeOptions()
-    options.add_experimental_option('detach', True)
+    # options.add_experimental_option('detach', True)
     load_ext_arg = "load-extension=" + abs_path
     options.add_argument(load_ext_arg)
     options.add_argument("--enable-logging")
