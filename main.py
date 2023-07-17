@@ -15,8 +15,8 @@ import report_gen
 
 
 
-cross = "⤫"
-tick = "✓"
+CROSS = "⤫"
+TICK = "✓"
 
 # return cross or tick icon
 def icon(boolean: bool):
