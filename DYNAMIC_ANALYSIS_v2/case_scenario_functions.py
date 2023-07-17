@@ -1908,16 +1908,19 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
         }
         """)
 
-        
         try:
             # set new favIconUrl
-            driver.execute_script(f"""
+            link_value = driver.execute_script(f"""
             var link = document.createElement('link');
             link.type = 'image/jpg';
             link.rel = 'icon';
-            link.href = '/ChromeTabQueryFiles/favIconUrl_instance_{pid}/{payload}.jpg';
+            link.href = '/ChromeTabQueryFiles/favIconUrl_instance_4/test123.jpg';
             document.head.appendChild(link);
+            return link.herf;
             """)
+
+            print(link_value)
+
         except Exception as e:
             print(str(e))
 
@@ -1969,18 +1972,22 @@ def chromeTabQuery_favIconUrl(driver,ext_id, url_path, payloads, result, pid):
             WebDriverWait(driver, 2).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.accept()
-            print('[TRUE] Alert Detected [TRUE]')
+            print('[FALSE] Alert Detected [FALSE]')
         except TimeoutException:
             print('[FALSE] No alerts detected [FALSE]')
 
             
+        # hardcode some interactions
+        # hardcode some interactions
         driver.switch_to.window(extension)
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
-        # use the extension
         driver.execute_script("document.getElementById('entryPoint').value = '0';")
         driver.execute_script("document.getElementById('submit').click();")
+        # hardcode some interactions
+        # hardcode some interactions
 
-        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+
         time.sleep(2)
 
         driver.switch_to.window(example)
