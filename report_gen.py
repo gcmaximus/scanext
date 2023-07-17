@@ -495,7 +495,12 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
 
-
+    report_dir = Path("SHARED/REPORTS")
+    status = report_dir.exists()
+    if not status:
+        print(f"Making {report_dir} ... ", end="")
+        report_dir.mkdir()
+        print("tick")
     with open(report_path, "w") as file:
         file.write(str(soup))
 
