@@ -60,14 +60,14 @@ def main(path_to_extension, semgrep_results):
                 options.add_argument(load_ext_arg)
                 options.add_argument("--enable-logging")
                 options.add_argument("--disable-dev-shm-usage")
-                driver = Chrome(service=Service(), options=options)
+                # driver = Chrome(service=Service(), options=options)
 
 
                 # source = result["message"].split(";")[0][7:]
                 # print('SOURCE: ', source)
                 # sourcelist[source](driver,ext_id,url_path,payload,result)
 
-                chromeTabQuery_favIconUrl(driver,ext_id, url_path, payload, result,9)
+                chromeTabQuery_favIconUrl(options,ext_id, url_path, payload, result,9)
 
 
         except Exception as e:
