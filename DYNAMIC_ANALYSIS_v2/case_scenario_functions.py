@@ -1308,15 +1308,16 @@ def context_menu_link_url(option, ext_id, url_path, payloads, result):
 # 9.3) Context_menu_Src_Url (in progress)
 def context_menu_src_url(option, ext_id, url_path, payloads, result):
     import subprocess
+    website = 'file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
 
     driver = Chrome(service=Service(), options=option)
 
     try: 
         # get www.example.com
-        driver.get('file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html')
+        driver.get(website)
         # set handler for example.com
         example = driver.current_window_handle
-
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
         # Wait up to 5 seconds for the title to become "Xss Website"
         title_condition = EC.title_is('Xss Website')
@@ -1370,6 +1371,7 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
 
             # observe behavior after payload injection
             # 1) check for alerts in example
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
             try:
                 # wait 2 seconds to see if alert is detected
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
@@ -1383,7 +1385,11 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
             # 2) Check for alerts in example after refreshing extension\
             driver.switch_to.window(extension)
             driver.refresh()
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            time.sleep(3)
+
             driver.switch_to.window(example)
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
             try:
                 # wait 2 seconds to see if alert is detected
@@ -1398,8 +1404,8 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
-                    print("Navigated back to 'https://www.example.com' due to page source changes")
+                    driver.get(website)
+                    print("Navigated back to 'xss_website.html' due to page source changes")
             except:
                 print('error')
 
@@ -1419,8 +1425,6 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
     except Exception as e:
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
-
-
 
 # 9.4) Context_menu_frame_Url (works)
 def context_menu_frame_url(option, ext_id, url_path, payloads, result):
