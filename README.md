@@ -6,7 +6,7 @@
 <br><br>
 <b>Semgrep</b> is utilised for static analysis of the extension's source code, using taint analysis to identify vulnerabilities in the code that attackers could exploit.
 <br><br>
-<b>Selenium</b> is utilised for dynamic analysis, where payloads are automatically injected into the vulnerable code segments. Payloads which execute successfully provides 100% confirmation that the flagged code segment is vulnerable to XSS.
+<b>Selenium</b> is utilised for dynamic analysis, where payloads are automatically injected into the vulnerable code segments. Payloads that executed successfully provides 100% confirmation that the flagged code segment is vulnerable to XSS.
 <br><br>
 A report will be generated for you, providing comprehensive information about the vulnerabilities detected in the code so that you can patch security flaws and secure your Chrome extension!
 
@@ -16,12 +16,12 @@ There are 2 ways of running ScanExt:
 
 
 ```
-docker build . -t <name>
-docker run <name>
+docker build . -t [NAME]
+docker run [NAME]
 ```
 
 2. Run main python program directly
 
 ```
-py main.py
+python3 main.py
 ```
