@@ -85,14 +85,14 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config, report_path):
 
     return sorted_results
 
-# conduct dynamic analysis using Selenium
+# conduct dynamic analysis using Selenium 
 def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, report_path):
 
     print()
     print('Conducting dynamic analysis ...')
 
     # call selenium main.py
-    # dynamic(extension, results)
+    dynamic(config, extension, results)
 
     print('Dynamic analysis complete.')
     print()

@@ -35,7 +35,12 @@ def setup_logger(log_file):
 
 
 
-def main(config, path_to_extension, semgrep_results, n: int = 4):
+def main(config, path_to_extension, semgrep_results):
+
+    # load configs
+    percentage_of_payloads = config["percentage_of_payloads"]
+    number_of_instances = config["number_of_instances"]
+
     # logs
     logger = setup_logger('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt')
 
@@ -47,7 +52,7 @@ def main(config, path_to_extension, semgrep_results, n: int = 4):
     # payload = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
     
     # new payloads
-    totals, payloads = payloads_cycle(n, config["percentage_of_payloads"], 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
+    totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
 
     # preconfiguration (set active to false)
     preconfigure(path_to_extension)
@@ -103,8 +108,8 @@ def main(config, path_to_extension, semgrep_results, n: int = 4):
                     exit()
 
                 thread_count //= 3
-                if n > thread_count:
-                    print(f"Warning, {n} instances requested is > than the {thread_count} recommended for your CPU.")
+                if number_of_instances > thread_count:
+                    print(f"Warning, {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU.")
                     print("Recommendation = CPU's thread count // 3.")
                     print("Continuing ... ")
 
@@ -116,13 +121,13 @@ def main(config, path_to_extension, semgrep_results, n: int = 4):
                         desc=f"Instance {order}",
                         bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
                     )
-                    for order in range(n)
+                    for order in range(number_of_instances)
                 ]
 
                 args = [(progress_bars[order], order, options, payloads[order], url_path, ext_id) for order in range(n)]
-
+                
                 with ThreadPoolExecutor(n) as executor:
-                    for logs in executor.map(location_href_N, args):
+                    for logs in executor.map(test_window_name, args):
                         for log in logs:
                             logger.critical(log)    
 
@@ -147,9 +152,9 @@ if __name__ == '__main__':
     path_to_extension = location_herf_path
 
     config = {
-        "percentage_of_payloads" : 10
+        "percentage_of_payloads" : 50
     }
 
 
 
-    main(config, path_to_extension, semgrep_results, 3)
+    main(config, path_to_extension, semgrep_results, 5)
