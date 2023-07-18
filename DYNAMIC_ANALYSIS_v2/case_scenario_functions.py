@@ -3498,6 +3498,10 @@ def context_menu_pageUrl_N(args_tuple):
         cases = ['queryParams', 'fragementIdentifier']
 
         for payload in payloads:
+            
+            # update progress bar
+            progress_bar.update(1) 
+
             for i in range(len(cases)):
                 driver.switch_to.window(example)
 
@@ -3512,7 +3516,7 @@ def context_menu_pageUrl_N(args_tuple):
                         time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                     except Exception as e:
                         # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
+                        print('Error: ', str(e))
                         continue
                 else:
                     try:
