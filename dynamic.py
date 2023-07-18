@@ -54,6 +54,7 @@ def main(config, path_to_extension, semgrep_results):
     # new payloads
     totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
 
+
     # preconfiguration (set active to false)
     preconfigure(path_to_extension)
 
@@ -154,7 +155,7 @@ if __name__ == '__main__':
 
     config = {
         "percentage_of_payloads" : 10,
-        "number_of_instances": 2
+        "number_of_instances": 1
     }
 
 
