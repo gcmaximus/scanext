@@ -383,6 +383,7 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
                 url = result['Url']
                 time_of_injection = result['timeOfInjection']
                 time_of_alert = result['timeOfAlert']
+                script = html.escape(result['script'])
 
                 # Format packet info for payloadType:"server"
                 payload_type = result['payloadType']
@@ -404,7 +405,7 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
     <table class="table border-dark payload-table mb-3">
     <tbody>
         <tr class="table-head">
-            <th>Payload</th>
+            <th>Payload which triggered XSS</th>
             <th>Location of Injection</th>
         </tr>
 
@@ -421,6 +422,14 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
         <tr>
             <td id="payload-start-{i + 1}">{time_of_injection}</td>
             <td id="payload-end-{i + 1}">{time_of_alert}</td>
+        </tr>
+
+        <tr class="table-head">
+            <th colspan="2">Script to inject payload</th>
+        </tr>
+
+        <tr>
+            <td colspan="2" id="payload-script-{i + 1}">{script}</td>
         </tr>
 
         <tr class="table-head">
