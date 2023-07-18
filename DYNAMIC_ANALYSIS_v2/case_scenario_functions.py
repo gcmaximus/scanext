@@ -2570,5 +2570,7 @@ def chromeDebuggerGetTargets(driver, ext_id, url_path, payloads):
 
 
 
+
+
 # to do/test)
 # 1) windowAddEventListernerMessage(test this shit)
