@@ -2571,7 +2571,7 @@ def chromeDebuggerGetTargets(driver, ext_id, url_path, payloads):
 
 ####################################################################################
 
-# new window.name_normal
+# new window.name_normal (alerted)
 def window_name_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
@@ -2691,7 +2691,7 @@ def window_name_N(args_tuple):
 
     return logs
 
-# new location.href_normal
+# new location.href_normal (no alerts yet, ask pearlyn for url payload)
 def location_href_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
