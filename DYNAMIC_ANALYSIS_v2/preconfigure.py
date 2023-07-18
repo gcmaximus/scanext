@@ -4,31 +4,51 @@ from os import path
 import hashlib
 import logging
 import json
-
+from pathlib import Path
+import shutil
 
 # preconfigure
 def preconfigure(dir):
-    # Specify the folder path containing the JavaScript files
-    folder_path = dir
+
     a = ""
+    extracted_path = Path(dir)
+    tmp_dir = Path("tmp")
+    if tmp_dir.exists():
+        shutil.rmtree(tmp_dir)
+    tmp_dir.mkdir()
+    tmp_ext_dir = tmp_dir.joinpath(extracted_path.name)
+    tmp_ext_dir.mkdir()
+    for file in extracted_path.glob("**/*.js"):
+        t = tmp_ext_dir.joinpath(file.name)
+        t.touch()
+        with file.open("r") as ext, t.open("a") as tmp:
+            for line in ext:
+                if "active: !0" in line:
+                    a = "active: !0"
+                    line = line.replace(a, "active: false")
+                elif "active: true" in line:
+                    a = "active: true"
+                    line = line.replace(a, "active: false")
+                tmp.write(line)
 
-    for root, dirs, files in os.walk(folder_path):
-        # Perform the find and replace operation on each JavaScript file in the folder
-        for filename in files:
-            if filename.endswith(".js"):
-                file_path = os.path.join(root, filename)
 
-                # Perform the find and replace operation
-                with fileinput.FileInput(file_path, inplace=True,) as file:
-                    for line in file:
-                        # Replace "active: true" with "active: false"
-                        if "active: !0" in line:
-                            a = "active: !0"
-                            line = line.replace(a, "active: false")
-                        elif "active: true" in line:
-                            a = "active: true"
-                            line = line.replace(a, "active: false")
-                        print(line, end="")
+    # for root, dirs, files in os.walk(folder_path):
+    #     # Perform the find and replace operation on each JavaScript file in the folder
+    #     for filename in files:
+    #         if filename.endswith(".js"):
+    #             file_path = os.path.join(root, filename)
+
+    #             # Perform the find and replace operation
+    #             with fileinput.FileInput(file_path, inplace=True,) as file:
+    #                 for line in file:
+    #                     # Replace "active: true" with "active: false"
+    #                     if "active: !0" in line:
+    #                         a = "active: !0"
+    #                         line = line.replace(a, "active: false")
+    #                     elif "active: true" in line:
+    #                         a = "active: true"
+    #                         line = line.replace(a, "active: false")
+    #                     print(line, end="")
   
 # interpreter
 def interpreter(data):
