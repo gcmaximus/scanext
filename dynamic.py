@@ -35,7 +35,7 @@ def setup_logger(log_file):
 
 
 
-def main(path_to_extension, semgrep_results, n: int = 4):
+def main(config, path_to_extension, semgrep_results, n: int = 4):
     # logs
     logger = setup_logger('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt')
 
@@ -47,7 +47,7 @@ def main(path_to_extension, semgrep_results, n: int = 4):
     # payload = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
     
     # new payloads
-    totals, payloads = payloads_cycle(n, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
+    totals, payloads = payloads_cycle(n, config["percentage_of_payloads"], 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
 
     # preconfiguration (set active to false)
     preconfigure(path_to_extension)
