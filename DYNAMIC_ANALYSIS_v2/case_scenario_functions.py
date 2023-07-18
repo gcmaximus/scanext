@@ -225,16 +225,16 @@ def runtime_onC(option, ext_id, url_path, payload, result):
             portpassword = ""
         if dots in taintsink:
             obj = nomagic(taintsink,i,obj)
+            var = f"obj = JSON.parse('{obj}');"
         else:
             obj = i
+            var = f"obj = '{obj}'"
 
         if port!="" and portproperty!="" and portpassword!="":
             connect = {portproperty:portpassword}
             connect = json.dumps(connect)
 
-        var = f"obj = JSON.parse('{obj}');"
         func = f".postMessage(obj)"
-
         script = f"{var}chrome.runtime.connect({connect}){func}"
         scripts.append(script)
     driver = Chrome(service=Service(), options=option)
