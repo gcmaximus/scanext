@@ -91,11 +91,12 @@ def main(config, path_to_extension, semgrep_results):
         try:
             with Display() as disp:
                 options = ChromeOptions()
-                options.add_experimental_option('detach', True)
+                # options.add_experimental_option('detach', True)
                 load_ext_arg = "load-extension=" + abs_path
                 options.add_argument(load_ext_arg)
                 options.add_argument("--enable-logging")
                 options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--no-sandbox")
 
 
                 # source = result["message"].split(";")[0][7:]
