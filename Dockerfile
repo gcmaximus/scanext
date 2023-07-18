@@ -8,4 +8,4 @@ RUN apt-get install -y python3-pip
 WORKDIR /scanext
 COPY . /scanext/
 RUN pip install -r requirements.txt
-CMD [ "python3", "DYNAMIC_ANALYSIS/dynamic/headless_loading_bar.py" ]
+CMD [ "python3", "main.py" ]

@@ -2,17 +2,25 @@ from pathlib import Path
 import json
 from bs4 import BeautifulSoup
 import html
+from constants import * 
 
 
 # interpret static analysis results and inserts results into report
 def static_results_report(results, extension: Path, soup, config, report_path):
+    report_dir = Path("SHARED/REPORTS")
+    status = report_dir.exists()
+    if not status:
+        print(f"Making {report_dir} ... ", end="")
+        report_dir.mkdir()
+        print(TICK)
+
     # Retrieving information from Static Analysis for report
 
     # Name of folder scanned
     scanned_dir = extension.name
 
     # Information from manifest.json
-    [manifest_path] = tuple(Path(extension).glob("**/manifest.json"))
+    [manifest_path] = tuple(extension.glob("**/manifest.json"))
 
     with manifest_path.open("r") as f:
         manifest = json.load(f)
@@ -276,6 +284,20 @@ def static_results_report(results, extension: Path, soup, config, report_path):
             # Move on to append next result
             result_no += 1
 
+        # dynamic is starting
+
+        soup.find(id='pocs').string = 'In Progress'
+        dynamic_in_prog = '''        
+            <div class="card m-auto border-warning" id="wait-msg">
+                <div class="card-header bg-warning">Please wait...</div>
+                <div class="card-body">
+                    <h5 class="card-title">In Progress</h5>
+                    <p class="card-text">ScanExt is currently conducting dynamic analysis and will update this report upon completion.</p>
+                </div>
+            </div>'''
+        dynamic_in_prog_parsed = BeautifulSoup(dynamic_in_prog, "html.parser")
+        soup.find(id="dynamic-main").append(dynamic_in_prog_parsed)
+
     print(f"Report generated at `{report_path}`")
 
     with open(report_path, "w") as file:
@@ -283,6 +305,13 @@ def static_results_report(results, extension: Path, soup, config, report_path):
 
 # interpret dynamic analysis results and inserts results into report
 def dynamic_results_report(source_sorted_logs, extension, soup, config, report_path):
+
+    # remove "in progress" message
+    wait_msg_tag = soup.find(id="wait-msg")
+
+    if wait_msg_tag:
+        wait_msg_tag.decompose()
+
     # creating dict of key(source) to value (list of objs with source)
 
     separated_objects = {}
@@ -474,8 +503,7 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
 
-
     with open(report_path, "w") as file:
         file.write(str(soup))
 
-    print(f"Report generated at `{report_path}`")
+    print(f"Report updated at `{report_path}`")
