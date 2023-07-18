@@ -174,8 +174,8 @@ def payloads_cycle(n: int, pct: int, file_path: str):
         for line in file:
             if line != "\n":
                 meta_payloads[c.__next__()].append(line.rstrip())
-    totals = (round(pct/100*len(pylds))) for pylds in meta_payloads)
-    meta_payloads = (tuple(choices(pylds, k=total) for total, pylds in zip(totals, meta_payloads))
+    totals = [round(pct/100*len(pylds)) for pylds in meta_payloads]
+    meta_payloads = (tuple(choices(pylds, k=total)) for total, pylds in zip(totals, meta_payloads))
     return tuple(totals), tuple(meta_payloads) 
 
 
