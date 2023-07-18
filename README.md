@@ -17,7 +17,7 @@ There are 2 ways of running ScanExt:
 
 ```
 docker build . -t [NAME]
-docker run [NAME]
+docker run -it [NAME]
 ```
 
 2. Run main python program directly
