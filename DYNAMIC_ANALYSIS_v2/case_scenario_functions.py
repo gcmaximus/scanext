@@ -2839,7 +2839,7 @@ def context_menu_selectionText_N(args_tuple):
 
         # get www.example.com
         driver.get(website)
-        # driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
         # set handler for example.com
         example = driver.current_window_handle
@@ -2860,7 +2860,9 @@ def context_menu_selectionText_N(args_tuple):
 
 
         for payload in payloads:
-            print(payload)
+
+            # update progress bar
+            progress_bar.update(1) 
 
             driver.switch_to.window(example)
 
@@ -2871,10 +2873,9 @@ def context_menu_selectionText_N(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
             except Exception as e:
-                print(' !!!! PAYLOAD FAILLED !!!!')
-                print('Error: ', str(e))
+                # print(' !!!! PAYLOAD FAILLED !!!!')
+                # print('Error: ', str(e))
                 continue
-
 
             target_element = driver.find_element(By.ID, 'h1_element')
 
@@ -2882,8 +2883,8 @@ def context_menu_selectionText_N(args_tuple):
                 # Select the text using JavaScript
                 driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
             except Exception as e:
-                print(' !!!! Error Selecting Text !!!!')
-                print('Error: ', str(e))
+                # print(' !!!! Error Selecting Text !!!!')
+                # print('Error: ', str(e))
                 continue
 
 
@@ -2894,7 +2895,6 @@ def context_menu_selectionText_N(args_tuple):
 
 
                 driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-                time.sleep(2)
 
 
                 for _ in range(6):
@@ -2904,8 +2904,8 @@ def context_menu_selectionText_N(args_tuple):
                 subprocess.call(['xdotool', 'key', 'Return'])
 
             except Exception as e:
-                print(' !!!! Error using Context Menu !!!!')
-                print('Error: ', str(e))
+                # print(' !!!! Error using Context Menu !!!!')
+                # print('Error: ', str(e))
                 continue
 
 
@@ -2916,13 +2916,13 @@ def context_menu_selectionText_N(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                print('[example] + Alert Detected +')
+                # print('[example] + Alert Detected +')
 
-                # get time of success [1) example]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-            
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
             except TimeoutException:
-                print('[example] = No alerts detected =')
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
 
             driver.switch_to.window(extension)
 
@@ -2937,9 +2937,12 @@ def context_menu_selectionText_N(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                print('[example] + Alert Detected +')
+                
+                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
             except TimeoutException:
-                print('[example] = No alerts detected =')
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
 
 
             # check for any modifications (snapshot back to original)
@@ -2948,31 +2951,32 @@ def context_menu_selectionText_N(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(website)
-                    print(f"Navigated back to '{website}' due to page source changes")
+                    # print(f"Navigated back to '{website}' due to page source changes")
 
             except:
-                print('error')
-
+                pass
 
             try: 
                 # [2] check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
 
             except:
-                print('error')
+                pass
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        print("Timeout: Title was not resolved to 'Example Domain'")
+        # print("Timeout: Title was not resolved to 'Example Domain'")
+        pass
 
     except Exception as e:
         # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        # print("An error occurred:", str(e))
+        pass
 
-
+    return logs
 
 
 
