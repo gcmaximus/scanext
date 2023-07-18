@@ -92,7 +92,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     print('Conducting dynamic analysis ...')
 
     # call selenium main.py
-    dynamic(extension, results)
+    # dynamic(extension, results)
 
     print('Dynamic analysis complete.')
     print()
@@ -113,27 +113,38 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
 
     report_gen.dynamic_results_report(source_sorted_logs, extension, soup, config, report_path)
 
-# load configurations set by user
-def load_config():
-    # Load and check validity of config.
+# check if int > 0
+###################
+###### TO DO ######
+###################
+def checkInt(target):
 
-    # Get number of adjacent lines to display in report
-    with open('SHARED/config.json') as f:
-        config = json.loads(f.read())
-    
-    # initialise
-    report_display_adjacent_lines = config['report_display_adjacent_lines']
-
-    # validate if value not int
-    if not isinstance(report_display_adjacent_lines, int):
-        print("Please set display_adjacent_lines to be an integer, 0 or more!")
+    # check if int
+    if not isinstance(target, int):
+        print(f"Please set {target} to be an integer, 0 or more!")
         exit() 
 
     # if int, check if < 0
-    elif report_display_adjacent_lines < 0:
-        print("Please set display_adjacent_lines to be an integer, 0 or more!")
+    elif target < 0:
+        print(f"Please set {target} to be an integer, 0 or more!")
         exit()
 
+    return target
+
+
+# load configurations set by user
+def load_config():
+
+    # Load config and check validity.
+    with open('SHARED/config.json') as f:
+        config = json.loads(f.read())
+    
+
+    ###################
+    ###### TO DO ######
+    ###################
+    report_display_adjacent_lines = checkInt(config['report_display_adjacent_lines'])
+    number_of_instances = checkInt(config['number_of_instances'])
 
     return config
 

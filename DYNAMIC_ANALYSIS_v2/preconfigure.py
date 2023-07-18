@@ -6,30 +6,53 @@ import logging
 import json
 from itertools import cycle
 
+from pathlib import Path
+import shutil
 
 # preconfigure
 def preconfigure(dir):
-    # Specify the folder path containing the JavaScript files
-    folder_path = dir
+
     a = ""
+    extracted_path = Path(dir)
+    tmp_dir = Path("tmp")
+    if tmp_dir.exists():
+        shutil.rmtree(tmp_dir)
+    tmp_dir.mkdir()
+    tmp_ext_dir = tmp_dir.joinpath(extracted_path.name)
+    tmp_ext_dir.mkdir()
+    for file in extracted_path.glob("**/*.*"):
+        t = tmp_ext_dir.joinpath(file.name)
+        t.touch()
+        if file.suffix == ".js":
+            with file.open("r") as ext, t.open("a") as tmp:
+                for line in ext:
+                    if "active: !0" in line:
+                        a = "active: !0"
+                        line = line.replace(a, "active: false")
+                    elif "active: true" in line:
+                        a = "active: true"
+                        line = line.replace(a, "active: false")
+                    tmp.write(line)
+        else:
+            shutil.copyfile(file, t)
 
-    for root, dirs, files in os.walk(folder_path):
-        # Perform the find and replace operation on each JavaScript file in the folder
-        for filename in files:
-            if filename.endswith(".js"):
-                file_path = os.path.join(root, filename)
+    # for root, dirs, files in os.walk(folder_path):
+    #     # Perform the find and replace operation on each JavaScript file in the folder
+    #     for filename in files:
+    #         if filename.endswith(".js"):
+    #             file_path = os.path.join(root, filename)
 
-                # Perform the find and replace operation
-                with fileinput.FileInput(file_path, inplace=True,) as file:
-                    for line in file:
-                        # Replace "active: true" with "active: false"
-                        if "active: !0" in line:
-                            a = "active: !0"
-                            line = line.replace(a, "active: false")
-                        elif "active: true" in line:
-                            a = "active: true"
-                            line = line.replace(a, "active: false")
-                        print(line, end="")
+    #             # Perform the find and replace operation
+    #             with fileinput.FileInput(file_path, inplace=True,) as file:
+    #                 for line in file:
+    #                     # Replace "active: true" with "active: false"
+    #                     if "active: !0" in line:
+    #                         a = "active: !0"
+    #                         line = line.replace(a, "active: false")
+    #                     elif "active: true" in line:
+    #                         a = "active: true"
+    #                         line = line.replace(a, "active: false")
+    #                     print(line, end="")
   
 # interpreter
 def interpreter(data):
@@ -45,7 +68,7 @@ def interpreter(data):
             if i["extra"]["metavars"]["$MESSAGEPROPERTY"]:
                 metavars["MESSAGEPROPERTY"] = i["extra"]["metavars"]["$MESSAGEPROPERTY"]["abstract_content"]
         except:
-            print('no port property/password')
+            pass
         try:
             if i["extra"]["metavars"]["$PORT"]:
                 metavars["PORT"] = i["extra"]["metavars"]["$PORT"]["abstract_content"]
@@ -55,9 +78,9 @@ def interpreter(data):
                 if i["extra"]["metavars"]["$PORTPROPERTY"]:
                     metavars["PORTPROPERTY"] = i["extra"]["metavars"]["$PORTPROPERTY"]["abstract_content"]
             except:
-                print('no port property/password')
+                pass
         except:
-            print('no port')
+            pass
         try:
             if i["extra"]["metavars"]["$COOKIE"]:
                 metavars["COOKIE"] = i["extra"]["metavars"]["$COOKIE"]["abstract_content"]
@@ -66,14 +89,14 @@ def interpreter(data):
             if i["extra"]["metavars"]["$FUNC"]:
                 metavars["FUNC"] = i["extra"]["metavars"]["$FUNC"]["abstract_content"]
         except:
-            print("no cookie/details/function")
+            pass
         try:
             if i["extra"]["metavars"]["$X"]:
                 metavars["X"] = i["extra"]["metavars"]["$X"]["abstract_content"]
             if i["extra"]["metavars"]["$W"]:
                 metavars["W"] = i["extra"]["metavars"]["$W"]["abstract_content"]
         except:
-            print("no x/w")
+            pass
         try:
             if i["extra"]["metavars"]["$Y"]:
                 metavars["Y"] = i["extra"]["metavars"]["$Y"]["abstract_content"]
@@ -81,14 +104,14 @@ def interpreter(data):
                 if i["extra"]["metavars"]["$Y"]["propagated_value"]:
                     metavars["yvalue"] = i["extra"]["metavars"]["$Y"]["propagated_value"]["svalue_abstract_content"]
             except:
-                print("no y value")
+                pass
         except:
-            print("no y")
+            pass
         try:
             if i["extra"]["metavars"]["$OBJ"]:
                 metavars["OBJ"] = i["extra"]["metavars"]["$OBJ"]["abstract_content"]
         except:
-            print('no obj')
+            pass
         metavar = []
         var = ""
         try:

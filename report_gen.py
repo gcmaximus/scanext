@@ -84,7 +84,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
             source, sink = vuln_id.split("-")
 
             # descriptions from Tarnish
-            descs = "SHARED/descriptions.json"
+            descs = "STATIC_ANALYSIS/descriptions.json"
 
             # find desc for source & sink
             with open(descs, "r") as f:
