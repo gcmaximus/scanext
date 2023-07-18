@@ -16,12 +16,12 @@ There are 2 ways of running ScanExt:
 
 
 ```
-docker build . -t <name>
-docker run <name>
+docker build . -t [NAME]
+docker run [NAME]
 ```
 
 2. Run main python program directly
 
 ```
-py main.py
+python3 main.py
 ```
