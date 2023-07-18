@@ -124,10 +124,10 @@ def main(config, path_to_extension, semgrep_results):
                     for order in range(number_of_instances)
                 ]
 
-                args = [(progress_bars[order], order, options, payloads[order], url_path, ext_id) for order in range(n)]
+                args = [(progress_bars[order], order, options, payloads[order], url_path, ext_id) for order in range(number_of_instances)]
                 
-                with ThreadPoolExecutor(n) as executor:
-                    for logs in executor.map(test_window_name, args):
+                with ThreadPoolExecutor(number_of_instances) as executor:
+                    for logs in executor.map(context_menu_selectionText_N, args):
                         for log in logs:
                             logger.critical(log)    
 
@@ -147,14 +147,15 @@ if __name__ == '__main__':
 
     window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
     location_herf_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
-    context_menu_path = '' 
+    context_menu_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu' 
 
     path_to_extension = location_herf_path
 
     config = {
-        "percentage_of_payloads" : 50
+        "percentage_of_payloads" : 10,
+        "number_of_instances": 2
     }
 
 
 
-    main(config, path_to_extension, semgrep_results, 5)
+    main(config, path_to_extension, semgrep_results)

@@ -2828,17 +2828,18 @@ def context_menu_selectionText_N(args_tuple):
     logs = []
     source = 'contextMenu.selectionText'
     ext_name = 'h1-replacer(v3)'
-    url_of_injection_example = 'https://www.example.com'
+    url_of_injection_example = 'DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
     payload_file = 'small_payload.txt'
+
 
     driver = Chrome(service=Service(), options=option)
     try:
-        # website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
-        website = "file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html"
+        relative_path = 'DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
+        website = 'file://' + os.path.abspath(relative_path)
 
         # get www.example.com
         driver.get(website)
-        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+        # driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
         # set handler for example.com
         example = driver.current_window_handle
