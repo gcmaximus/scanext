@@ -2,17 +2,25 @@ from pathlib import Path
 import json
 from bs4 import BeautifulSoup
 import html
+from constants import * 
 
 
 # interpret static analysis results and inserts results into report
 def static_results_report(results, extension: Path, soup, config, report_path):
+    report_dir = Path("SHARED/REPORTS")
+    status = report_dir.exists()
+    if not status:
+        print(f"Making {report_dir} ... ", end="")
+        report_dir.mkdir()
+        print(TICK)
+
     # Retrieving information from Static Analysis for report
 
     # Name of folder scanned
     scanned_dir = extension.name
 
     # Information from manifest.json
-    [manifest_path] = tuple(Path(extension).glob("**/manifest.json"))
+    [manifest_path] = tuple(extension.glob("**/manifest.json"))
 
     with manifest_path.open("r") as f:
         manifest = json.load(f)
@@ -495,12 +503,6 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
 
-    report_dir = Path("SHARED/REPORTS")
-    status = report_dir.exists()
-    if not status:
-        print(f"Making {report_dir} ... ", end="")
-        report_dir.mkdir()
-        print("tick")
     with open(report_path, "w") as file:
         file.write(str(soup))
 

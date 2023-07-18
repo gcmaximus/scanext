@@ -2,16 +2,13 @@ import subprocess
 from pathlib import Path
 from spinner import main as spinner
 
+from constants import *
 
-
-cross = "⤫"
-tick = "✓"
-
-# return cross or tick icon
+# return CROSS or TICK icon
 def icon(boolean: bool):
     if boolean:
-        return tick
-    return cross
+        return TICK
+    return CROSS
 
 # run Semgrep scan for static analysis
 def main(extension: Path):
@@ -43,12 +40,12 @@ def main(extension: Path):
     except KeyboardInterrupt:
         spinner_event.clear()
         spinner_thread.join()
-        print(f"Scanning {extension.name} for vulnerabilities ... {cross}  ")
+        print(f"Scanning {extension.name} for vulnerabilities ... {CROSS}  ")
         print("Terminating program ...")
         exit()
     spinner_event.clear()
     spinner_thread.join()
-    print(f"Scanning {extension.name} for vulnerabilities ... {tick}")
+    print(f"Scanning {extension.name} for vulnerabilities ... {TICK}")
     return output_file
 
 if __name__ == '__main__':

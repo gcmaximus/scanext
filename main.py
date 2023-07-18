@@ -12,17 +12,17 @@ from dynamic import main as dynamic
 from static import main as static
 from banners import get_banner
 import report_gen
+from constants import *
 
 
 
-CROSS = "⤫"
-TICK = "✓"
 
-# return cross or tick icon
+
+# return CROSS or TICK icon
 def icon(boolean: bool):
     if boolean:
-        return tick
-    return cross
+        return TICK
+    return CROSS
 
 # extract extensions and format the extracted files
 def extraction():
@@ -44,16 +44,16 @@ def extraction():
     if status:
         print(f"Removing existing {extraction_dir} ... ", end="")
         shutil.rmtree(extraction_dir)
-        print(tick)
+        print(TICK)
     print(f"Making {extraction_dir} ... ", end="")
     extraction_dir.mkdir()
-    print(tick)
+    print(TICK)
 
     for extension in extensions:
         indi_dir = Path(extraction_dir, extension.stem)
         print(f"Making {indi_dir} ... ", end="")
         indi_dir.mkdir()
-        print(tick)
+        print(TICK)
 
         with ZipFile(extension, "r") as zip:
             print(f"Extracting {extension.name} ... ", end="")
@@ -61,7 +61,7 @@ def extraction():
         manifest_exists = Path(indi_dir, "manifest.json").exists()
         print(icon(manifest_exists))
         if not manifest_exists:
-            print(f"{cross} manifest.json not found in root", end="")
+            print(f"{CROSS} manifest.json not found in root", end="")
             shutil.rmtree(indi_dir)
         for file in indi_dir.glob("**/*.js"):
             pretty = jsbeautifier.beautify_file(file, opts)
