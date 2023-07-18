@@ -383,7 +383,22 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
                 url = result['Url']
                 time_of_injection = result['timeOfInjection']
                 time_of_alert = result['timeOfAlert']
+
+                # Format script for multiline scripts
                 script = html.escape(result['script'])
+                # script_lines = script.split(';')[:-1]
+                
+
+                # # check for second line
+                # if len(script_lines) == 1:
+                #     # only 1 line
+                #     script = script_lines[0]
+
+                # else:
+                #     # 2 lines and more
+                #     script = ""
+                #     for line in script_lines:
+                #         script += line
 
                 # Format packet info for payloadType:"server"
                 payload_type = result['payloadType']
