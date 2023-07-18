@@ -52,8 +52,7 @@ def main(config, path_to_extension, semgrep_results):
     # payload = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
     
     # new payloads
-    # totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
-    totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/test.txt')
+    totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
 
 
     # preconfiguration (set active to false)
@@ -155,7 +154,7 @@ if __name__ == '__main__':
     path_to_extension = location_herf_path
 
     config = {
-        "percentage_of_payloads" : 100,
+        "percentage_of_payloads" : 10,
         "number_of_instances": 1
     }
 
