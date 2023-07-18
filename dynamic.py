@@ -153,7 +153,7 @@ if __name__ == '__main__':
     path_to_extension = location_herf_path
 
     config = {
-        "percentage_of_payloads" : 10,
+        "percentage_of_payloads" : 100,
         "number_of_instances": 1
     }
 
