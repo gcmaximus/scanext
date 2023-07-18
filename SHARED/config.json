@@ -1,4 +1,5 @@
 {
     "report_display_adjacent_lines": 3,
-    "number_of_instances": -1
+    "number_of_instances": 2,
+    "percentage_of_payloads": 100
 }

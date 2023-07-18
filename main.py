@@ -113,40 +113,44 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
 
     report_gen.dynamic_results_report(source_sorted_logs, extension, soup, config, report_path)
 
-# check if int > 0
-###################
-###### TO DO ######
-###################
-def checkInt(target):
-
-    # check if int
-    if not isinstance(target, int):
-        print(f"Please set {target} to be an integer, 0 or more!")
-        exit() 
-
-    # if int, check if < 0
-    elif target < 0:
-        print(f"Please set {target} to be an integer, 0 or more!")
-        exit()
-
-    return target
-
 
 # load configurations set by user
 def load_config():
 
-    # Load config and check validity.
+
+    # Load config
     with open('SHARED/config.json') as f:
         config = json.loads(f.read())
-    
 
-    ###################
-    ###### TO DO ######
-    ###################
-    report_display_adjacent_lines = checkInt(config['report_display_adjacent_lines'])
-    number_of_instances = checkInt(config['number_of_instances'])
 
-    return config
+    # Check validity of config
+    def isValid(key, min, max=None):
+        value = config[key]
+
+        # check if int
+        if not isinstance(value, int):
+            print(f"Error: {key} is not an integer.")
+            exit() 
+
+        # if int, check if within range of min and max
+
+        # check if max is set
+        if max:
+            if value < min or value > max:
+                print(f"Error: {key} must be an integer between {min} and {max}.")
+                exit()
+        # max not set
+        else:
+            if value < min:
+                print(f"Error: {key} must be an integer more than {min}.")
+                exit()
+
+
+        return True
+
+
+    if isValid(key='report_display_adjacent_lines',min=0) and isValid(key='number_of_instances',min=1) and isValid(key='percentage_of_payloads',min=1,max=100): 
+        return config
 
 # main program
 def main():
