@@ -107,8 +107,8 @@ def main(config, path_to_extension, semgrep_results):
                     exit()
 
                 thread_count //= 3
-                if n > thread_count:
-                    print(f"Warning, {n} instances requested is > than the {thread_count} recommended for your CPU.")
+                if number_of_instances > thread_count:
+                    print(f"Warning, {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU.")
                     print("Recommendation = CPU's thread count // 3.")
                     print("Continuing ... ")
 
@@ -120,12 +120,12 @@ def main(config, path_to_extension, semgrep_results):
                         desc=f"Instance {order}",
                         bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
                     )
-                    for order in range(n)
+                    for order in range(number_of_instances)
                 ]
 
-                args = [(progress_bars[order], order, options, payloads[order], url_path, ext_id) for order in range(n)]
+                args = [(progress_bars[order], order, options, payloads[order], url_path, ext_id) for order in range(number_of_instances)]
                 
-                with ThreadPoolExecutor(n) as executor:
+                with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(test_window_name, args):
                         for log in logs:
                             logger.critical(log)
