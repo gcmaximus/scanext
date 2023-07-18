@@ -18,19 +18,21 @@ def preconfigure(dir):
     tmp_dir.mkdir()
     tmp_ext_dir = tmp_dir.joinpath(extracted_path.name)
     tmp_ext_dir.mkdir()
-    for file in extracted_path.glob("**/*.js"):
+    for file in extracted_path.glob("**/*.*"):
         t = tmp_ext_dir.joinpath(file.name)
         t.touch()
-        with file.open("r") as ext, t.open("a") as tmp:
-            for line in ext:
-                if "active: !0" in line:
-                    a = "active: !0"
-                    line = line.replace(a, "active: false")
-                elif "active: true" in line:
-                    a = "active: true"
-                    line = line.replace(a, "active: false")
-                tmp.write(line)
-
+        if file.suffix == ".js":
+            with file.open("r") as ext, t.open("a") as tmp:
+                for line in ext:
+                    if "active: !0" in line:
+                        a = "active: !0"
+                        line = line.replace(a, "active: false")
+                    elif "active: true" in line:
+                        a = "active: true"
+                        line = line.replace(a, "active: false")
+                    tmp.write(line)
+        else:
+            shutil.copyfile(file, t)
 
     # for root, dirs, files in os.walk(folder_path):
     #     # Perform the find and replace operation on each JavaScript file in the folder
