@@ -34,24 +34,24 @@ def main():
 
     app = FastAPI()
 
-    @app.get("/xss/{pid}/{payload_no}")
-    async def get_xss(pid: int, payload_no: int, req: Request):
+    @app.get("/xss/{id}/{payload_no}")
+    async def get_xss(id: int, payload_no: int, req: Request):
         nonlocal data
-        data_list: list = data.setdefault(pid, {}).setdefault(payload_no, [])
+        data_list: list = data.setdefault(id, {}).setdefault(payload_no, [])
         data_list.append(await extract_data(req))
         return {"message": "OK"}
 
-    @app.post("/xss/{pid}/{payload_no}")
-    async def post_xss(pid: int, payload_no: int, req: Request):
+    @app.post("/xss/{id}/{payload_no}")
+    async def post_xss(id: int, payload_no: int, req: Request):
         nonlocal data
-        data_list: list = data.setdefault(pid, {}).setdefault(payload_no, [])
+        data_list: list = data.setdefault(id, {}).setdefault(payload_no, [])
         data_list.append(await extract_data(req))
         return {"message": "OK"}
 
-    @app.get("/data/{pid}/{payload_no}")
-    async def get_data(pid: int, payload_no: int):
+    @app.get("/data/{id}/{payload_no}")
+    async def get_data(id: int, payload_no: int):
         nonlocal data
-        return {"data": data.get(pid, {}).get(payload_no, [])}
+        return {"data": data.get(id, {}).get(payload_no, [])}
 
     @app.delete("/data")
     async def del_data():
