@@ -120,11 +120,11 @@ def main(config, path_to_extension, semgrep_results, n: int = 4):
                 ]
 
                 args = [(progress_bars[order], order, options, payloads[order], url_path, ext_id) for order in range(n)]
-                
+
                 with ThreadPoolExecutor(n) as executor:
-                    for logs in executor.map(test_window_name, args):
+                    for logs in executor.map(location_href_N, args):
                         for log in logs:
-                            logger.critical(log)
+                            logger.critical(log)    
 
         except Exception as e:
             print("Error while initializing headless chrome driver ")
@@ -139,12 +139,17 @@ with open("DYNAMIC_ANALYSIS_v2/window_name_w.json", "r") as file:
 if __name__ == '__main__':
     semgrep_results = ['123']
 
-    path_to_extension = 'EXTENSIONS/h1-replacer(v3)_window.name'
+
+    window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
+    location_herf_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
+    context_menu_path = '' 
+
+    path_to_extension = location_herf_path
 
     config = {
-        "percentage_of_payloads" : 50
+        "percentage_of_payloads" : 10
     }
 
 
 
-    main(config, path_to_extension, semgrep_results, 5)
+    main(config, path_to_extension, semgrep_results, 3)

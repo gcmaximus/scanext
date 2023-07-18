@@ -1,6 +1,6 @@
 // source: window.name
 // *******************
-var v = window.name
+var v = location.href
 var tags = document.getElementsByTagName('h1')
 console.log(v)
 for (let i=0; i<tags.length; i++) {
