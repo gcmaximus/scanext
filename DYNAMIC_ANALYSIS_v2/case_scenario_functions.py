@@ -14,6 +14,7 @@ from selenium.webdriver.chrome.service import Service
 from functools import reduce
 
 import logging
+import requests
 
 
 # from main import payload_logging
@@ -39,36 +40,35 @@ import logging
 def nomagic(chain, payload, msg):
     keys = chain.split('.')[1:]
     msg.update(reduce(lambda x, y: {y: x}, reversed(keys), payload))
-    obj = json.dumps(x)
+    obj = json.dumps(msg)
     return obj
 
 #####################
 # Logging Framework #
 #####################
 
-def setup_logger(log_file):
-    # Create a logger
-    logger = logging.getLogger()
-    logger.setLevel(logging.ERROR)
+# def setup_logger(log_file):
+#     # Create a logger
+#     logger = logging.getLogger()
+#     logger.setLevel(logging.ERROR)
 
-    # Create a file handler and set the log level
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setLevel(logging.CRITICAL)
+#     # Create a file handler and set the log level
+#     file_handler = logging.FileHandler(log_file)
+#     file_handler.setLevel(logging.CRITICAL)
 
-    # Create a formatter and add it to the handlers
-    log_format = '%(message)s'
-    formatter = logging.Formatter(log_format)
-    file_handler.setFormatter(formatter)
+#     # Create a formatter and add it to the handlers
+#     log_format = '%(message)s'
+#     formatter = logging.Formatter(log_format)
+#     file_handler.setFormatter(formatter)
 
-    # Add the handlers to the logger
-    logger.addHandler(file_handler)
+#     # Add the handlers to the logger
+#     logger.addHandler(file_handler)
 
-    return logger
+#     return logger
 
 def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
     # Convert sets to lists
-    payload = str(payload)
-    packet_info = str(packet_info)
+    # payload = str(payload)
 
     payload_log = {
         "outcome": outcome,
@@ -85,9 +85,9 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
     }
 
     log_message = json.dumps(payload_log)
-    logger.critical(log_message)
+    return log_message
 
-logger = setup_logger('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logs.txt')
+# logger = setup_logger('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logs.txt')
 
 ##########################
 # Case Scenario headless #
@@ -2576,10 +2576,11 @@ def chromeDebuggerGetTargets(driver, ext_id, url_path, payloads):
 # 1) windowAddEventListernerMessage(test this shit)
 
 
-def test_window_name(args_tuple, ext_id, url_path, payloads, result):
-    order, options, payloads, url_path = args_tuple
+def test_window_name(args_tuple):
+    logs_howard = []
 
-    global progress_bars
+    progress_bar, order, option, payloads, url_path, ext_id = args_tuple
+    # global progress_bars
 
 
     driver = Chrome(service=Service(), options=option)
@@ -2607,8 +2608,8 @@ def test_window_name(args_tuple, ext_id, url_path, payloads, result):
         # get page source code of extension
         extension_source_code = driver.page_source
 
-        for payload in payloads:
-            print(payload)
+        for payload_no, payload in enumerate(payloads):
+            # print(payload)
             # since window.name is obtained from the website url, we will inject javascript to change the window.name
             driver.switch_to.window(example)
 
@@ -2617,11 +2618,12 @@ def test_window_name(args_tuple, ext_id, url_path, payloads, result):
 
                 # get time of injection
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                progress_bars[order].update(1)
+
+                progress_bar.update(1)
             except Exception as e:
-                print(' !!!! PAYLOAD FAILLED !!!!')
-                print('Error: ', str(e))
-                progress_bars[order].update(1)
+                # print(' !!!! PAYLOAD FAILLED !!!!')
+                # print('Error: ', str(e))
+                progress_bar.update(1)
                 continue
 
             # observe behavior after payload injection
@@ -2631,14 +2633,14 @@ def test_window_name(args_tuple, ext_id, url_path, payloads, result):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                print('[example] + Alert Detected +')
+                # print('[example] + Alert Detected +')
 
                 # get time of success [1) example]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil')
+                logs_howard.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
-                print('[example] = No alerts detected =')
+                # print('[example] = No alerts detected =')
                 payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil')
 
 
@@ -2652,37 +2654,39 @@ def test_window_name(args_tuple, ext_id, url_path, payloads, result):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                print('[example] + Alert Detected +')
+                # print('[example] + Alert Detected +')
 
                 # get time of success [3) example]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil')
+                
+                logs_howard.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
-                print('[example] = No alerts detected =')
-                payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil')
+                # print('[example] = No alerts detected =')
+                logs_howard.append(payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-                    print("Navigated back to 'https://www.example.com' due to page source changes")
+                    # print("Navigated back to 'https://www.example.com' due to page source changes")
             except:
-                print('error')
+                # print('error')
+                pass
 
             try: 
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
-                print('error')
-
-    except TimeoutException:
-        # Handle TimeoutException when title condition is not met
-        print("Timeout: Title was not resolved to 'Example Domain'")
-
+                # print('error')
+                pass
+            
     except Exception as e:
         # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        # print("An error occurred:", str(e))
+        pass
+
+    return logs_howard

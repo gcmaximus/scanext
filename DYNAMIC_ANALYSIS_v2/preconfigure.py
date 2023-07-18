@@ -4,6 +4,7 @@ from os import path
 import hashlib
 import logging
 import json
+from itertools import cycle
 
 
 # preconfigure
@@ -142,8 +143,15 @@ def payloads(path_to_payload):
     return payload_array
 
 
-
-
+# new payload function (use this)
+def payloads_cycle(n: int, file_path: str):
+    c = cycle(range(n))
+    payloads = [[] for _ in range(n)]
+    with open(file_path, "r") as file:
+        for line in file:
+            if line != "\n":
+                payloads[c.__next__()].append(line.rstrip())
+    return [len(p) for p in payloads], tuple(tuple(s) for s in payloads)
 
 
 

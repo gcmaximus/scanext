@@ -1,5 +1,1 @@
 <img src=xss onerror=alert(1)>
-<img src/onerror=prompt(8)>
-testttt
-<image src/onerror=prompt(8)>
-<img src =q onerror=prompt(8)>

