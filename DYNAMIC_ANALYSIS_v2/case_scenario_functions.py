@@ -2821,7 +2821,7 @@ def location_href_N(args_tuple):
 
     return logs
 
-# new contextMenu.selectionText_normal
+# new contextMenu.selectionText_normal (alerted)
 def context_menu_selectionText_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
@@ -2839,7 +2839,7 @@ def context_menu_selectionText_N(args_tuple):
 
         # get www.example.com
         driver.get(website)
-        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+        # driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
         # set handler for example.com
         example = driver.current_window_handle
@@ -2887,14 +2887,13 @@ def context_menu_selectionText_N(args_tuple):
                 # print('Error: ', str(e))
                 continue
 
-
             # usage of context menu
             try:
                 actions = ActionChains(driver)
                 actions.context_click(target_element).perform()
 
 
-                driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+                # driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
 
                 for _ in range(6):
@@ -2930,7 +2929,7 @@ def context_menu_selectionText_N(args_tuple):
             driver.refresh()
             driver.switch_to.window(example)
 
-            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            # driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
             try:
                 # wait 2 seconds to see if alert is detected
@@ -2976,6 +2975,185 @@ def context_menu_selectionText_N(args_tuple):
         # print("An error occurred:", str(e))
         pass
 
+    return logs
+
+# new contextMenu.link_Url (in prog)
+def context_menu_link_url_N(args_tuple):
+    progress_bar, order, option, payloads, url_path, ext_id = args_tuple
+
+    logs = []
+    source = 'contextMenu.linkUrl'
+    ext_name = 'h1-replacer(v3)'
+    url_of_injection_example = 'DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
+    payload_file = 'small_payload.txt'
+
+    driver = Chrome(service=Service(), options=option)
+
+    try:
+        relative_path = 'DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
+        website = 'file://' + os.path.abspath(relative_path)
+
+        # get test xss website
+        driver.get(website)
+        # set handler for example.com
+        example = driver.current_window_handle
+
+        # Wait up to 5 seconds for the title to become "Xss Website"
+        title_condition = EC.title_is('Xss Website')
+        WebDriverWait(driver, 5).until(title_condition)
+
+        # get page source code of example.com
+        example_source_code = driver.page_source
+
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        extension = driver.current_window_handle
+        driver.get(url_path)
+
+        # get page source code of extension
+        extension_source_code = driver.page_source
+
+        cases = ['queryParams', 'fragementIdentifier']
+
+        for payload in payloads:
+
+            # update progress bar
+            progress_bar.update(1) 
+
+            # there are 2 possible ways to insert paylaod, either directly or using query parameters.
+            for i in range(len(cases)):
+                # for link url, inject our payload into the link.
+                driver.switch_to.window(example)
+
+                # using selenium to find element by ID
+                target_element = driver.find_element(By.ID, 'linkUrl')
+
+                # Payload Injection (Href)
+                if i == 0:
+                    try:
+                        # PAYLOAD INJECTION CASE 1 (Directly Injecting)
+                        driver.execute_script(f'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`')
+                    
+                        # get time of injection
+                        time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    except Exception as e:
+                        # print(' !!!! PAYLOAD FAILLED !!!!')
+                        # print('Error: ', str(e))
+                        continue
+                else:
+                    try:
+                        # PAYLOAD INJECTION CASE 2 (Injecting Query Parameters)
+                        driver.execute_script('var linkElement = document.getElementById("linkUrl"); linkElement.href = "?q=" + `{}`'.format(payload.replace('"', '\\"').replace("'", "\\'")))
+
+                        # get time of injection
+                        time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+
+                    except Exception as e:
+                        # print(' !!!! PAYLOAD FAILLED !!!!')
+                        # print('Error: ', str(e))
+                        continue
+                
+                # Seleting Text using javascript
+                try:
+                    # perform text highlight/selection
+                    driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
+
+                    # usage of context menu
+                    try:
+                        # perform right click to open context menu
+                        actions = ActionChains(driver)
+                        actions.context_click(target_element).perform()
+
+                        # navigate to extension context menu option
+                        for _ in range(11):
+                            subprocess.call(['xdotool', 'key', 'Down'])
+
+                        # Simulate pressing the "Enter" key
+                        subprocess.call(['xdotool', 'key', 'Return'])
+
+                    except Exception as e:
+                        # print(' !!!! Error using Context Menu !!!!')
+                        # print('Error: ', str(e))
+                        continue
+
+                except Exception as e:
+                    # print(' !!!! Error Selecting Text !!!!')
+                    # print('Error: ', str(e))
+                    continue
+            
+                # observe behavior after payload injection
+                # 1) Check for alerts in example.com
+                driver.switch_to.window(example)
+                driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    # print('+ Alert Detected +')
+
+                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
+                except TimeoutException:
+                    # print('= No alerts detected =')
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+
+                driver.switch_to.window(extension)
+
+                driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+                time.sleep(2)
+
+
+                # 2) Check for alerts in example after refreshing extension
+                driver.refresh()
+                driver.switch_to.window(example)
+                driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+
+                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
+                except TimeoutException:
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+
+                # check for any modifications (snapshot back to original)
+                try: 
+                    # [1] check modifications for example.com
+                    driver.switch_to.window(example)
+                    if example_source_code != driver.page_source:
+                        driver.get(website)
+                        # print(f"Navigated back to '{website}' due to page source changes")
+
+                except Exception as e:
+                    # print('Error: ', str(e))
+                    pass
+
+                try: 
+                    # [2] check modifications for extension
+                    driver.switch_to.window(extension)
+                    if extension_source_code != driver.page_source:
+                        driver.get(url_path)
+                        # print(f"Navigated back to '{url_path}' due to extension page source changes")
+
+                except Exception as e:
+                    # print('Error: ', str(e))
+                    pass
+
+    except TimeoutException:
+        # # Handle TimeoutException when title condition is not met
+        # print("Timeout: Title was not resolved to 'Example Domain'")
+        pass
+
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
+    
     return logs
 
 

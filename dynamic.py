@@ -52,8 +52,8 @@ def main(config, path_to_extension, semgrep_results):
     # payload = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
     
     # new payloads
-    # totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
-    totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/test.txt')
+    totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
+    # totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/test.txt')
 
 
     # preconfiguration (set active to false)
@@ -130,7 +130,7 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, payloads[order], url_path, ext_id) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(context_menu_selectionText_N, args):
+                    for logs in executor.map(context_menu_link_url_N, args):
                         for log in logs:
                             logger.critical(log)    
 
@@ -152,10 +152,10 @@ if __name__ == '__main__':
     location_herf_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
     context_menu_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu' 
 
-    path_to_extension = location_herf_path
+    path_to_extension = context_menu_path
 
     config = {
-        "percentage_of_payloads" : 100,
+        "percentage_of_payloads" : 20,
         "number_of_instances": 1
     }
 
