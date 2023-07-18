@@ -3294,7 +3294,7 @@ def context_menu_src_url_N(args_tuple):
     
     return logs
 
-# new contextMenu.frameUrl (works)
+# new contextMenu.frameUrl (works for jerald but not for me. smlj)
 def context_menu_frame_url_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
@@ -3458,7 +3458,7 @@ def context_menu_frame_url_N(args_tuple):
 
     return logs
 
-# new contextMenu.pageUrl
+# new contextMenu.pageUrl (works)
 def context_menu_pageUrl_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
@@ -3498,7 +3498,7 @@ def context_menu_pageUrl_N(args_tuple):
         cases = ['queryParams', 'fragementIdentifier']
 
         for payload in payloads:
-            
+
             # update progress bar
             progress_bar.update(1) 
 
