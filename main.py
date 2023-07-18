@@ -92,7 +92,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     print('Conducting dynamic analysis ...')
 
     # call selenium main.py
-    # dynamic(extension, results)
+    dynamic(config, extension, results)
 
     print('Dynamic analysis complete.')
     print()
