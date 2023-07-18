@@ -289,9 +289,9 @@ def static_results_report(results, extension: Path, soup, config, report_path):
         soup.find(id='pocs').string = 'In Progress'
         dynamic_in_prog = '''        
             <div class="card m-auto border-warning" id="wait-msg">
-                <div class="card-header bg-warning">Please wait...</div>
+                <div class="card-header bg-warning">In Progress</div>
                 <div class="card-body">
-                    <h5 class="card-title">In Progress</h5>
+                    <h5 class="card-title">Please Wait...</h5>
                     <p class="card-text">ScanExt is currently conducting dynamic analysis and will update this report upon completion.</p>
                 </div>
             </div>'''
