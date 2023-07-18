@@ -151,8 +151,9 @@ if __name__ == '__main__':
     window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
     location_herf_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
     context_menu_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu' 
+    test_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/test'
 
-    path_to_extension = context_menu_path
+    path_to_extension = test_path
 
     config = {
         "percentage_of_payloads" : 20,
