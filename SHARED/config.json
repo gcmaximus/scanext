@@ -1,3 +1,4 @@
 {
-    "report_display_adjacent_lines": 5
+    "report_display_adjacent_lines": 3,
+    "number_of_instances": 2
 }
