@@ -64,7 +64,7 @@ def interpreter(data):
             if i["extra"]["metavars"]["$MESSAGEPROPERTY"]:
                 metavars["MESSAGEPROPERTY"] = i["extra"]["metavars"]["$MESSAGEPROPERTY"]["abstract_content"]
         except:
-            print('no port property/password')
+            pass
         try:
             if i["extra"]["metavars"]["$PORT"]:
                 metavars["PORT"] = i["extra"]["metavars"]["$PORT"]["abstract_content"]
@@ -74,9 +74,9 @@ def interpreter(data):
                 if i["extra"]["metavars"]["$PORTPROPERTY"]:
                     metavars["PORTPROPERTY"] = i["extra"]["metavars"]["$PORTPROPERTY"]["abstract_content"]
             except:
-                print('no port property/password')
+                pass
         except:
-            print('no port')
+            pass
         try:
             if i["extra"]["metavars"]["$COOKIE"]:
                 metavars["COOKIE"] = i["extra"]["metavars"]["$COOKIE"]["abstract_content"]
@@ -85,14 +85,14 @@ def interpreter(data):
             if i["extra"]["metavars"]["$FUNC"]:
                 metavars["FUNC"] = i["extra"]["metavars"]["$FUNC"]["abstract_content"]
         except:
-            print("no cookie/details/function")
+            pass
         try:
             if i["extra"]["metavars"]["$X"]:
                 metavars["X"] = i["extra"]["metavars"]["$X"]["abstract_content"]
             if i["extra"]["metavars"]["$W"]:
                 metavars["W"] = i["extra"]["metavars"]["$W"]["abstract_content"]
         except:
-            print("no x/w")
+            pass
         try:
             if i["extra"]["metavars"]["$Y"]:
                 metavars["Y"] = i["extra"]["metavars"]["$Y"]["abstract_content"]
@@ -100,14 +100,14 @@ def interpreter(data):
                 if i["extra"]["metavars"]["$Y"]["propagated_value"]:
                     metavars["yvalue"] = i["extra"]["metavars"]["$Y"]["propagated_value"]["svalue_abstract_content"]
             except:
-                print("no y value")
+                pass
         except:
-            print("no y")
+            pass
         try:
             if i["extra"]["metavars"]["$OBJ"]:
                 metavars["OBJ"] = i["extra"]["metavars"]["$OBJ"]["abstract_content"]
         except:
-            print('no obj')
+            pass
         metavar = []
         var = ""
         try:
