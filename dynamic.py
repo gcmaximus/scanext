@@ -40,7 +40,7 @@ def main(config, path_to_extension, semgrep_results):
     # load configs
     percentage_of_payloads = config["percentage_of_payloads"]
     number_of_instances = config["number_of_instances"]
-    
+
     # logs
     logger = setup_logger('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt')
 
@@ -147,9 +147,10 @@ if __name__ == '__main__':
     path_to_extension = 'EXTENSIONS/h1-replacer(v3)_window.name'
 
     config = {
-        "percentage_of_payloads" : 50
+        "percentage_of_payloads" : 50,
+        "number_of_instances": 5
     }
 
 
 
-    main(config, path_to_extension, semgrep_results, 5)
+    main(config, path_to_extension, semgrep_results)
