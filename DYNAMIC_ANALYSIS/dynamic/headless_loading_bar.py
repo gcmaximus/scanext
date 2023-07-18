@@ -81,14 +81,16 @@ def process_payload(args_tuple):
             # logs(driver, alert, "Success", url_path, payload) # this bloody function fks it up, maybe use logging module directly
 
             # logging.critical(
-            #     f"{time.strftime('%Y-%m-%d %H:%M:%S')}, Success, {logging.getLevelName(logging.CRITICAL)}, {url_path}, {alert.text}, {payload}"
+            #     f"{time.strftime('%Y-%m-%d %H:%M:%S')}, Success, CRITICAL, {url_path}, {alert.text}, {payload}"
             # )
+
             logs.append(
                 (
                     "critical",
                     f"{time.strftime('%Y-%m-%d %H:%M:%S')}, Success, CRITICAL, {url_path}, {alert.text}, {payload}",
                 )
             )
+            alert.accept()
             # print('+ Alert Detected +')
         except TimeoutException:
             logs.append(
@@ -97,12 +99,15 @@ def process_payload(args_tuple):
                     f"{time.strftime('%Y-%m-%d %H:%M:%S')}, Failure, INFO, {url_path}, 'NIL', {payload}",
                 )
             )
+            # logging.error(
+            #     f"{time.strftime('%Y-%m-%d %H:%M:%S')}, Failure, ERROR, {url_path}, nil, {payload}"
+            # )
             # logs(driver, "NIL", "Fail", url_path, payload) # this bloody function fks it up, maybe use logging module directly
             # print('= No alerts detected =')
 
         # change back to popup.html to try another payload
         driver.switch_to.window(original)
-
+        
         # update progress bar
         progress_bars[order].update(1)
     return logs
@@ -183,7 +188,7 @@ def gui(extension_path: str, payload_file_path: str, n: int = 4):
     with ThreadPoolExecutor(n) as executor:
         for logs in executor.map(process_payload, args):
             for level, log in logs:
-                getattr(logging, level, log)
+                getattr(logging, level)(log)
 
     # ================ #
 
@@ -198,10 +203,9 @@ def main():
 
     # Run program
     with Display() as disp:
-        print(disp.is_alive())
         gui(
             "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer_P",
-            "DYNAMIC_ANALYSIS/dynamic/payloads/payloads.txt",
+            "DYNAMIC_ANALYSIS/dynamic/payloads/small_payload.txt",
             4,
         )
 
