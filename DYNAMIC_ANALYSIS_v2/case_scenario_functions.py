@@ -3898,12 +3898,9 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
-    print(order)
-
-
     driver = Chrome(service=Service(), options=option)
 
-    def create_directory(pid):
+    def create_directory(order):
         directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
         if not os.path.exists(directory_name):
             os.makedirs(directory_name)
@@ -3915,7 +3912,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
     def copy_picture_to_directory(picture_path, directory):
         shutil.copy2(picture_path, directory)
 
-    def access_directory(pid):
+    def access_directory(order):
         directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
         picture_path = 'DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg'  # Specify the path of the picture you want to copy
 
@@ -3926,7 +3923,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             else:
                 print("Picture path doesn't exist!")
 
-    def rename_file_with_payloads(pid,payload):
+    def rename_file_with_payloads(order,payload):
         payload = payload.strip()
         directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
 
@@ -3945,7 +3942,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
         print(f"File renamed to: {new_filename}, ")
         old_filename = new_filename
 
-    def changeFavIconUrl(driver, pid ,payload):
+    def changeFavIconUrl(driver, order ,payload):
         payload = payload.strip()
 
         # remove current favIconUrl
@@ -3971,7 +3968,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             print(str(e))
 
     # preconfigure files required
-    access_directory(pid)
+    access_directory(order)
     
     try:
         # get www.example.com
@@ -4005,6 +4002,9 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
         extension_source_code = driver.page_source
 
         for payload in payloads:
+
+            # update progress bar
+            progress_bar.update(1) 
 
             # forbidden_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|', "'"]
             forbidden_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
@@ -4109,7 +4109,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
 
-# new location.search (heavent test)
+# new location.search (works)
 def locationSearch_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
@@ -4162,8 +4162,6 @@ def locationSearch_N(args_tuple):
 
 
             # 1) Check for alerts in example
-            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-
             try:
                 # wait 2 seconds to see if alert is detected
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
@@ -4180,9 +4178,6 @@ def locationSearch_N(args_tuple):
             # 2) Check for alerts in example after refreshing extension
 
             driver.switch_to.window(extension)
-            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-            time.sleep(2)
-
             driver.refresh()
             driver.switch_to.window(example)
 

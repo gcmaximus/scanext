@@ -53,6 +53,7 @@ def main(config, path_to_extension, semgrep_results):
     
     # new payloads
     meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
+    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/test.txt')
 
 
     # preconfiguration (set active to false)
@@ -129,7 +130,7 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(locationSearch_N, args):
+                    for logs in executor.map(chromeTabQuery_favIconUrl_N, args):
                         for log in logs:
                             logger.critical(log)    
 
@@ -155,10 +156,10 @@ if __name__ == '__main__':
     location_search_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location_search'
 
 
-    path_to_extension = location_search_path
+    path_to_extension = chromeTabQuery_path
 
     config = {
-        "percentage_of_payloads" : 3,
+        "percentage_of_payloads" : 5,
         "number_of_instances": 1
     }
 
