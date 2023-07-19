@@ -3892,7 +3892,7 @@ def chromeTabQuery_url_N(args_tuple):
 
     return logs
 
-# new chromeTabQuery.favIconUrl (heavent test + not done)
+# new chromeTabQuery.favIconUrl (works)
 def chromeTabQuery_favIconUrl_N(args_tuple):
     import shutil
 
@@ -3903,8 +3903,9 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
     ext_name = 'h1-replacer(v3)'
     url_of_injection_example = 'DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
     payload_file = 'small_payload.txt'
-    driver = Chrome(service=Service(), options=option)
 
+
+    driver = Chrome(service=Service(), options=option)
 
     def create_directory(order):
         directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}'
@@ -3912,7 +3913,6 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             os.makedirs(directory_name)
             return True  # Directory was created
         else:
-            print(f"Directory already exists: {directory_name}")
             return False  # Directory already existed
         
     def copy_picture_to_directory(picture_path, directory):
@@ -3925,27 +3925,22 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
         if create_directory(order):
             if os.path.exists(picture_path):
                 copy_picture_to_directory(picture_path, directory_name)
-                print(f"Picture copied to directory: {directory_name}")
-            else:
-                print("Picture path doesn't exist!")
-
+            
     def rename_file_with_payloads(order,payload):
         payload = payload.strip()
         directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}'
 
         files = os.listdir(directory_name)
         if len(files) == 0:
-            print("No files found in the test folder.")
             return
         elif len(files) > 1:
-            print("Multiple files found in the test folder. Please ensure there is only one file.")
             return
 
         old_filename = os.path.join(directory_name, files[0])
 
         new_filename = os.path.join(directory_name, payload + ".jpg")
         os.rename(old_filename, new_filename)
-        print(f"File renamed to: {new_filename}, ")
+        # print(f"File renamed to: {new_filename}, ")
         old_filename = new_filename
 
     def changeFavIconUrl(driver, order ,payload):
@@ -3975,8 +3970,6 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
     # preconfigure files required
     access_directory(order)
-
-    print(payloads)
     
     try:
         website = 'file://' + os.path.abspath(url_of_injection_example)
@@ -4020,47 +4013,34 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             forbidden_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
             # skip payloads that contain forbidden_chars
             if any(char in payload for char in forbidden_chars):
-                print(payload)
                 continue
 
             driver.switch_to.window(example)
             try: 
                 # change filename to payloads
-                rename_file_with_payloads(pid,payload)
+                rename_file_with_payloads(order,payload)
 
                 # use filename as payload in ext
-                changeFavIconUrl(driver, pid, payload)
-                driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-            except Exception as e:
-                print(' !!!! PAYLOAD FAILLED !!!!')
-                print('Error: ', str(e))
-                continue
+                changeFavIconUrl(driver, order, payload)
 
-            try:
-                # wait 2 seconds to see if alert is detected
-                WebDriverWait(driver, 2).until(EC.alert_is_present())
-                alert = driver.switch_to.alert
-                alert.accept()
-                print('[FALSE] Alert Detected [FALSE]')
-            except TimeoutException:
-                print('[FALSE] No alerts detected [FALSE]')
+                # get time of injection
+                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+            except Exception as e:
+                # print(' !!!! PAYLOAD FAILLED !!!!')
+                # print('Error: ', str(e))
+                continue
 
             
             # hardcode some interactions
             # hardcode some interactions
             driver.switch_to.window(extension)
-            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-
             driver.execute_script("document.getElementById('entryPoint').value = '0';")
             driver.execute_script("document.getElementById('submit').click();")
-            time.sleep(2)
             # hardcode some interactions
             # hardcode some interactions
 
 
             driver.switch_to.window(example)
-            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-
             # observe behavior after payload injection
             # 1) Check for alerts in example.com
             try:
@@ -4068,29 +4048,29 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                print('[example] + Alert Detected +')
 
-                # get time of success [1) example]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-            
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
             except TimeoutException:
-                print('[example] = No alerts detected =')
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
 
             # 2) Check for alerts in example after refreshing extension
             driver.switch_to.window(extension)
             driver.refresh()
             driver.switch_to.window(example)
-            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
 
             try:
                 # wait 2 seconds to see if alert is detected
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                print('[example] + Alert Detected +')
-            except TimeoutException:
-                print('[example] = No alerts detected =')
 
+                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
+            except TimeoutException:
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
 
 
             # check for modifications in example 
@@ -4099,22 +4079,23 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(website)
-                    print("Navigated back to 'xss_website.html' due to page source changes")
+                    # print("Navigated back to 'xss_website.html' due to page source changes")
             except:
-                print('error')
+                pass
 
             try: 
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
-                print('error')
+                pass
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        print("Timeout: Title was not resolved to 'Xss Website'")
+        # print("Timeout: Title was not resolved to 'Xss Website'")
+        pass
 
     except Exception as e:
         # Handle any other exceptions that occur
