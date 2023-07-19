@@ -3759,7 +3759,7 @@ def chromeTabsQuery_title_N(args_tuple):
 
 # new chromeTabQuery.url (works)
 def chromeTabQuery_url_N(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
     logs = []
     source = 'chromeTabQuery.url'
@@ -3896,7 +3896,7 @@ def chromeTabQuery_url_N(args_tuple):
 def chromeTabQuery_favIconUrl_N(args_tuple):
     import shutil
 
-    progress_bar, order, option, payloads, url_path, ext_id = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
     driver = Chrome(service=Service(), options=option)
 
@@ -4111,7 +4111,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
 # new location.search (works)
 def locationSearch_N(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
     logs = []
     source = 'location.search'
