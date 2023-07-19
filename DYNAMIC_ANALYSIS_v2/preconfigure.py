@@ -171,12 +171,13 @@ def payloads_cycle(n: int, pct: int, file_path: str):
     c = cycle(range(n))
     meta_payloads = [[] for _ in range(n)]
     with open(file_path, "r") as file:
-        for line in file:
+        lines = file.readlines()
+        lines = choices(lines, k = round(pct / 100 * len(lines)))
+        for line in lines:
             if line != "\n":
                 meta_payloads[c.__next__()].append(line.rstrip())
-    totals = [round(pct/100*len(pylds)) for pylds in meta_payloads]
-    meta_payloads = (tuple(choices(pylds, k=total)) for total, pylds in zip(totals, meta_payloads))
-    return tuple(totals), tuple(meta_payloads) 
+        del lines
+    return tuple(len(pylds), tuple(pylds) for pylds in meta_payloads)
 
 
 
