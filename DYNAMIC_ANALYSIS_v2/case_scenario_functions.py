@@ -4219,6 +4219,106 @@ def locationSearch_N(args_tuple):
 
     return logs
 
+# new chrome.Debugger.GetTargets
+def chromeDebugger_title_N(args_tuple):
+    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+
+    logs = []
+    source = 'chromeDebugger.GetTargets.title'
+    ext_name = 'h1-replacer(v3)'
+    url_of_injection_example = 'https://www.example.com'
+    payload_file = 'small_payload.txt'
+
+    driver = Chrome(service=Service(), options=option)
+
+    # # get www.example.com
+    # driver.get("https://www.example.com")
+    # # set handler for example.com
+    # example = driver.current_window_handle
+    
+
+    # # get extension popup.html
+    # driver.switch_to.new_window('tab')
+    # extension = driver.current_window_handle
+    # driver.get(url_path)
+
+    # get extension popup.html
+    driver.get(url_path)
+    # extension = driver.current_window_handle
+    extension = driver.current_window_handle
+
+    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+    time.sleep(2)
+
+    driver.switch_to.new_window('tab')
+
+    # get www.example.com
+    driver.get("https://www.example.com")
+    # set handler for example.com
+    example = driver.current_window_handle
+
+
+    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+    time.sleep(2)
+
+
+    # for payload in payloads:
+
+    # change to example.com to change document.title property
+    driver.switch_to.window(example)
+    driver.refresh()
+    driver.execute_script(f'document.title = `<img src=x onerror=alert(1)>`;')
+
+    # Press the F12 key to open the developer tools
+    subprocess.call(['xdotool', 'keydown', 'F12'])
+    subprocess.call(['xdotool', 'keyup', 'F12'])
+
+    try:
+        # wait 3 seconds to see if alert is detected
+        WebDriverWait(driver, 2).until(EC.alert_is_present())
+        alert = driver.switch_to.alert
+        alert.accept()
+        print('+ Alert Detected +')
+
+    except TimeoutException:
+        print('= No alerts detected =')
+
+    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+    time.sleep(2)
+
+    driver.switch_to.window(extension)
+    driver.refresh()
+
+    try:
+        # wait 3 seconds to see if alert is detected
+        WebDriverWait(driver, 2).until(EC.alert_is_present())
+        alert = driver.switch_to.alert
+        alert.accept()
+        print('+ Alert Detected +')
+    except TimeoutException:
+        print('= No alerts detected =')
+
+    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+    time.sleep(2)
+
+    driver.refresh()
+    driver.switch_to.window(example)
+
+    try:
+        # wait 3 seconds to see if alert is detected
+        WebDriverWait(driver, 2).until(EC.alert_is_present())
+        alert = driver.switch_to.alert
+        alert.accept()
+        
+        print('+ Alert Detected +')
+    except TimeoutException:
+        print('= No alerts detected =')
+
+    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+    time.sleep(2)
+
+
+
 # to do/test)
 # 1) windowAddEventListernerMessage(test this shit)
 
