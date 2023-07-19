@@ -177,7 +177,7 @@ def payloads_cycle(n: int, pct: int, file_path: str):
             if line != "\n":
                 meta_payloads[c.__next__()].append(line.rstrip())
         del lines
-    return tuple(len(pylds), tuple(pylds) for pylds in meta_payloads)
+    return tuple((len(pylds), tuple(pylds)) for pylds in meta_payloads)
 
 
 

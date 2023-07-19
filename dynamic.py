@@ -52,7 +52,7 @@ def main(config, path_to_extension, semgrep_results):
     # payload = payloads('DYNAMIC_ANALYSIS/wm_donttouch/payloads/extra_small_payload.txt')
     
     # new payloads
-    totals, payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
+    meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
 
 
     # preconfiguration (set active to false)
@@ -119,14 +119,14 @@ def main(config, path_to_extension, semgrep_results):
                 progress_bars = [
                     tqdm(
                         colour="#00ff00",
-                        total=totals[order],
+                        total=meta_payloads[order][0],
                         desc=f"Instance {order}",
                         bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
                     )
                     for order in range(number_of_instances)
                 ]
 
-                args = [(progress_bars[order], order, options, payloads[order], url_path, ext_id) for order in range(number_of_instances)]
+                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(context_menu_pageUrl_N, args):
