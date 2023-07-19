@@ -4482,7 +4482,7 @@ def chromeDebugger_title_N_EXT_FIRST(args_tuple):
 
     return logs
 
-# new chrome.Debugger.GetTargets (hvt test)
+# new chrome.Debugger.GetTargets (hvt test but shd work)
 def chromeDebugger_url_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
@@ -4612,6 +4612,7 @@ def chromeDebugger_url_N(args_tuple):
 
     return logs
 
+# new chromeDebugger_favIconUrl (hvt test but shd work))
 def chromeDebugger_favIconUrl_N(args_tuple):
     import shutil
 
@@ -4817,9 +4818,6 @@ def chromeDebugger_favIconUrl_N(args_tuple):
         print("An error occurred:", str(e))
 
     return logs
-
-
-
 
 
 # to do/test)
