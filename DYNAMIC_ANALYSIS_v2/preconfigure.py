@@ -172,11 +172,11 @@ def payloads_cycle(n: int, pct: int, file_path: str):
     meta_payloads = [[] for _ in range(n)]
     with open(file_path, "r") as file:
         lines = file.readlines()
-        lines = choices(lines, k = round(pct / 100 * len(lines)))
-        for line in lines:
-            if line != "\n":
-                meta_payloads[c.__next__()].append(line.rstrip())
-        del lines
+    lines = (line for line in lines if line != "\n")
+    lines = choices(lines, k = round(pct / 100 * len(lines)))
+    for line in lines:
+        meta_payloads[c.__next__()].append(line.rstrip())
+    del lines
     return tuple((len(pylds), tuple(pylds)) for pylds in meta_payloads)
 
 
