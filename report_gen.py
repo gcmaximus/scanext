@@ -172,6 +172,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
                     more_details = """
     <br>
     <h5><u>Tainted variables</u></h5>
+    <p>Tainted data is transmitted from the source to sink along the following route.</p>
     <pre class="code-block">"""
 
                     for i, line in enumerate(tainted_lines):
@@ -266,6 +267,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
 
                 <!-- Location -->
                 <h5><u>Location of vulnerability</u></h5>
+                <p>The following code segment shows the location of the source and sink.</p>
 
                 {str(soup_code_segment)}
 
