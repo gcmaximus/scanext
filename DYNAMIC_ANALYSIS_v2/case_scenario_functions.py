@@ -3898,10 +3898,16 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
+    logs = []
+    source = 'chromeTabsQuery.favIconUrl'
+    ext_name = 'h1-replacer(v3)'
+    url_of_injection_example = 'DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
+    payload_file = 'small_payload.txt'
     driver = Chrome(service=Service(), options=option)
 
+
     def create_directory(order):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
+        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}'
         if not os.path.exists(directory_name):
             os.makedirs(directory_name)
             return True  # Directory was created
@@ -3913,10 +3919,10 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
         shutil.copy2(picture_path, directory)
 
     def access_directory(order):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
+        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}'
         picture_path = 'DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg'  # Specify the path of the picture you want to copy
 
-        if create_directory(pid):
+        if create_directory(order):
             if os.path.exists(picture_path):
                 copy_picture_to_directory(picture_path, directory_name)
                 print(f"Picture copied to directory: {directory_name}")
@@ -3925,7 +3931,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
     def rename_file_with_payloads(order,payload):
         payload = payload.strip()
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
+        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}'
 
         files = os.listdir(directory_name)
         if len(files) == 0:
@@ -3959,7 +3965,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             var link = document.createElement('link');
             link.type = 'image/jpg';
             link.rel = 'icon';
-            link.href = './ChromeTabQueryFiles/favIconUrl_instance_{pid}/{payload}.jpg';
+            link.href = './ChromeTabQueryFiles/favIconUrl_instance_{order}/{payload}.jpg';
             document.head.appendChild(link);
             """)
 
@@ -3969,10 +3975,14 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
     # preconfigure files required
     access_directory(order)
+
+    print(payloads)
     
     try:
+        website = 'file://' + os.path.abspath(url_of_injection_example)
+
         # get www.example.com
-        driver.get('file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html')
+        driver.get(website)
         driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
         # set handler for example.com
         example = driver.current_window_handle
@@ -4010,6 +4020,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             forbidden_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
             # skip payloads that contain forbidden_chars
             if any(char in payload for char in forbidden_chars):
+                print(payload)
                 continue
 
             driver.switch_to.window(example)
@@ -4087,7 +4098,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html")
+                    driver.get(website)
                     print("Navigated back to 'xss_website.html' due to page source changes")
             except:
                 print('error')
@@ -4108,6 +4119,8 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
     except Exception as e:
         # Handle any other exceptions that occur
         print("An error occurred:", str(e))
+
+    return logs
 
 # new location.search (works)
 def locationSearch_N(args_tuple):
