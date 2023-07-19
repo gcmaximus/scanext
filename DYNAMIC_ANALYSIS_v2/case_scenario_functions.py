@@ -4114,7 +4114,7 @@ def locationSearch_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
     logs = []
-    source = 'chromeTabQuery.url'
+    source = 'location.search'
     ext_name = 'h1-replacer(v3)'
     url_of_injection_example = 'https://www.example.com'
     payload_file = 'small_payload.txt'
@@ -4180,6 +4180,9 @@ def locationSearch_N(args_tuple):
             # 2) Check for alerts in example after refreshing extension
 
             driver.switch_to.window(extension)
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            time.sleep(2)
+
             driver.refresh()
             driver.switch_to.window(example)
 
