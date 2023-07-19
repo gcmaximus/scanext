@@ -50,9 +50,9 @@ def main(config, path_to_extension, semgrep_results):
 
     
     # new payloads
-    meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
+    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/test.txt')
-    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/big_payload.txt')
+    meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/big_payload.txt')
 
 
     # preconfiguration (set active to false)
@@ -128,7 +128,7 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(chromeDebugger_title_N_EXT_FIRST, args):
+                    for logs in executor.map(chromeDebugger_favIconUrl_N, args):
                         for log in logs:
                             logger.critical(log)    
 
@@ -158,8 +158,8 @@ if __name__ == '__main__':
     path_to_extension = chromeDebugGetTarget_path
 
     config = {
-        "percentage_of_payloads" : 5,
-        "number_of_instances": 1
+        "percentage_of_payloads" : 100,
+        "number_of_instances": 5
     }
 
 
