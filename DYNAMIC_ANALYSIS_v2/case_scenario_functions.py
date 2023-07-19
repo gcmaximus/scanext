@@ -10,6 +10,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import NoAlertPresentException
 
 from functools import reduce
 
@@ -2571,6 +2572,16 @@ def chromeDebuggerGetTargets(driver, ext_id, url_path, payloads):
 
 
 ####################################################################################
+def handle_multiple_alerts(driver):
+    while True:
+        try:
+            # Check if an alert is present
+            alert = driver.switch_to.alert
+            # If an alert is present, accept it
+            alert.accept()
+        except NoAlertPresentException:
+            # If no alert is present, exit the loop
+            break
 
 # new window.name_normal (works)
 def window_name_N(args_tuple):
@@ -3567,11 +3578,9 @@ def context_menu_pageUrl_N(args_tuple):
                 except TimeoutException:
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
 
-                driver.switch_to.window(extension)
-                # driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-                # time.sleep(2)
 
                 # 2) Check for alerts in example after refreshing extension
+                driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
                 # driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
@@ -4219,7 +4228,7 @@ def locationSearch_N(args_tuple):
 
     return logs
 
-# new chrome.Debugger.GetTargets
+# new chrome.Debugger.GetTargets (in prog)
 def chromeDebugger_title_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
@@ -4231,91 +4240,264 @@ def chromeDebugger_title_N(args_tuple):
 
     driver = Chrome(service=Service(), options=option)
 
-    # # get www.example.com
-    # driver.get("https://www.example.com")
-    # # set handler for example.com
-    # example = driver.current_window_handle
-    
-
-    # # get extension popup.html
-    # driver.switch_to.new_window('tab')
-    # extension = driver.current_window_handle
-    # driver.get(url_path)
-
-    # get extension popup.html
-    driver.get(url_path)
-    # extension = driver.current_window_handle
-    extension = driver.current_window_handle
-
-    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-    time.sleep(2)
-
-    driver.switch_to.new_window('tab')
-
-    # get www.example.com
-    driver.get("https://www.example.com")
-    # set handler for example.com
-    example = driver.current_window_handle
-
-
-    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-    time.sleep(2)
-
-
-    # for payload in payloads:
-
-    # change to example.com to change document.title property
-    driver.switch_to.window(example)
-    driver.refresh()
-    driver.execute_script(f'document.title = `<img src=x onerror=alert(1)>`;')
-
-    # Press the F12 key to open the developer tools
-    subprocess.call(['xdotool', 'keydown', 'F12'])
-    subprocess.call(['xdotool', 'keyup', 'F12'])
-
     try:
-        # wait 3 seconds to see if alert is detected
-        WebDriverWait(driver, 2).until(EC.alert_is_present())
-        alert = driver.switch_to.alert
-        alert.accept()
-        print('+ Alert Detected +')
+        website = 'https://www.example.com'
+
+        # navigate to example.com
+        driver.get(website)
+        # set handler for example.com
+        example = driver.current_window_handle
+
+        # Wait up to 5 seconds for the title to become "Example Domain"
+        title_condition = EC.title_is('Example Domain')
+        WebDriverWait(driver, 5).until(title_condition)
+
+        # get page source code of example.com
+        example_source_code = driver.page_source
+
+        # get extension popup.html
+        driver.switch_to.new_window('tab')
+        driver.get(url_path)
+        extension = driver.current_window_handle
+
+        # get page source code of extension
+        extension_source_code = driver.page_source
+
+
+        for payload in payloads:
+
+            # update progress bar
+            progress_bar.update(1) 
+
+            # change to example.com to change document.title property
+            driver.switch_to.window(example)
+            driver.refresh()    
+
+            try:
+                driver.execute_script(f'document.title = `{payload}`;')
+
+                # get time of injection
+                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+
+            except Exception as e:
+                # print(' !!!! PAYLOAD FAILLED !!!!')
+                # print('Error: ', str(e))
+                continue
+
+
+            try:
+                # Press the F12 key to open the developer tools
+                subprocess.call(['xdotool', 'keydown', 'F12'])
+                subprocess.call(['xdotool', 'keyup', 'F12'])
+            except Exception as e:
+                continue
+
+
+            # observe behavior after payload injection
+            # 1) Check for alerts in example.com
+            driver.switch_to.window(example)
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+
+                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
+            except TimeoutException:
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+
+
+            # 2) Check for alerts in example after refreshing extension
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+
+                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
+            except TimeoutException:
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                
+                
+            try: 
+                # [1] check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get(website)
+                    # print(f"Navigated back to '{website}' due to page source changes")
+
+            except Exception as e:
+                # print('Error: ', str(e))
+                pass
+
+            try: 
+                # [2] check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
+
+            except Exception as e:
+                # print('Error: ', str(e))
+                pass
 
     except TimeoutException:
-        print('= No alerts detected =')
+        # Handle TimeoutException when title condition is not met
+        # print("Timeout: Title was not resolved to 'Example Domain'")
+        pass
 
-    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-    time.sleep(2)
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
 
-    driver.switch_to.window(extension)
-    driver.refresh()
+    return logs
+
+# new chrome.Debugger.GetTargets (in prog) Ext first
+def chromeDebugger_title_N_EXT_FIRST(args_tuple):
+    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+
+    logs = []
+    source = 'chromeDebugger.GetTargets.title'
+    ext_name = 'h1-replacer(v3)'
+    url_of_injection_example = 'https://www.example.com'
+    payload_file = 'small_payload.txt'
+
+    driver = Chrome(service=Service(), options=option)
 
     try:
-        # wait 3 seconds to see if alert is detected
-        WebDriverWait(driver, 2).until(EC.alert_is_present())
-        alert = driver.switch_to.alert
-        alert.accept()
-        print('+ Alert Detected +')
+        website = 'https://www.example.com'
+
+
+        driver.get(url_path)
+        extension = driver.current_window_handle
+        extension_source_code = driver.page_source
+
+        driver.switch_to.new_window('tab')
+
+        # navigate to example.com
+        driver.get(website)
+        example = driver.current_window_handle
+        example_source_code = driver.page_source
+
+
+        for payload in payloads:
+
+            # update progress bar
+            progress_bar.update(1) 
+
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            time.sleep(2)
+
+            # change to example.com to change document.title property
+            driver.switch_to.window(example)
+            driver.refresh()    
+
+            try:
+                driver.execute_script(f'document.title = `{payload}`;')
+
+                # get time of injection
+                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+
+            except Exception as e:
+                # print(' !!!! PAYLOAD FAILLED !!!!')
+                # print('Error: ', str(e))
+                continue
+
+
+            try:
+                # Press the F12 key to open the developer tools
+                subprocess.call(['xdotool', 'keydown', 'F12'])
+                subprocess.call(['xdotool', 'keyup', 'F12'])
+            except Exception as e:
+                continue
+
+
+            # observe behavior after payload injection
+            # 1) Check for alerts in example.com
+            driver.switch_to.window(example)
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+
+                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
+            except TimeoutException:
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            time.sleep(2)
+
+            # 2) Check for alerts in example after refreshing extension
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            try:
+                # wait 2 seconds to see if alert is detected
+                WebDriverWait(driver, 2).until(EC.alert_is_present())
+                alert = driver.switch_to.alert
+                alert.accept()
+
+                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+
+            except TimeoutException:
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                
+            driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
+            time.sleep(2)
+
+
+            try: 
+                # [1] check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get(website)
+                    print(f"Navigated back to '{website}' due to page source changes")
+
+            except Exception as e:
+                # print('Error: ', str(e))
+                pass
+
+            try: 
+                # [2] check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+                    print(f"Navigated back to '{url_path}' due to extension page source changes")
+
+            except Exception as e:
+                # print('Error: ', str(e))
+                pass
+
     except TimeoutException:
-        print('= No alerts detected =')
+        # Handle TimeoutException when title condition is not met
+        # print("Timeout: Title was not resolved to 'Example Domain'")
+        pass
 
-    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-    time.sleep(2)
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print("An error occurred:", str(e))
 
-    driver.refresh()
-    driver.switch_to.window(example)
+    return logs
 
-    try:
-        # wait 3 seconds to see if alert is detected
-        WebDriverWait(driver, 2).until(EC.alert_is_present())
-        alert = driver.switch_to.alert
-        alert.accept()
-        
-        print('+ Alert Detected +')
-    except TimeoutException:
-        print('= No alerts detected =')
 
-    driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
-    time.sleep(2)
+
+
+
+
+
 
 
 

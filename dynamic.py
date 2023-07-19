@@ -98,7 +98,6 @@ def main(config, path_to_extension, semgrep_results):
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--no-sandbox")
 
-
                 # source = result["message"].split(";")[0][7:]
                 # print('SOURCE: ', source)
                 # sourcelist[source](driver,ext_id,url_path,payload,result)
@@ -129,7 +128,7 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(chromeDebugger_title_N, args):
+                    for logs in executor.map(chromeDebugger_title_N_EXT_FIRST, args):
                         for log in logs:
                             logger.critical(log)    
 
