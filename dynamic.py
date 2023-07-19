@@ -129,7 +129,7 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(context_menu_pageUrl_N, args):
+                    for logs in executor.map(chromeTabQuery_favIconUrl_N, args):
                         for log in logs:
                             logger.critical(log)    
 
@@ -150,13 +150,16 @@ if __name__ == '__main__':
     window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
     location_herf_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
     context_menu_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu' 
-    test_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/test'
+    context_menu_path_test_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/test'
+    chromeTabQuery_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_querys'
 
-    path_to_extension = test_path
+
+
+    path_to_extension = chromeTabQuery_path
 
     config = {
         "percentage_of_payloads" : 100,
-        "number_of_instances": 3
+        "number_of_instances": 1
     }
 
 
