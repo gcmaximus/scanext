@@ -33,6 +33,8 @@ def static_results_report(results, extension: Path, soup, config, report_path):
     # No of vulnerabilities found
     vulns_len = len(results)
 
+    print(f'Found {vulns_len} potential XSS vulnerabilities.')
+
     soup.find('title').string += f' - {scanned_dir}'
 
     soup.find(id="scanned-folder").string = scanned_dir
