@@ -447,7 +447,7 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
         </tr>
 
         <tr>
-            <td colspan="2" id="payload-script-{i + 1}">{script}</td>
+            <td colspan="2" id="payload-script-{i + 1}" class="consolas">{script}</td>
         </tr>
 
         <tr class="table-head">
