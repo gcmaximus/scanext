@@ -70,7 +70,11 @@ rules:
                 $Y = chrome.tabs.getCurrent()
                 ...
                 $Y.then(function ([$X]) {...})
-          - pattern: $X
+          - pattern-either:
+            - pattern: $X.title
+            - pattern: $X.favIconUrl
+            - pattern: $X.sessionId
+            - pattern: $X.url
     pattern-sinks:
       - patterns:
         - pattern: "$($X).insertBefore(...)"
