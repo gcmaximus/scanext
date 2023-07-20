@@ -1,6 +1,6 @@
 {
-    "report_display_adjacent_lines": 5,
+    "report_display_adjacent_lines": 3,
     "number_of_instances": 2,
-    "percentage_of_payloads": 80,
-    "custom_payload_file": "my-payloads.txt"
+    "percentage_of_payloads": 1,
+    "custom_payload_file": "nil"
 }
