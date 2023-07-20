@@ -136,7 +136,7 @@ def main(config, path_to_extension, semgrep_results):
         except Exception as e:
             print("Error while initializing headless chrome driver ")
             print(str(e))
-    shutil.rm("tmp")
+    shutil.rmtree("tmp")
     
         
 
