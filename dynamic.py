@@ -159,7 +159,7 @@ if __name__ == '__main__':
 
     config = {
         "percentage_of_payloads" : 100,
-        "number_of_instances": 5
+        "number_of_instances": 4
     }
 
 
