@@ -3368,7 +3368,6 @@ def runtime_onCE(args_tuple):
         pass
     return logs
 
-
 # new window.name_normal (works)
 def window_name_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
@@ -4477,15 +4476,15 @@ def chromeTabsQuery_title_N(args_tuple):
 
 
 
-            # hardcode some interactions
-            # hardcode some interactions
-            # hardcode some interactions
-            driver.switch_to.window(extension)
-            driver.execute_script("document.getElementById('entryPoint').value = '2';")
-            driver.execute_script("document.getElementById('submit').click();")
-            # hardcode some interactions
-            # hardcode some interactions
-            # hardcode some interactions
+            # # hardcode some interactions
+            # # hardcode some interactions
+            # # hardcode some interactions
+            # driver.switch_to.window(extension)
+            # driver.execute_script("document.getElementById('entryPoint').value = '2';")
+            # driver.execute_script("document.getElementById('submit').click();")
+            # # hardcode some interactions
+            # # hardcode some interactions
+            # # hardcode some interactions
 
 
 
@@ -4613,15 +4612,15 @@ def chromeTabQuery_url_N(args_tuple):
 
 
 
-            # hardcode some interactions
-            # hardcode some interactions
-            # hardcode some interactions
-            driver.switch_to.window(extension)
-            driver.execute_script("document.getElementById('entryPoint').value = '3';")
-            driver.execute_script("document.getElementById('submit').click();")
-            # hardcode some interactions
-            # hardcode some interactions
-            # hardcode some interactions
+            # # hardcode some interactions
+            # # hardcode some interactions
+            # # hardcode some interactions
+            # driver.switch_to.window(extension)
+            # driver.execute_script("document.getElementById('entryPoint').value = '3';")
+            # driver.execute_script("document.getElementById('submit').click();")
+            # # hardcode some interactions
+            # # hardcode some interactions
+            # # hardcode some interactions
 
 
 
@@ -4732,30 +4731,19 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             return
         dir_list[0].rename(dir_path.joinpath(payload + ".jpg"))
 
-
-        # files = os.listdir(directory_name)
-        # if len(files) == 0:
-        #     return
-        # elif len(files) > 1:
-        #     return
-
-        # old_filename = os.path.join(directory_name, files[0])
-
-        # new_filename = os.path.join(directory_name, payload + ".jpg")
-        # os.rename(old_filename, new_filename)
-        # # print(f"File renamed to: {new_filename}, ")
-        # old_filename = new_filename
-
     def changeFavIconUrl(driver, order ,payload):
         payload = payload.strip()
 
-        # remove current favIconUrl
-        driver.execute_script("""
-        var linkElement = document.querySelector('link[rel="icon"]');
-        if (linkElement) {
-        linkElement.parentNode.removeChild(linkElement);
-        }
-        """)
+        try:
+            # remove current favIconUrl
+            driver.execute_script("""
+            var linkElement = document.querySelector('link[rel="icon"]');
+            if (linkElement) {
+            linkElement.parentNode.removeChild(linkElement);
+            }
+            """)
+        except Exception as e:
+            print(str(e))
 
         try:
             # set new favIconUrl
@@ -4779,7 +4767,6 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
         # get www.example.com
         driver.get(website)
-        driver.save_screenshot('DYNAMIC_ANALYSIS_v2/ss.png')
         # set handler for example.com
         example = driver.current_window_handle
 
@@ -4834,13 +4821,13 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
                 continue
 
             
-            # hardcode some interactions
-            # hardcode some interactions
-            driver.switch_to.window(extension)
-            driver.execute_script("document.getElementById('entryPoint').value = '0';")
-            driver.execute_script("document.getElementById('submit').click();")
-            # hardcode some interactions
-            # hardcode some interactions
+            # # hardcode some interactions
+            # # hardcode some interactions
+            # driver.switch_to.window(extension)
+            # driver.execute_script("document.getElementById('entryPoint').value = '0';")
+            # driver.execute_script("document.getElementById('submit').click();")
+            # # hardcode some interactions
+            # # hardcode some interactions
 
 
             driver.switch_to.window(example)
@@ -5022,7 +5009,7 @@ def locationSearch_N(args_tuple):
 
     return logs
 
-# new chrome.Debugger.GetTargets (ext problem)
+# new chrome.Debugger.GetTargets (works)
 def chromeDebugger_title_N(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
@@ -5409,7 +5396,6 @@ def chromeDebugger_url_N(args_tuple):
 # new chromeDebugger_favIconUrl (hvt test but shd work))
 def chromeDebugger_favIconUrl_N(args_tuple):
     
-
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
     logs = []
@@ -5448,28 +5434,20 @@ def chromeDebugger_favIconUrl_N(args_tuple):
         if not len(dir_list) == 1:
             return
         dir_list[0].rename(dir_path.joinpath(payload + ".jpg"))
-        
-        # files = os.listdir(directory_name)
-        # if len(files) == 0:
-        #     return
-        # elif len(files) > 1:
-        #     return
-
-        # old_filename = os.path.join(directory_name, files[0])
-
-        # new_filename = os.path.join(directory_name, payload + ".jpg")
-        # os.rename(old_filename, new_filename)
 
     def changeFavIconUrl(driver, order ,payload):
         payload = payload.strip()
 
-        # remove current favIconUrl
-        driver.execute_script("""
-        var linkElement = document.querySelector('link[rel="icon"]');
-        if (linkElement) {
-        linkElement.parentNode.removeChild(linkElement);
-        }
-        """)
+        try:
+            # remove current favIconUrl
+            driver.execute_script("""
+            var linkElement = document.querySelector('link[rel="icon"]');
+            if (linkElement) {
+            linkElement.parentNode.removeChild(linkElement);
+            }
+            """)
+        except Exception as e:
+            pass
 
         try:
             # set new favIconUrl
@@ -5483,7 +5461,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
 
 
         except Exception as e:
-            print(str(e))
+            pass
 
     # preconfigure files required
     access_directory()
@@ -5617,6 +5595,70 @@ def chromeDebugger_favIconUrl_N(args_tuple):
         print("An error occurred:", str(e))
 
     return logs
+
+# new window.addEventListernerMessage (in prog)
+def windowAddEventListenerMessage(option, ext_id, url_path, payloads, result):
+    # PAYLOAD: 
+    # postMessage({ message: "<img src=x onerror=alert(1)>" }, "*")
+    driver = Chrome(service=Service(), options=option)
+    # get xss test website
+    driver.get('file:////home/showloser/localhost/dynamic/test.html')
+    # set handler for example.com
+    example = driver.current_window_handle
+
+    # get extension popup.html
+    driver.switch_to.new_window('tab')
+    extension = driver.current_window_handle
+    driver.get(url_path)
+
+    # pre-configure
+    buttons = driver.find_elements(By.TAG_NAME,"button")
+    for button in buttons:
+        button.click()
+
+    # implement tommorow 
+
+    regex_results = ['data', 'log', 'cocksuker123', '123skd', 'message']
+    # regex_results = []
+
+    xss_payload = '<img src=x onerror=alert(1)>'
+
+    driver.switch_to.window(example)
+
+    # check if regex scan found anything
+    # if regex able to find scan results, send payload as json object
+    if len(regex_results) > 0:
+        object_payload = {key: xss_payload for key in regex_results}
+        driver.execute_script(f"window.postMessage({object_payload},'*')")
+
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('+ Alert Detected +')
+        except TimeoutException:
+            print('= No alerts detected =')
+
+    # else, send payload as string
+    else:
+        driver.execute_script(f"window.postMessage(`{xss_payload}`,'*')")
+
+        try:
+            # wait 2 seconds to see if alert is detected
+            WebDriverWait(driver, 2).until(EC.alert_is_present())
+            alert = driver.switch_to.alert
+            alert.accept()
+            print('+ Alert Detected +')
+        except TimeoutException:
+            print('= No alerts detected =')
+
+
+
+
+
+
+
 
 
 # to do/test)
