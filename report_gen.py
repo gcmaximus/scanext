@@ -486,7 +486,7 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
                 <!-- No. of tested payloads -->
                 <div class="col-4">
                     <i class="dynamic-info-icons fa fa-bomb" style="font-size:36px;"></i>
-                    <h5><b>Tested:</b></h5>
+                    <h5><b>Applicable:</b></h5>
                     <code><u id="tested-payloads">{tested_payloads} payloads</u></code>
                 </div>
 

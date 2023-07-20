@@ -130,7 +130,6 @@ def main(config, path_to_extension, semgrep_results):
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(chromeDebugger_favIconUrl_N, args):
                         for log in logs:
-                            input()
                             logger.critical(log)    
 
         except Exception as e:
