@@ -4717,7 +4717,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
     def access_directory():
         nonlocal dir_path
-        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg')  # Specify the path of the picture you want to copy
+        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/default.png')  # Specify the path of the picture you want to copy
 
         if create_directory():
             if pic_path.exists():
@@ -4729,7 +4729,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
         dir_list = tuple(dir_path.glob("*.*"))
         if not len(dir_list) == 1:
             return
-        dir_list[0].rename(dir_path.joinpath(payload + ".jpg"))
+        dir_list[0].rename(dir_path.joinpath(payload + ".png"))
 
     def changeFavIconUrl(driver, order ,payload):
         payload = payload.strip()
@@ -4751,7 +4751,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             var link = document.createElement('link');
             link.type = 'image/jpg';
             link.rel = 'icon';
-            link.href = './ChromeTabQueryFiles/favIconUrl_instance_{order}/{payload}.jpg';
+            link.href = './ChromeTabQueryFiles/favIconUrl_instance_{order}/{payload}.png';
             document.head.appendChild(link);
             """)
 
@@ -4782,7 +4782,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
         var link = document.createElement('link');
         link.type = 'image/jpg';
         link.rel = 'icon';
-        link.href = 'default.jpg';
+        link.href = 'default.png';
         document.head.appendChild(link);
         """)
 
@@ -4840,10 +4840,10 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
                 alert.accept()
 
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);",time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, time_of_success, payload_file, 'nil'))
 
             except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);",time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, 'nil', payload_file, 'nil'))
 
             # 2) Check for alerts in example after refreshing extension
             driver.switch_to.window(extension)
@@ -4857,10 +4857,10 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
                 alert.accept()
 
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);",time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, time_of_success, payload_file, 'nil'))
 
             except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);",time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, 'nil', payload_file, 'nil'))
 
 
             # check for modifications in example 
@@ -5421,7 +5421,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
 
     def access_directory():
         nonlocal dir_path
-        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/small_default.png')  # Specify the path of the picture you want to copy
+        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/default.png')  # Specify the path of the picture you want to copy
         if create_directory():
             if pic_path.exists():
                 copy_picture_to_directory(pic_path, dir_path)
@@ -5433,7 +5433,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
         dir_list = tuple(dir_path.glob("*.*"))
         if not len(dir_list) == 1:
             return
-        dir_list[0].rename(dir_path.joinpath(payload + ".jpg"))
+        dir_list[0].rename(dir_path.joinpath(payload + ".png"))
 
     def changeFavIconUrl(driver, order ,payload):
         payload = payload.strip()
@@ -5455,7 +5455,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
             var link = document.createElement('link');
             link.type = 'image/jpg';
             link.rel = 'icon';
-            link.href = './chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.jpg';
+            link.href = './chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.png';
             document.head.appendChild(link);
             """)
 
@@ -5487,7 +5487,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
         var link = document.createElement('link');
         link.type = 'image/jpg';
         link.rel = 'icon';
-        link.href = 'default.jpg';
+        link.href = 'default.png';
         document.head.appendChild(link);
         """)
 
@@ -5543,10 +5543,10 @@ def chromeDebugger_favIconUrl_N(args_tuple):
                 alert.accept()
 
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);", time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);", time_of_injection, time_of_success, payload_file, 'nil'))
 
             except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);", time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);", time_of_injection, 'nil', payload_file, 'nil'))
 
             # 2) Check for alerts in example after refreshing extension
             driver.switch_to.window(extension)
@@ -5560,10 +5560,10 @@ def chromeDebugger_favIconUrl_N(args_tuple):
                 alert.accept()
 
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.jpg';document.head.appendChild(link);", time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.png';document.head.appendChild(link);", time_of_injection, time_of_success, payload_file, 'nil'))
 
             except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.jpg';document.head.appendChild(link);", time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.png';document.head.appendChild(link);", time_of_injection, 'nil', payload_file, 'nil'))
 
 
             # check for modifications in example 
