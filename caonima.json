@@ -11,8 +11,8 @@
             "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_tabs_query.chrome_tabs_query-innerHTML",
             "end": {
                 "col": 43,
-                "line": 37,
-                "offset": 1306
+                "line": 51,
+                "offset": 1742
             },
             "extra": {
                 "dataflow_trace": {
@@ -22,14 +22,14 @@
                             "location": {
                                 "end": {
                                     "col": 19,
-                                    "line": 16,
-                                    "offset": 609
+                                    "line": 34,
+                                    "offset": 1132
                                 },
                                 "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js",
                                 "start": {
                                     "col": 11,
-                                    "line": 16,
-                                    "offset": 601
+                                    "line": 34,
+                                    "offset": 1124
                                 }
                             }
                         }
@@ -40,14 +40,14 @@
                             {
                                 "end": {
                                     "col": 43,
-                                    "line": 37,
-                                    "offset": 1306
+                                    "line": 51,
+                                    "offset": 1742
                                 },
                                 "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js",
                                 "start": {
                                     "col": 35,
-                                    "line": 37,
-                                    "offset": 1298
+                                    "line": 51,
+                                    "offset": 1734
                                 }
                             },
                             "variable"
@@ -58,18 +58,18 @@
                         [
                             {
                                 "end": {
-                                    "col": 42,
-                                    "line": 16,
-                                    "offset": 632
+                                    "col": 41,
+                                    "line": 34,
+                                    "offset": 1154
                                 },
                                 "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js",
                                 "start": {
                                     "col": 22,
-                                    "line": 16,
-                                    "offset": 612
+                                    "line": 34,
+                                    "offset": 1135
                                 }
                             },
-                            "activeTab.favIconUrl"
+                            "activeTab.sessionId"
                         ]
                     ]
                 },
@@ -97,8 +97,8 @@
                         "abstract_content": "activeTab",
                         "end": {
                             "col": 31,
-                            "line": 16,
-                            "offset": 621
+                            "line": 34,
+                            "offset": 1144
                         },
                         "propagated_value": {
                             "svalue_abstract_content": "tabs[0]",
@@ -115,8 +115,8 @@
                         },
                         "start": {
                             "col": 22,
-                            "line": 16,
-                            "offset": 612
+                            "line": 34,
+                            "offset": 1135
                         }
                     },
                     "$Y": {
@@ -138,8 +138,8 @@
             "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js",
             "start": {
                 "col": 35,
-                "line": 37,
-                "offset": 1298
+                "line": 51,
+                "offset": 1734
             }
         }
     ],

@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
       var variable = 'Nil';
 
       switch (selectedValue) {
-        case 0: // favIconUrl
-          variable = activeTab.favIconUrl;
-          break;
         case 1: // sessionId
           variable = activeTab.sessionId;
           break;
         case 2: // title
           variable = activeTab.title;
+          break;
+        case 0: // favIconUrl
+          variable = activeTab.favIconUrl;
           break;
         case 3: // url
           variable = activeTab.url;
@@ -29,7 +29,21 @@ document.addEventListener('DOMContentLoaded', function() {
           break;
       }
 
-      variable = activeTab.title;
+
+      // if (selectedValue == 1)
+      //     variable = activeTab.sessionId;
+      // else if(selectedValue == 2)
+      //     variable = activeTab.title;
+      // else if(selectedValue == 2)
+      //     variable = activeTab.favIconUrl;
+      // else if(selectedValue == 2)
+      //     variable = activeTab.url;
+      // else
+      //     variable = ""; // Default value if selectedValue is not one of the expected options
+      
+      
+      
+
       console.log(`Variable: ${possible_variables[selectedValue]} = ${variable}`);
 
       const h1Elements = document.getElementsByTagName('h1');
