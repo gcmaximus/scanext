@@ -70,7 +70,7 @@ def nomagic(chain, payload, msg):
 
 #     return logger
 
-def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, time_of_injection, time_of_alert, payload_filename, packet_info):
+def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, script, time_of_injection, time_of_alert, payload_filename, packet_info):
     # Convert sets to lists
     # payload = str(payload)
 
@@ -82,6 +82,7 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
         "Url": url_of_website,
         "payloadType": payload_type,
         "payload": payload,
+        "script": script,
         "timeOfInjection": time_of_injection,
         "timeOfAlert": time_of_alert,
         "payload_fileName": payload_filename,
