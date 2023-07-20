@@ -20,7 +20,9 @@ rules:
                   ...
                 }
             - pattern-inside: |
-                chrome.tabs.query(..., function ($X) {
+                chrome.tabs.query(..., function ($Y) {
+                  ...
+                  $X = $Y[$INT]
                   ...
                 })
             - pattern-inside: |
@@ -70,7 +72,11 @@ rules:
                 $Y = chrome.tabs.query(...)
                 ...
                 $Y.then(function ([$X]) {...})
-          - pattern: $X
+          - pattern-either:
+            - pattern: $X.title
+            - pattern: $X.favIconUrl
+            - pattern: $X.sessionId
+            - pattern: $X.url
     pattern-sinks:
       - patterns:
           - pattern: document. ... .innerHTML = $X

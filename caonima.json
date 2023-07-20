@@ -1,1 +1,147 @@
-{"errors": [], "paths": {"_comment": "<add --verbose for a list of skipped paths>", "scanned": ["DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query/popup.js"]}, "results": [{"check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_tabs_query.chrome_tabs_query-innerHTML", "end": {"col": 43, "line": 35, "offset": 1271}, "extra": {"dataflow_trace": {"intermediate_vars": [{"content": "activeTab", "location": {"end": {"col": 22, "line": 8, "offset": 386}, "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query/popup.js", "start": {"col": 13, "line": 8, "offset": 377}}}, {"content": "variable", "location": {"end": {"col": 19, "line": 25, "offset": 860}, "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query/popup.js", "start": {"col": 11, "line": 25, "offset": 852}}}], "taint_sink": ["CliLoc", [{"end": {"col": 43, "line": 35, "offset": 1271}, "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query/popup.js", "start": {"col": 35, "line": 35, "offset": 1263}}, "variable"]], "taint_source": ["CliLoc", [{"end": {"col": 29, "line": 8, "offset": 393}, "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query/popup.js", "start": {"col": 25, "line": 8, "offset": 389}}, "tabs"]]}, "engine_kind": "OSS", "fingerprint": "4fc1fdbfd8dc9651ec1f098b50fbd0271a63fcd4110ebaa9fbc0eeafb4771650e234d30fe7ce7af8b50ec18f734e06f55ed0e92c1a97ea9f84806884657c68f3_0", "is_ignored": false, "lines": "        h1Elements[i].innerHTML = variable;", "message": "Source:chrome_tabs_query;Sink:innerHTML", "metadata": {}, "metavars": {"$INT": {"abstract_content": "i", "end": {"col": 21, "line": 35, "offset": 1249}, "start": {"col": 20, "line": 35, "offset": 1248}}, "$X": {"abstract_content": "tabs", "end": {"col": 29, "line": 8, "offset": 393}, "start": {"col": 25, "line": 8, "offset": 389}}, "$Y": {"abstract_content": "h1Elements", "end": {"col": 23, "line": 33, "offset": 1137}, "start": {"col": 13, "line": 33, "offset": 1127}}}, "severity": "WARNING"}, "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query/popup.js", "start": {"col": 35, "line": 35, "offset": 1263}}], "version": "1.27.0"}
+{
+    "errors": [],
+    "paths": {
+        "_comment": "<add --verbose for a list of skipped paths>",
+        "scanned": [
+            "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js"
+        ]
+    },
+    "results": [
+        {
+            "check_id": "STATIC_ANALYSIS.semgrep_rules.chrome_tabs_query.chrome_tabs_query-innerHTML",
+            "end": {
+                "col": 43,
+                "line": 37,
+                "offset": 1306
+            },
+            "extra": {
+                "dataflow_trace": {
+                    "intermediate_vars": [
+                        {
+                            "content": "variable",
+                            "location": {
+                                "end": {
+                                    "col": 19,
+                                    "line": 16,
+                                    "offset": 609
+                                },
+                                "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js",
+                                "start": {
+                                    "col": 11,
+                                    "line": 16,
+                                    "offset": 601
+                                }
+                            }
+                        }
+                    ],
+                    "taint_sink": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 43,
+                                    "line": 37,
+                                    "offset": 1306
+                                },
+                                "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js",
+                                "start": {
+                                    "col": 35,
+                                    "line": 37,
+                                    "offset": 1298
+                                }
+                            },
+                            "variable"
+                        ]
+                    ],
+                    "taint_source": [
+                        "CliLoc",
+                        [
+                            {
+                                "end": {
+                                    "col": 42,
+                                    "line": 16,
+                                    "offset": 632
+                                },
+                                "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js",
+                                "start": {
+                                    "col": 22,
+                                    "line": 16,
+                                    "offset": 612
+                                }
+                            },
+                            "activeTab.favIconUrl"
+                        ]
+                    ]
+                },
+                "engine_kind": "OSS",
+                "fingerprint": "4b82535ec1bbf59b8e78384dc4aaabf193c772bc4a6ff031107e4199e3c6ee8626b80cebc6cfb1bd1113eaec45a282045cc96308cc8219c150a2dc03c0863f8e_0",
+                "is_ignored": false,
+                "lines": "        h1Elements[i].innerHTML = variable;",
+                "message": "Source:chrome_tabs_query;Sink:innerHTML",
+                "metadata": {},
+                "metavars": {
+                    "$INT": {
+                        "abstract_content": "0",
+                        "end": {
+                            "col": 31,
+                            "line": 8,
+                            "offset": 395
+                        },
+                        "start": {
+                            "col": 30,
+                            "line": 8,
+                            "offset": 394
+                        }
+                    },
+                    "$X": {
+                        "abstract_content": "activeTab",
+                        "end": {
+                            "col": 31,
+                            "line": 16,
+                            "offset": 621
+                        },
+                        "propagated_value": {
+                            "svalue_abstract_content": "tabs[0]",
+                            "svalue_end": {
+                                "col": 32,
+                                "line": 8,
+                                "offset": 396
+                            },
+                            "svalue_start": {
+                                "col": 25,
+                                "line": 8,
+                                "offset": 389
+                            }
+                        },
+                        "start": {
+                            "col": 22,
+                            "line": 16,
+                            "offset": 612
+                        }
+                    },
+                    "$Y": {
+                        "abstract_content": "tabs",
+                        "end": {
+                            "col": 76,
+                            "line": 7,
+                            "offset": 361
+                        },
+                        "start": {
+                            "col": 72,
+                            "line": 7,
+                            "offset": 357
+                        }
+                    }
+                },
+                "severity": "WARNING"
+            },
+            "path": "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query_withoutExecuteScript/popup.js",
+            "start": {
+                "col": 35,
+                "line": 37,
+                "offset": 1298
+            }
+        }
+    ],
+    "version": "1.27.0"
+}
