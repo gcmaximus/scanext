@@ -137,9 +137,6 @@ def main(config, path_to_extension, semgrep_results):
             print("Error while initializing headless chrome driver ")
             print(str(e))
     shutil.rmtree("tmp")
-    for f in Path("DYNAMIC_ANALYSIS_v2/miscellaneous").glob("*"):
-        if f.is_dir():
-            shutil.rmtree(f)
         
 
 with open("DYNAMIC_ANALYSIS_v2/window_name_w.json", "r") as file:
