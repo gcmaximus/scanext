@@ -123,33 +123,61 @@ def load_config():
         config = json.loads(f.read())
 
 
-    # Check validity of config
-    def isValid(key, min, max=None):
-        value = config[key]
+    # Check validity of config [int]
+    def isValidInt(key, min, max=None):
+        user_value = config[key]
 
         # check if int
-        if not isinstance(value, int):
-            print(f"Error: {key} is not an integer.")
+        if not isinstance(user_value, int):
+            print(f"Error: {key} ({user_value}) is not an integer.")
+            print('Exiting program...')
             exit() 
 
         # if int, check if within range of min and max
 
         # check if max is set
         if max:
-            if value < min or value > max:
-                print(f"Error: {key} must be an integer between {min} and {max}.")
+            if user_value < min or user_value > max:
+                print(f"Error: {key} ({user_value}) must be an integer between {min} and {max}.")
+                print('Exiting program...')
                 exit()
         # max not set
         else:
-            if value < min:
-                print(f"Error: {key} must be an integer more than {min}.")
+            if user_value < min:
+                print(f"Error: {key} ({user_value}) must be an integer more than {min}.")
+                print('Exiting program...')
                 exit()
 
 
         return True
 
+    # Check validity of config [payload file]
+    def isValidFile(key):
+        user_file = config[key]
 
-    if isValid(key='report_display_adjacent_lines',min=0) and isValid(key='number_of_instances',min=1) and isValid(key='percentage_of_payloads',min=1,max=100): 
+        # Check if file exists inside SHARED
+        file_path = Path(f'SHARED/{user_file}')
+        if not file_path.exists():
+            print(f'Error: {key} ({file_path}) does not exist.')
+            print('Exiting program...')
+            exit()
+
+        # Check if file ends with .txt
+        if not str(file_path).endswith('.txt'):
+            print(f'Error: {key} ({file_path}) does not end with .txt')
+            print('Exiting program...')
+            exit()
+
+        # Check if file is at least 1 payload long
+        if file_path.stat().st_size == 0:
+            print(f'Error: {key} ({file_path}) is empty.')
+            print('Exiting program...')
+            exit()
+
+        return True
+
+
+    if isValidInt(key='report_display_adjacent_lines',min=0) and isValidInt(key='number_of_instances',min=1) and isValidInt(key='percentage_of_payloads',min=1,max=100) and isValidFile('custom_payload_file'): 
         return config
 
 # main program
