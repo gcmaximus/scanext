@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0fe8b6c272210779e5bfaef65dd0dc221da79201
 =======
 >>>>>>> 0fe8b6c272210779e5bfaef65dd0dc221da79201
 {"outcome": "FAILURE", "source": "chromeTabsQuery.favIconUrl", "extensionId": "kpagifbfplocnmfcgdpcgbmmffllofle", "extensionName": "h1-replacer(v3)", "Url": "DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html", "payloadType": "normal", "payload": "alert&#40;1&#41", "script": "var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);", "timeOfInjection": "2023-07-20 12:36:26,456482", "timeOfAlert": "nil", "payload_fileName": "small_payload.txt", "packetInfo": "nil"}
@@ -30,6 +33,9 @@
 {"outcome": "FAILURE", "source": "chromeTabsQuery.favIconUrl", "extensionId": "kpagifbfplocnmfcgdpcgbmmffllofle", "extensionName": "h1-replacer(v3)", "Url": "DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html", "payloadType": "normal", "payload": "navigator.vibrate(500)", "script": "var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);", "timeOfInjection": "2023-07-20 12:36:35,897193", "timeOfAlert": "nil", "payload_fileName": "small_payload.txt", "packetInfo": "nil"}
 {"outcome": "FAILURE", "source": "chromeTabsQuery.favIconUrl", "extensionId": "kpagifbfplocnmfcgdpcgbmmffllofle", "extensionName": "h1-replacer(v3)", "Url": "DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html", "payloadType": "normal", "payload": "navigator.vibrate(500)", "script": "var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.jpg';document.head.appendChild(link);", "timeOfInjection": "2023-07-20 12:36:35,897193", "timeOfAlert": "nil", "payload_fileName": "small_payload.txt", "packetInfo": "nil"}
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 0fe8b6c272210779e5bfaef65dd0dc221da79201
+=======
 >>>>>>> 0fe8b6c272210779e5bfaef65dd0dc221da79201
 =======
 >>>>>>> 0fe8b6c272210779e5bfaef65dd0dc221da79201
