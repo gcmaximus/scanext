@@ -49,7 +49,9 @@ def main(config, path_to_extension, semgrep_results):
         payload_file = "DYNAMIC_ANALYSIS_v2/payloads/big_payload.txt"
     else:
         # user file
-        payload_file = f"SHARED/custom_payload_file"
+        payload_file = f"SHARED/{custom_payload_file}"
+
+    print(f"Using payload file: {payload_file}")
 
 
     # logs

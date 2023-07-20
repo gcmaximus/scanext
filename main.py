@@ -94,8 +94,8 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     # call selenium main.py
     dynamic(config, extension, results)
 
-    print('Dynamic analysis complete.')
     print()
+    print('Dynamic analysis complete.')
     
     # Retrieve information from log file
     logs_obj = []
