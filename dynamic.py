@@ -15,21 +15,22 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 import shutil
 
-def setup_logger(log_file):
-    # Create a logger
-    logger = logging.getLogger()
+
+def setup_loggerV2(log_file):
+    # Create a logger with a specific name (using an empty string for the root logger)
+    logger = logging.getLogger('dynamic')
     logger.setLevel(logging.ERROR)
 
     # Create a file handler and set the log level
     file_handler = logging.FileHandler(log_file)
     file_handler.setLevel(logging.CRITICAL)
 
-    # Create a formatter and add it to the handlers
+    # Create a formatter and add it to the handler
     log_format = '%(message)s'
     formatter = logging.Formatter(log_format)
     file_handler.setFormatter(formatter)
 
-    # Add the handlers to the logger
+    # Add the handler to the logger
     logger.addHandler(file_handler)
 
     return logger
@@ -53,9 +54,7 @@ def main(config, path_to_extension, semgrep_results):
 
     print(f"Using payload file: {payload_file}")
 
-
-    # logs
-    logger = setup_logger('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt')
+    dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt')
 
 
     # obtain relevant extension information
@@ -143,7 +142,7 @@ def main(config, path_to_extension, semgrep_results):
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(location_href_N, args):
                         for log in logs:
-                            logger.critical(log)    
+                            dynamic_logger.critical(log)    
 
         except Exception as e:
             print("Error while initializing headless chrome driver ")
@@ -177,7 +176,7 @@ if __name__ == '__main__':
     path_to_extension = chromeDebugGetTarget_path
 
     config = {
-        "percentage_of_payloads" : 1,
+        "percentage_of_payloads" : 0.5,
         "number_of_instances": 5,
         "custom_payload_file": 'nil'
     }
