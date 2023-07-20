@@ -2573,6 +2573,17 @@ def chromeDebuggerGetTargets(driver, ext_id, url_path, payloads):
 
 
 ####################################################################################
+def handle_multiple_alerts(driver):
+    while True:
+        try:
+            # Check if an alert is present
+            alert = driver.switch_to.alert
+            # If an alert is present, accept it
+            alert.accept()
+        except NoAlertPresentException:
+            # If no alert is present, exit the loop
+            break
+
 # 1) runtime.onMessage
 def runtime_onM(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
@@ -3349,18 +3360,6 @@ def runtime_onCE(args_tuple):
         pass
     return logs
 
-
-
-def handle_multiple_alerts(driver):
-    while True:
-        try:
-            # Check if an alert is present
-            alert = driver.switch_to.alert
-            # If an alert is present, accept it
-            alert.accept()
-        except NoAlertPresentException:
-            # If no alert is present, exit the loop
-            break
 
 # new window.name_normal (works)
 def window_name_N(args_tuple):
@@ -5601,7 +5600,6 @@ def chromeDebugger_favIconUrl_N(args_tuple):
 
 # to do/test)
 # 1) windowAddEventListernerMessage(test this shit)
-
 def test_window_name(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id = args_tuple
 
