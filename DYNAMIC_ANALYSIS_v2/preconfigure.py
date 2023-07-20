@@ -5,7 +5,7 @@ import hashlib
 import logging
 import json
 from itertools import cycle
-from random import choices
+from random import sample
 from pathlib import Path
 import shutil
 
@@ -173,12 +173,12 @@ def payloads_cycle(n: int, pct: int, file_path: str):
     with open(file_path, "r") as file:
         lines = file.readlines()
     lines = [line for line in lines if line.strip()]
-    lines = choices(lines, k = round(pct / 100 * len(lines)))
+    lines = sample(lines, k = round(pct / 100 * len(lines)))
     for line in lines:
         meta_payloads[c.__next__()].append(line.rstrip())
     del lines
-    return tuple((len(pylds), tuple(pylds)) for pylds in meta_payloads)
 
+    return tuple((len(pylds), tuple(pylds)) for pylds in meta_payloads)
 
 
 
