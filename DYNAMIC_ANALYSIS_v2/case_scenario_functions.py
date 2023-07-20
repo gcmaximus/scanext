@@ -5421,7 +5421,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
 
     def access_directory():
         nonlocal dir_path
-        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg')  # Specify the path of the picture you want to copy
+        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/small_default.png')  # Specify the path of the picture you want to copy
         if create_directory():
             if pic_path.exists():
                 copy_picture_to_directory(pic_path, dir_path)
