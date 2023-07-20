@@ -141,7 +141,7 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(chromeDebugger_favIconUrl_N, args):
+                    for logs in executor.map(window_name_N, args):
                         for log in logs:
                             logger.critical(log)    
 
@@ -171,13 +171,14 @@ if __name__ == '__main__':
     chromeTabQuery_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query'
     location_search_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location_search'
     chromeDebugGetTarget_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chromeDebuggerGetTarget'
+    windowAddEventListenerMessage_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_window.addEventListernerMessage'
 
 
     path_to_extension = chromeDebugGetTarget_path
 
     config = {
-        "percentage_of_payloads" : 100,
-        "number_of_instances": 5,
+        "percentage_of_payloads" : 1,
+        "number_of_instances": 1,
         "custom_payload_file": 'nil'
     }
 

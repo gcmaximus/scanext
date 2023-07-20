@@ -52,25 +52,20 @@ def nomagic(chain, payload, msg):
 #####################
 # Logging Framework #
 #####################
+logging.basicConfig(
+    level=logging.ERROR,  # Set the logging level to ERROR
+    filename='DYNAMIC_ANALYSIS_v2/Logs/error_logs.log',  # Specify the log file name
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+)
+def error_logging(source, error):
+    logging.error({
+        "source":source,
+        "error": error
+    })
 
-# def setup_logger(log_file):
-#     # Create a logger
-#     logger = logging.getLogger()
-#     logger.setLevel(logging.ERROR)
 
-#     # Create a file handler and set the log level
-#     file_handler = logging.FileHandler(log_file)
-#     file_handler.setLevel(logging.CRITICAL)
 
-#     # Create a formatter and add it to the handlers
-#     log_format = '%(message)s'
-#     formatter = logging.Formatter(log_format)
-#     file_handler.setFormatter(formatter)
-
-#     # Add the handlers to the logger
-#     logger.addHandler(file_handler)
-
-#     return logger
 
 def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, script, time_of_injection, time_of_alert, payload_filename, packet_info):
     # Convert sets to lists
@@ -93,8 +88,6 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
 
     log_message = json.dumps(payload_log)
     return log_message
-
-# logger = setup_logger('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logs.txt')
 
 ##########################
 # Case Scenario headless #
@@ -2581,6 +2574,7 @@ def chromeDebuggerGetTargets(driver, ext_id, url_path, payloads):
 
 
 ####################################################################################
+
 def handle_multiple_alerts(driver):
     while True:
         try:
@@ -3370,7 +3364,7 @@ def runtime_onCE(args_tuple):
 
 # new window.name_normal (works)
 def window_name_N(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
     logs = []
     source = 'window.name'
@@ -3479,7 +3473,7 @@ def window_name_N(args_tuple):
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
         # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, 'Failed to resolve https://www.example.com')
 
     except Exception as e:
         # Handle any other exceptions that occur
@@ -5597,7 +5591,9 @@ def chromeDebugger_favIconUrl_N(args_tuple):
     return logs
 
 # new window.addEventListernerMessage (in prog)
-def windowAddEventListenerMessage(option, ext_id, url_path, payloads, result):
+def windowAddEventListenerMessage(args_tuple):
+    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+
     # PAYLOAD: 
     # postMessage({ message: "<img src=x onerror=alert(1)>" }, "*")
     driver = Chrome(service=Service(), options=option)
