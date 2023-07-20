@@ -155,24 +155,27 @@ def load_config():
     def isValidFile(key):
         user_file = config[key]
 
-        # Check if file exists inside SHARED
-        file_path = Path(f'SHARED/{user_file}')
-        if not file_path.exists():
-            print(f'Error: {key} ({file_path}) does not exist.')
-            print('Exiting program...')
-            exit()
+        # Check if set to default "nil"
+        if user_file != "nil":
 
-        # Check if file ends with .txt
-        if not str(file_path).endswith('.txt'):
-            print(f'Error: {key} ({file_path}) does not end with .txt')
-            print('Exiting program...')
-            exit()
+            # Check if file exists inside SHARED
+            file_path = Path(f'SHARED/{user_file}')
+            if not file_path.exists():
+                print(f'Error: {key} ({file_path}) does not exist.')
+                print('Exiting program...')
+                exit()
 
-        # Check if file is at least 1 payload long
-        if file_path.stat().st_size == 0:
-            print(f'Error: {key} ({file_path}) is empty.')
-            print('Exiting program...')
-            exit()
+            # Check if file ends with .txt
+            if not str(file_path).endswith('.txt'):
+                print(f'Error: {key} ({file_path}) does not end with .txt')
+                print('Exiting program...')
+                exit()
+
+            # Check if file is at least 1 payload long
+            if file_path.stat().st_size == 0:
+                print(f'Error: {key} ({file_path}) is empty.')
+                print('Exiting program...')
+                exit()
 
         return True
 
