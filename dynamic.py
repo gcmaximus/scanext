@@ -130,13 +130,15 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(chromeDebugger_favIconUrl_N, args):
+                    for logs in executor.map(chromeTabQuery_favIconUrl_N, args):
                         for log in logs:
                             logger.critical(log)    
 
         except Exception as e:
             print("Error while initializing headless chrome driver ")
             print(str(e))
+
+    # remove all miscellaneous files (directories only)        
     shutil.rmtree("tmp")
     for f in Path("DYNAMIC_ANALYSIS_v2/miscellaneous").glob("*"):
         if f.is_dir():
@@ -164,7 +166,8 @@ if __name__ == '__main__':
 
     config = {
         "percentage_of_payloads" : 100,
-        "number_of_instances": 1
+        "number_of_instances": 5,
+        "custom_payload_file": 'nil'
     }
 
 
