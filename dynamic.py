@@ -13,6 +13,7 @@ import logging
 from os import cpu_count
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
+import shutil
 
 def setup_logger(log_file):
     # Create a logger
@@ -135,6 +136,7 @@ def main(config, path_to_extension, semgrep_results):
         except Exception as e:
             print("Error while initializing headless chrome driver ")
             print(str(e))
+    shutil.rm("tmp")
     
         
 

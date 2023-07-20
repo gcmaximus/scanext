@@ -238,7 +238,7 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Thu, 20 Jul 2023 11:58:50 +0800</td>
+<td id="scan-date">Thu, 20 Jul 2023 13:52:05 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
@@ -246,7 +246,7 @@
 </tr>
 <tr>
 <td><b>POCs generated</b></td>
-<td id="pocs">In Progress</td>
+<td id="pocs">4 found</td>
 </tr>
 </tbody>
 </table>
@@ -313,13 +313,178 @@
 </div>
 <!-- Dynamic Results -->
 
-<div class="card m-auto border-warning" id="wait-msg">
-<div class="card-header bg-warning">In Progress</div>
-<div class="card-body">
-<h5 class="card-title">Please Wait...</h5>
-<p class="card-text">ScanExt is currently conducting dynamic analysis and will update this report upon completion.</p>
+
+<!-- Source -->
+<div class="card dynamic-result">
+<div class="card-header">
+<i class="fa fa-flag-checkered" style="font-size:20px"></i> <span style="font-size: 18px"><b>Source 1 :</b> <u>chromeTabsQuery.favIconUrl</u></span>
 </div>
-</div></div>
+<div class="card-body">
+<p class="card-text">
+<div class="row dynamic-info">
+<div class="row">
+<!-- Payload List -->
+<div class="col-4">
+<i class="dynamic-info-icons fa fa-file-text-o" style="font-size:36px;"></i>
+<h5><b>Payload list:</b></h5>
+<code><u id="payload-list">small_payload.txt</u></code>
+</div>
+<!-- No. of tested payloads -->
+<div class="col-4">
+<i class="dynamic-info-icons fa fa-bomb" style="font-size:36px;"></i>
+<h5><b>Applicable:</b></h5>
+<code><u id="tested-payloads">42 payloads</u></code>
+</div>
+<!-- No. of successful payloads -->
+<div class="col-4">
+<i class="dynamic-info-icons fa fa-bug" style="font-size:36px;"></i>
+<h5><b>Successful:</b></h5>
+<code><u id="success-payloads">4 payloads</u></code>
+</div>
+</div>
+<div class="row table-row">
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #1</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-1">'-prompt(8)-'</td>
+<td class="consolas" id="payload-url-1">DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-1">2023-07-20 13:39:24,011402</td>
+<td id="payload-end-1">2023-07-20 13:39:24,092581</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-1">var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-1">N.A.</td>
+</tr>
+</tbody>
+</table>
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #2</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-2">'-alert(1)-'</td>
+<td class="consolas" id="payload-url-2">DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-2">2023-07-20 13:39:28,987697</td>
+<td id="payload-end-2">2023-07-20 13:39:29,042010</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-2">var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-2">N.A.</td>
+</tr>
+</tbody>
+</table>
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #3</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-3">'-prompt(8)-'</td>
+<td class="consolas" id="payload-url-3">DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-3">2023-07-20 13:52:26,125890</td>
+<td id="payload-end-3">2023-07-20 13:52:26,206876</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-3">var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-3">N.A.</td>
+</tr>
+</tbody>
+</table>
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #4</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-4">'-alert(1)-'</td>
+<td class="consolas" id="payload-url-4">DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-4">2023-07-20 13:52:33,872783</td>
+<td id="payload-end-4">2023-07-20 13:52:33,939660</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-4">var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.jpg';document.head.appendChild(link);</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-4">N.A.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</p>
+</div>
+</div>
+</div>
 </div>
 </body>
 <!-- Bootstrap -->
