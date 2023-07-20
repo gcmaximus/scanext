@@ -322,8 +322,7 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
     succ_counter = 0
     for obj in source_sorted_logs:
         source = obj['source']
-        separated_objects.setdefault(source, {"results":[], "total number": 0, "total success":0})
-        source_dict = separated_objects[source]
+        source_dict = separated_objects.setdefault(source, {"results":[], "total number": 0, "total success":0})
         source_dict["total number"] += 1
         if obj["outcome"] == "SUCCESS":
             source_dict["results"].append(obj)

@@ -92,7 +92,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     print('Conducting dynamic analysis ...')
 
     # call selenium main.py
-    # dynamic(config, extension, results)
+    dynamic(config, extension, results)
 
     print('Dynamic analysis complete.')
     print()
@@ -101,7 +101,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     logs_obj = []
 
     # dynamic_logfile = 'dynamic_logs.txt'
-    dynamic_logfile = 'DYNAMIC_ANALYSIS_v2/dynamic_logs.txt'
+    dynamic_logfile = 'DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt'
 
 
     with open(dynamic_logfile, 'r') as f:
