@@ -43,6 +43,15 @@ def main(config, path_to_extension, semgrep_results):
     number_of_instances = config["number_of_instances"]
     custom_payload_file = config["custom_payload_file"]
 
+    # set payload file
+    if custom_payload_file == "nil":
+        # default file
+        payload_file = "DYNAMIC_ANALYSIS_v2/payloads/big_payload.txt"
+    else:
+        # user file
+        payload_file = f"SHARED/custom_payload_file"
+
+
     # logs
     logger = setup_logger('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt')
 
@@ -54,7 +63,7 @@ def main(config, path_to_extension, semgrep_results):
     # new payloads
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/test.txt')
-    meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/big_payload.txt')
+    meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, payload_file)
 
 
     # preconfiguration (set active to false)
