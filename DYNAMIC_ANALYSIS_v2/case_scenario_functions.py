@@ -3375,7 +3375,7 @@ def window_name_N(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        driver.get('https://www.example.com')
+        driver.get('https://ww1w.example.com')
         example = driver.current_window_handle
 
         # Wait up to 5 seconds for the title to become "Example Domain"
@@ -3409,8 +3409,7 @@ def window_name_N(args_tuple):
                 # update progress bar
                 progress_bar.update(1)
 
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
             # observe behavior after payload injection
@@ -3456,19 +3455,18 @@ def window_name_N(args_tuple):
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
                     # print("Navigated back to 'https://www.example.com' due to page source changes")
-            except:
-                pass
-                # print('error')
-
+            except Exception as e:
+                error_logging(source, str(e))
+                
             try: 
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
                     # print(f"Navigated back to '{url_path}' due to extension page source changes")
-            except:
-                pass
-                # print('error')
+                except Exception as e:
+                    error_logging(source, str(e))
+
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
@@ -3476,9 +3474,7 @@ def window_name_N(args_tuple):
         error_logging(source, 'Failed to resolve https://www.example.com')
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        # print("An error occurred:", str(e))
-        pass
+        error_logging(source, str(e))
 
     return logs
 
@@ -3534,18 +3530,14 @@ def location_href_N(args_tuple):
                         # get time of injection
                         time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                     except Exception as e:
-                        # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
-                        
+                        error_logging(source, str(e))
                         continue
                 else:
                     try:
                         driver.execute_script(f"location.href = `https://www.example.com/#{payload}`")
 
                     except Exception as e:
-                        # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
-
+                        error_logging(source, str(e))
                         continue
 
                 # observe behavior after payload injection
@@ -3601,14 +3593,10 @@ def location_href_N(args_tuple):
                     pass
 
     except TimeoutException:
-        # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, 'Failed to resolve https://www.example.com')
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
-        pass
+        error_logging(source, str(e))
 
     return logs
 
@@ -3664,8 +3652,7 @@ def context_menu_selectionText_N(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
             target_element = driver.find_element(By.ID, 'h1_element')
@@ -3674,8 +3661,7 @@ def context_menu_selectionText_N(args_tuple):
                 # Select the text using JavaScript
                 driver.execute_script("window.getSelection().selectAllChildren(arguments[0]);", target_element)
             except Exception as e:
-                # print(' !!!! Error Selecting Text !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
             # usage of context menu
@@ -3694,8 +3680,7 @@ def context_menu_selectionText_N(args_tuple):
                 subprocess.call(['xdotool', 'key', 'Return'])
 
             except Exception as e:
-                # print(' !!!! Error using Context Menu !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
 
@@ -3741,7 +3726,6 @@ def context_menu_selectionText_N(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(website)
-                    # print(f"Navigated back to '{website}' due to page source changes")
 
             except:
                 pass
@@ -3757,14 +3741,11 @@ def context_menu_selectionText_N(args_tuple):
                 pass
 
     except TimeoutException:
-        # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, f'Failed to resolve {website}')
+        
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        # print("An error occurred:", str(e))
-        pass
+        error_logging(source, str(e))
 
     return logs
 
@@ -3829,8 +3810,7 @@ def context_menu_link_url_N(args_tuple):
                         # get time of injection
                         time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                     except Exception as e:
-                        # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
+                        error_logging(source, str(e))
                         continue
                 else:
                     try:
@@ -3842,8 +3822,7 @@ def context_menu_link_url_N(args_tuple):
                         time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
                     except Exception as e:
-                        # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
+                        error_logging(source, str(e))
                         continue
                 
                 # Seleting Text using javascript
@@ -3865,13 +3844,11 @@ def context_menu_link_url_N(args_tuple):
                         subprocess.call(['xdotool', 'key', 'Return'])
 
                     except Exception as e:
-                        # print(' !!!! Error using Context Menu !!!!')
-                        # print('Error: ', str(e))
+                        error_logging(source, str(e))
                         continue
 
                 except Exception as e:
-                    # print(' !!!! Error Selecting Text !!!!')
-                    # print('Error: ', str(e))
+                    error_logging(source, str(e))
                     continue
             
                 # observe behavior after payload injection
@@ -3917,7 +3894,7 @@ def context_menu_link_url_N(args_tuple):
                         driver.get(website)
                         # print(f"Navigated back to '{website}' due to page source changes")
 
-                except Exception as e:
+                except:
                     pass
 
                 try: 
@@ -3926,19 +3903,15 @@ def context_menu_link_url_N(args_tuple):
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
                         # print(f"Navigated back to '{url_path}' due to extension page source changes")
-
-                except Exception as e:
-                    # print('Error: ', str(e))
+                except:
                     pass
 
     except TimeoutException:
-        # # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
+        error_logging(source, f'Failed to resolve {website}')
         pass
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
     
     return logs
 
@@ -3997,8 +3970,7 @@ def context_menu_src_url_N(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
             # usage of contextMenu
@@ -4017,8 +3989,7 @@ def context_menu_src_url_N(args_tuple):
                 subprocess.call(['xdotool', 'key', 'Return'])
 
             except Exception as e:
-                # print(' !!!! Error using Context Menu !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
         
 
@@ -4076,13 +4047,11 @@ def context_menu_src_url_N(args_tuple):
                 pass
 
     except TimeoutException:
-        # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
+        error_logging(source, f'Failed to resolve {website}')
         pass
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
     
     return logs
 
@@ -4143,8 +4112,7 @@ def context_menu_frame_url_N(args_tuple):
                         # get time of injection
                         time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                     except Exception as e:
-                        # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
+                        error_logging(source, str(e))
                         continue
                 else:
                     try:
@@ -4153,8 +4121,7 @@ def context_menu_frame_url_N(args_tuple):
                         # get time of injection
                         time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                     except Exception as e:
-                        # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
+                        error_logging(source, str(e))
                         continue
 
                 # usage of context menu
@@ -4173,8 +4140,7 @@ def context_menu_frame_url_N(args_tuple):
                     subprocess.call(['xdotool', 'key', 'Return'])
 
                 except Exception as e:
-                    # print(' !!!! Error using Context Menu !!!!')
-                    # print('Error: ', str(e))
+                    error_logging(source, str(e))
                     continue
 
                 
@@ -4226,7 +4192,7 @@ def context_menu_frame_url_N(args_tuple):
                         driver.get(website)
                         # print(f"Navigated back to '{website}' due to page source changes")
 
-                except Exception as e:
+                except:
                     pass
 
                 try: 
@@ -4236,17 +4202,14 @@ def context_menu_frame_url_N(args_tuple):
                         driver.get(url_path)
                         # print(f"Navigated back to '{url_path}' due to extension page source changes")
 
-                except Exception as e:
+                except:
                     pass
                 
     except TimeoutException:
-        # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, f'Failed to resolve {website}')
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
 
     return logs
 
@@ -4307,8 +4270,7 @@ def context_menu_pageUrl_N(args_tuple):
                         # get time of injection
                         time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                     except Exception as e:
-                        # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
+                        error_logging(source, str(e))
                         continue
                 else:
                     try:
@@ -4318,8 +4280,7 @@ def context_menu_pageUrl_N(args_tuple):
                         # get time of injection
                         time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                     except Exception as e:
-                        # print(' !!!! PAYLOAD FAILLED !!!!')
-                        # print('Error: ', str(e))
+                        error_logging(source, str(e))
                         continue
 
 
@@ -4339,8 +4300,7 @@ def context_menu_pageUrl_N(args_tuple):
                     subprocess.call(['xdotool', 'key', 'Return'])
 
                 except Exception as e:
-                    # print(' !!!! Error using Context Menu !!!!')
-                    # print('Error: ', str(e))
+                    error_logging(source, str(e))
                     continue
 
 
@@ -4388,7 +4348,6 @@ def context_menu_pageUrl_N(args_tuple):
                         # print(f"Navigated back to '{website}' due to page source changes")
 
                 except Exception as e:
-                    # print('Error: ', str(e))
                     pass
 
                 try: 
@@ -4399,18 +4358,15 @@ def context_menu_pageUrl_N(args_tuple):
                         # print(f"Navigated back to '{url_path}' due to extension page source changes")
 
                 except Exception as e:
-                    # print('Error: ', str(e))
                     pass
 
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, f'Failed to resolve {website}')
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
  
     return logs
 
@@ -4464,8 +4420,7 @@ def chromeTabsQuery_title_N(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
 
@@ -4522,7 +4477,6 @@ def chromeTabsQuery_title_N(args_tuple):
                     driver.get("https://www.example.com")
                     # print("Navigated back to 'https://www.example.com' due to page source changes")
             except:
-                # print('error')
                 pass
 
 
@@ -4533,18 +4487,15 @@ def chromeTabsQuery_title_N(args_tuple):
                     driver.get(url_path)
                     # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
-                # print('error')
                 pass
 
 
     except TimeoutException:
-        # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, f'Failed to resolve https://www.example.com')
 
     except Exception as e:
         # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
 
     return logs
 
@@ -4600,8 +4551,7 @@ def chromeTabQuery_url_N(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
 
@@ -4675,11 +4625,10 @@ def chromeTabQuery_url_N(args_tuple):
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
         # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, f'Failed to resolve https://www.example.com')
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
 
     return logs
 
@@ -4737,7 +4686,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             }
             """)
         except Exception as e:
-            print(str(e))
+            error_logging(source, str(e))
 
         try:
             # set new favIconUrl
@@ -4751,7 +4700,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
 
         except Exception as e:
-            print(str(e))
+            error_logging(source, str(e))
 
     # preconfigure files required
     access_directory()
@@ -4810,8 +4759,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
                 # get time of injection
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
             
@@ -4878,12 +4826,12 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Xss Website'")
+        error_logging(source, f'Failed to resolve {website}')
         pass
 
     except Exception as e:
         # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
 
     return logs
 
@@ -4934,8 +4882,7 @@ def locationSearch_N(args_tuple):
                 # get time of injection
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
 
@@ -4993,13 +4940,11 @@ def locationSearch_N(args_tuple):
 
 
     except TimeoutException:
-        # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
+        error_logging(source, f'Failed to resolve https://www.example.com')
         pass
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
 
     return logs
 
@@ -5055,8 +5000,7 @@ def chromeDebugger_title_N(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
 
@@ -5065,6 +5009,7 @@ def chromeDebugger_title_N(args_tuple):
                 subprocess.call(['xdotool', 'keydown', 'F12'])
                 subprocess.call(['xdotool', 'keyup', 'F12'])
             except Exception as e:
+                error_logging(source, str(e))
                 continue
 
 
@@ -5110,7 +5055,6 @@ def chromeDebugger_title_N(args_tuple):
                     # print(f"Navigated back to '{website}' due to page source changes")
 
             except Exception as e:
-                # print('Error: ', str(e))
                 pass
 
             try: 
@@ -5121,17 +5065,15 @@ def chromeDebugger_title_N(args_tuple):
                     # print(f"Navigated back to '{url_path}' due to extension page source changes")
 
             except Exception as e:
-                # print('Error: ', str(e))
                 pass
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, f'Failed to resolve https://www.example.com')
+        
 
     except Exception as e:
-        # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
 
     return logs
 
@@ -5178,8 +5120,7 @@ def chromeDebugger_title_N_EXT_FIRST(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
 
@@ -5188,6 +5129,7 @@ def chromeDebugger_title_N_EXT_FIRST(args_tuple):
                 subprocess.call(['xdotool', 'keydown', 'F12'])
                 subprocess.call(['xdotool', 'keyup', 'F12'])
             except Exception as e:
+                error_logging(source, str(e))
                 continue
 
 
@@ -5248,12 +5190,11 @@ def chromeDebugger_title_N_EXT_FIRST(args_tuple):
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, f'Failed to resolve https://www.example.com')
 
     except Exception as e:
         # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
 
     return logs
 
@@ -5308,8 +5249,7 @@ def chromeDebugger_url_N(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
             # Press the F12 key to open the developer tools
@@ -5317,6 +5257,7 @@ def chromeDebugger_url_N(args_tuple):
                 subprocess.call(['xdotool', 'keydown', 'F12'])
                 subprocess.call(['xdotool', 'keyup', 'F12'])
             except Exception as e:
+                error_logging(source, str(e))
                 continue
 
 
@@ -5378,13 +5319,11 @@ def chromeDebugger_url_N(args_tuple):
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
-        pass
+        error_logging(source, f'Failed to resolve https://www.example.com')
 
     except Exception as e:
         # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
-
+        error_logging(source, str(e))
     return logs
 
 # new chromeDebugger_favIconUrl (hvt test but shd work))
@@ -5441,7 +5380,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
             }
             """)
         except Exception as e:
-            pass
+            error_logging(source, str(e))
 
         try:
             # set new favIconUrl
@@ -5455,7 +5394,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
 
 
         except Exception as e:
-            pass
+            error_logging(source, str(e))
 
     # preconfigure files required
     access_directory()
@@ -5515,8 +5454,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
                 # get time of injection
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
+                error_logging(source, str(e))
                 continue
 
 
@@ -5525,7 +5463,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
                 subprocess.call(['xdotool', 'keydown', 'F12'])
                 subprocess.call(['xdotool', 'keyup', 'F12'])
             except Exception as e:
-                continue
+                error_logging(source, str(e))
 
             # observe behavior after payload injection
             # 1) Check for alerts in example.com
@@ -5581,12 +5519,11 @@ def chromeDebugger_favIconUrl_N(args_tuple):
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Xss Website'")
-        pass
+        error_logging(source, f'Failed to resolve {website}')
 
     except Exception as e:
         # Handle any other exceptions that occur
-        print("An error occurred:", str(e))
+        error_logging(source, str(e))
 
     return logs
 
