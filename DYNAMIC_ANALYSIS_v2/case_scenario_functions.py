@@ -18,6 +18,8 @@ import logging
 import requests
 import subprocess
 import urllib.parse
+import shutil
+from pathlib import Path
 
 
 
@@ -1017,7 +1019,7 @@ def location_href(option, ext_id, url_path, payloads, result):
 
 # 9.1) Context_menu_selectionText (works)
 def context_menu_selectionText(option, ext_id, url_path, payloads, result):
-    import subprocess
+    
     driver = Chrome(service=Service(), options=option)
     try:
         # website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
@@ -1160,7 +1162,7 @@ def context_menu_selectionText(option, ext_id, url_path, payloads, result):
 
 # 9.2) Context_menu_link_Url (works)
 def context_menu_link_url(option, ext_id, url_path, payloads, result):
-    import subprocess
+    
     driver = Chrome(service=Service(), options=option)
     website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
 
@@ -1312,7 +1314,7 @@ def context_menu_link_url(option, ext_id, url_path, payloads, result):
 
 # 9.3) Context_menu_Src_Url (in progress)
 def context_menu_src_url(option, ext_id, url_path, payloads, result):
-    import subprocess
+    
     website = 'file:///home/showloser/scanext/DYNAMIC_ANALYSIS_v2/miscellaneous/xss_website.html'
     driver = Chrome(service=Service(), options=option)
 
@@ -1436,7 +1438,7 @@ def context_menu_src_url(option, ext_id, url_path, payloads, result):
 
 # 9.4) Context_menu_frame_Url (works)
 def context_menu_frame_url(option, ext_id, url_path, payloads, result):
-    import subprocess
+    
     driver = Chrome(service=Service(), options=option)
     try:
 
@@ -1575,8 +1577,6 @@ def context_menu_frame_url(option, ext_id, url_path, payloads, result):
 
 # 9.5) Context_menu_PageUrl (works)
 def context_menu_pageUrl(option, ext_id, url_path, payloads, result):
-    import urllib.parse
-    import subprocess
     driver = Chrome(service=Service(), options=option)
     website = "file:///home/showloser/dynamic/miscellaneous/xss_website.html"
     
@@ -1946,50 +1946,53 @@ def chromeTabQuery_url(option,ext_id, url_path, payloads, result):
 
 # 10.3) chromeTabQuery_favIconUrl (work)
 def chromeTabQuery_favIconUrl(option,ext_id, url_path, payloads, result, pid):
-    import shutil
-    driver = Chrome(service=Service(), options=option)
 
-    def create_directory(pid):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
-        if not os.path.exists(directory_name):
-            os.makedirs(directory_name)
+    driver = Chrome(service=Service(), options=option)
+    dir_path = Path(f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}')
+    def create_directory():
+        nonlocal dir_path
+        if not dir_path.exists():
+            os.makedirs(dir_path)
             return True  # Directory was created
         else:
-            print(f"Directory already exists: {directory_name}")
+            # print(f"Directory already exists: {directory_name}")
             return False  # Directory already existed
         
     def copy_picture_to_directory(picture_path, directory):
-        shutil.copy2(picture_path, directory)
+        shutil.copy(picture_path, directory)
 
-    def access_directory(pid):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
-        picture_path = 'DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg'  # Specify the path of the picture you want to copy
-
-        if create_directory(pid):
-            if os.path.exists(picture_path):
-                copy_picture_to_directory(picture_path, directory_name)
-                print(f"Picture copied to directory: {directory_name}")
+    def access_directory():
+        nonlocal dir_path
+        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg')  # Specify the path of the picture you want to copy
+        if create_directory():
+            if pic_path.exists():
+                copy_picture_to_directory(pic_path, dir_path)
+                print(f"Picture copied to directory: {dir_path}")
             else:
                 print("Picture path doesn't exist!")
 
-    def rename_file_with_payloads(pid,payload):
+    def rename_file_with_payloads(payload):
         payload = payload.strip()
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{pid}'
-
-        files = os.listdir(directory_name)
-        if len(files) == 0:
-            print("No files found in the test folder.")
+        nonlocal dir_path
+        dir_list = tuple(dir_path.glob("*.*"))
+        if not len(dir_list) == 1:
             return
-        elif len(files) > 1:
-            print("Multiple files found in the test folder. Please ensure there is only one file.")
-            return
+        dir_list[0].rename(dir_path.joinpath(payload + ".jpg"))
+        
+        # files = os.listdir(directory_name)
+        # if len(files) == 0:
+        #     print("No files found in the test folder.")
+        #     return
+        # elif len(files) > 1:
+        #     print("Multiple files found in the test folder. Please ensure there is only one file.")
+        #     return
 
-        old_filename = os.path.join(directory_name, files[0])
+        # old_filename = os.path.join(directory_name, files[0])
 
-        new_filename = os.path.join(directory_name, payload + ".jpg")
-        os.rename(old_filename, new_filename)
-        print(f"File renamed to: {new_filename}, ")
-        old_filename = new_filename
+        # new_filename = os.path.join(directory_name, payload + ".jpg")
+        # os.rename(old_filename, new_filename)
+        # print(f"File renamed to: {new_filename}, ")
+        # old_filename = new_filename
 
     def changeFavIconUrl(driver, pid ,payload):
         payload = payload.strip()
@@ -2017,7 +2020,7 @@ def chromeTabQuery_favIconUrl(option,ext_id, url_path, payloads, result, pid):
             print(str(e))
 
     # preconfigure files required
-    access_directory(pid)
+    access_directory()
     
     try:
         # get www.example.com
@@ -2061,7 +2064,7 @@ def chromeTabQuery_favIconUrl(option,ext_id, url_path, payloads, result, pid):
             driver.switch_to.window(example)
             try: 
                 # change filename to payloads
-                rename_file_with_payloads(pid,payload)
+                rename_file_with_payloads(payload)
 
                 # use filename as payload in ext
                 changeFavIconUrl(driver, pid, payload)
@@ -2472,24 +2475,29 @@ def chromeDebuggerGetTargets(driver, ext_id, url_path, payloads):
 
 
         def rename_file_with_payloads(favIconUrl_payloads):
-
-            folder_path = "miscellaneous/favIconUrl_payload_debug"
-            files = os.listdir(folder_path)
-            if len(files) == 0:
-                print("No files found in the test folder.")
+            dir_path = Path("miscellaneous/favIconUrl_payload_debug")
+            dir_list = tuple(dir_path.glob("*.*"))
+            if not len(dir_list) == 1:
                 return
-            elif len(files) > 1:
-                print("Multiple files found in the test folder. Please ensure there is only one file.")
-                return
+            dir_list[0].rename(dir_path.joinpath(favIconUrl_payloads + ".jpg"))
 
-            old_filename = os.path.join(folder_path, files[0])
+            
+            # files = os.listdir(folder_path)
+            # if len(files) == 0:
+            #     print("No files found in the test folder.")
+            #     return
+            # elif len(files) > 1:
+            #     print("Multiple files found in the test folder. Please ensure there is only one file.")
+            #     return
+
+            # old_filename = os.path.join(folder_path, files[0])
 
 
 
-            new_filename = os.path.join(folder_path, favIconUrl_payloads + ".jpg")
-            os.rename(old_filename, new_filename)
-            print(f"File renamed to: {new_filename}, ")
-            old_filename = new_filename
+            # new_filename = os.path.join(folder_path, favIconUrl_payloads + ".jpg")
+            # os.rename(old_filename, new_filename)
+            # print(f"File renamed to: {new_filename}, ")
+            # old_filename = new_filename
 
 
         def changeFavIconUrl(driver, payload):
@@ -4684,7 +4692,6 @@ def chromeTabQuery_url_N(args_tuple):
 
 # new chromeTabQuery.favIconUrl (works)
 def chromeTabQuery_favIconUrl_N(args_tuple):
-    import shutil
 
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
@@ -4696,42 +4703,48 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
 
 
     driver = Chrome(service=Service(), options=option)
+    dir_path = Path(f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}')
 
-    def create_directory(order):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}'
-        if not os.path.exists(directory_name):
-            os.makedirs(directory_name)
+    def create_directory():
+        nonlocal dir_path
+        if not dir_path.exists():
+            os.makedirs(dir_path)
             return True  # Directory was created
         else:
             return False  # Directory already existed
         
     def copy_picture_to_directory(picture_path, directory):
-        shutil.copy2(picture_path, directory)
+        shutil.copy(picture_path, directory)
 
-    def access_directory(order):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}'
-        picture_path = 'DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg'  # Specify the path of the picture you want to copy
+    def access_directory():
+        nonlocal dir_path
+        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg')  # Specify the path of the picture you want to copy
 
-        if create_directory(order):
-            if os.path.exists(picture_path):
-                copy_picture_to_directory(picture_path, directory_name)
+        if create_directory():
+            if pic_path.exists():
+                copy_picture_to_directory(pic_path, dir_path)
             
-    def rename_file_with_payloads(order,payload):
+    def rename_file_with_payloads(payload):
+        nonlocal dir_path
         payload = payload.strip()
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/ChromeTabQueryFiles/favIconUrl_instance_{order}'
-
-        files = os.listdir(directory_name)
-        if len(files) == 0:
+        dir_list = tuple(dir_path.glob("*.*"))
+        if not len(dir_list) == 1:
             return
-        elif len(files) > 1:
-            return
+        dir_list[0].rename(dir_path.joinpath(payload + ".jpg"))
 
-        old_filename = os.path.join(directory_name, files[0])
 
-        new_filename = os.path.join(directory_name, payload + ".jpg")
-        os.rename(old_filename, new_filename)
-        # print(f"File renamed to: {new_filename}, ")
-        old_filename = new_filename
+        # files = os.listdir(directory_name)
+        # if len(files) == 0:
+        #     return
+        # elif len(files) > 1:
+        #     return
+
+        # old_filename = os.path.join(directory_name, files[0])
+
+        # new_filename = os.path.join(directory_name, payload + ".jpg")
+        # os.rename(old_filename, new_filename)
+        # # print(f"File renamed to: {new_filename}, ")
+        # old_filename = new_filename
 
     def changeFavIconUrl(driver, order ,payload):
         payload = payload.strip()
@@ -4759,7 +4772,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             print(str(e))
 
     # preconfigure files required
-    access_directory(order)
+    access_directory()
     
     try:
         website = 'file://' + os.path.abspath(url_of_injection_example)
@@ -4808,7 +4821,7 @@ def chromeTabQuery_favIconUrl_N(args_tuple):
             driver.switch_to.window(example)
             try: 
                 # change filename to payloads
-                rename_file_with_payloads(order,payload)
+                rename_file_with_payloads(payload)
 
                 # use filename as payload in ext
                 changeFavIconUrl(driver, order, payload)
@@ -5395,7 +5408,7 @@ def chromeDebugger_url_N(args_tuple):
 
 # new chromeDebugger_favIconUrl (hvt test but shd work))
 def chromeDebugger_favIconUrl_N(args_tuple):
-    import shutil
+    
 
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
@@ -5406,41 +5419,46 @@ def chromeDebugger_favIconUrl_N(args_tuple):
     payload_file = 'small_payload.txt'
 
     driver = Chrome(service=Service(), options=option)
+    dir_path = Path(f'DYNAMIC_ANALYSIS_v2/miscellaneous/chromeDebuggerFiles/favIconUrl_instance_{order}')
 
 
-    def create_directory(order):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/chromeDebuggerFiles/favIconUrl_instance_{order}'
-        if not os.path.exists(directory_name):
-            os.makedirs(directory_name)
+    def create_directory():
+        nonlocal dir_path
+        if not dir_path.exists():
+            os.makedirs(dir_path)
             return True  # Directory was created
         else:
             return False  # Directory already existed
         
     def copy_picture_to_directory(picture_path, directory):
-        shutil.copy2(picture_path, directory)
+        shutil.copy(picture_path, directory)
 
-    def access_directory(order):
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/chromeDebuggerFiles/favIconUrl_instance_{order}'
-        picture_path = 'DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg'  # Specify the path of the picture you want to copy
-
-        if create_directory(order):
-            if os.path.exists(picture_path):
-                copy_picture_to_directory(picture_path, directory_name)
+    def access_directory():
+        nonlocal dir_path
+        pic_path = Path('DYNAMIC_ANALYSIS_v2/miscellaneous/default.jpg')  # Specify the path of the picture you want to copy
+        if create_directory():
+            if pic_path.exists():
+                copy_picture_to_directory(pic_path, dir_path)
             
-    def rename_file_with_payloads(order,payload):
+    def rename_file_with_payloads(payload):
+        nonlocal dir_path
         payload = payload.strip()
-        directory_name = f'DYNAMIC_ANALYSIS_v2/miscellaneous/chromeDebuggerFiles/favIconUrl_instance_{order}'
 
-        files = os.listdir(directory_name)
-        if len(files) == 0:
+        dir_list = tuple(dir_path.glob("*.*"))
+        if not len(dir_list) == 1:
             return
-        elif len(files) > 1:
-            return
+        dir_list[0].rename(dir_path.joinpath(payload + ".jpg"))
+        
+        # files = os.listdir(directory_name)
+        # if len(files) == 0:
+        #     return
+        # elif len(files) > 1:
+        #     return
 
-        old_filename = os.path.join(directory_name, files[0])
+        # old_filename = os.path.join(directory_name, files[0])
 
-        new_filename = os.path.join(directory_name, payload + ".jpg")
-        os.rename(old_filename, new_filename)
+        # new_filename = os.path.join(directory_name, payload + ".jpg")
+        # os.rename(old_filename, new_filename)
 
     def changeFavIconUrl(driver, order ,payload):
         payload = payload.strip()
@@ -5468,7 +5486,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
             print(str(e))
 
     # preconfigure files required
-    access_directory(order)
+    access_directory()
 
     try:
         website = 'file://' + os.path.abspath(url_of_injection_example)
@@ -5517,7 +5535,7 @@ def chromeDebugger_favIconUrl_N(args_tuple):
             driver.switch_to.window(example)
             try: 
                 # change filename to payloads
-                rename_file_with_payloads(order,payload)
+                rename_file_with_payloads(payload)
 
                 # use filename as payload in ext
                 changeFavIconUrl(driver, order, payload)
