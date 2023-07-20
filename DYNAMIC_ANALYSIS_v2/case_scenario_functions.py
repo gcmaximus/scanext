@@ -3375,7 +3375,7 @@ def window_name_N(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        driver.get('https://ww1w.example.com')
+        driver.get('https://www.example.com')
         example = driver.current_window_handle
 
         # Wait up to 5 seconds for the title to become "Example Domain"
@@ -3464,8 +3464,8 @@ def window_name_N(args_tuple):
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
                     # print(f"Navigated back to '{url_path}' due to extension page source changes")
-                except Exception as e:
-                    error_logging(source, str(e))
+            except Exception as e:
+                error_logging(source, str(e))
 
 
     except TimeoutException:
@@ -3480,7 +3480,7 @@ def window_name_N(args_tuple):
 
 # new location.href_normal (no alerts yet, ask pearlyn for url payload)
 def location_href_N(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id,result = args_tuple
 
     logs = []
     source = 'location.href'
@@ -3535,6 +3535,9 @@ def location_href_N(args_tuple):
                 else:
                     try:
                         driver.execute_script(f"location.href = `https://www.example.com/#{payload}`")
+
+                        # get time of injection
+                        time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
 
                     except Exception as e:
                         error_logging(source, str(e))
