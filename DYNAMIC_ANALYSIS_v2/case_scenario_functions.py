@@ -3423,11 +3423,11 @@ def window_name_N(args_tuple):
 
                 # get time of success [1) example]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
                 # print('[example] = No alerts detected =')
-                logs.append(payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, 'nil', payload_file, 'nil'))
 
 
             # 2) Check for alerts in example after refreshing extension
@@ -3444,10 +3444,10 @@ def window_name_N(args_tuple):
 
                 # get time of success [3) example]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
                 # print('[example] = No alerts detected =')
-                logs.append(payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
                 # check modifications for example.com
@@ -3557,10 +3557,10 @@ def location_href_N(args_tuple):
                     alert.accept()
 
                     time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'location.href = `https://www.example.com/?p={payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'location.href = `https://www.example.com/?p={payload}`', time_of_injection, 'nil', payload_file, 'nil'))
 
                 driver.switch_to.window(extension)
 
@@ -3576,10 +3576,10 @@ def location_href_N(args_tuple):
                     
 
                     time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'location.href = `https://www.example.com/?p={payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'location.href = `https://www.example.com/?p={payload}`', time_of_injection, 'nil', payload_file, 'nil'))
 
                 try: 
                     # check modifications for example.com
@@ -3708,10 +3708,10 @@ def context_menu_selectionText_N(args_tuple):
                 # print('[example] + Alert Detected +')
 
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
             except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, 'nil', payload_file, 'nil'))
 
             driver.switch_to.window(extension)
 
@@ -3728,10 +3728,10 @@ def context_menu_selectionText_N(args_tuple):
                 alert.accept()
                 
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
             except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, 'nil', payload_file, 'nil'))
 
 
             # check for any modifications (snapshot back to original)
@@ -3822,6 +3822,7 @@ def context_menu_link_url_N(args_tuple):
                 if i == 0:
                     try:
                         # PAYLOAD INJECTION CASE 1 (Directly Injecting)
+                        script = r'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`'
                         driver.execute_script(f'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`')
                     
                         # get time of injection
@@ -3833,6 +3834,7 @@ def context_menu_link_url_N(args_tuple):
                 else:
                     try:
                         # PAYLOAD INJECTION CASE 2 (Injecting Query Parameters)
+                        script = r'var linkElement = document.getElementById("linkUrl"); linkElement.href = "?q=" + `{}`'
                         driver.execute_script('var linkElement = document.getElementById("linkUrl"); linkElement.href = "?q=" + `{}`'.format(payload.replace('"', '\\"').replace("'", "\\'")))
 
                         # get time of injection
@@ -3883,10 +3885,10 @@ def context_menu_link_url_N(args_tuple):
                     alert.accept()
 
                     time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
 
                 driver.switch_to.window(extension)
 
@@ -3901,10 +3903,10 @@ def context_menu_link_url_N(args_tuple):
                     alert.accept()
 
                     time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
 
                 # check for any modifications (snapshot back to original)
                 try: 
@@ -4029,10 +4031,10 @@ def context_menu_src_url_N(args_tuple):
                 alert.accept()
 
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload,r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
 
             except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, 'nil', payload_file, 'nil'))
 
 
             # 2) Check for alerts in example after refreshing extension\
@@ -4049,10 +4051,10 @@ def context_menu_src_url_N(args_tuple):
                 alert.accept()
 
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, time_of_success, payload_file, 'nil'))
+                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
 
             except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, time_of_injection, 'nil', payload_file, 'nil'))
+                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
                 # check modifications for example.com
