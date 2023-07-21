@@ -62,7 +62,7 @@ def extraction():
         manifest_exists = Path(indi_dir, "manifest.json").exists()
         print(icon(manifest_exists))
         if not manifest_exists:
-            print(f"{CROSS} manifest.json not found in root", end="")
+            print(f"{CROSS} manifest.json not found in root")
             shutil.rmtree(indi_dir)
         for file in indi_dir.glob("**/*.js"):
             pretty = jsbeautifier.beautify_file(file, opts)
