@@ -159,9 +159,12 @@ def main(config, path_to_extension, semgrep_results):
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(sourcelist[source], args):
-                        for log in logs: # log["timeOfInjection"], log["timeOfAlert"]
-                            log["timeOfInjection"] = fdt(log["timeOfInjection"].astimezone(tz(timezone)))
-                            log["timeOfAlert"] = fdt(log["timeOfAlert"].astimezone(tz(timezone)))
+                        for log in logs:
+                            a, b = log["timeOfInjection"], log["timeOfAlert"]
+                            if a != "nil":
+                                a = fdt(a.astimezone(tz(timezone)))
+                            if b != "nil":
+                                b = fdt(b.astimezone(tz(timezone)))
                             dynamic_logger.critical(json.dumps(log))
 
         except Exception as e:
