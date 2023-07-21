@@ -18,12 +18,12 @@ document.getElementById('case3').innerHTML = window.name
 // $('#hello').innerHTML = window.name
 
 // // case 3.6 (only Pro engine can get. pay2win software)
-// var caonima = window.name
+// var abc = window.name
 // function boop(x) {
 //     document.getElementById('x').innerHTML = x
 // }
 
-// boop(caonima)
+// boop(abc)
 
 // //**************************************************************/
 

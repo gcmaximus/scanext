@@ -58,6 +58,10 @@ def main(config, path_to_extension, semgrep_results):
     dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt')
 
 
+    # preconfiguration (set active to false)
+    path_to_extension = preconfigure(path_to_extension)
+
+
     # obtain relevant extension information
     url_path, abs_path, ext_id = get_ext_id(path_to_extension)
 
@@ -68,11 +72,8 @@ def main(config, path_to_extension, semgrep_results):
     meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, payload_file)
 
 
-    # preconfiguration (set active to false)
-    path_to_extension = preconfigure(path_to_extension)
-
     # interprete semgrep scan results
-    interpreted_results = interpreter(semgrep_results)
+    # interpreted_results = interpreter(semgrep_results)
 
     # interpreted_results = [123]
 
