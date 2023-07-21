@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-jQuery_wrapAll
+  - id: window_addEventListener_message-jQuery_wrapAll
     mode: taint
     pattern-sources:
       - patterns:
@@ -31,7 +31,7 @@ rules:
               ...
               $Y.wrapAll($X)
           - focus-metavariable: $X
-    message: Source:chrome_runtime_onConnect;Sink:jQuery_wrapAll
+    message: Source:window_addEventListener_message;Sink:jQuery_wrapAll
     languages:
       - js
     severity: WARNING

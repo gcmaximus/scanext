@@ -86,6 +86,13 @@ def main(config, path_to_extension, semgrep_results):
         "location_href",
         "location_search",
         "window_name",
+        "chrome_contextMenu_create",
+        "chrome_contextMenu_onClicked_addListener",
+        "chrome_contextMenu_update",
+        "chrome_debugger_getTargets",
+        "chrome_tabs_get",
+        "chrome_tabs_getCurrent",
+        "chrome_tabs_query"
     ]
 
     sourcelist = {

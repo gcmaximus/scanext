@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-jQuery_insertAfter
+  - id: window_addEventListener_message-jQuery_insertAfter
     mode: taint
     pattern-sources:
       - patterns:
@@ -25,7 +25,7 @@ rules:
       - patterns:
           - pattern: $($X).insertAfter(...)
           - focus-metavariable: $X
-    message: Source:chrome_runtime_onConnect;Sink:jQuery_insertAfter
+    message: Source:window_addEventListener_message;Sink:jQuery_insertAfter
     languages:
       - js
     severity: WARNING

@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-jQuery_html
+  - id: window_addEventListener_message-jQuery_html
     mode: taint
     pattern-sources:
       - patterns:
@@ -31,7 +31,7 @@ rules:
               ...
               $Y.html($X)
           - focus-metavariable: $X
-    message: Source:chrome_runtime_onConnect;Sink:jQuery_html
+    message: Source:window_addEventListener_message;Sink:jQuery_html
     languages:
       - js
     severity: WARNING

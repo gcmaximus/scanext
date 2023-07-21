@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-jQuery_prepend
+  - id: window_addEventListener_message-jQuery_prepend
     mode: taint
     pattern-sources:
       - patterns:
@@ -31,7 +31,7 @@ rules:
               ...
               $Y.prepend($X)
           - focus-metavariable: $X
-    message: Source:chrome_runtime_onConnect;Sink:jQuery_prepend
+    message: Source:window_addEventListener_message;Sink:jQuery_prepend
     languages:
       - js
     severity: WARNING

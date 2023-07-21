@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-document_writeln
+  - id: window_addEventListener_message-document_writeln
     mode: taint
     pattern-sources:
       - patterns:
@@ -26,7 +26,7 @@ rules:
       - patterns:
           - pattern: ... .document.writeln($X)
           - focus-metavariable: $X
-    message: Source:chrome_runtime_onConnect;Sink:document_writeln
+    message: Source:window_addEventListener_message;Sink:document_writeln
     languages:
       - js
     severity: WARNING

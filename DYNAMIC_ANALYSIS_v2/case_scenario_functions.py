@@ -24,7 +24,6 @@ from pathlib import Path
 from pytz import timezone as tz
 from datetime import datetime as dt
 from email.utils import format_datetime as fdt
-from dynamic import timezne
 
 # from main import payload_logging
 
@@ -81,14 +80,7 @@ def error_logging(source, error, max_chars=200):
 
 
 def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, script, time_of_injection, time_of_alert, payload_filename, packet_info):
-    # Convert sets to lists
-    try:
-        time_of_injection = time_of_injection.astimezone(tz(timezne))
-        if time_of_alert !='nil':
-            time_of_alert = time_of_alert.astimezone(tz(timezne))
-    except:
-        pass
-
+    # payload logs
     payload_log = {
         "outcome": outcome,
         "source": source,

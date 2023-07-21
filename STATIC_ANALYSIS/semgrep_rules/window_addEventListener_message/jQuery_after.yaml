@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-jQuery_after
+  - id: window_addEventListener_message-jQuery_after
     mode: taint
     pattern-sources:
       - patterns:
@@ -31,7 +31,7 @@ rules:
               ...
               $Y.after($X)
           - focus-metavariable: $X
-    message: Source:chrome_runtime_onConnect;Sink:jQuery_after
+    message: Source:window_addEventListener_message;Sink:jQuery_after
     languages:
       - js
     severity: WARNING
