@@ -244,4 +244,3 @@ def manifest_rewrite(file_path):
 
 
 
-manifest_rewrite('DYNAMIC_ANALYSIS_v2/manifest')
