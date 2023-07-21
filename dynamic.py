@@ -43,6 +43,7 @@ def main(config, path_to_extension, semgrep_results):
     percentage_of_payloads = config["percentage_of_payloads"]
     number_of_instances = config["number_of_instances"]
     custom_payload_file = config["custom_payload_file"]
+    timezone = config["timezone"]
 
     # set payload file
     if custom_payload_file == "nil":
