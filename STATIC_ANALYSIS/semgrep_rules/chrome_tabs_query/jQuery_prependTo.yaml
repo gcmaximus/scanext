@@ -6,77 +6,81 @@ rules:
     pattern-sources:
       - patterns:
           - pattern-either:
-            - pattern-inside: await chrome.tabs.query(...)
-            - pattern-inside: |
-                function $FUNC($X) {
+              - pattern-inside: await chrome.tabs.query(...)
+              - pattern-inside: |
+                  function $FUNC($X) {
+                    ...
+                  }
                   ...
-                }
-                ...
-                chrome.tabs.query(..., $FUNC)
-            - pattern-inside: |
-                chrome.tabs.query(..., $FUNC)
-                ...
-                function $FUNC($X) {
+                  chrome.tabs.query(..., $FUNC)
+              - pattern-inside: |
+                  chrome.tabs.query(..., $FUNC)
                   ...
-                }
-            - pattern-inside: |
-                chrome.tabs.query(..., function ($X) {
+                  function $FUNC($X) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.tabs.query(..., function ($X) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.tabs.query(..., function ([$X]) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.tabs.query(...).then(function ($X) {
+                    ...
+                  })
+              - pattern-inside: |
+                  chrome.tabs.query(...).then(function ([$X]) {
+                    ...
+                  })
+              - pattern-inside: |
+                  async function $FUNC(...) {
+                    ...
+                    $Y = await chrome.tabs.query(...)
+                    ...
+                    return $Y
+                  }
                   ...
-                })
-            - pattern-inside: |
-                chrome.tabs.query(..., function ([$X]) {
+                  $FUNC(...).then(function ($X) {...})
+              - pattern-inside: |
+                  async function $FUNC(...) {
+                    ...
+                    $Y = await chrome.tabs.query(...)
+                    ...
+                    return $Y
+                  }
                   ...
-                })
-            - pattern-inside: |
-                chrome.tabs.query(...).then(function ($X) {
+                  $FUNC(...).then(function ([$X]) {...})
+              - pattern-inside: |
+                  async function $FUNC(...) {
+                    ...
+                    [$Y] = await chrome.tabs.query(...)
+                    ...
+                    return $Y
+                  }
                   ...
-                })
-            - pattern-inside: |
-                chrome.tabs.query(...).then(function ([$X]) {
+                  $FUNC(...).then(function ($X) {...})
+              - pattern-inside: |
+                  $Y = chrome.tabs.query(...)
                   ...
-                })
-            - pattern-inside: |
-                async function $FUNC(...) {
+                  $Y.then(function ($X) {...})
+              - pattern-inside: |
+                  $Y = chrome.tabs.query(...)
                   ...
-                  $Y = await chrome.tabs.query(...)
-                  ...
-                  return $Y
-                }
-                ...
-                $FUNC(...).then(function ($X) {...})
-            - pattern-inside: |
-                async function $FUNC(...) {
-                  ...
-                  $Y = await chrome.tabs.query(...)
-                  ...
-                  return $Y
-                }
-                ...
-                $FUNC(...).then(function ([$X]) {...})
-            - pattern-inside: |
-                async function $FUNC(...) {
-                  ...
-                  [$Y] = await chrome.tabs.query(...)
-                  ...
-                  return $Y
-                }
-                ...
-                $FUNC(...).then(function ($X) {...})
-            - pattern-inside: |
-                $Y = chrome.tabs.query(...)
-                ...
-                $Y.then(function ($X) {...})
-            - pattern-inside: |
-                $Y = chrome.tabs.query(...)
-                ...
-                $Y.then(function ([$X]) {...})
+                  $Y.then(function ([$X]) {...})
           - pattern-either:
-            - pattern: $X.title
-            - pattern: $X.favIconUrl
-            - pattern: $X.sessionId
-            - pattern: $X.url
+              - pattern: $X.title
+              - pattern: $X.favIconUrl
+              - pattern: $X.sessionId
+              - pattern: $X.url
+              - pattern: $X[$INT].title
+              - pattern: $X[$INT].favIconUrl
+              - pattern: $X[$INT].sessionId
+              - pattern: $X[$INT].url
     pattern-sinks:
       - patterns:
-        - pattern: "$($X).prependTo(...)"
-        - focus-metavariable: $X
+          - pattern: "$($X).prependTo(...)"
+          - focus-metavariable: $X
     severity: WARNING
