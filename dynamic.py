@@ -116,57 +116,17 @@ def main(config, path_to_extension, semgrep_results):
 
                 match source:
                     case "chrome_contextMenu_create":
-                        if 'selectionText' in result['taintsource']:
-                            context_menu_selectionText_N
-                        elif 'linkUrl' in result['taintsource']:
-                            context_menu_link_url_N
-                        elif 'srcUrl' in result['taintsource']:
-                            context_menu_src_url_N
-                        elif 'frameUrl' in result['taintsource']:
-                            context_menu_frame_url_N
-                        elif 'pageUrl' in result['taintsource']:
-                            context_menu_pageUrl_N
-                        else:
-                            print('dont run')
+                        conrtext_menu
                     case "chrome_contextMenu_onClicked_addListener":
-                        if 'selectionText' in result['taintsource']:
-                            context_menu_selectionText_N
-                        elif 'linkUrl' in result['taintsource']:
-                            context_menu_link_url_N
-                        elif 'srcUrl' in result['taintsource']:
-                            context_menu_src_url_N
-                        elif 'frameUrl' in result['taintsource']:
-                            context_menu_frame_url_N
-                        elif 'pageUrl' in result['taintsource']:
-                            context_menu_pageUrl_N
-                        else:
-                            print('dont run')
+                        conrtext_menu
                     case "chrome_contextMenu_update":
-                        if 'selectionText' in result['taintsource']:
-                            context_menu_selectionText_N
-                        elif 'linkUrl' in result['taintsource']:
-                            context_menu_link_url_N
-                        elif 'srcUrl' in result['taintsource']:
-                            context_menu_src_url_N
-                        elif 'frameUrl' in result['taintsource']:
-                            context_menu_frame_url_N
-                        elif 'pageUrl' in result['taintsource']:
-                            context_menu_pageUrl_N
-                        else:
-                            print('dont run')
+                        conrtext_menu
                     case "chrome_cookies_get":
                         cookie_get
                     case "chrome_cookies_getAll":
                         cookie_get
                     case "chrome_debugger_getTargets":
-                        if 'title' in result['taintsource']:
-                            chromeDebugger_title_N
-                        elif 'favIconUrl' in result['taintsource']:
-                            chromeDebugger_favIconUrl_N
-                        elif 'url' in result['taintsource']:
-                            chromeDebugger_url_N
-                        else:
-                            print('dont run')
+                        chromeDebugger
                     case "chrome_runtime_onConnect":
                         runtime_onC
                     case "chrome_runtime_onConnectExternal":
@@ -176,32 +136,11 @@ def main(config, path_to_extension, semgrep_results):
                     case "chrome_runtime_onMessageExternal":
                         runtime_onME
                     case "chrome_tabs_get":
-                        if 'title' in result['taintsource']:
-                            chromeTabsQuery_title_N
-                        elif 'favIconUrl' in result['taintsource']:
-                            chromeTabQuery_favIconUrl_N
-                        elif 'url' in result['taintsource']:
-                            chromeTabQuery_url_N
-                        else:
-                            print('dont run')
+                        chromeTabQuery
                     case "chrome_tabs_getCurrent":
-                        if 'title' in result['taintsource']:
-                            chromeTabsQuery_title_N
-                        elif 'favIconUrl' in result['taintsource']:
-                            chromeTabQuery_favIconUrl_N
-                        elif 'url' in result['taintsource']:
-                            chromeTabQuery_url_N
-                        else:
-                            print('dont run')
+                        chromeTabQuery
                     case "chrome_tabs_query":
-                        if 'title' in result['taintsource']:
-                            chromeTabsQuery_title_N
-                        elif 'favIconUrl' in result['taintsource']:
-                            chromeTabQuery_favIconUrl_N
-                        elif 'url' in result['taintsource']:
-                            chromeTabQuery_url_N
-                        else:
-                            print('dont run')
+                        chromeTabQuery
                     case "location_hash":
                         location_hash
                     case "location_href":
@@ -211,7 +150,7 @@ def main(config, path_to_extension, semgrep_results):
                     case "window_name":
                         window_name_N
                     case _:
-                        print('something is')
+                        print('something is wrong')
 
 
                 thread_count = cpu_count()
