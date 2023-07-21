@@ -62,7 +62,7 @@ def extraction():
         manifest_exists = Path(indi_dir, "manifest.json").exists()
         print(icon(manifest_exists))
         if not manifest_exists:
-            print(f"{CROSS} manifest.json not found in root", end="")
+            print(f"{CROSS} manifest.json not found in root")
             shutil.rmtree(indi_dir)
         for file in indi_dir.glob("**/*.js"):
             pretty = jsbeautifier.beautify_file(file, opts)
@@ -101,8 +101,8 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     # Retrieve information from log file
     logs_obj = []
 
-    # dynamic_logfile = 'dynamic_logs.txt'
-    dynamic_logfile = 'DYNAMIC_ANALYSIS/Logs/dynamic_logsV2.txt'
+    # initialise logfile path
+    dynamic_logfile = 'DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt'
 
 
     with open(dynamic_logfile, 'r') as f:

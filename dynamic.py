@@ -52,7 +52,7 @@ def main(config, path_to_extension, semgrep_results):
 
     print(f"Using payload file: {payload_file}")
 
-    dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS/Logs/dynamic_logsV2.txt')
+    dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt')
 
 
     # preconfiguration (set active to false)
@@ -156,6 +156,11 @@ def main(config, path_to_extension, semgrep_results):
                 ]
 
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
+
+
+                # clear log file before logging
+                with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt", 'w') as f:
+                    f.close()
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(sourcelist[source], args):
@@ -167,6 +172,8 @@ def main(config, path_to_extension, semgrep_results):
                                 log["timeOfAlert"] = fdt(b.astimezone(tz(timezone)))
                             dynamic_logger.critical(json.dumps(log))
 
+
+
         except Exception as e:
             print("Error while initializing headless chrome driver ")
             print(str(e))
@@ -176,12 +183,14 @@ def main(config, path_to_extension, semgrep_results):
     for f in Path("DYNAMIC_ANALYSIS/miscellaneous").glob("*"):
         if f.is_dir():
             shutil.rmtree(f)
+
+    
         
 
 if __name__ == '__main__':
     
     # testing
-    with open(" semgrep_results.json", "r") as file:
+    with open("semgrep_results.json", "r") as file:
         semgrep_results = json.load(file)["results"]
 
     window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
