@@ -179,7 +179,8 @@ if __name__ == '__main__':
     config = {
         "percentage_of_payloads" : 0.5,
         "number_of_instances": 5,
-        "custom_payload_file": 'nil'
+        "custom_payload_file": 'nil',
+        'timezone': 'nil'
     }
 
 

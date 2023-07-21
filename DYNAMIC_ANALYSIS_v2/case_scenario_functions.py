@@ -63,7 +63,7 @@ def setup_logger(logger_name, log_file, log_level=logging.ERROR):
     return logger
 
 # Setup the logger for the other file
-other_logger = setup_logger('other_logger', 'DYNAMIC_ANALYSIS_v2/Logs/error_log.log', logging.ERROR)
+error_logger = setup_logger('error_logger', 'DYNAMIC_ANALYSIS_v2/Logs/error_log.log', logging.ERROR)
 
 
 def error_logging(source, error, max_chars=200):
@@ -72,7 +72,9 @@ def error_logging(source, error, max_chars=200):
 
     # Truncate the error message to the specified maximum characters
     error = error[:max_chars]
-    other_logger.error(f"[{source}] - {error}")
+
+    # Actual Logging
+    error_logger.error(f"[{source}] - {error}")
 
 
 def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, script, time_of_injection, time_of_alert, payload_filename, packet_info):
