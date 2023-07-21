@@ -1,29 +1,21 @@
-import os
-import time
 import json
-import datetime
-
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver import Chrome, ChromeOptions
-from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import NoAlertPresentException
-
-from functools import reduce
-
 import logging
-import requests
-import subprocess
-import urllib.parse
+import os
 import shutil
+import subprocess
+import time
+import urllib.parse
+from datetime import datetime as dt
+from functools import reduce
 from pathlib import Path
 
-from pytz import timezone as tz
-from datetime import datetime as dt
-from email.utils import format_datetime as fdt
+import requests
+from selenium.common.exceptions import NoAlertPresentException, TimeoutException
+from selenium.webdriver import ActionChains, Chrome, ChromeOptions
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 # from main import payload_logging
 
@@ -81,7 +73,7 @@ def error_logging(source, error, max_chars=200):
 
 def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, script, time_of_injection, time_of_alert, payload_filename, packet_info):
     # payload logs
-    payload_log = {
+    return {
         "outcome": outcome,
         "source": source,
         "extensionId": extension_id,
@@ -96,8 +88,6 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
         "packetInfo": packet_info
     }
 
-    log_message = json.dumps(payload_log)
-    return log_message
 
 ##########################
 # Case Scenario headless #

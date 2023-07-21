@@ -1,22 +1,16 @@
-from selenium.webdriver import ActionChains, Chrome, ChromeOptions, Keys
-from os import path
-import hashlib
-from pyvirtualdisplay.display import Display
-from selenium.webdriver import Chrome, ChromeOptions
-from selenium.webdriver.chrome.service import Service
+import logging
+import shutil
+from concurrent.futures import ThreadPoolExecutor
+from email.utils import format_datetime as fdt
+from os import cpu_count
 
+from pytz import timezone as tz
+from pyvirtualdisplay.display import Display
+from selenium.webdriver import ChromeOptions
+from tqdm import tqdm
 
 from DYNAMIC_ANALYSIS_v2.case_scenario_functions import *
 from DYNAMIC_ANALYSIS_v2.preconfigure import *
-
-import logging
-from os import cpu_count
-from tqdm import tqdm
-from concurrent.futures import ThreadPoolExecutor
-import shutil
-from pytz import timezone as tz
-from datetime import datetime as dt
-from email.utils import format_datetime as fdt
 
 
 def setup_loggerV2(log_file):

@@ -5,5 +5,6 @@ selenium
 semgrep
 tqdm
 uvicorn
-pyvirtualdisplay
 pytz
+pyvirtualdisplay
+
