@@ -193,7 +193,7 @@ def main(config, path_to_extension, semgrep_results):
             shutil.rmtree(f)
         
 
-with open("a.json", "r") as file:
+with open("semgrep_results.json", "r") as file:
     semgrep_results = json.load(file)["results"]
 
 
