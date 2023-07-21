@@ -195,6 +195,38 @@ def payloads_cycle(n: int, pct: int, file_path: str):
 
 
 
+def manifest_rewrite(file_path):
+    manifest_path = os.path.join(file_path, "manifest.json")
+
+    # Check if the manifest.json file exists in the given directory
+    if not os.path.exists(manifest_path):
+        return
+
+    # Load the existing manifest.json content
+    with open(manifest_path, "r") as manifest_file:
+        manifest_data = json.load(manifest_file)
+
+    # Check if the "permissions" key exists in the manifest.json content
+    if "host_permissions" not in manifest_data:
+        manifest_data["host_permissions"] = []
+
+    # Required permissions to be added if not already present
+    required_permissions = [
+        "http://*/*",
+        "https://*/*",
+        "file:///*"
+    ]
+
+    # Add required permissions if they are not already present
+    for permission in required_permissions:
+        if permission not in manifest_data["host_permissions"]:
+            manifest_data["host_permissions"].append(permission)
+
+    # Save the updated manifest.json content back to the file
+    with open(manifest_path, "w") as manifest_file:
+        json.dump(manifest_data, manifest_file, indent=2)
+
+    print("Manifest permissions updated successfully.")
 
 
-
+manifest_rewrite('DYNAMIC_ANALYSIS_v2/manifest')
