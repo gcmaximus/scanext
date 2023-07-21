@@ -73,29 +73,38 @@ def main(config, path_to_extension, semgrep_results):
 
 
     # interprete semgrep scan results
-    interpreted_results = separater(interpreter(semgrep_results)) 
+    interpreted_results = separater(interpreter(semgrep_results))
 
-    # define source list (map source to case_scenario function)
-    # sourcelist = {
-    #     "chrome_contextMenu_create":".",
-    #     "chrome_contextMenu_onClicked_addListener":".",
-    #     "chrome_contextMenu_update":".",
-    #     "chrome_cookies_get":cookie_get,
-    #     "chrome_cookies_getAll":cookie_get,
-    #     "chrome_debugger_getTargets":".",
-    #     "chrome_runtime_onConnect":runtime_onC,
-    #     "chrome_runtime_onConnectExternal":runtime_onCE,
-    #     "chrome_runtime_onMessage":runtime_onM,
-    #     "chrome_runtime_onMessageExternal":runtime_onME,
-    #     "chrome_tabs_get":".",
-    #     "chrome_tabs_getCurrent":".",
-    #     "chrome_tabs_query":".",
-    #     "location_hash":location_hash,
-    #     "location_href":location_href,
-    #     "location_search":locationSearch,
-    #     "location_search":windowAddEventListenerMessage,
-    #     "window_name":window_name_new,
-    # }
+    # solo var list
+    sololist = [
+        "chrome_cookies_get",
+        "chrome_cookies_getAll",
+        "location_hash",
+        "location_href",
+        "location_search",
+        "window_name",
+    ]
+
+    sourcelist = {
+        "chrome_contextMenu_create":".",
+        "chrome_contextMenu_onClicked_addListener":".",
+        "chrome_contextMenu_update":".",
+        "chrome_cookies_get":cookie_get,
+        "chrome_cookies_getAll":cookie_get,
+        "chrome_debugger_getTargets":".",
+        "chrome_runtime_onConnect":runtime_onC,
+        "chrome_runtime_onConnectExternal":runtime_onCE,
+        "chrome_runtime_onMessage":runtime_onM,
+        "chrome_runtime_onMessageExternal":runtime_onME,
+        "chrome_tabs_get":".",
+        "chrome_tabs_getCurrent":".",
+        "chrome_tabs_query":".",
+        "location_hash":location_hash,
+        "location_href":location_href_N,
+        "location_search":locationSearch_N,
+        "location_search":windowAddEventListenerMessage,
+        "window_name":window_name_N,
+    }
     
     # sourcelist[source](driver,ext_id,url_path,payload,result)
 
@@ -193,7 +202,7 @@ def main(config, path_to_extension, semgrep_results):
             shutil.rmtree(f)
         
 
-with open("semgrep_results.json", "r") as file:
+with open("STATIC_ANALYSIS/semgrep_results.json", "r") as file:
     semgrep_results = json.load(file)["results"]
 
 
