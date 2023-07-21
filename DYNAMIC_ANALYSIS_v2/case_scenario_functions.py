@@ -3127,6 +3127,7 @@ def windowAddEventListenerMessage(args_tuple):
             driver.switch_to.window(example)
             driver.refresh()
 
+
             try:
                 payload = payload.strip()
                 taintsink = result["sink"]
@@ -3134,12 +3135,19 @@ def windowAddEventListenerMessage(args_tuple):
                 script = nomagic(taintsink,payload,obj)
 
                 driver.execute_script(f"window.postMessage({script},'*')")
-
+                
                 # get time of injection
                 time_of_injection = dt.utcnow()
             except Exception as e:
                 error_logging(source, str(e))
-                continue
+                
+                try:
+                    driver.execute_script(f"window.postMessage(`{payload}`,'*')")
+                    # get time of injection
+                    time_of_injection = dt.utcnow()
+                except Exception as e:
+                    error_logging(source, str(e))
+                    continue
 
             # observe behavior after payload injection
             # check for alerts in example
