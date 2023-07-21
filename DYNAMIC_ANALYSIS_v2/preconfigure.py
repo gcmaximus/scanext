@@ -35,6 +35,7 @@ def preconfigure(dir):
                     tmp.write(line)
         else:
             shutil.copyfile(file, t)
+    return tmp_ext_dir
 
     # for root, dirs, files in os.walk(folder_path):
     #     # Perform the find and replace operation on each JavaScript file in the folder
