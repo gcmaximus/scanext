@@ -23,9 +23,27 @@ rules:
                   chrome.cookies.getAll($DETAILS, function ($X, ...) {
                     ...
                   })
+              - pattern-inside: |
+                  function $FUNC([$X], ...) {
+                    ...
+                  }
+                  ...
+                  chrome.cookies.getAll($DETAILS, $FUNC)
+              - pattern-inside: |
+                  chrome.cookies.getAll($DETAILS, $FUNC)
+                  ...
+                  function $FUNC([$X], ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  chrome.cookies.getAll($DETAILS, function ([$X], ...) {
+                    ...
+                  })
           - pattern-either:
               - pattern: $X.name
               - pattern: $X.value
+              - pattern: $X[$INT].name
+              - pattern: $X[$INT].value
     pattern-sinks:
       - patterns:
           - pattern: $(...).wrapAll($X)
