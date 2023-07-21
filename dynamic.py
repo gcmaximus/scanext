@@ -111,46 +111,46 @@ def main(config, path_to_extension, semgrep_results):
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--no-sandbox")
 
-                source = result["message"].split(";")[0][7:]
-                print('SOURCE: ', source)
+                # source = result["message"].split(";")[0][7:]
+                # print('SOURCE: ', source)
 
-                match source:
-                    case "chrome_contextMenu_create":
-                        conrtext_menu
-                    case "chrome_contextMenu_onClicked_addListener":
-                        conrtext_menu
-                    case "chrome_contextMenu_update":
-                        conrtext_menu
-                    case "chrome_cookies_get":
-                        cookie_get
-                    case "chrome_cookies_getAll":
-                        cookie_get
-                    case "chrome_debugger_getTargets":
-                        chromeDebugger
-                    case "chrome_runtime_onConnect":
-                        runtime_onC
-                    case "chrome_runtime_onConnectExternal":
-                        runtime_onCE
-                    case "chrome_runtime_onMessage":
-                        runtime_onM
-                    case "chrome_runtime_onMessageExternal":
-                        runtime_onME
-                    case "chrome_tabs_get":
-                        chromeTabQuery
-                    case "chrome_tabs_getCurrent":
-                        chromeTabQuery
-                    case "chrome_tabs_query":
-                        chromeTabQuery
-                    case "location_hash":
-                        location_hash
-                    case "location_href":
-                        location_href_N
-                    case "location_search":
-                        locationSearch_N
-                    case "window_name":
-                        window_name_N
-                    case _:
-                        print('something is wrong')
+                # match source:
+                #     case "chrome_contextMenu_create":
+                #         conrtext_menu
+                #     case "chrome_contextMenu_onClicked_addListener":
+                #         conrtext_menu
+                #     case "chrome_contextMenu_update":
+                #         conrtext_menu
+                #     case "chrome_cookies_get":
+                #         cookie_get
+                #     case "chrome_cookies_getAll":
+                #         cookie_get
+                #     case "chrome_debugger_getTargets":
+                #         chromeDebugger
+                #     case "chrome_runtime_onConnect":
+                #         runtime_onC
+                #     case "chrome_runtime_onConnectExternal":
+                #         runtime_onCE
+                #     case "chrome_runtime_onMessage":
+                #         runtime_onM
+                #     case "chrome_runtime_onMessageExternal":
+                #         runtime_onME
+                #     case "chrome_tabs_get":
+                #         chromeTabQuery
+                #     case "chrome_tabs_getCurrent":
+                #         chromeTabQuery
+                #     case "chrome_tabs_query":
+                #         chromeTabQuery
+                #     case "location_hash":
+                #         location_hash
+                #     case "location_href":
+                #         location_href_N
+                #     case "location_search":
+                #         locationSearch_N
+                #     case "window_name":
+                #         window_name_N
+                #     case _:
+                #         print('something is wrong')
 
                 thread_count = cpu_count()
                 if thread_count is None:
@@ -178,7 +178,7 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(chromeDebugger_favIconUrl_N), args):
+                    for logs in executor.map(chromeDebugger, args):
                         for log in logs:
                             dynamic_logger.critical(log)    
 
@@ -213,7 +213,7 @@ if __name__ == '__main__':
 
     config = {
         "percentage_of_payloads" : 0.5,
-        "number_of_instances": 5,
+        "number_of_instances": 1,
         "custom_payload_file": 'nil',
         'timezone': 'nil'
     }

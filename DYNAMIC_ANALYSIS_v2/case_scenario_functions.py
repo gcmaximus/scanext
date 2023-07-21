@@ -1906,10 +1906,11 @@ def conrtext_menu(args_tuple):
     elif 'pageUrl' in result['taintsource']:
         return context_menu_pageUrl_N(args_tuple)
     else:
+        progress_bar.update(len(payloads))
         return []
 
 # combined chromeTabQuery
-def chromeTabQuery(args_tuple)
+def chromeTabQuery(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
     # new chromeTabsQuery.title (works)
@@ -2380,11 +2381,12 @@ def chromeTabQuery(args_tuple)
     source = result['taintsource']
     if 'title' in result['taintsource']:
         return chromeTabsQuery_title_N(args_tuple)
-    elif 'favIconUrl' in result['taintsource']:
+    elif 'faviconUrl' in result['taintsource']:
         return chromeTabQuery_favIconUrl_N(args_tuple)
     elif 'url' in result['taintsource']:
         return chromeTabQuery_url_N(args_tuple)
     else:
+        progress_bar.update(len(payloads))
         return []
 
 # new location.search (works)
@@ -3085,12 +3087,13 @@ def chromeDebugger(args_tuple):
 
     source = result['taintsource']
     if 'title' in result['taintsource']:
-        return chromeTabsQuery_title_N(args_tuple)
+        return chromeDebugger_title_N(args_tuple)
     elif 'favIconUrl' in result['taintsource']:
-        return chromeTabQuery_favIconUrl_N(args_tuple)
+        return chromeDebugger_favIconUrl_N(args_tuple)
     elif 'url' in result['taintsource']:
-        return chromeTabQuery_url_N(args_tuple)
+        return chromeDebugger_url_N(args_tuple)
     else:
+        progress_bar.update(len(payloads))
         return []
 
 # new window.addEventListernerMessage (shd work (old ver))

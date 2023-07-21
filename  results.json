@@ -3,8 +3,8 @@
     "paths": {
         "_comment": "<add --verbose for a list of skipped paths>",
         "scanned": [
-            "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu/background.js",
-            "DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu/popup.js"
+            "STATIC_ANALYSIS/semgrep_rules/chrome_tabs_query/test_codes/h1-replacer(v3)/popup.js",
+            "STATIC_ANALYSIS/semgrep_rules/chrome_tabs_query/test_codes/vuln.js"
         ]
     },
     "results": [],
