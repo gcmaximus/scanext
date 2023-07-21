@@ -186,7 +186,7 @@ def load_config():
         user_timezone = config[key]
 
         try:
-            test = fdt(dt.now(tz(user_timezone)))
+            fdt(dt.now(tz(user_timezone)))
         except:
             print(f'Error: {key} ({user_timezone}) is not a valid timezone.')
             exit()
