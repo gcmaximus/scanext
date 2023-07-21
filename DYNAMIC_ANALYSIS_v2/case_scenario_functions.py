@@ -2381,7 +2381,7 @@ def chromeTabQuery(args_tuple):
     source = result['taintsource']
     if 'title' in result['taintsource']:
         return chromeTabsQuery_title_N(args_tuple)
-    elif 'favIconUrl' in result['taintsource']:
+    elif 'faviconUrl' in result['taintsource']:
         return chromeTabQuery_favIconUrl_N(args_tuple)
     elif 'url' in result['taintsource']:
         return chromeTabQuery_url_N(args_tuple)
