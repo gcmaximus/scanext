@@ -53,7 +53,16 @@ def preconfigure(dir):
     #                         a = "active: true"
     #                         line = line.replace(a, "active: false")
     #                     print(line, end="")
-  
+
+# source separater function
+def seperater(inter_results: list[dict]):
+    output = {}
+    for d in inter_results:
+        source = d["source"]
+        source_list = output.setdefault(source, [])
+        source_list.append(d)
+    return output
+
 # interpreter
 def interpreter(data):
     tainted = []
@@ -132,7 +141,9 @@ def interpreter(data):
         # added this
         message = i["extra"]["message"]
         taint["message"] = message
-        taint["source"] = taint_source
+        source = taint["message"].split(";")[0][7:]
+        taint["source"] = source
+        taint["taintsource"] = taint_source
         taint["sink"] = taint_sink
         # added this
         taint["line_start"] = line_start 

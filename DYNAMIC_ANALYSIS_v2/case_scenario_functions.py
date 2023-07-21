@@ -21,7 +21,9 @@ import urllib.parse
 import shutil
 from pathlib import Path
 
-
+from pytz import timezone as tz
+from datetime import datetime as dt
+from email.utils import format_datetime as fdt
 
 # from main import payload_logging
 
@@ -367,7 +369,7 @@ def cookie_get(args_tuple):
     payload_file = 'small_payload.txt'
     for payload_no, i in enumerate(payloads):
         dots = '.'
-        taintsource = result["source"]
+        taintsource = result["taintsource"]
         cookie = ""
         x = ""
         try:
