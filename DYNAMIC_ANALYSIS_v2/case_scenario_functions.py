@@ -1109,7 +1109,7 @@ def location_href_N(args_tuple):
     return logs
 
 # combined contextMenu
-def conrtext_menu(args_tuple):
+def context_menu(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
 
     # new contextMenu.selectionText_normal (works)
