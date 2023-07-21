@@ -175,11 +175,10 @@ def main(config, path_to_extension, semgrep_results):
             shutil.rmtree(f)
         
 
-with open("semgrep_results.json", "r") as file:
-    semgrep_results = json.load(file)["results"]
-
-
 if __name__ == '__main__':
+    # testing
+    with open("semgrep_results.json", "r") as file:
+        semgrep_results = json.load(file)["results"]
 
     window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
     location_href_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
