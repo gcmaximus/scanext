@@ -197,7 +197,7 @@ def load_config():
 
 
 
-    if isValidInt(key='report_display_adjacent_lines',min=0) and isValidInt(key='number_of_instances',min=1) and isValidInt(key='percentage_of_payloads',min=1,max=100) and isValidFile('custom_payload_file')and isValidTimezone(key='timezone'): 
+    if isValidInt(key='report_display_adjacent_lines',min=0) and isValidInt(key='number_of_instances',min=1) and isValidInt(key='percentage_of_payloads',min=1,max=100) and isValidFile('custom_payload_file') and isValidTimezone(key='timezone'): 
         return config
 
 # main program
