@@ -73,9 +73,7 @@ def main(config, path_to_extension, semgrep_results):
 
 
     # interprete semgrep scan results
-    # interpreted_results = interpreter(semgrep_results)
-
-    # interpreted_results = [123]
+    interpreted_results = interpreter(semgrep_results)
 
     # define source list (map source to case_scenario function)
     # sourcelist = {
@@ -101,17 +99,6 @@ def main(config, path_to_extension, semgrep_results):
     
     # sourcelist[source](driver,ext_id,url_path,payload,result)
 
-
-
-
-
-
-
-
-
-
-
-
     for result in interpreted_results:
         # initialize chrome driver
         try:
@@ -125,7 +112,7 @@ def main(config, path_to_extension, semgrep_results):
                 options.add_argument("--no-sandbox")
 
                 source = result["message"].split(";")[0][7:]
-                # print('SOURCE: ', source)
+                print('SOURCE: ', source)
 
                 match source:
                     case "chrome_contextMenu_create":
@@ -140,7 +127,7 @@ def main(config, path_to_extension, semgrep_results):
                         elif 'pageUrl' in result['taintsource']:
                             context_menu_pageUrl_N
                         else:
-                            print('run all')
+                            print('dont run')
                     case "chrome_contextMenu_onClicked_addListener":
                         if 'selectionText' in result['taintsource']:
                             context_menu_selectionText_N
@@ -153,7 +140,7 @@ def main(config, path_to_extension, semgrep_results):
                         elif 'pageUrl' in result['taintsource']:
                             context_menu_pageUrl_N
                         else:
-                            print('run all')
+                            print('dont run')
                     case "chrome_contextMenu_update":
                         if 'selectionText' in result['taintsource']:
                             context_menu_selectionText_N
@@ -166,7 +153,7 @@ def main(config, path_to_extension, semgrep_results):
                         elif 'pageUrl' in result['taintsource']:
                             context_menu_pageUrl_N
                         else:
-                            print('run all')
+                            print('dont run')
                     case "chrome_cookies_get":
                         cookie_get
                     case "chrome_cookies_getAll":
@@ -179,7 +166,7 @@ def main(config, path_to_extension, semgrep_results):
                         elif 'url' in result['taintsource']:
                             chromeDebugger_url_N
                         else:
-                            print('run all')
+                            print('dont run')
                     case "chrome_runtime_onConnect":
                         runtime_onC
                     case "chrome_runtime_onConnectExternal":
@@ -196,7 +183,7 @@ def main(config, path_to_extension, semgrep_results):
                         elif 'url' in result['taintsource']:
                             chromeTabQuery_url_N
                         else:
-                            print('run all')
+                            print('dont run')
                     case "chrome_tabs_getCurrent":
                         if 'title' in result['taintsource']:
                             chromeTabsQuery_title_N
@@ -205,7 +192,7 @@ def main(config, path_to_extension, semgrep_results):
                         elif 'url' in result['taintsource']:
                             chromeTabQuery_url_N
                         else:
-                            print('run all')
+                            print('dont run')
                     case "chrome_tabs_query":
                         if 'title' in result['taintsource']:
                             chromeTabsQuery_title_N
@@ -214,7 +201,7 @@ def main(config, path_to_extension, semgrep_results):
                         elif 'url' in result['taintsource']:
                             chromeTabQuery_url_N
                         else:
-                            print('run all')
+                            print('dont run')
                     case "location_hash":
                         location_hash
                     case "location_href":
@@ -223,6 +210,9 @@ def main(config, path_to_extension, semgrep_results):
                         locationSearch_N
                     case "window_name":
                         window_name_N
+                    case _:
+                        print('something is')
+
 
                 thread_count = cpu_count()
                 if thread_count is None:
@@ -250,7 +240,7 @@ def main(config, path_to_extension, semgrep_results):
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(chromeTabQuery_favIconUrl_N, args):
+                    for logs in executor.map(function_to_run), args):
                         for log in logs:
                             dynamic_logger.critical(log)    
 
@@ -270,8 +260,6 @@ with open("a.json", "r") as file:
 
 
 if __name__ == '__main__':
-    # semgrep_results = ['123']
-
 
     window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
     location_href_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
@@ -291,7 +279,5 @@ if __name__ == '__main__':
         "custom_payload_file": 'nil',
         'timezone': 'nil'
     }
-
-
 
     main(config, path_to_extension, semgrep_results)
