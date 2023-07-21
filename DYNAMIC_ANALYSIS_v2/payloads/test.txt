@@ -1,25 +1,3 @@
 <img src=xss onerror=alert(1)>
 <img src=xss onerror=alert(1)>
 <img src=xss onerror=alert(1)>
-cao nia mama1
-cao nia mama1
-cao nia mama1
-cao nia mama1
-cao nia mama1
-cao nia mama1
-cao nia mama1
-cao nia mama1
-cao nia mama1
-cao nia mama1
-cao nia mama1
-v3cao nia mama1
-cao nia mama1
-v3v
-cao nia mama1
-v
-cao nia mama1
-cao nia mama1
-v
-v
-v
-v3cao nia mama1
