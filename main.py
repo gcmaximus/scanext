@@ -102,7 +102,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     logs_obj = []
 
     # dynamic_logfile = 'dynamic_logs.txt'
-    dynamic_logfile = 'DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt'
+    dynamic_logfile = 'DYNAMIC_ANALYSIS/Logs/dynamic_logsV2.txt'
 
 
     with open(dynamic_logfile, 'r') as f:

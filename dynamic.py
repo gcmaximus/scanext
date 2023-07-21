@@ -9,8 +9,8 @@ from pyvirtualdisplay.display import Display
 from selenium.webdriver import ChromeOptions
 from tqdm import tqdm
 
-from DYNAMIC_ANALYSIS_v2.case_scenario_functions import *
-from DYNAMIC_ANALYSIS_v2.preconfigure import *
+from DYNAMIC_ANALYSIS.case_scenario_functions import *
+from DYNAMIC_ANALYSIS.preconfigure import *
 
 
 def setup_loggerV2(log_file):
@@ -45,14 +45,14 @@ def main(config, path_to_extension, semgrep_results):
     # set payload file
     if custom_payload_file == "nil":
         # default file
-        payload_file = "DYNAMIC_ANALYSIS_v2/payloads/big_payload.txt"
+        payload_file = "DYNAMIC_ANALYSIS/payloads/big_payload.txt"
     else:
         # user file
         payload_file = f"SHARED/{custom_payload_file}"
 
     print(f"Using payload file: {payload_file}")
 
-    dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS_v2/Logs/dynamic_logsV2.txt')
+    dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS/Logs/dynamic_logsV2.txt')
 
 
     # preconfiguration (set active to false)
@@ -64,8 +64,8 @@ def main(config, path_to_extension, semgrep_results):
 
     
     # new payloads
-    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/payload.txt')
-    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS_v2/payloads/test.txt')
+    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/payload.txt')
+    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/test.txt')
     meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, payload_file)
 
 
@@ -173,7 +173,7 @@ def main(config, path_to_extension, semgrep_results):
 
     # remove all miscellaneous files (directories only)
     shutil.rmtree("tmp")
-    for f in Path("DYNAMIC_ANALYSIS_v2/miscellaneous").glob("*"):
+    for f in Path("DYNAMIC_ANALYSIS/miscellaneous").glob("*"):
         if f.is_dir():
             shutil.rmtree(f)
         

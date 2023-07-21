@@ -1,9 +1,0 @@
-rules:
-    - id: untitled_rule
-      pattern: |
-          $E = document.getElementById(...)
-          ...
-          chrome.tabs.executeScript(..., {code: <... $E.value ...>})
-      message: Semgrep found a match
-      languages: [js]
-      severity: WARNING
