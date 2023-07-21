@@ -101,8 +101,8 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     # Retrieve information from log file
     logs_obj = []
 
-    # dynamic_logfile = 'dynamic_logs.txt'
-    dynamic_logfile = 'DYNAMIC_ANALYSIS/Logs/dynamic_logsV2.txt'
+    # initialise logfile path
+    dynamic_logfile = 'DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt'
 
 
     with open(dynamic_logfile, 'r') as f:
