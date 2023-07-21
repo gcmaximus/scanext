@@ -1,11 +1,15 @@
 {
-    "errors": [],
+    "errors": [
+        {
+            "code": 2,
+            "level": "error",
+            "message": "File not found: STATIC_ANALYSIS/semgrep_rules/chrome_tabs_query\u00a0",
+            "type": "SemgrepError"
+        }
+    ],
     "paths": {
         "_comment": "<add --verbose for a list of skipped paths>",
-        "scanned": [
-            "STATIC_ANALYSIS/semgrep_rules/chrome_tabs_query/test_codes/h1-replacer(v3)/popup.js",
-            "STATIC_ANALYSIS/semgrep_rules/chrome_tabs_query/test_codes/vuln.js"
-        ]
+        "scanned": []
     },
     "results": [],
     "version": "1.27.0"

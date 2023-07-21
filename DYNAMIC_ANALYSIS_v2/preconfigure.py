@@ -193,8 +193,6 @@ def payloads_cycle(n: int, pct: int, file_path: str):
     return tuple((len(pylds), tuple(pylds)) for pylds in meta_payloads)
 
 
-
-
 def manifest_rewrite(file_path):
     manifest_path = os.path.join(file_path, "manifest.json")
 
