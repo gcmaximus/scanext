@@ -17,7 +17,7 @@ There are 2 ways of running ScanExt:
 
 ```
 docker build . -t scanext
-docker run -it -v $(pwd)/SHARED:/scanext/SHARED scanext
+docker run -it -v "$(pwd)/SHARED:/scanext/SHARED" scanext
 ```
 
 2. Run main python program directly
