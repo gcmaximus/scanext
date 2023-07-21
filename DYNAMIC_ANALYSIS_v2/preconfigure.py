@@ -210,17 +210,33 @@ def manifest_rewrite(file_path):
     if "host_permissions" not in manifest_data:
         manifest_data["host_permissions"] = []
 
+    if "permissions" not in manifest_data:
+        manifest_data["permissions"] = []
+
     # Required permissions to be added if not already present
-    required_permissions = [
+    required_host_permissions = [
         "http://*/*",
         "https://*/*",
         "file:///*"
     ]
 
+    required_permissions = [
+        "scripting",
+        "tabs",
+        "activeTab",
+        "debugger",
+        "contextMenus"
+    ]
+
     # Add required permissions if they are not already present
+    for host_permission in required_host_permissions:
+        if host_permission not in manifest_data["host_permissions"]:
+            manifest_data["host_permissions"].append(host_permission)
+    
     for permission in required_permissions:
-        if permission not in manifest_data["host_permissions"]:
-            manifest_data["host_permissions"].append(permission)
+        if permission not in manifest_data["permissions"]:
+            manifest_data["permissions"].append(permission)
+
 
     # Save the updated manifest.json content back to the file
     with open(manifest_path, "w") as manifest_file:
