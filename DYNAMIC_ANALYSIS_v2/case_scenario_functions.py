@@ -24,6 +24,7 @@ from pathlib import Path
 from pytz import timezone as tz
 from datetime import datetime as dt
 from email.utils import format_datetime as fdt
+from dynamic import timezne
 
 # from main import payload_logging
 
@@ -81,7 +82,12 @@ def error_logging(source, error, max_chars=200):
 
 def payload_logging(outcome, source, extension_id, extension_name, url_of_website, payload_type, payload, script, time_of_injection, time_of_alert, payload_filename, packet_info):
     # Convert sets to lists
-    # payload = str(payload)
+    try:
+        time_of_injection = time_of_injection.astimezone(tz(timezne))
+        if time_of_alert !='nil':
+            time_of_alert = time_of_alert.astimezone(tz(timezne))
+    except:
+        pass
 
     payload_log = {
         "outcome": outcome,
@@ -183,7 +189,7 @@ def runtime_onM(args_tuple):
             # for runtime.onMessage, scripts shall be executed in the chrome extension popup
             try:
                 driver.execute_script(script)
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
 
             except Exception as e:
                 # print(' !!!! PAYLOAD FAILLED !!!!')
@@ -199,7 +205,7 @@ def runtime_onM(args_tuple):
                 alert.accept()
 
                 # get time of success [2) extension]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
                 # log for failed payloads
@@ -304,7 +310,7 @@ def runtime_onC(args_tuple):
             # for runtime.onConnect, scripts shall be executed in the chrome extension popup
             try:
                 driver.execute_script(script)
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
             except Exception as e:
                 # print(' !!!! PAYLOAD FAILLED !!!!')
                 driver.refresh()
@@ -318,7 +324,7 @@ def runtime_onC(args_tuple):
                 alert.accept()
 
                 # get time of success [2) extension]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
                 logs.append(payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, 'nil', payload_file, 'nil'))
@@ -432,7 +438,7 @@ def cookie_get(args_tuple):
                 driver.execute_script(script)
 
                 # get time of injection
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
             except Exception as e:
                 driver.refresh()
                 # print(' !!!! PAYLOAD FAILLED !!!!')
@@ -446,7 +452,7 @@ def cookie_get(args_tuple):
                 alert.accept()
                 
                 # get time of success [1) example]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 
             except TimeoutException:
@@ -463,7 +469,7 @@ def cookie_get(args_tuple):
                     # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
                     # print('[example] = No alerts detected =')
@@ -543,7 +549,7 @@ def location_hash(args_tuple):
                 driver.execute_script(script)
 
                 # get time of injection
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
 
             except Exception as e:
                 # print(' !!!! PAYLOAD FAILLED !!!!')
@@ -559,7 +565,7 @@ def location_hash(args_tuple):
                 alert.accept()
                 # print('[example] + Alert Detected +')
                 # get time of success [1) example]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
@@ -576,7 +582,7 @@ def location_hash(args_tuple):
                     # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
                     # print('[example] = No alerts detected =')
@@ -666,7 +672,7 @@ def runtime_onME(args_tuple):
                 driver.execute_script(script)
 
                 # get time of injection
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
 
             except Exception as e:
                 # print(' !!!! PAYLOAD FAILLED !!!!')
@@ -682,7 +688,7 @@ def runtime_onME(args_tuple):
                 alert.accept()
                 # print('[example] + Alert Detected +')
                 # get time of success [1) example]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
@@ -699,7 +705,7 @@ def runtime_onME(args_tuple):
                     # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
                     # print('[example] = No alerts detected =')
@@ -813,7 +819,7 @@ def runtime_onCE(args_tuple):
                 driver.execute_script(script)
 
                 # get time of injection
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
 
             except Exception as e:
                 # print(' !!!! PAYLOAD FAILLED !!!!')
@@ -829,7 +835,7 @@ def runtime_onCE(args_tuple):
                 alert.accept()
                 # print('[example] + Alert Detected +')
                 # get time of success [1) example]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
@@ -846,7 +852,7 @@ def runtime_onCE(args_tuple):
                     # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
                     # print('[example] = No alerts detected =')
@@ -924,7 +930,7 @@ def window_name_N(args_tuple):
                 driver.execute_script(f'window.name = `{payload}`;')
 
                 # get time of injection
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
             except Exception as e:
                 error_logging(source, str(e))
                 continue
@@ -939,7 +945,7 @@ def window_name_N(args_tuple):
                 # print('[example] + Alert Detected +')
 
                 # get time of success [1) example]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
@@ -960,7 +966,7 @@ def window_name_N(args_tuple):
                 # print('[example] + Alert Detected +')
 
                 # get time of success [3) example]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
                 # print('[example] = No alerts detected =')
@@ -1045,7 +1051,7 @@ def location_href_N(args_tuple):
                         driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
 
                         # get time of injection
-                        time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                        time_of_injection = dt.utcnow()
                     except Exception as e:
                         error_logging(source, str(e))
                         continue
@@ -1054,7 +1060,7 @@ def location_href_N(args_tuple):
                         driver.execute_script(f"location.href = `https://www.example.com/#{payload}`")
 
                         # get time of injection
-                        time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                        time_of_injection = dt.utcnow()
 
                     except Exception as e:
                         error_logging(source, str(e))
@@ -1069,7 +1075,7 @@ def location_href_N(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'location.href = `https://www.example.com/?p={payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -1088,7 +1094,7 @@ def location_href_N(args_tuple):
                     alert.accept()
                     
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'location.href = `https://www.example.com/?p={payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -1173,7 +1179,7 @@ def conrtext_menu(args_tuple):
                     driver.execute_script(f'document.getElementById("h1_element").innerText = `{payload}`')
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
 
                 except Exception as e:
                     error_logging(source, str(e))
@@ -1217,7 +1223,7 @@ def conrtext_menu(args_tuple):
                     alert.accept()
                     # print('[example] + Alert Detected +')
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -1237,7 +1243,7 @@ def conrtext_menu(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
                     
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -1332,7 +1338,7 @@ def conrtext_menu(args_tuple):
                             driver.execute_script(f'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`')
                         
                             # get time of injection
-                            time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                            time_of_injection = dt.utcnow()
                         except Exception as e:
                             error_logging(source, str(e))
                             continue
@@ -1343,7 +1349,7 @@ def conrtext_menu(args_tuple):
                             driver.execute_script('var linkElement = document.getElementById("linkUrl"); linkElement.href = "?q=" + `{}`'.format(payload.replace('"', '\\"').replace("'", "\\'")))
 
                             # get time of injection
-                            time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                            time_of_injection = dt.utcnow()
 
                         except Exception as e:
                             error_logging(source, str(e))
@@ -1386,7 +1392,7 @@ def conrtext_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                        time_of_success = dt.utcnow()
                         logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
                     except TimeoutException:
@@ -1404,7 +1410,7 @@ def conrtext_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                        time_of_success = dt.utcnow()
                         logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
                     except TimeoutException:
@@ -1491,7 +1497,7 @@ def conrtext_menu(args_tuple):
                     driver.execute_script(f"document.getElementById('srcUrl').src = `{payload}`")
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
 
                 except Exception as e:
                     error_logging(source, str(e))
@@ -1526,7 +1532,7 @@ def conrtext_menu(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload,r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -1546,7 +1552,7 @@ def conrtext_menu(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -1634,7 +1640,7 @@ def conrtext_menu(args_tuple):
                             driver.execute_script(f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`')
                             script = r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`;'
                             # get time of injection
-                            time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                            time_of_injection = dt.utcnow()
                         except Exception as e:
                             error_logging(source, str(e))
                             continue
@@ -1643,7 +1649,7 @@ def conrtext_menu(args_tuple):
                             driver.execute_script(f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS#{payload}`')
                             script = r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS#{payload}`;'
                             # get time of injection
-                            time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                            time_of_injection = dt.utcnow()
                         except Exception as e:
                             error_logging(source, str(e))
                             continue
@@ -1679,7 +1685,7 @@ def conrtext_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                        time_of_success = dt.utcnow()
                         logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
                     except TimeoutException:
@@ -1701,7 +1707,7 @@ def conrtext_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                        time_of_success = dt.utcnow()
                         logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
                     except TimeoutException:
@@ -1792,7 +1798,7 @@ def conrtext_menu(args_tuple):
                             driver.execute_script(f"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`)")
                             script = r"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`);"
                             # get time of injection
-                            time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                            time_of_injection = dt.utcnow()
                         except Exception as e:
                             error_logging(source, str(e))
                             continue
@@ -1802,7 +1808,7 @@ def conrtext_menu(args_tuple):
                             script = r"window.history.replaceState(null, null, `{website}#{encoded_payload}`);"
 
                             # get time of injection
-                            time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                            time_of_injection = dt.utcnow()
                         except Exception as e:
                             error_logging(source, str(e))
                             continue
@@ -1838,7 +1844,7 @@ def conrtext_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                        time_of_success = dt.utcnow()
                         logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
                     except TimeoutException:
@@ -1857,7 +1863,7 @@ def conrtext_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                        time_of_success = dt.utcnow()
                         logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
                     except TimeoutException:
@@ -1960,7 +1966,7 @@ def chromeTabQuery(args_tuple):
                     driver.execute_script(f'document.title = `{payload}`;')
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
 
                 except Exception as e:
                     error_logging(source, str(e))
@@ -1989,7 +1995,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;", time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2006,7 +2012,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;", time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2091,7 +2097,7 @@ def chromeTabQuery(args_tuple):
                     driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
 
                 except Exception as e:
                     error_logging(source, str(e))
@@ -2120,7 +2126,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, time_of_success, payload_file, 'nil'))
                 
                 except TimeoutException:
@@ -2137,7 +2143,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2300,7 +2306,7 @@ def chromeTabQuery(args_tuple):
                     changeFavIconUrl(driver, order, payload)
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
                 except Exception as e:
                     error_logging(source, str(e))
                     continue
@@ -2324,7 +2330,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2341,7 +2347,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2434,7 +2440,7 @@ def locationSearch_N(args_tuple):
                 driver.execute_script(f'window.location.search=`?q={payload}`')
 
                 # get time of injection
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
             except Exception as e:
                 error_logging(source, str(e))
                 continue
@@ -2447,7 +2453,7 @@ def locationSearch_N(args_tuple):
                 alert = driver.switch_to.alert
                 alert.accept()
 
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.location.search=`?q={payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
@@ -2466,7 +2472,7 @@ def locationSearch_N(args_tuple):
                 alert = driver.switch_to.alert
                 alert.accept()
 
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.location.search=`?q={payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
                 logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.location.search=`?q={payload}`", time_of_injection, 'nil', payload_file, 'nil'))
@@ -2555,7 +2561,7 @@ def chromeDebugger(args_tuple):
                     driver.execute_script(f'document.title = `{payload}`;')
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
 
                 except Exception as e:
                     error_logging(source, str(e))
@@ -2580,7 +2586,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2598,7 +2604,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2675,7 +2681,7 @@ def chromeDebugger(args_tuple):
                     driver.execute_script(f'document.title = `{payload}`;')
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
 
                 except Exception as e:
                     error_logging(source, str(e))
@@ -2700,7 +2706,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2717,7 +2723,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -2804,7 +2810,7 @@ def chromeDebugger(args_tuple):
                     driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
 
                 except Exception as e:
                     error_logging(source, str(e))
@@ -2829,7 +2835,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, time_of_success, payload_file, 'nil'))
                 
                 except TimeoutException:
@@ -2846,7 +2852,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -3010,7 +3016,7 @@ def chromeDebugger(args_tuple):
                     changeFavIconUrl(driver, order, payload)
 
                     # get time of injection
-                    time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_injection = dt.utcnow()
                 except Exception as e:
                     error_logging(source, str(e))
                     continue
@@ -3032,7 +3038,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);", time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -3049,7 +3055,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                    time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.png';document.head.appendChild(link);", time_of_injection, time_of_success, payload_file, 'nil'))
 
                 except TimeoutException:
@@ -3143,7 +3149,7 @@ def windowAddEventListenerMessage(args_tuple):
                 driver.execute_script(f"window.postMessage({payload},'*')")
 
                 # get time of injection
-                time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_injection = dt.utcnow()
             except Exception as e:
                 error_logging(source, str(e))
                 continue
@@ -3158,7 +3164,7 @@ def windowAddEventListenerMessage(args_tuple):
                 # print('[example] + Alert Detected +')
 
                 # get time of success [1) example]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.postMessage({payload},'*')", time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
@@ -3180,7 +3186,7 @@ def windowAddEventListenerMessage(args_tuple):
                 # print('[example] + Alert Detected +')
 
                 # get time of success [3) example]
-                time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+                time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.postMessage({payload},'*')", time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
                 # print('[example] = No alerts detected =')
