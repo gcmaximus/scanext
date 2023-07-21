@@ -73,7 +73,7 @@ def main(config, path_to_extension, semgrep_results):
 
 
     # interprete semgrep scan results
-    interpreted_results = separater(interpreter(semgrep_results)) 
+    interpreted_results = interpreter(semgrep_results)
 
     # define source list (map source to case_scenario function)
     # sourcelist = {
@@ -193,7 +193,7 @@ def main(config, path_to_extension, semgrep_results):
             shutil.rmtree(f)
         
 
-with open("semgrep_results.json", "r") as file:
+with open("a.json", "r") as file:
     semgrep_results = json.load(file)["results"]
 
 
