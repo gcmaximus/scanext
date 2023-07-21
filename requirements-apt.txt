@@ -1,6 +1,4 @@
-libappindicator1
-libindicator7
-libxss1
+python3-pip
 wget
 xdotool
 xvfb
