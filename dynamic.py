@@ -14,6 +14,9 @@ from os import cpu_count
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 import shutil
+from pytz import timezone as tz
+from datetime import datetime as dt
+from email.utils import format_datetime as fdt
 
 
 def setup_loggerV2(log_file):
@@ -43,8 +46,7 @@ def main(config, path_to_extension, semgrep_results):
     percentage_of_payloads = config["percentage_of_payloads"]
     number_of_instances = config["number_of_instances"]
     custom_payload_file = config["custom_payload_file"]
-    global timezne
-    timezne = config["timezone"]
+    timezone = config["timezone"]
 
     # set payload file
     if custom_payload_file == "nil":
@@ -189,14 +191,16 @@ def main(config, path_to_extension, semgrep_results):
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(chromeDebugger, args):
-                        for log in logs:
-                            dynamic_logger.critical(log)    
+                        for log in logs: # log["timeOfInjection"], log["timeOfAlert"]
+                            log["timeOfInjection"] = fdt(log["timeOfInjection"].astimezone(tz(timezone)))
+                            log["timeOfAlert"] = fdt(log["timeOfAlert"].astimezone(tz(timezone)))
+                            dynamic_logger.critical(json.dumps(log))
 
         except Exception as e:
             print("Error while initializing headless chrome driver ")
             print(str(e))
 
-    # remove all miscellaneous files (directories only)        
+    # remove all miscellaneous files (directories only)
     shutil.rmtree("tmp")
     for f in Path("DYNAMIC_ANALYSIS_v2/miscellaneous").glob("*"):
         if f.is_dir():
