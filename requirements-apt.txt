@@ -1,7 +1,6 @@
 libappindicator1
 libindicator7
 libxss1
-tzdata
 wget
 xdotool
 xvfb
