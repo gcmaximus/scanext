@@ -6,3 +6,4 @@ semgrep
 tqdm
 uvicorn
 pyvirtualdisplay
+pytz
