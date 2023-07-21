@@ -3128,7 +3128,12 @@ def windowAddEventListenerMessage(args_tuple):
             driver.refresh()
 
             try:
-                driver.execute_script(f"window.postMessage({payload},'*')")
+                payload = payload.strip()
+                taintsink = result["sink"]
+                obj = {}
+                script = nomagic(taintsink,payload,obj)
+
+                driver.execute_script(f"window.postMessage({script},'*')")
 
                 # get time of injection
                 time_of_injection = dt.utcnow()
