@@ -176,6 +176,7 @@ def main(config, path_to_extension, semgrep_results):
         
 
 if __name__ == '__main__':
+    
     # testing
     with open("semgrep_results.json", "r") as file:
         semgrep_results = json.load(file)["results"]
