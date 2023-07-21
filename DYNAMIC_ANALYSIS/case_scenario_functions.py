@@ -934,25 +934,24 @@ def window_name_N(args_tuple):
                 # print('[example] = No alerts detected =')
                 logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, 'nil', payload_file, 'nil'))
 
+                # 2) Check for alerts in example after refreshing extension
+                driver.switch_to.window(extension)
+                driver.refresh()
+                driver.switch_to.window(example)
 
-            # 2) Check for alerts in example after refreshing extension
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    # print('[example] + Alert Detected +')
 
-            try:
-                # wait 2 seconds to see if alert is detected
-                WebDriverWait(driver, 2).until(EC.alert_is_present())
-                alert = driver.switch_to.alert
-                alert.accept()
-                # print('[example] + Alert Detected +')
-
-                # get time of success [3) example]
-                time_of_success = dt.utcnow()
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, time_of_success, payload_file, 'nil'))
-            except TimeoutException:
-                # print('[example] = No alerts detected =')
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, 'nil', payload_file, 'nil'))
+                    # get time of success [3) example]
+                    time_of_success = dt.utcnow()
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, time_of_success, payload_file, 'nil'))
+                except TimeoutException:
+                    # print('[example] = No alerts detected =')
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
                 # check modifications for example.com
@@ -1211,25 +1210,24 @@ def context_menu(args_tuple):
                 except TimeoutException:
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, 'nil', payload_file, 'nil'))
 
-                driver.switch_to.window(extension)
+                    driver.switch_to.window(extension)
 
-                # 2) Check for alerts in example after refreshing extension
-                driver.refresh()
-                driver.switch_to.window(example)
+                    # 2) Check for alerts in example after refreshing extension
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
 
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
-                    
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
+                        
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, 'nil', payload_file, 'nil'))
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'document.getElementById("h1_element").innerText = `{payload}`', time_of_injection, 'nil', payload_file, 'nil'))
 
 
                 # check for any modifications (snapshot back to original)
@@ -1380,23 +1378,23 @@ def context_menu(args_tuple):
                     except TimeoutException:
                         logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
 
-                    driver.switch_to.window(extension)
+                        driver.switch_to.window(extension)
 
-                    # 2) Check for alerts in example after refreshing extension
-                    driver.refresh()
-                    driver.switch_to.window(example)
-                    # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
-                    try:
-                        # wait 2 seconds to see if alert is detected
-                        WebDriverWait(driver, 2).until(EC.alert_is_present())
-                        alert = driver.switch_to.alert
-                        alert.accept()
+                        # 2) Check for alerts in example after refreshing extension
+                        driver.refresh()
+                        driver.switch_to.window(example)
+                        # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
+                        try:
+                            # wait 2 seconds to see if alert is detected
+                            WebDriverWait(driver, 2).until(EC.alert_is_present())
+                            alert = driver.switch_to.alert
+                            alert.accept()
 
-                        time_of_success = dt.utcnow()
-                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
+                            time_of_success = dt.utcnow()
+                            logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
-                    except TimeoutException:
-                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
+                        except TimeoutException:
+                            logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
 
                     # check for any modifications (snapshot back to original)
                     try: 
@@ -1521,24 +1519,24 @@ def context_menu(args_tuple):
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, 'nil', payload_file, 'nil'))
 
 
-                # 2) Check for alerts in example after refreshing extension\
-                driver.switch_to.window(extension)
-                driver.refresh()
+                    # 2) Check for alerts in example after refreshing extension\
+                    driver.switch_to.window(extension)
+                    driver.refresh()
 
-                driver.switch_to.window(example)
-                # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
+                    driver.switch_to.window(example)
+                    # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
 
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, 'nil', payload_file, 'nil'))
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.getElementById('srcUrl').src = `{payload}`", time_of_injection, 'nil', payload_file, 'nil'))
 
                 try: 
                     # check modifications for example.com
@@ -1673,27 +1671,23 @@ def context_menu(args_tuple):
                     except TimeoutException:
                         logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
 
-                    # 2) Check for alerts in example after refreshing extension
-                    driver.switch_to.window(extension)
+                        # 2) Check for alerts in example after refreshing extension
+                        driver.switch_to.window(extension)
 
-                    # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
-                    # time.sleep(2)
+                        driver.refresh()
+                        driver.switch_to.window(example)
 
-                    driver.refresh()
-                    driver.switch_to.window(example)
-                    # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
+                        try:
+                            # wait 2 seconds to see if alert is detected
+                            WebDriverWait(driver, 2).until(EC.alert_is_present())
+                            alert = driver.switch_to.alert
+                            alert.accept()
 
-                    try:
-                        # wait 2 seconds to see if alert is detected
-                        WebDriverWait(driver, 2).until(EC.alert_is_present())
-                        alert = driver.switch_to.alert
-                        alert.accept()
+                            time_of_success = dt.utcnow()
+                            logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
-                        time_of_success = dt.utcnow()
-                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
-
-                    except TimeoutException:
-                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
+                        except TimeoutException:
+                            logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
 
 
                     # check for any modifications (snapshot back to original)
@@ -1833,23 +1827,23 @@ def context_menu(args_tuple):
                         logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
 
 
-                    # 2) Check for alerts in example after refreshing extension
-                    driver.switch_to.window(extension)
-                    driver.refresh()
-                    driver.switch_to.window(example)
-                    # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
+                        # 2) Check for alerts in example after refreshing extension
+                        driver.switch_to.window(extension)
+                        driver.refresh()
+                        driver.switch_to.window(example)
+                        # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
 
-                    try:
-                        # wait 2 seconds to see if alert is detected
-                        WebDriverWait(driver, 2).until(EC.alert_is_present())
-                        alert = driver.switch_to.alert
-                        alert.accept()
+                        try:
+                            # wait 2 seconds to see if alert is detected
+                            WebDriverWait(driver, 2).until(EC.alert_is_present())
+                            alert = driver.switch_to.alert
+                            alert.accept()
 
-                        time_of_success = dt.utcnow()
-                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
+                            time_of_success = dt.utcnow()
+                            logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, time_of_success, payload_file, 'nil'))
 
-                    except TimeoutException:
-                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
+                        except TimeoutException:
+                            logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, script, time_of_injection, 'nil', payload_file, 'nil'))
 
                     # check for any modifications (snapshot back to original)
                     try: 
@@ -1954,20 +1948,6 @@ def chromeTabQuery(args_tuple):
                     error_logging(source, str(e))
                     continue
 
-
-
-                # # hardcode some interactions
-                # # hardcode some interactions
-                # # hardcode some interactions
-                # driver.switch_to.window(extension)
-                # driver.execute_script("document.getElementById('entryPoint').value = '2';")
-                # driver.execute_script("document.getElementById('submit').click();")
-                # # hardcode some interactions
-                # # hardcode some interactions
-                # # hardcode some interactions
-
-
-
                 # observe behavior after payload injection
                 # 1) Check for alerts in example
                 driver.switch_to.window(example)
@@ -1983,22 +1963,22 @@ def chromeTabQuery(args_tuple):
                 except TimeoutException:
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;", time_of_injection, 'nil', payload_file, 'nil'))
 
-                # 2) Check for alerts in example after refreshing extension
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    # 2) Check for alerts in example after refreshing extension
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;", time_of_injection, time_of_success, payload_file, 'nil'))
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;", time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;", time_of_injection, 'nil', payload_file, 'nil'))
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;", time_of_injection, 'nil', payload_file, 'nil'))
 
 
                 try: 
@@ -2085,20 +2065,6 @@ def chromeTabQuery(args_tuple):
                     error_logging(source, str(e))
                     continue
 
-
-
-                # # hardcode some interactions
-                # # hardcode some interactions
-                # # hardcode some interactions
-                # driver.switch_to.window(extension)
-                # driver.execute_script("document.getElementById('entryPoint').value = '3';")
-                # driver.execute_script("document.getElementById('submit').click();")
-                # # hardcode some interactions
-                # # hardcode some interactions
-                # # hardcode some interactions
-
-
-
                 # observe behavior after payload injection
                 # 1) Check for alerts in example
                 # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
@@ -2114,22 +2080,22 @@ def chromeTabQuery(args_tuple):
                 except TimeoutException:
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, 'nil', payload_file, 'nil'))
 
-                # 2) Check for alerts in example after refreshing extension
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
-            
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
+                    # 2) Check for alerts in example after refreshing extension
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
+                
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, time_of_success, payload_file, 'nil'))
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, 'nil', payload_file, 'nil'))
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, 'nil', payload_file, 'nil'))
 
 
                 try: 
@@ -2293,16 +2259,6 @@ def chromeTabQuery(args_tuple):
                     error_logging(source, str(e))
                     continue
 
-                
-                # # hardcode some interactions
-                # # hardcode some interactions
-                # driver.switch_to.window(extension)
-                # driver.execute_script("document.getElementById('entryPoint').value = '0';")
-                # driver.execute_script("document.getElementById('submit').click();")
-                # # hardcode some interactions
-                # # hardcode some interactions
-
-
                 driver.switch_to.window(example)
                 # observe behavior after payload injection
                 # 1) Check for alerts in example.com
@@ -2318,22 +2274,22 @@ def chromeTabQuery(args_tuple):
                 except TimeoutException:
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, 'nil', payload_file, 'nil'))
 
-                # 2) Check for alerts in example after refreshing extension
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    # 2) Check for alerts in example after refreshing extension
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, time_of_success, payload_file, 'nil'))
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, 'nil', payload_file, 'nil'))
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href = './ChromeTabQueryFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);",time_of_injection, 'nil', payload_file, 'nil'))
 
 
                 # check for modifications in example 
@@ -2427,7 +2383,6 @@ def locationSearch_N(args_tuple):
                 error_logging(source, str(e))
                 continue
 
-
             # 1) Check for alerts in example
             try:
                 # wait 2 seconds to see if alert is detected
@@ -2441,23 +2396,22 @@ def locationSearch_N(args_tuple):
             except TimeoutException:
                 logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.location.search=`?q={payload}`", time_of_injection, 'nil', payload_file, 'nil'))
 
+                # 2) Check for alerts in example after refreshing extension
 
-            # 2) Check for alerts in example after refreshing extension
+                driver.switch_to.window(extension)
+                driver.refresh()
+                driver.switch_to.window(example)
 
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
 
-            try:
-                # wait 2 seconds to see if alert is detected
-                WebDriverWait(driver, 2).until(EC.alert_is_present())
-                alert = driver.switch_to.alert
-                alert.accept()
-
-                time_of_success = dt.utcnow()
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.location.search=`?q={payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
-            except TimeoutException:
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.location.search=`?q={payload}`", time_of_injection, 'nil', payload_file, 'nil'))
+                    time_of_success = dt.utcnow()
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.location.search=`?q={payload}`", time_of_injection, time_of_success, payload_file, 'nil'))
+                except TimeoutException:
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.location.search=`?q={payload}`", time_of_injection, 'nil', payload_file, 'nil'))
 
 
             try: 
@@ -2575,23 +2529,23 @@ def chromeDebugger(args_tuple):
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, 'nil', payload_file, 'nil'))
 
 
-                # 2) Check for alerts in example after refreshing extension
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    # 2) Check for alerts in example after refreshing extension
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, 'nil', payload_file, 'nil'))
-                    
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, 'nil', payload_file, 'nil'))
+                        
                     
                 try: 
                     # [1] check modifications for example.com
@@ -2694,23 +2648,23 @@ def chromeDebugger(args_tuple):
                 except TimeoutException:
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"'document.title = `{payload}`;'",time_of_injection, 'nil', payload_file, 'nil'))
 
-                # 2) Check for alerts in example after refreshing extension
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    # 2) Check for alerts in example after refreshing extension
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"'document.title = `{payload}`;'",time_of_injection, 'nil', payload_file, 'nil'))
-                    
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"'document.title = `{payload}`;'",time_of_injection, 'nil', payload_file, 'nil'))
+                        
 
                 try: 
                     # [1] check modifications for example.com
@@ -2823,22 +2777,22 @@ def chromeDebugger(args_tuple):
                 except TimeoutException:
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, 'nil', payload_file, 'nil'))
 
-                # 2) Check for alerts in example after refreshing extension
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
-            
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
+                    # 2) Check for alerts in example after refreshing extension
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
+                
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, time_of_success, payload_file, 'nil'))
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, 'nil', payload_file, 'nil'))
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"location.href = `https://www.example.com/?p={payload}`",time_of_injection, 'nil', payload_file, 'nil'))
 
 
                 try: 
@@ -3026,22 +2980,22 @@ def chromeDebugger(args_tuple):
                 except TimeoutException:
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{number}/{payload}.png';document.head.appendChild(link);", time_of_injection, 'nil', payload_file, 'nil'))
 
-                # 2) Check for alerts in example after refreshing extension
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    # 2) Check for alerts in example after refreshing extension
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
+                    try:
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-                    time_of_success = dt.utcnow()
-                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.png';document.head.appendChild(link);", time_of_injection, time_of_success, payload_file, 'nil'))
+                        time_of_success = dt.utcnow()
+                        logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.png';document.head.appendChild(link);", time_of_injection, time_of_success, payload_file, 'nil'))
 
-                except TimeoutException:
-                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.png';document.head.appendChild(link);", time_of_injection, 'nil', payload_file, 'nil'))
+                    except TimeoutException:
+                        logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"var link = document.createElement('link');link.type = 'image/jpg';link.rel = 'icon';link.href'./chromeDebuggerFiles/favIconUrl_instance_{order}/{payload}.png';document.head.appendChild(link);", time_of_injection, 'nil', payload_file, 'nil'))
 
 
                 # check for modifications in example 
@@ -3167,25 +3121,25 @@ def windowAddEventListenerMessage(args_tuple):
                 logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.postMessage({payload},'*')", time_of_injection, 'nil', payload_file, 'nil'))
 
 
-            # 2) Check for alerts in example after refreshing extension
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                # 2) Check for alerts in example after refreshing extension
+                driver.switch_to.window(extension)
+                driver.refresh()
+                driver.switch_to.window(example)
 
 
-            try:
-                # wait 2 seconds to see if alert is detected
-                WebDriverWait(driver, 2).until(EC.alert_is_present())
-                alert = driver.switch_to.alert
-                alert.accept()
-                # print('[example] + Alert Detected +')
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    # print('[example] + Alert Detected +')
 
-                # get time of success [3) example]
-                time_of_success = dt.utcnow()
-                logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.postMessage({payload},'*')", time_of_injection, time_of_success, payload_file, 'nil'))
-            except TimeoutException:
-                # print('[example] = No alerts detected =')
-                logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.postMessage({payload},'*')", time_of_injection, 'nil', payload_file, 'nil'))
+                    # get time of success [3) example]
+                    time_of_success = dt.utcnow()
+                    logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.postMessage({payload},'*')", time_of_injection, time_of_success, payload_file, 'nil'))
+                except TimeoutException:
+                    # print('[example] = No alerts detected =')
+                    logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"window.postMessage({payload},'*')", time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
                 # check modifications for example.com
