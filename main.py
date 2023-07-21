@@ -189,6 +189,7 @@ def load_config():
             fdt(dt.now(tz(user_timezone)))
         except:
             print(f'Error: {key} ({user_timezone}) is not a valid timezone.')
+            print('Exiting program...')
             exit()
 
         return True
