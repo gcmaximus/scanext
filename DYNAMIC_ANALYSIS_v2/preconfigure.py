@@ -226,7 +226,6 @@ def manifest_rewrite(file_path):
     with open(manifest_path, "w") as manifest_file:
         json.dump(manifest_data, manifest_file, indent=2)
 
-    print("Manifest permissions updated successfully.")
 
 
 manifest_rewrite('DYNAMIC_ANALYSIS_v2/manifest')
