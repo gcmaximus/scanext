@@ -69,7 +69,7 @@ def main(config, path_to_extension, semgrep_results):
 
 
     # preconfiguration (set active to false)
-    preconfigure(path_to_extension)
+    path_to_extension = preconfigure(path_to_extension)
 
     # interprete semgrep scan results
     # interpreted_results = interpreter(semgrep_results)
