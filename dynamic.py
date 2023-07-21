@@ -72,9 +72,9 @@ def main(config, path_to_extension, semgrep_results):
     path_to_extension = preconfigure(path_to_extension)
 
     # interprete semgrep scan results
-    # interpreted_results = interpreter(semgrep_results)
+    interpreted_results = interpreter(semgrep_results)
 
-    interpreted_results = [123]
+    # interpreted_results = [123]
 
     # define source list (map source to case_scenario function)
     # sourcelist = {
@@ -94,9 +94,21 @@ def main(config, path_to_extension, semgrep_results):
     #     "location_hash":location_hash,
     #     "location_href":location_href,
     #     "location_search":locationSearch,
-    #     "window_addEventListener_message":windowAddEventListenerMessage,
+    #     "location_search":windowAddEventListenerMessage,
     #     "window_name":window_name_new,
     # }
+    
+    # sourcelist[source](driver,ext_id,url_path,payload,result)
+
+
+
+
+
+
+
+
+
+
 
 
     for result in interpreted_results:
@@ -111,9 +123,105 @@ def main(config, path_to_extension, semgrep_results):
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--no-sandbox")
 
-                # source = result["message"].split(";")[0][7:]
+                source = result["message"].split(";")[0][7:]
                 # print('SOURCE: ', source)
-                # sourcelist[source](driver,ext_id,url_path,payload,result)
+
+                match source:
+                    case "chrome_contextMenu_create":
+                        if 'selectionText' in result['taintsource']:
+                            context_menu_selectionText_N
+                        elif 'linkUrl' in result['taintsource']:
+                            context_menu_link_url_N
+                        elif 'srcUrl' in result['taintsource']:
+                            context_menu_src_url_N
+                        elif 'frameUrl' in result['taintsource']:
+                            context_menu_frame_url_N
+                        elif 'pageUrl' in result['taintsource']:
+                            context_menu_pageUrl_N
+                        else:
+                            print('run all')
+                    case "chrome_contextMenu_onClicked_addListener":
+                        if 'selectionText' in result['taintsource']:
+                            context_menu_selectionText_N
+                        elif 'linkUrl' in result['taintsource']:
+                            context_menu_link_url_N
+                        elif 'srcUrl' in result['taintsource']:
+                            context_menu_src_url_N
+                        elif 'frameUrl' in result['taintsource']:
+                            context_menu_frame_url_N
+                        elif 'pageUrl' in result['taintsource']:
+                            context_menu_pageUrl_N
+                        else:
+                            print('run all')
+                    case "chrome_contextMenu_update":
+                        if 'selectionText' in result['taintsource']:
+                            context_menu_selectionText_N
+                        elif 'linkUrl' in result['taintsource']:
+                            context_menu_link_url_N
+                        elif 'srcUrl' in result['taintsource']:
+                            context_menu_src_url_N
+                        elif 'frameUrl' in result['taintsource']:
+                            context_menu_frame_url_N
+                        elif 'pageUrl' in result['taintsource']:
+                            context_menu_pageUrl_N
+                        else:
+                            print('run all')
+                    case "chrome_cookies_get":
+                        cookie_get
+                    case "chrome_cookies_getAll":
+                        cookie_get
+                    case "chrome_debugger_getTargets":
+                        if 'title' in result['taintsource']:
+                            chromeDebugger_title_N
+                        elif 'favIconUrl' in result['taintsource']:
+                            chromeDebugger_favIconUrl_N
+                        elif 'url' in result['taintsource']:
+                            chromeDebugger_url_N
+                        else:
+                            print('run all')
+                    case "chrome_runtime_onConnect":
+                        runtime_onC
+                    case "chrome_runtime_onConnectExternal":
+                        runtime_onCE
+                    case "chrome_runtime_onMessage":
+                        runtime_onM
+                    case "chrome_runtime_onMessageExternal":
+                        runtime_onME
+                    case "chrome_tabs_get":
+                        if 'title' in result['taintsource']:
+                            chromeTabsQuery_title_N
+                        elif 'favIconUrl' in result['taintsource']:
+                            chromeTabQuery_favIconUrl_N
+                        elif 'url' in result['taintsource']:
+                            chromeTabQuery_url_N
+                        else:
+                            print('run all')
+                    case "chrome_tabs_getCurrent":
+                        if 'title' in result['taintsource']:
+                            chromeTabsQuery_title_N
+                        elif 'favIconUrl' in result['taintsource']:
+                            chromeTabQuery_favIconUrl_N
+                        elif 'url' in result['taintsource']:
+                            chromeTabQuery_url_N
+                        else:
+                            print('run all')
+                    case "chrome_tabs_query":
+                        if 'title' in result['taintsource']:
+                            chromeTabsQuery_title_N
+                        elif 'favIconUrl' in result['taintsource']:
+                            chromeTabQuery_favIconUrl_N
+                        elif 'url' in result['taintsource']:
+                            chromeTabQuery_url_N
+                        else:
+                            print('run all')
+                    case "location_hash":
+                        location_hash
+                    case "location_href":
+                        location_href_N
+                    case "location_search":
+                        locationSearch_N
+                    case "window_name":
+                        window_name_N
 
                 thread_count = cpu_count()
                 if thread_count is None:
@@ -156,12 +264,12 @@ def main(config, path_to_extension, semgrep_results):
             shutil.rmtree(f)
         
 
-with open("DYNAMIC_ANALYSIS_v2/window_name_w.json", "r") as file:
+with open("a.json", "r") as file:
     semgrep_results = json.load(file)["results"]
 
 
 if __name__ == '__main__':
-    semgrep_results = ['123']
+    # semgrep_results = ['123']
 
 
     window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
