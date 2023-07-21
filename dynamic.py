@@ -162,9 +162,9 @@ def main(config, path_to_extension, semgrep_results):
                         for log in logs:
                             a, b = log["timeOfInjection"], log["timeOfAlert"]
                             if a != "nil":
-                                a = fdt(a.astimezone(tz(timezone)))
+                                log["timeOfInjection"] = fdt(a.astimezone(tz(timezone)))
                             if b != "nil":
-                                b = fdt(b.astimezone(tz(timezone)))
+                                log["timeOfAlert"] = fdt(b.astimezone(tz(timezone)))
                             dynamic_logger.critical(json.dumps(log))
 
         except Exception as e:
