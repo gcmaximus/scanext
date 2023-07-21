@@ -1,0 +1,9 @@
+<img src='http://127.0.0.1:8000/xss/{}/{}'>
+<script src='http://127.0.0.1:8000/xss/{}/{}'></script>
+<iframe src='http://127.0.0.1:8000/xss/{}/{}'></iframe>
+<audio src='http://127.0.0.1:8000/xss/{}/{}' controls></audio>
+<video src='http://127.0.0.1:8000/xss/{}/{}' controls></video>
+<video controls><source src='http://127.0.0.1:8000/xss/{}/{}'></video>
+<video controls><track src='http://127.0.0.1:8000/xss/{}/{}'></video>
+<embed src='http://127.0.0.1:8000/xss/{}/{}'>
+<frame src='http://127.0.0.1:8000/xss/{}/{}'>
