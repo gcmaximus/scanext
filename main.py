@@ -9,7 +9,6 @@ from email.utils import format_datetime as fdt
 import jsbeautifier
 from bs4 import BeautifulSoup
 
-# from headless_cases import main as dynamic
 from dynamic import main as dynamic
 from static import main as static
 from banners import get_banner
