@@ -1,8 +1,10 @@
 import json
 import shutil
-from email.utils import formatdate
 from pathlib import Path
 from zipfile import ZipFile
+from pytz import timezone as tz
+from datetime import datetime as dt
+from email.utils import format_datetime as fdt
 
 import jsbeautifier
 from bs4 import BeautifulSoup
@@ -179,8 +181,22 @@ def load_config():
 
         return True
 
+    # Check validity of config [datetime]
+    def isValidTimezone(key):
+        user_timezone = config[key]
 
-    if isValidInt(key='report_display_adjacent_lines',min=0) and isValidInt(key='number_of_instances',min=1) and isValidInt(key='percentage_of_payloads',min=1,max=100) and isValidFile('custom_payload_file'): 
+        try:
+            test = fdt(dt.now(tz(user_timezone)))
+        except:
+            print(f'Error: {key} ({user_timezone}) is not a valid timezone.')
+            exit()
+
+        return True
+
+
+
+
+    if isValidInt(key='report_display_adjacent_lines',min=0) and isValidInt(key='number_of_instances',min=1) and isValidInt(key='percentage_of_payloads',min=1,max=100) and isValidFile('custom_payload_file')and isValidTimezone(key='timezone'): 
         return config
 
 # main program
@@ -197,7 +213,8 @@ def main():
             soup = BeautifulSoup(f, "html.parser")
 
         # Get scan date
-        scan_start = formatdate(localtime=True)
+        timezone = config['timezone']
+        scan_start = fdt(dt.now(tz(timezone)))
 
         # Update scan date in report
         soup.find(id="scan-date").string = scan_start
