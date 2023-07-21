@@ -197,13 +197,12 @@ def runtime_onM(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                # print('[extension] + Alert Detected +')
 
                 # get time of success [2) extension]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
-                # print('[extension] = No alerts detected =')
+                # log for failed payloads
                 logs.append(payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
@@ -211,7 +210,6 @@ def runtime_onM(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-                    # print("Navigated back to 'https://www.example.com' due to page source changes")
             except:
                 driver.refresh()
 
@@ -220,17 +218,14 @@ def runtime_onM(args_tuple):
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
                 driver.refresh()
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
         pass
     except Exception as e:
         # Handle any other exceptions that occur
-        # print("An error occurred:", str(e))
         pass
     return logs
 
@@ -312,7 +307,6 @@ def runtime_onC(args_tuple):
                 time_of_injection = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
             except Exception as e:
                 # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
                 driver.refresh()
                 continue
             # check for alerts in example
@@ -322,13 +316,11 @@ def runtime_onC(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                # print('[extension] + Alert Detected +')
 
                 # get time of success [2) extension]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
             except TimeoutException:
-                print('[extension] = No alerts detected =')
                 logs.append(payload_logging("FAILURE", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
@@ -336,7 +328,6 @@ def runtime_onC(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-                    print("Navigated back to 'https://www.example.com' due to page source changes")
             except:
                 driver.refresh()
 
@@ -345,18 +336,13 @@ def runtime_onC(args_tuple):
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
-                print('error')
-            # refresh popup.html
-            driver.refresh()
+                driver.refresh()
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
         pass
     except Exception as e:
         # Handle any other exceptions that occur
-        # print("An error occurred:", str(e))
         pass
     return logs
 
@@ -450,7 +436,6 @@ def cookie_get(args_tuple):
             except Exception as e:
                 driver.refresh()
                 # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
                 continue
 
             # check for alerts in example
@@ -459,11 +444,11 @@ def cookie_get(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                # print('[example] + Alert Detected +')
+                
                 # get time of success [1) example]
                 time_of_success = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
                 logs.append(payload_logging("SUCCESS", source, ext_id, 'h1-replacer(v3)', url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
-            
+                
             except TimeoutException:
                 driver.switch_to.window(extension)
                 driver.refresh()
@@ -641,9 +626,11 @@ def runtime_onME(args_tuple):
         dots = '.'
         taintsink = result["sink"]
         obj = ""
+        var = "" 
         if dots in taintsink:
             obj = nomagic(taintsink,i,obj)
-            script = f"chrome.runtime.sendMessage('{ext_id}',{obj})"
+            var = f"obj = JSON.parse('{obj}');"
+            script = f"{var}chrome.runtime.sendMessage('{ext_id}',obj)"
         else:
             obj = i
             script = f"chrome.runtime.sendMessage('{ext_id}','{obj}')"
