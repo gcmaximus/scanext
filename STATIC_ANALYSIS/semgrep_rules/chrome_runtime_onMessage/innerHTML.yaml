@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onmessage-innerhtml
+  - id: chrome_runtime_onMessage-innerhtml
     mode: taint
     pattern-sources:
       - patterns:

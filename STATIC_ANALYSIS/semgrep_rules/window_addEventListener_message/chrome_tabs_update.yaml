@@ -1,5 +1,5 @@
 rules:
-  - id: chrome_runtime_onConnect-chrome_tabs_update
+  - id: window_addEventListener_message-chrome_tabs_update
     mode: taint
     pattern-sources:
       - patterns:
@@ -40,7 +40,7 @@ rules:
               chrome.tabs.update($W, $X, ...)
           - focus-metavariable:
               - $Y
-    message: Source:chrome_runtime_onConnect;Sink:jQuery_chrome_tabs_update
+    message: Source:window_addEventListener_message;Sink:jQuery_chrome_tabs_update
     languages:
       - js
     severity: WARNING
