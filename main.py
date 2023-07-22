@@ -221,6 +221,9 @@ def main():
     with open(logfile, 'w') as f:
         f.truncate(0)
 
+
+    whole_scan_start = fdt(dt.now(tz(timezone)))
+
     for extension in extraction():
         print()
 
@@ -251,7 +254,7 @@ def main():
 
     # Initialise user dynamic logfile path
     shared_log_file = Path(
-        f"SHARED/LOGS/{scan_start.replace(':','-')}.txt"
+        f"SHARED/LOGS/{whole_scan_start.replace(':','-')}.txt"
     )
 
     shared_log_dir = Path("SHARED/LOGS")
