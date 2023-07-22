@@ -135,7 +135,7 @@ def load_config():
         number_of_instances = config[key]
         thread_count = cpu_count()
         if thread_count is None:
-            print("Unable to determind the number of threads the CPU has.")
+            print("Error: Unable to determine the number of threads the CPU has.")
             print("Exiting ... ")
             exit()
         if number_of_instances == "auto":
@@ -143,13 +143,13 @@ def load_config():
             return True
         isValidInt(key=key, min=1)
         if number_of_instances > round(0.5 * thread_count):
-            print(f"Warning, {number_of_instances} instances requested is > than 50% of your CPU's thread count.")
+            print(f"Error: {number_of_instances} instances requested is > than 50% of your CPU's thread count.")
             print("Exiting ... ")
             exit()
         thread_count //= 4
         if number_of_instances > thread_count:
-            print(f"Warning, {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU.")
-            print("Recommendation = CPU's thread count // 3 - 1")
+            print(f"Warning: {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU.")
+            print("Recommendation = CPU's thread count // 4")
             print("Unexpected errors may occur.")
             print("Continuing ...")
         return True
