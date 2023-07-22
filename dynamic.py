@@ -116,6 +116,10 @@ def main(config, path_to_extension, semgrep_results):
         "window_addEventListener_message":windowAddEventListenerMessage,
         "window_name":window_name_N,
     }
+
+    # clear log file before logging
+    with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt", 'w') as f:
+        f.close()
     
     for result in results:
         # initialize chrome driver
@@ -157,10 +161,6 @@ def main(config, path_to_extension, semgrep_results):
 
                 args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
 
-
-                # clear log file before logging
-                with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt", 'w') as f:
-                    f.close()
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(sourcelist[source], args):
