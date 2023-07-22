@@ -110,8 +110,11 @@ def dynamic_analysis(
         for line in f:
             logs_obj.append(json.loads(line))
 
+    # Filter by ext name
+    filtered_logs = list(filter(lambda ext: ext['extensionName'] == extension.name, logs_obj))
+
     # Sort by source (window.name, etc.)
-    source_sorted_logs = sorted(logs_obj, key=lambda x: x["source"])
+    source_sorted_logs = sorted(filtered_logs, key=lambda x: x["source"])
 
     report_gen.dynamic_results_report(
         source_sorted_logs, extension, soup, config, report_path
@@ -211,6 +214,10 @@ def main():
     print(get_banner())
 
     config = load_config()
+
+    # clear log file before logging
+    with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt", 'w') as f:
+        f.truncate(0)
 
     for extension in extraction():
         print()

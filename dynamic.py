@@ -120,10 +120,6 @@ def main(config, path_to_extension, semgrep_results):
         "window_addEventListener_message":windowAddEventListenerMessage,
         "window_name":window_name_N,
     }
-
-    # clear log file before logging
-    with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt", 'w') as f:
-        f.truncate(0)
     
     for result in results:
         # initialize chrome driver
