@@ -102,7 +102,7 @@ def main(config, path_to_extension, semgrep_results):
         "chrome_contextMenu_update":context_menu,
         "chrome_cookies_get":cookie_get,
         "chrome_cookies_getAll":cookie_get,
-        "chrome_debugger_getTargets":".",
+        "chrome_debugger_getTargets":chromeDebugger,
         "chrome_runtime_onConnect":runtime_onC,
         "chrome_runtime_onConnectExternal":runtime_onCE,
         "chrome_runtime_onMessage":runtime_onM,
@@ -170,7 +170,8 @@ def main(config, path_to_extension, semgrep_results):
                                 log["timeOfInjection"] = fdt(a.astimezone(tz(timezone)))
                             if b != "nil":
                                 log["timeOfAlert"] = fdt(b.astimezone(tz(timezone)))
-                            dynamic_logger.critical(json.dumps(log))
+                            tmp = json.dumps(log)
+                            dynamic_logger.critical(tmp)
 
 
 
