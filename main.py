@@ -221,7 +221,7 @@ def main():
     with open(logfile, 'w') as f:
         f.truncate(0)
 
-
+    timezone = config["timezone"]
     whole_scan_start = fdt(dt.now(tz(timezone)))
 
     for extension in extraction():
@@ -232,7 +232,6 @@ def main():
             soup = BeautifulSoup(f, "html.parser")
 
         # Get scan date
-        timezone = config["timezone"]
         scan_start = fdt(dt.now(tz(timezone)))
 
         # Update scan date in report
