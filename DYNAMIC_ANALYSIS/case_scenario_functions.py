@@ -108,13 +108,13 @@ def handle_multiple_alerts(driver):
 
 # 1) runtime.onMessage
 def runtime_onM(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
     logs = []
     scripts = []
     payload = {}
     source = 'chrome.runtime.onMessage'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
 
     for payload_no, i in enumerate(payloads):
         dots = '.'
@@ -219,13 +219,13 @@ def runtime_onM(args_tuple):
 
 # 2) runtime.onConnect
 def runtime_onC(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
     logs = []
     scripts = []
     payload = {}
     source = 'chrome.runtime.onConnect'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
 
     for payload_no, i in enumerate(payloads):
         dots = '.'
@@ -336,13 +336,13 @@ def runtime_onC(args_tuple):
 
 # 3) cookies.get && cookies.getAll
 def cookie_get(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
     logs = []
     scripts = []
     payload = {}
     source = 'cookies.get/cookies.getAll'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
     for payload_no, i in enumerate(payloads):
         dots = '.'
         taintsource = result["taintsource"]
@@ -489,13 +489,13 @@ def cookie_get(args_tuple):
 
 # 4) location.hash
 def location_hash(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
     logs = []
     scripts = []
     payload = {}
     source = 'location.hash'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
 
     for payload_no, i in enumerate(payloads):
         script = f"window.location.hash = '{i}'"
@@ -602,13 +602,13 @@ def location_hash(args_tuple):
 
 #  5) runtime.onMessageExternal
 def runtime_onME(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
     logs = []
     scripts = []
     payload = {}
     source = 'chrome.runtime.onMessageExternal'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
 
     for payload_no, i in enumerate(payloads):
         dots = '.'
@@ -724,13 +724,13 @@ def runtime_onME(args_tuple):
 
 # 6) runtime.onConnectExternal
 def runtime_onCE(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
     logs = []
     scripts = []
     payload = {}
     source = 'chrome.runtime.onConnectExternal'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
     
     for payload_no, i in enumerate(payloads):
         dots = '.'
@@ -871,13 +871,13 @@ def runtime_onCE(args_tuple):
 
 # new window.name_normal (works)
 def window_name_N(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
     logs = []
     source = 'window.name'
     ext_name = 'h1-replacer(v3)'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
 
 
     driver = Chrome(service=Service(), options=option)
@@ -990,7 +990,7 @@ def location_href_N(args_tuple):
     source = 'location.href'
     ext_name = 'h1-replacer(v3)'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
 
     driver = Chrome(service=Service(), options=option)
     try:
@@ -1109,17 +1109,17 @@ def location_href_N(args_tuple):
 
 # combined contextMenu
 def context_menu(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
     # new contextMenu.selectionText_normal (works)
     def context_menu_selectionText_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'contextMenu.selectionText'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'DYNAMIC_ANALYSIS/miscellaneous/xss_website.html'
-        payload_file = 'small_payload.txt'
+        
 
 
         driver = Chrome(service=Service(), options=option)
@@ -1261,13 +1261,13 @@ def context_menu(args_tuple):
 
     # new contextMenu.link_Url (works)
     def context_menu_link_url_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'contextMenu.linkUrl'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'DYNAMIC_ANALYSIS/miscellaneous/xss_website.html'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
 
@@ -1427,13 +1427,13 @@ def context_menu(args_tuple):
 
     # new contextMenu.srcUrl (works)
     def context_menu_src_url_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'contextMenu.srcUrl'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'DYNAMIC_ANALYSIS/miscellaneous/xss_website.html'
-        payload_file = 'small_payload.txt'
+        
 
 
         driver = Chrome(service=Service(), options=option)
@@ -1567,13 +1567,13 @@ def context_menu(args_tuple):
 
     # new contextMenu.frameUrl (works for jerald but not for me. smlj)
     def context_menu_frame_url_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'contextMenu.frameUrl'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'DYNAMIC_ANALYSIS/miscellaneous/xss_website.html'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
 
@@ -1721,13 +1721,13 @@ def context_menu(args_tuple):
 
     # new contextMenu.pageUrl (works)
     def context_menu_pageUrl_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'contextMenu.pageUrl'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'DYNAMIC_ANALYSIS/miscellaneous/xss_website.html'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
         
@@ -1893,17 +1893,17 @@ def context_menu(args_tuple):
 
 # combined chromeTabQuery
 def chromeTabQuery(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
     # new chromeTabsQuery.title (works)
     def chromeTabsQuery_title_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'chromeTabsQuery.title'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'https://www.example.com'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
 
@@ -2012,13 +2012,13 @@ def chromeTabQuery(args_tuple):
 
     # new chromeTabQuery.url (works)
     def chromeTabQuery_url_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'chromeTabQuery.url'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'https://www.example.com'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
 
@@ -2132,13 +2132,13 @@ def chromeTabQuery(args_tuple):
     # new chromeTabQuery.favIconUrl (works)
     def chromeTabQuery_favIconUrl_N(args_tuple):
 
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'chromeTabsQuery.favIconUrl'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'DYNAMIC_ANALYSIS/miscellaneous/xss_website.html'
-        payload_file = 'small_payload.txt'
+        
 
 
         driver = Chrome(service=Service(), options=option)
@@ -2335,13 +2335,13 @@ def chromeTabQuery(args_tuple):
 
 # new location.search (works)
 def locationSearch_N(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
     logs = []
     source = 'location.search'
     ext_name = 'h1-replacer(v3)'
     url_of_injection_example = 'https://www.example.com'
-    payload_file = 'small_payload.txt'
+    
 
     driver = Chrome(service=Service(), options=option)
 
@@ -2446,17 +2446,17 @@ def locationSearch_N(args_tuple):
 
 # combined chromeDebugger
 def chromeDebugger(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
     # new chrome.Debugger.GetTargets (works)
     def chromeDebugger_title_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'chromeDebugger.GetTargets.title'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'https://www.example.com'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
 
@@ -2579,13 +2579,13 @@ def chromeDebugger(args_tuple):
 
     # new chrome.Debugger.GetTargets (works, but loaded extension first instead of browser)
     def chromeDebugger_title_N_EXT_FIRST(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'chromeDebugger.GetTargets.title'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'https://www.example.com'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
 
@@ -2700,13 +2700,13 @@ def chromeDebugger(args_tuple):
 
     # new chrome.Debugger.GetTargets (works)
     def chromeDebugger_url_N(args_tuple):
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'chromeTabQuery.url'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'https://www.example.com'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
         try:
@@ -2829,13 +2829,13 @@ def chromeDebugger(args_tuple):
     # new chromeDebugger_favIconUrl (works)
     def chromeDebugger_favIconUrl_N(args_tuple):
         
-        progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+        progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
         logs = []
         source = 'chromeTabsQuery.favIconUrl'
         ext_name = 'h1-replacer(v3)'
         url_of_injection_example = 'DYNAMIC_ANALYSIS/miscellaneous/xss_website.html'
-        payload_file = 'small_payload.txt'
+        
 
         driver = Chrome(service=Service(), options=option)
         dir_path = Path(f'DYNAMIC_ANALYSIS/miscellaneous/chromeDebuggerFiles/favIconUrl_instance_{order}')
@@ -3040,14 +3040,14 @@ def chromeDebugger(args_tuple):
 
 # new window.addEventListernerMessage (shd work (old ver))
 def windowAddEventListenerMessage(args_tuple):
-    progress_bar, order, option, payloads, url_path, ext_id, result = args_tuple
+    progress_bar, order, option, payloads, url_path, ext_id, payload_file, result = args_tuple
 
 
     logs = []
     source = "window.addEventListerner('message')"
     ext_name = 'h1-replacer(v3)'
     url_of_injection_example = 'DYNAMIC_ANALYSIS/miscellaneous/xss_website.html'
-    payload_file = 'small_payload.txt'
+    
 
     driver = Chrome(service=Service(), options=option)
 

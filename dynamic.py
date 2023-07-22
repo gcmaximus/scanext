@@ -159,7 +159,7 @@ def main(config, path_to_extension, semgrep_results):
                     for order in range(number_of_instances)
                 ]
 
-                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, result) for order in range(number_of_instances)]
+                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, payload_file, result) for order in range(number_of_instances)]
 
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
