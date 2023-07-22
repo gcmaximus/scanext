@@ -27,6 +27,10 @@ def setup_loggerV2(log_file):
     formatter = logging.Formatter(log_format)
     file_handler.setFormatter(formatter)
 
+    # Clear any existing handlers 
+    if (logger.hasHandlers()):
+        logger.handlers.clear()
+    
     # Add the handler to the logger
     logger.addHandler(file_handler)
 
