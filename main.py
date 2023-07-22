@@ -138,7 +138,11 @@ def load_config():
             print("Unable to determind the number of threads the CPU has.")
             print("Exiting ... ")
             exit()
-        thread_count = thread_count // 3 - 1
+        if number_of_instances > round(0.5 * thread_count):
+            print(f"Warning, {number_of_instances} instances requested is > than 50% of your CPU's thread count.")
+            print("Exiting ... ")
+            exit()
+        thread_count //= 4
         if number_of_instances > thread_count:
             print(f"Warning, {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU.")
             print("Recommendation = CPU's thread count // 3 - 1")
@@ -221,9 +225,9 @@ def load_config():
         isValidInt(key="report_display_adjacent_lines", min=0),
         isValidInt(key="number_of_instances", min=1),
         isValidInt(key="percentage_of_payloads", min=1, max=100),
-        isValidFile("custom_payload_file"),
+        isValidFile(key="custom_payload_file"),
         isValidTimezone(key="timezone"),
-        isThreadValid("number_of_instances")
+        isThreadValid(key="number_of_instances")
     )
     if all(tests):
         return config
