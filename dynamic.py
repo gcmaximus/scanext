@@ -60,7 +60,7 @@ def main(config, path_to_extension, semgrep_results):
 
 
     # obtain relevant extension information
-    url_path, abs_path, ext_id = get_ext_id(path_to_extension)
+    url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_extension)
 
     
     # new payloads
@@ -159,7 +159,7 @@ def main(config, path_to_extension, semgrep_results):
                     for order in range(number_of_instances)
                 ]
 
-                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, payload_file, result) for order in range(number_of_instances)]
+                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, ext_name, payload_file, result) for order in range(number_of_instances)]
 
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:

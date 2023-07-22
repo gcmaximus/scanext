@@ -160,7 +160,8 @@ def get_ext_id(path_to_extension):
     m.update(abs_path.encode("utf-8"))
     ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
     url_path = f"chrome-extension://{ext_id}/popup.html"
-    return url_path, abs_path, ext_id
+    ext_name = path.basename(abs_path)
+    return url_path, abs_path, ext_id, ext_name
 
 # definind payloads
 def payloads(path_to_payload):
