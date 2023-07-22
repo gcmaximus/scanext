@@ -9,6 +9,9 @@ from zipfile import ZipFile
 import jsbeautifier
 from bs4 import BeautifulSoup
 from pytz import timezone as tz
+from pyvirtualdisplay.display import Display
+from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver.chrome.service import Service
 
 import report_gen
 from banners import get_banner
@@ -89,7 +92,9 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config, report_path):
 
 
 # conduct dynamic analysis using Selenium
-def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, report_path):
+def dynamic_analysis(
+    results, extension: Path, soup: BeautifulSoup, config, report_path
+):
     print()
     print("Conducting dynamic analysis ...")
 
@@ -110,7 +115,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
             logs_obj.append(json.loads(line))
 
     # Filter by ext name
-    filtered_logs = filter(lambda ext: ext['extensionName'] == extension.name, logs_obj)
+    filtered_logs = filter(lambda ext: ext["extensionName"] == extension.name, logs_obj)
 
     # Sort by source (window.name, etc.)
     source_sorted_logs = sorted(filtered_logs, key=lambda x: x["source"])
@@ -120,16 +125,12 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
     )
 
 
-
-
-
-
 # load configurations set by user
 def load_config():
     # Load config
     with open("SHARED/config.json") as f:
         config: dict = json.load(f)
-    
+
     # Check thread count requested
     def isThreadValid(key):
         number_of_instances = config[key]
@@ -143,12 +144,16 @@ def load_config():
             return True
         isValidInt(key=key, min=1)
         if number_of_instances > round(0.5 * thread_count):
-            print(f"Error: {number_of_instances} instances requested is > than 50% of your CPU's thread count.")
+            print(
+                f"Error: {number_of_instances} instances requested is > than 50% of your CPU's thread count."
+            )
             print("Exiting ... ")
             exit()
         thread_count //= 4
         if number_of_instances > thread_count:
-            print(f"Warning: {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU.")
+            print(
+                f"Warning: {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU."
+            )
             print("Recommendation = CPU's thread count // 4")
             print("Unexpected errors may occur.")
             print("Continuing ...")
@@ -230,21 +235,46 @@ def load_config():
         isValidInt(key="percentage_of_payloads", min=1, max=100),
         isValidFile(key="custom_payload_file"),
         isValidTimezone(key="timezone"),
-        isThreadValid(key="number_of_instances")
+        isThreadValid(key="number_of_instances"),
     )
     if all(tests):
         return config
 
 
+# Test selenium / cache driver
+def test_selenium():
+    print("Testing Selenium ... ", end="")
+    with Display():
+        try:
+            options = ChromeOptions()
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--no-sandbox")
+            with Chrome(service=Service(), options=options) as driver:
+                webpage_url = "file://" + str(Path("DYNAMIC_ANALYSIS/miscellaneous/xss_website.html").absolute())
+                driver.get(webpage_url)
+                if driver.title != "Xss Website":
+                    print(CROSS)
+                    print("Error: Selenium test failed!")
+                    print("Exiting ...")
+                    exit()
+        except Exception as e:
+            print(CROSS)
+            print(f"Error: Selenium test error: {e}")
+            print("Exiting ...")
+            exit()
+    print(TICK)
+    return True
+
+
 # main program
 def main():
     print(get_banner())
-
     config = load_config()
+    test_selenium()
 
     # clear log file before logging
     logfile = "DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt"
-    with open(logfile, 'w') as f:
+    with open(logfile, "w") as f:
         f.truncate(0)
 
     timezone = config["timezone"]
@@ -278,16 +308,14 @@ def main():
     # Copy logfile to SHARED
 
     # Initialise user dynamic logfile path
-    shared_log_file = Path(
-        f"SHARED/LOGS/{whole_scan_start.replace(':','-')}.txt"
-    )
+    shared_log_file = Path(f"SHARED/LOGS/{whole_scan_start.replace(':','-')}.txt")
 
     shared_log_dir = Path("SHARED/LOGS")
     if not shared_log_dir.exists():
         shared_log_dir.mkdir()
     shutil.copyfile(logfile, shared_log_file)
     print()
-    print(f'Logs from this scan are available in `{shared_log_file}`')
+    print(f"Logs from this scan are available in `{shared_log_file}`")
 
 
 if __name__ == "__main__":
