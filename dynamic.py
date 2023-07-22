@@ -131,7 +131,7 @@ def main(config, path_to_extension, semgrep_results):
                 options.add_argument("--enable-logging")
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--no-sandbox")
-                options.add_argument("--disable-gpu")
+                # options.add_argument("--disable-gpu")
 
                 source = result["source"]
                 print('SOURCE: ', source)
