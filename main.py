@@ -108,7 +108,7 @@ def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, repo
             logs_obj.append(json.loads(line))
 
     # Filter by ext name
-    filtered_logs = list(filter(lambda ext: ext['extensionName'] == extension.name, logs_obj))
+    filtered_logs = filter(lambda ext: ext['extensionName'] == extension.name, logs_obj)
 
     # Sort by source (window.name, etc.)
     source_sorted_logs = sorted(filtered_logs, key=lambda x: x["source"])
