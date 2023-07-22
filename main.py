@@ -1,19 +1,21 @@
 import json
 import shutil
-from pathlib import Path
-from zipfile import ZipFile
-from pytz import timezone as tz
 from datetime import datetime as dt
 from email.utils import format_datetime as fdt
+from os import cpu_count
+from pathlib import Path
+from zipfile import ZipFile
 
 import jsbeautifier
 from bs4 import BeautifulSoup
+from pytz import timezone as tz
 
-from dynamic import main as dynamic
-from static import main as static
+import report_gen
 from banners import get_banner
 from constants import *
-import report_gen
+from dynamic import main as dynamic
+from static import main as static
+
 
 # return CROSS or TICK icon
 def icon(boolean: bool):
@@ -127,6 +129,22 @@ def load_config():
     # Load config
     with open("SHARED/config.json") as f:
         config: dict = json.load(f)
+    
+    # Check thread count requested
+    def isThreadValid(key):
+        number_of_instances = config[key]
+        thread_count = cpu_count()
+        if thread_count is None:
+            print("Unable to determind the number of threads the CPU has.")
+            print("Exiting ... ")
+            exit()
+        thread_count = thread_count // 3 - 1
+        if number_of_instances > thread_count:
+            print(f"Warning, {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU.")
+            print("Recommendation = CPU's thread count // 3 - 1")
+            print("Unexpected errors may occur.")
+            print("Continuing ...")
+        return True
 
     # Check validity of config [int]
     def isValidInt(key, min, max=None):
@@ -205,6 +223,7 @@ def load_config():
         isValidInt(key="percentage_of_payloads", min=1, max=100),
         isValidFile("custom_payload_file"),
         isValidTimezone(key="timezone"),
+        isThreadValid("number_of_instances")
     )
     if all(tests):
         return config

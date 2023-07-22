@@ -2,7 +2,6 @@ import logging
 import shutil
 from concurrent.futures import ThreadPoolExecutor
 from email.utils import format_datetime as fdt
-from os import cpu_count
 
 from pytz import timezone as tz
 from pyvirtualdisplay.display import Display
@@ -135,20 +134,7 @@ def main(config, path_to_extension, semgrep_results):
 
                 source = result["source"]
                 print('SOURCE: ', source)
-
-                thread_count = cpu_count()
-                if thread_count is None:
-                    print("Unable to determind the number of threads the CPU has.")
-                    print("Exiting ... ")
-                    exit()
-
-                thread_count //= 3
-                if number_of_instances > thread_count:
-                    print(f"Warning, {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU.")
-                    print("Recommendation = CPU's thread count // 3.")
-                    print("Continuing ... ")
-
-
+                
                 progress_bars = [
                     tqdm(
                         colour="#00ff00",
