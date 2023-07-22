@@ -11,6 +11,9 @@ from tqdm import tqdm
 from DYNAMIC_ANALYSIS.case_scenario_functions import *
 from DYNAMIC_ANALYSIS.preconfigure import *
 
+from multiprocessing import Process
+from server import main as server
+
 
 def setup_loggerV2(log_file):
     # Create a logger with a specific name (using an empty string for the root logger)
@@ -120,6 +123,9 @@ def main(config, path_to_extension, semgrep_results):
         "window_name":window_name_N,
     }
     
+    local_server = Process(target=server)
+    local_server.start()
+
     for result in results:
         # initialize chrome driver
         try:
@@ -160,10 +166,11 @@ def main(config, path_to_extension, semgrep_results):
                             dynamic_logger.critical(json.dumps(log))
 
 
-
         except Exception as e:
             print("Error while initializing headless chrome driver ")
             print(str(e))
+    
+    local_server.kill()
 
     # remove all miscellaneous files (directories only)
     shutil.rmtree("tmp")
