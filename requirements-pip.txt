@@ -1,7 +1,7 @@
 beautifulsoup4
 fastapi
 jsbeautifier
-selenium==4.9.0
+selenium
 semgrep
 tqdm
 uvicorn
