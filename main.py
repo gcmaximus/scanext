@@ -12,9 +12,8 @@ from bs4 import BeautifulSoup
 from dynamic import main as dynamic
 from static import main as static
 from banners import get_banner
-import report_gen
 from constants import *
-
+import report_gen
 
 # return CROSS or TICK icon
 def icon(boolean: bool):
@@ -88,9 +87,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config, report_path):
 
 
 # conduct dynamic analysis using Selenium
-def dynamic_analysis(
-    results, extension: Path, soup: BeautifulSoup, config, report_path
-):
+def dynamic_analysis(results, extension: Path, soup: BeautifulSoup, config, report_path):
     print()
     print("Conducting dynamic analysis ...")
 
@@ -119,6 +116,10 @@ def dynamic_analysis(
     report_gen.dynamic_results_report(
         source_sorted_logs, extension, soup, config, report_path
     )
+
+
+
+
 
 
 # load configurations set by user
@@ -216,7 +217,8 @@ def main():
     config = load_config()
 
     # clear log file before logging
-    with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt", 'w') as f:
+    logfile = "DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt"
+    with open(logfile, 'w') as f:
         f.truncate(0)
 
     for extension in extraction():
@@ -244,6 +246,20 @@ def main():
         # If static analysis found vulns, start dynamic analysis
         if results:
             dynamic_analysis(results, extension, soup, config, report_path)
+
+    # Copy logfile to SHARED
+
+    # Initialise user dynamic logfile path
+    shared_log_file = Path(
+        f"SHARED/LOGS/{scan_start.replace(':','-')}.txt"
+    )
+
+    shared_log_dir = Path("SHARED/LOGS")
+    if not shared_log_dir.exists():
+        shared_log_dir.mkdir()
+    shutil.copyfile(logfile, shared_log_file)
+    print()
+    print(f'Logs from this scan are available in `{shared_log_file}`')
 
 
 if __name__ == "__main__":

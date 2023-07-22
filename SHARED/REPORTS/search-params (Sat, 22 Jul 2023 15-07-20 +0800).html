@@ -2,7 +2,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>ScanExt Report - h1-window-name</title>
+<title>ScanExt Report - search-params</title>
 <!-- Bootstrap -->
 <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet"/>
 <!-- Poppins -->
@@ -219,14 +219,14 @@
 </div>
 <div class="row files-header">
 <p style="color: white">Folder scanned:</p>
-<p><code id="scanned-folder">h1-window-name</code></p>
+<p><code id="scanned-folder">search-params</code></p>
 </div>
 <div class="row main-heading">
 <table class="table table-secondary table-bordered border-dark table-striped">
 <tbody>
 <tr>
 <td><b>Extension Name</b></td>
-<td id="ext-name">&lt;h1&gt; replacer</td>
+<td id="ext-name">Query Parameter Extension</td>
 </tr>
 <tr>
 <td><b>Extension Version</b></td>
@@ -238,7 +238,7 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Sat, 22 Jul 2023 13:51:08 +0800</td>
+<td id="scan-date">Sat, 22 Jul 2023 15:07:20 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
@@ -264,7 +264,7 @@
 <div class="card static-result">
 <div class="card-header">
 <span class="float-start">
-<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-1"><b>File:</b> h1-window-name/contentScript.js</span>
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-1"><b>File:</b> search-params/popup.js</span>
 </span>
 </div>
 <div class="card-body">
@@ -272,8 +272,8 @@
 <div class="row">
 <div class="col-6 source-desc">
 <!-- Source -->
-<h5><u>Source ID: <code id="source-1">window_name</code></u></h5>
-<p id="source-desc-1"><code>window.name</code> can be used as an entry point for user-controlled data due the fact that it's accessible cross-origin. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
+<h5><u>Source ID: <code id="source-1">location_search</code></u></h5>
+<p id="source-desc-1"><code>location.search</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
 </div>
 <div class="col-6 sink-desc">
 <!-- Sink -->
@@ -286,17 +286,23 @@
 <h5><u>Location of vulnerability</u></h5>
 <p>The following code segment shows the location of the source and sink.</p>
 <pre class="code-block" id="code-block-1"><code>
-    1		// source: window.name</code><code>
-    2		// *******************</code><code class="code-source">
-    3		<mark id="code-source-1">var v = window.name</mark>	<span class="code-comment">/* Source */</span></code><code>
+    1		function toDo(tab) {</code><code>
+    2		    //location.search</code><code class="code-source">
+    3		<mark id="code-source-1">    query = window.location.search</mark>	<span class="code-comment">/* Source */</span></code><code>
     ...		...</code><code class="code-sink">
-    7		<mark id="code-sink-1">    tags[i].innerHTML = v</mark>	<span class="code-comment">/* Sink */</span></code><code>
-    8		}</code><code>
-    9		</code><code>
-    10		// source: input field</code>
+    12		<mark id="code-sink-1">        elements[i].innerHTML = `Your query is: ${query}`</mark>	<span class="code-comment">/* Sink */</span></code><code>
+    13		    }</code><code>
+    14		}</code><code>
+    15		async function getCurrentTab() {</code>
     </pre>
+<br>
+<h5><u>Tainted variables</u></h5>
+<p>Tainted data is transmitted from the source to sink along the following route.</p>
+<pre class="code-block"><code class="code-taint">
+    10		<mark class="mark-taint" id="code-taint-1">        var query = decodeURI(query)</mark>	<span class="code-comment">/* Tainted */</span></code>
+                    </pre>
 <i>*This code has been beautified by js-beautify.</i>
-</p>
+</br></p>
 </div>
 </div>
 </div>
@@ -312,7 +318,7 @@
 <!-- Source -->
 <div class="card dynamic-result">
 <div class="card-header">
-<i class="fa fa-flag-checkered" style="font-size:20px"></i> <span style="font-size: 18px"><b>Source 1 :</b> <u>window.name</u></span>
+<i class="fa fa-flag-checkered" style="font-size:20px"></i> <span style="font-size: 18px"><b>Source 1 :</b> <u>location.search</u></span>
 </div>
 <div class="card-body">
 <p class="card-text">
@@ -347,7 +353,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-1">&lt;img/src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-1">&lt;img src=x onerror=alert(1)&gt;</td>
 <td class="consolas" id="payload-url-1">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -355,14 +361,14 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-1">Sat, 22 Jul 2023 05:51:23 +0800</td>
-<td id="payload-end-1">Sat, 22 Jul 2023 05:51:25 +0800</td>
+<td id="payload-start-1">Sat, 22 Jul 2023 07:07:34 +0800</td>
+<td id="payload-end-1">Sat, 22 Jul 2023 07:07:37 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
 </tr>
 <tr>
-<td class="consolas" colspan="2" id="payload-script-1">window.name = `{payload}`;</td>
+<td class="consolas" colspan="2" id="payload-script-1">window.location.search=`?q={payload}`</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Packet Info</th>
@@ -389,14 +395,14 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-2">Sat, 22 Jul 2023 05:51:32 +0800</td>
-<td id="payload-end-2">Sat, 22 Jul 2023 05:51:34 +0800</td>
+<td id="payload-start-2">Sat, 22 Jul 2023 07:07:38 +0800</td>
+<td id="payload-end-2">Sat, 22 Jul 2023 07:07:40 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
 </tr>
 <tr>
-<td class="consolas" colspan="2" id="payload-script-2">window.name = `{payload}`;</td>
+<td class="consolas" colspan="2" id="payload-script-2">window.location.search=`?q={payload}`</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Packet Info</th>
@@ -415,7 +421,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-3">&lt;img src=x onerror=alert(1)&gt;</td>
+<td class="consolas" id="payload-3">&lt;img/src/onerror=prompt(8)&gt;</td>
 <td class="consolas" id="payload-url-3">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -423,14 +429,14 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-3">Sat, 22 Jul 2023 05:51:34 +0800</td>
-<td id="payload-end-3">Sat, 22 Jul 2023 05:51:37 +0800</td>
+<td id="payload-start-3">Sat, 22 Jul 2023 07:07:45 +0800</td>
+<td id="payload-end-3">Sat, 22 Jul 2023 07:07:47 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
 </tr>
 <tr>
-<td class="consolas" colspan="2" id="payload-script-3">window.name = `{payload}`;</td>
+<td class="consolas" colspan="2" id="payload-script-3">window.location.search=`?q={payload}`</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Packet Info</th>
@@ -449,7 +455,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-4">&lt;image/src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-4">&lt;image src/onerror=prompt(8)&gt;</td>
 <td class="consolas" id="payload-url-4">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -457,14 +463,14 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-4">Sat, 22 Jul 2023 05:51:23 +0800</td>
-<td id="payload-end-4">Sat, 22 Jul 2023 05:51:25 +0800</td>
+<td id="payload-start-4">Sat, 22 Jul 2023 07:07:34 +0800</td>
+<td id="payload-end-4">Sat, 22 Jul 2023 07:07:36 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
 </tr>
 <tr>
-<td class="consolas" colspan="2" id="payload-script-4">window.name = `{payload}`;</td>
+<td class="consolas" colspan="2" id="payload-script-4">window.location.search=`?q={payload}`</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Packet Info</th>
@@ -483,7 +489,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-5">&lt;image src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-5">&lt;image/src/onerror=prompt(8)&gt;</td>
 <td class="consolas" id="payload-url-5">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -491,14 +497,14 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-5">Sat, 22 Jul 2023 05:51:34 +0800</td>
-<td id="payload-end-5">Sat, 22 Jul 2023 05:51:36 +0800</td>
+<td id="payload-start-5">Sat, 22 Jul 2023 07:07:45 +0800</td>
+<td id="payload-end-5">Sat, 22 Jul 2023 07:07:47 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
 </tr>
 <tr>
-<td class="consolas" colspan="2" id="payload-script-5">window.name = `{payload}`;</td>
+<td class="consolas" colspan="2" id="payload-script-5">window.location.search=`?q={payload}`</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Packet Info</th>

