@@ -174,8 +174,7 @@ def main(config, path_to_extension, semgrep_results):
                                 log["timeOfInjection"] = fdt(a.astimezone(tz(timezone)))
                             if b != "nil":
                                 log["timeOfAlert"] = fdt(b.astimezone(tz(timezone)))
-                            tmp = json.dumps(log)
-                            dynamic_logger.critical(tmp)
+                            dynamic_logger.critical(json.dumps(log))
 
 
 
