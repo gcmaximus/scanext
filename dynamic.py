@@ -119,7 +119,7 @@ def main(config, path_to_extension, semgrep_results):
 
     # clear log file before logging
     with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt", 'w') as f:
-        f.close()
+        f.truncate(0)
     
     for result in results:
         # initialize chrome driver
