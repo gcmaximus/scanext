@@ -320,10 +320,14 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
 
     separated_objects = {}
     succ_counter = 0
+    unique_payloads = []
     for obj in source_sorted_logs:
         source = obj['source']
+        payload = obj['payload']
         source_dict = separated_objects.setdefault(source, {"results":[], "total number": 0, "total success":0})
-        source_dict["total number"] += 1
+        if payload not in unique_payloads:
+            source_dict["total number"] += 1
+            unique_payloads.append(payload)
         if obj["outcome"] == "SUCCESS":
             source_dict["results"].append(obj)
             source_dict["total success"] += 1
@@ -389,19 +393,6 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
 
                 # Format script for multiline scripts
                 script = html.escape(result['script'])
-                # script_lines = script.split(';')[:-1]
-                
-
-                # # check for second line
-                # if len(script_lines) == 1:
-                #     # only 1 line
-                #     script = script_lines[0]
-
-                # else:
-                #     # 2 lines and more
-                #     script = ""
-                #     for line in script_lines:
-                #         script += line
 
                 # Format packet info for payloadType:"server"
                 payload_type = result['payloadType']
