@@ -58,6 +58,8 @@ def main(config, path_to_extension, semgrep_results):
 
     print(f"Using payload file: {payload_file}")
 
+    server_payloads_file = "DYNAMIC_ANALYSIS/payloads/serverpayload.txt"
+
     dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt')
 
 
@@ -73,7 +75,7 @@ def main(config, path_to_extension, semgrep_results):
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/payload.txt')
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/test.txt')
     meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, payload_file)
-
+    server_payloads = payloads_cycle(number_of_instances, 100, server_payloads_file)
 
     # interprete semgrep scan results
     interpreted_results = separater(interpreter(semgrep_results))
@@ -152,7 +154,7 @@ def main(config, path_to_extension, semgrep_results):
                     for order in range(number_of_instances)
                 ]
 
-                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, ext_name, payload_file, result) for order in range(number_of_instances)]
+                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, ext_name, payload_file, result, server_payloads[order][1]) for order in range(number_of_instances)]
 
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
