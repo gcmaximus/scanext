@@ -111,7 +111,9 @@ def runtime_onM(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
     logs = []
     scripts = []
+    scripts_s = []
     payload = {}
+    payload_s = {}
     source = 'chrome.runtime.onMessage'
     url_of_injection_example = 'https://www.example.com'
     
@@ -143,6 +145,34 @@ def runtime_onM(args_tuple):
         scripts.append(script)
         payload[payload_no] = i
     
+    for payload_no, i in enumerate(server_payloads):
+        dots = '.'
+        taintsink = result["sink"]
+        obj = {}
+        var = ""
+        i = i.format(order,payload_no)
+        try:
+            if result["metavars"]["MESSAGEPROPERTY"]:
+                msgproperty = result["metavars"]["MESSAGEPROPERTY"]
+        except:
+            msgproperty = ""
+        try:
+            if result["metavars"]["MESSAGEPASSWORD"]:
+                msgpassword = result["metavars"]["MESSAGEPASSWORD"]
+        except:
+            msgpassword = ""
+        if msgpassword!="" and msgproperty!="":
+            obj[msgproperty] = msgpassword
+        if dots in taintsink:
+            obj = nomagic(taintsink,i,obj)
+            var = f"obj = JSON.parse('{obj}');"
+        else:
+            var = f"obj = '{i}';"
+
+        script = f"{var}chrome.runtime.sendMessage(obj)"
+        scripts_s.append(script)
+        payload_s[payload_no] = i
+    
     driver = Chrome(service=Service(), options=option)
 
     try:
@@ -172,10 +202,7 @@ def runtime_onM(args_tuple):
             try:
                 driver.execute_script(script)
                 time_of_injection = dt.utcnow()
-
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
                 driver.refresh()
                 continue
             # check for alerts in example
@@ -200,6 +227,39 @@ def runtime_onM(args_tuple):
                     driver.get("https://www.example.com")
             except:
                 driver.refresh()
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+            except:
+                driver.refresh()
+                
+        for num, script in enumerate(scripts_s):
+            progress_bar.update(1)
+            try:
+                driver.execute_script(script)
+                time_of_injection = dt.utcnow()
+            except Exception as e:
+                driver.refresh()
+                continue
+            driver.switch_to.window(example)
+
+            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+            time.sleep(3)
+            packets: list = requests.get(url).json()["data"]
+            if packets != []:
+                logs.append(payload_logging('SUCCESS', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            else:
+                logs.append(payload_logging('FAILURE', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+            except:
+                driver.refresh()
 
             try: 
                 # check modifications for extension
@@ -212,9 +272,12 @@ def runtime_onM(args_tuple):
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
         pass
+
     except Exception as e:
         # Handle any other exceptions that occur
         pass
+
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 # 2) runtime.onConnect
@@ -222,7 +285,9 @@ def runtime_onC(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
     logs = []
     scripts = []
+    scripts_s = []
     payload = {}
+    payload_s = {}
     source = 'chrome.runtime.onConnect'
     url_of_injection_example = 'https://www.example.com'
     
@@ -254,16 +319,57 @@ def runtime_onC(args_tuple):
             var = f"obj = JSON.parse('{obj}');"
         else:
             obj = i
-            var = f"obj = '{obj}'"
+            var = f"obj = '{obj}';"
 
         if port!="" and portproperty!="" and portpassword!="":
             connect = {portproperty:portpassword}
             connect = json.dumps(connect)
+            var = var + f"connect=JSON.parse('{connect}')"
 
         func = f".postMessage(obj)"
-        script = f"{var}chrome.runtime.connect({connect}){func}"
+        script = f"{var}chrome.runtime.connect(connect){func}"
         scripts.append(script)
         payload[payload_no] = i
+
+    for payload_no, i in enumerate(server_payloads):
+        dots = '.'
+        taintsink = result["sink"]
+        obj = {}
+        var = ""
+        func = ""
+        connect = ""
+        i = i.format(order,payload_no)
+        try:
+            if result["metavars"]["PORT"]:
+                port = result["metavars"]["PORT"]
+        except:
+            port = ""
+        try:
+            if result["metavars"]["PORTPROPERTY"]:
+                portproperty = result["metavars"]["PORTPROPERTY"]
+        except:
+            portproperty = ""
+        try:
+            if result["metavars"]["PORTPASSWORD"]:
+                portpassword = result["metavars"]["PORTPASSWORD"]
+        except:
+            portpassword = ""
+        if dots in taintsink:
+            obj = nomagic(taintsink,i,obj)
+            var = f"obj = JSON.parse('{obj}');"
+        else:
+            obj = i
+            var = f"obj = '{obj}';"
+
+        if port!="" and portproperty!="" and portpassword!="":
+            connect = {portproperty:portpassword}
+            connect = json.dumps(connect)
+            var = var + f"connect=JSON.parse('{connect}')"
+
+        func = f".postMessage(obj)"
+        script = f"{var}chrome.runtime.connect(connect){func}"
+        scripts_s.append(script)
+        payload_s[payload_no] = i
 
     driver = Chrome(service=Service(), options=option)
     try:
@@ -294,7 +400,6 @@ def runtime_onC(args_tuple):
                 driver.execute_script(script)
                 time_of_injection = dt.utcnow()
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
                 driver.refresh()
                 continue
             # check for alerts in example
@@ -326,12 +431,48 @@ def runtime_onC(args_tuple):
                     driver.get(url_path)
             except:
                 driver.refresh()
+        
+        for num, script in enumerate(scripts_s):
+            progress_bar.update(1)
+            try:
+                driver.execute_script(script)
+                time_of_injection = dt.utcnow()
+            except Exception as e:
+                driver.refresh()
+                continue
+            driver.switch_to.window(example)
+
+            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+            time.sleep(3)
+            packets: list = requests.get(url).json()["data"]
+            if packets != []:
+                logs.append(payload_logging('SUCCESS', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            else:
+                logs.append(payload_logging('FAILURE', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+            except:
+                driver.refresh()
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+            except:
+                driver.refresh()
+
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
         pass
     except Exception as e:
         # Handle any other exceptions that occur
         pass
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 # 3) cookies.get && cookies.getAll
@@ -339,7 +480,9 @@ def cookie_get(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
     logs = []
     scripts = []
+    scripts_s = []
     payload = {}
+    payload_s = {}
     source = 'cookies.get/cookies.getAll'
     url_of_injection_example = 'https://www.example.com'
     
@@ -390,6 +533,54 @@ def cookie_get(args_tuple):
         scripts.append(script)
         payload[payload_no] = i 
 
+    for payload_no, i in enumerate(server_payloads):
+        dots = '.'
+        taintsource = result["taintsource"]
+        cookie = ""
+        x = ""
+        i = i.format(order,payload_no)
+        try:
+            if result["metavars"]["COOKIE"]:
+                cookie = result["metavars"]["COOKIE"]
+            if result["metavars"]["X"]:
+                x = result["metavars"]["X"]
+            if result["metavars"]["Y"]:
+                y = result["metavars"]["Y"]
+            try:
+                if result["metavars"]["yvalue"]:
+                    yvalue = result["metavars"]["yvalue"]
+            except:
+                yvalue = ""
+        except:
+            y = ""
+        
+        obj = ""
+        if cookie in taintsource and taintsource == x:
+            if dots in x:
+                var = x.split(dots)
+                if var[1] == "name":
+                    obj = f'"{i}"="value";'
+                elif var[1] == "value":
+                    obj = f'"cookie"="{i}";'                
+        elif cookie in taintsource and taintsource == y:
+            if dots in y:
+                var = x.split(dots)
+                if var[1] == "name":
+                    obj = f'"{i}"="value";'
+                elif var[1] == "value":
+                    obj = f'"cookie"="{i}";'
+        elif cookie in taintsource and taintsource == yvalue:
+            if dots in yvalue:
+                var = x.split(dots)
+                if var[1] == "name":
+                    obj = f'"{i}"="value";'
+                elif var[1] == "value":
+                    obj = f'"cookie"="{i}";'
+        
+        script = f'document.cookie = {obj} + document.cookie'
+        scripts_s.append(script)
+        payload_s[payload_no] = i 
+
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
@@ -423,7 +614,6 @@ def cookie_get(args_tuple):
                 time_of_injection = dt.utcnow()
             except Exception as e:
                 driver.refresh()
-                # print(' !!!! PAYLOAD FAILLED !!!!')
                 continue
 
             # check for alerts in example
@@ -475,16 +665,52 @@ def cookie_get(args_tuple):
             except:
                 driver.refresh()
 
+        for num, script in enumerate(scripts_s):
+            progress_bar.update(1)
+            driver.switch_to.window(example)
+            try:
+                driver.execute_script(script)
+                time_of_injection = dt.utcnow()
+            except Exception as e:
+                driver.refresh()
+                continue
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+            time.sleep(3)
+            packets: list = requests.get(url).json()["data"]
+            if packets != []:
+                logs.append(payload_logging('SUCCESS', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            else:
+                logs.append(payload_logging('FAILURE', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+            except:
+                driver.refresh()
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+            except:
+                driver.refresh()
+
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
         pass
 
     except Exception as e:
         # Handle any other exceptions that occur
-        # print("An error occurred:", str(e))
         pass
-
+    
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 # 4) location.hash
@@ -492,7 +718,9 @@ def location_hash(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
     logs = []
     scripts = []
+    scripts_s = []
     payload = {}
+    payload_s = {}
     source = 'location.hash'
     url_of_injection_example = 'https://www.example.com'
     
@@ -501,6 +729,13 @@ def location_hash(args_tuple):
         script = f"window.location.hash = '{i}'"
         scripts.append(script)
         payload[payload_no] = i
+    
+    for payload_no, i in enumerate(server_payloads):
+        i = i.format(order,payload_no)
+        script = f"window.location.hash = '{i}'"
+        scripts_s.append(script)
+        payload_s[payload_no] = i
+
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
@@ -534,8 +769,6 @@ def location_hash(args_tuple):
                 time_of_injection = dt.utcnow()
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
                 driver.refresh()
                 continue
 
@@ -545,7 +778,6 @@ def location_hash(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                # print('[example] + Alert Detected +')
                 # get time of success [1) example]
                 time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
@@ -561,13 +793,11 @@ def location_hash(args_tuple):
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
                     alert = driver.switch_to.alert
                     alert.accept()
-                    # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
                     time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
-                    # print('[example] = No alerts detected =')
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
@@ -575,7 +805,6 @@ def location_hash(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-                    # print("Navigated back to 'https://www.example.com' due to page source changes")
             except:
                 driver.refresh()
 
@@ -588,16 +817,52 @@ def location_hash(args_tuple):
             except:
                 driver.refresh()
 
+        for num, script in enumerate(scripts_s):
+            progress_bar.update(1)
+            driver.switch_to.window(example)
+            try:
+                driver.execute_script(script)
+                time_of_injection = dt.utcnow()
+            except Exception as e:
+                driver.refresh()
+                continue
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+            time.sleep(3)
+            packets: list = requests.get(url).json()["data"]
+            if packets != []:
+                logs.append(payload_logging('SUCCESS', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            else:
+                logs.append(payload_logging('FAILURE', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+            except:
+                driver.refresh()
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+            except:
+                driver.refresh()
+
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
         pass
 
     except Exception as e:
         # Handle any other exceptions that occur
-        # print("An error occurred:", str(e))
         pass
 
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 #  5) runtime.onMessageExternal
@@ -605,7 +870,9 @@ def runtime_onME(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
     logs = []
     scripts = []
+    scripts_s = []
     payload = {}
+    payload_s = {}
     source = 'chrome.runtime.onMessageExternal'
     url_of_injection_example = 'https://www.example.com'
     
@@ -624,6 +891,23 @@ def runtime_onME(args_tuple):
             script = f"chrome.runtime.sendMessage('{ext_id}','{obj}')"
         scripts.append(script)
         payload[payload_no] = i
+    
+    for payload_no, i in enumerate(server_payloads):
+        dots = '.'
+        taintsink = result["sink"]
+        obj = ""
+        var = "" 
+        i = i.format(order,payload_no)
+        if dots in taintsink:
+            obj = nomagic(taintsink,i,obj)
+            var = f"obj = JSON.parse('{obj}');"
+            script = f"{var}chrome.runtime.sendMessage('{ext_id}',obj)"
+        else:
+            obj = i
+            script = f"chrome.runtime.sendMessage('{ext_id}','{obj}')"
+        scripts_s.append(script)
+        payload_s[payload_no] = i
+
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
@@ -657,8 +941,6 @@ def runtime_onME(args_tuple):
                 time_of_injection = dt.utcnow()
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
                 driver.refresh()
                 continue
 
@@ -668,7 +950,6 @@ def runtime_onME(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                # print('[example] + Alert Detected +')
                 # get time of success [1) example]
                 time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
@@ -684,13 +965,11 @@ def runtime_onME(args_tuple):
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
                     alert = driver.switch_to.alert
                     alert.accept()
-                    # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
                     time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
-                    # print('[example] = No alerts detected =')
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
@@ -711,15 +990,52 @@ def runtime_onME(args_tuple):
             except:
                 driver.refresh()
 
+        for num, script in enumerate(scripts_s):
+            progress_bar.update(1)
+            driver.switch_to.window(example)
+            try:
+                driver.execute_script(script)
+                time_of_injection = dt.utcnow()
+            except Exception as e:
+                driver.refresh()
+                continue
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+            time.sleep(3)
+            packets: list = requests.get(url).json()["data"]
+            if packets != []:
+                logs.append(payload_logging('SUCCESS', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            else:
+                logs.append(payload_logging('FAILURE', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+            except:
+                driver.refresh()
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+            except:
+                driver.refresh()
+            
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
         pass
 
     except Exception as e:
         # Handle any other exceptions that occur
-        # print("An error occurred:", str(e))
         pass
+
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 # 6) runtime.onConnectExternal
@@ -727,7 +1043,9 @@ def runtime_onCE(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
     logs = []
     scripts = []
+    scripts_s = []
     payload = {}
+    payload_s = {}
     source = 'chrome.runtime.onConnectExternal'
     url_of_injection_example = 'https://www.example.com'
     
@@ -758,19 +1076,59 @@ def runtime_onCE(args_tuple):
             obj = nomagic(taintsink,i,obj)
         else:
             obj = i
+        
+        var = f"obj = JSON.parse('{obj}');"
 
         if port!="" and portproperty!="" and portpassword!="":
             connect = {portproperty:portpassword}
             connect = json.dumps(connect)
+            var = var + f"connect=JSON.parse('{connect}')"
 
-        var = f"obj = JSON.parse('{obj}');"
         func = f".postMessage(obj)"
-
-        script = f"{var}chrome.runtime.connect({connect}){func}"
-        print(script)
+        script = f"{var}chrome.runtime.connect(connect){func}"
         scripts.append(script)
         payload[payload_no] = i
 
+    for payload_no, i in enumerate(server_payloads):
+        dots = '.'
+        taintsink = result["sink"]
+        obj = {}
+        var = ""
+        func = ""
+        connect = ""
+        i = i.format(order,payload_no)
+        try:
+            if result["metavars"]["PORT"]:
+                port = result["metavars"]["PORT"]
+        except:
+            port = ""
+        try:
+            if result["metavars"]["PORTPROPERTY"]:
+                portproperty = result["metavars"]["PORTPROPERTY"]
+        except:
+            portproperty = ""
+        try:
+            if result["metavars"]["PORTPASSWORD"]:
+                portpassword = result["metavars"]["PORTPASSWORD"]
+        except:
+            portpassword = ""
+        if dots in taintsink:
+            obj = nomagic(taintsink,i,obj)
+        else:
+            obj = i
+        
+        var = f"obj = JSON.parse('{obj}');"
+
+        if port!="" and portproperty!="" and portpassword!="":
+            connect = {portproperty:portpassword}
+            connect = json.dumps(connect)
+            var = var + f"connect=JSON.parse('{connect}')"
+
+        func = f".postMessage(obj)"
+        script = f"{var}chrome.runtime.connect(connect){func}"
+        scripts_s.append(script)
+        payload_s[payload_no] = i
+    
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
@@ -804,8 +1162,6 @@ def runtime_onCE(args_tuple):
                 time_of_injection = dt.utcnow()
 
             except Exception as e:
-                # print(' !!!! PAYLOAD FAILLED !!!!')
-                # print('Error: ', str(e))
                 driver.refresh()
                 continue
 
@@ -815,7 +1171,6 @@ def runtime_onCE(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                # print('[example] + Alert Detected +')
                 # get time of success [1) example]
                 time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
@@ -831,13 +1186,11 @@ def runtime_onCE(args_tuple):
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
                     alert = driver.switch_to.alert
                     alert.accept()
-                    # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
                     time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
-                    # print('[example] = No alerts detected =')
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
@@ -845,7 +1198,6 @@ def runtime_onCE(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-                    # print("Navigated back to 'https://www.example.com' due to page source changes")
             except:
                 driver.refresh()
 
@@ -854,19 +1206,55 @@ def runtime_onCE(args_tuple):
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
                 driver.refresh()
 
+        for num, script in enumerate(scripts_s):
+            progress_bar.update(1)
+            driver.switch_to.window(example)
+            try:
+                driver.execute_script(script)
+                time_of_injection = dt.utcnow()
+            except Exception as e:
+                driver.refresh()
+                continue
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+            time.sleep(3)
+            packets: list = requests.get(url).json()["data"]
+            if packets != []:
+                logs.append(payload_logging('SUCCESS', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            else:
+                logs.append(payload_logging('FAILURE', source, ext_id, ext_name, url_of_injection_example, 'server', payload_s[num], script, time_of_injection, 'nil', payload_file, packets))
+            
+            try: 
+                # check modifications for example.com
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get("https://www.example.com")
+            except:
+                driver.refresh()
+
+            try: 
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+            except:
+                driver.refresh()
+        
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
         pass
 
     except Exception as e:
         # Handle any other exceptions that occur
-        # print("An error occurred:", str(e))
         pass
+
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 # new window.name_normal (works)

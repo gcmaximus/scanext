@@ -147,7 +147,7 @@ def main(config, path_to_extension, semgrep_results):
                 progress_bars = [
                     tqdm(
                         colour="#00ff00",
-                        total=meta_payloads[order][0],
+                        total=meta_payloads[order][0]+server_payloads[order][0],
                         desc=f"Instance {order}",
                         bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
                     )
