@@ -13,11 +13,3 @@ RUN groupadd -g ${GID} scanuser && useradd --create-home --no-log-init -u ${UID}
 USER scanuser
 WORKDIR /scanext
 COPY --chown=scanuser:scanuser . /scanext/
-
-COPY . /scanext/
-ARG UID
-ARG GID
-RUN groupadd -g "${GID}" scanuser \
-  && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" scanuser
-RUN chown -R scanuser:scanuser /scanext
-USER scanuser
