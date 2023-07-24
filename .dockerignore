@@ -1,2 +1,10 @@
-STATIC_ANALYSIS/semgrep_rules/*/test_codes
+.prettierrc.json
+.git
+.gitignore
+.dockerignore
+__pycache__
+Dockerfile
 EXTENSIONS
+README.md
+STATIC_ANALYSIS/semgrep_rules/*/test_codes
+tmp
