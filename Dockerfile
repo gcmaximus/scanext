@@ -9,3 +9,9 @@ RUN apt-get install -y -f ./google-chrome*.deb
 RUN pip install -r requirements-pip.txt
 WORKDIR /scanext
 COPY . /scanext/
+ARG UID
+ARG GID
+RUN groupadd -g "${GID}" scanuser \
+  && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" scanuser
+RUN chown -R scanuser:scanuser /scanext
+USER scanuser
