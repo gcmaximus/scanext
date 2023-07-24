@@ -51,14 +51,16 @@ def main(config, path_to_extension, semgrep_results):
     # set payload file
     if custom_payload_file == "nil":
         # default file
-        payload_file = "DYNAMIC_ANALYSIS/payloads/big_payload.txt"
+        alert_payload_file = "DYNAMIC_ANALYSIS/payloads/big_payload.txt"
     else:
         # user file
-        payload_file = f"SHARED/{custom_payload_file}"
-
-    print(f"Using payload file: {payload_file}")
+        alert_payload_file = f"SHARED/{custom_payload_file}"
 
     server_payloads_file = "DYNAMIC_ANALYSIS/payloads/serverpayload.txt"
+    print(f"Using payload file (check for alerts): {alert_payload_file}")
+    print(f"Using payload file (check for HTTP requests): {server_payloads_file}")
+
+
 
     dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt')
 
@@ -74,7 +76,7 @@ def main(config, path_to_extension, semgrep_results):
     # new payloads
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/payload.txt')
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/test.txt')
-    meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, payload_file)
+    meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, alert_payload_file)
     server_payloads = payloads_cycle(number_of_instances, 100, server_payloads_file)
 
     # interprete semgrep scan results
@@ -154,7 +156,7 @@ def main(config, path_to_extension, semgrep_results):
                     for order in range(number_of_instances)
                 ]
 
-                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, ext_name, payload_file, result, server_payloads[order][1]) for order in range(number_of_instances)]
+                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, ext_name, alert_payload_file, result, server_payloads[order][1]) for order in range(number_of_instances)]
 
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
