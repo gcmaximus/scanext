@@ -9,4 +9,3 @@ RUN apt-get install -y -f ./google-chrome*.deb
 RUN pip install -r requirements-pip.txt
 WORKDIR /scanext
 COPY . /scanext/
-CMD [ "python3", "main.py" ]
