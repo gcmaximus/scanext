@@ -26,7 +26,7 @@ if $1 == "-h"
 then
     echo $usage
     exit 0
-elif (test -d $1) != 0
+elif ! test -d $1
 then
     echo "$1 not found!"
     exit 1
