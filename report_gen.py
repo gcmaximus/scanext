@@ -405,7 +405,7 @@ def dynamic_results_report(source_sorted_logs, extension, soup, config, report_p
                         packet_info += f'<b>{key}</b>: {packet_info_obj[key]}; '
                     
                 else:
-                    packet_info = "N.A."
+                    packet_info = result['packetInfo']
 
                 payload_table += f'''
     <!-- Payload Info -->
