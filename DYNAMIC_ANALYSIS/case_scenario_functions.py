@@ -1427,6 +1427,14 @@ def window_name_N(args_tuple):
             driver.refresh()
             driver.switch_to.window(example)
 
+            try:
+                if 'post' in payload:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                    a.click()
+            except:
+                pass
+            
+
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
 
