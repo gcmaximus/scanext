@@ -1,6 +1,6 @@
 FROM ubuntu:jammy
 WORKDIR /tmp
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get upgrade -y -f
 COPY requirements-apt.txt .
 COPY requirements-pip.txt .
 RUN xargs -a requirements-apt.txt apt-get -y install
