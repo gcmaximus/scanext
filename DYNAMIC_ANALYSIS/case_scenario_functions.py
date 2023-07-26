@@ -245,6 +245,13 @@ def runtime_onM(args_tuple):
                 continue
             driver.switch_to.window(example)
 
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a.click()
+            except:
+                pass
+
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
             packets: list = requests.get(url).json()["data"]
@@ -441,6 +448,13 @@ def runtime_onC(args_tuple):
                 driver.refresh()
                 continue
             driver.switch_to.window(example)
+
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a.click()
+            except:
+                pass
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
@@ -678,6 +692,13 @@ def cookie_get(args_tuple):
             driver.refresh()
             driver.switch_to.window(example)
 
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a.click()
+            except:
+                pass
+
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
             packets: list = requests.get(url).json()["data"]
@@ -829,6 +850,13 @@ def location_hash(args_tuple):
             driver.switch_to.window(extension)
             driver.refresh()
             driver.switch_to.window(example)
+
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a.click()
+            except:
+                pass
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
@@ -1002,6 +1030,13 @@ def runtime_onME(args_tuple):
             driver.switch_to.window(extension)
             driver.refresh()
             driver.switch_to.window(example)
+
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a.click()
+            except:
+                pass
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
@@ -1221,6 +1256,13 @@ def runtime_onCE(args_tuple):
             driver.switch_to.window(extension)
             driver.refresh()
             driver.switch_to.window(example)
+
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a.click()
+            except:
+                pass
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
