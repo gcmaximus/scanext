@@ -247,7 +247,7 @@ def runtime_onM(args_tuple):
 
             try:
                 if 'post' in payload_s[num]:
-                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
                     a.click()
             except:
                 pass
@@ -451,7 +451,7 @@ def runtime_onC(args_tuple):
 
             try:
                 if 'post' in payload_s[num]:
-                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
                     a.click()
             except:
                 pass
@@ -694,7 +694,7 @@ def cookie_get(args_tuple):
 
             try:
                 if 'post' in payload_s[num]:
-                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
                     a.click()
             except:
                 pass
@@ -853,7 +853,7 @@ def location_hash(args_tuple):
 
             try:
                 if 'post' in payload_s[num]:
-                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
                     a.click()
             except:
                 pass
@@ -1033,7 +1033,7 @@ def runtime_onME(args_tuple):
 
             try:
                 if 'post' in payload_s[num]:
-                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
                     a.click()
             except:
                 pass
@@ -1259,7 +1259,7 @@ def runtime_onCE(args_tuple):
 
             try:
                 if 'post' in payload_s[num]:
-                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
                     a.click()
             except:
                 pass
@@ -1418,7 +1418,7 @@ def window_name_N(args_tuple):
             
             try:
                 if 'post' in payload_s[num]:
-                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
                     a.click()
             except:
                 pass
