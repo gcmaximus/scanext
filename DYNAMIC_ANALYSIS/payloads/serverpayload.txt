@@ -168,4 +168,3 @@ x”</title><img src%3dx onerror%3dalert(1)>
 <div id="133"><!-- `<img/src=xx:xx onerror=alert(133)//--!>//["'`-->]]>]</div>
 <img alt='%></xmp><img src=xx:x onerror=aler
 <div id="138"><link rel="import" href="test.svg" />//["'`-->]]>]</div><div id="139"><iframe srcdoc="&lt;img src&equals;x:x onerror&equals;alert&lpar;1&rpar;&gt;" />//["'`-->]]>]</div>undefined
-
