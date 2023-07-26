@@ -1306,8 +1306,6 @@ def window_name_N(args_tuple):
     logs = []
     source = 'window.name'
     url_of_injection_example = 'https://www.example.com'
-    
-
 
     driver = Chrome(service=Service(), options=option)
     try:
@@ -1417,6 +1415,13 @@ def window_name_N(args_tuple):
 
             except Exception as e:
                 continue
+            
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable(By.ID,'a'))
+                    a.click()
+            except:
+                pass
 
             driver.switch_to.window(extension)
             driver.refresh()
