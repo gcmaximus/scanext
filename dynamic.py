@@ -162,6 +162,7 @@ def main(config, path_to_extension, semgrep_results):
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(sourcelist[source], args):
                         for log in logs:
+                            print(log)
                             a, b = log["timeOfInjection"], log["timeOfAlert"]
                             if a != "nil":
                                 log["timeOfInjection"] = fdt(a.astimezone(tz(timezone)))
@@ -188,7 +189,7 @@ def main(config, path_to_extension, semgrep_results):
 if __name__ == '__main__':
     
     # testing
-    with open("semgrep_results.json", "r") as file:
+    with open("results.json", "r") as file:
         semgrep_results = json.load(file)["results"]
 
     window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
@@ -201,13 +202,13 @@ if __name__ == '__main__':
     windowAddEventListenerMessage_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_window.addEventListernerMessage'
 
 
-    path_to_extension = chromeTabQuery_path
+    path_to_extension = window_name_path
 
     config = {
-        "percentage_of_payloads" : 0.5,
-        "number_of_instances": 1,
+        "percentage_of_payloads" : 0.1,
+        "number_of_instances": 5,
         "custom_payload_file": 'nil',
-        'timezone': 'nil'
+        'timezone': 'Asia/Singapore'
     }
 
     main(config, path_to_extension, semgrep_results)
