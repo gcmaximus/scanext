@@ -48,7 +48,7 @@ if not exist "%1" (
 )
 
 (docker build -t scanext --build-arg UID=1000 --build-arg GID=1000 . && ^
-docker run -dit --name scanext_cont -v (cd $1; cd):/scanext/SHARED scanext) && (
+docker run -dit --name scanext_cont -v %(cd $1; cd)%:/scanext/SHARED scanext) && (
     echo !finish!
 )
 
