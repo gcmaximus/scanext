@@ -20,15 +20,17 @@ Use this command to stop the container:
     docker container stop scan_cont
 "
 
-if [ "$1" = "-h" ]; then
+if test "$1" = "-h" || test $# -eq 0
+then
     echo "$usage"
     exit 0
-elif ! test -d "$1"; then
-    echo "$1 not found!"
+elif ! test -d $1
+then
+    echo "Directory not found: $1"
     exit 1
 else
     if docker build -t scanext --build-arg UID=$(id -u) --build-arg GID=$(id -u) . && \
-        docker run -dit --name scanext_cont -v "$1":/scanext/SHARED scanext
+        docker run -dit --name scanext_cont -v $(cd $1; pwd):/scanext/SHARED scanext
     then
         echo "$finish"
         exit 0

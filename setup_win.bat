@@ -11,7 +11,7 @@ Args:^
             This directory is analogous to a shared folder.^
             Refer to the user guide for more info on this directory.^
 Options:^
-    -h      Display usage info.^
+    -h      Display usage info.
 
 
 set finish =^
@@ -20,7 +20,7 @@ Done! Docker container scan_cont started. Run this command to start main.py:^
     docker exec -it scanext_cont python3 main.py^
 
 Use this command to stop the container:^
-    docker container stop scan_cont^
+    docker container stop scan_cont
 
 
 if "%1"=="-h" (
