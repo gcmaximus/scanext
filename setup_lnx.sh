@@ -1,7 +1,6 @@
 #! /bin/sh
 
-usage = \
-"
+usage="
 Usage:
     ./setup_lnx.sh [OPTIONS] DIR
 
@@ -13,8 +12,7 @@ Options:
     -h      Display usage info.
 "
 
-finish = \
-"
+finish="
 Done! Docker container scan_cont started. Run this command to start main.py:
     docker exec -it scanext_cont python3 main.py
 
@@ -22,19 +20,17 @@ Use this command to stop the container:
     docker container stop scan_cont
 "
 
-if $1 == "-h"
-then
-    echo $usage
+if [ "$1" = "-h" ]; then
+    echo "$usage"
     exit 0
-elif ! test -d $1
-then
+elif ! test -d "$1"; then
     echo "$1 not found!"
     exit 1
 else
     if docker build -t scanext --build-arg UID=$(id -u) --build-arg GID=$(id -u) . && \
-        docker run -dit --name scanext_cont -v $1:/scanext/SHARED scanext
+        docker run -dit --name scanext_cont -v "$1":/scanext/SHARED scanext
     then
-        echo $finish
+        echo "$finish"
         exit 0
     fi
 fi
