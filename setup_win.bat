@@ -23,15 +23,17 @@ Use this command to stop the container:^
     docker container stop scan_cont^
 
 
-if %1=="-h" (
-    echo %usage%
+if "%1"=="-h" (
+    echo !usage!
     exit /b 0
 )
-if ! exist $1\NULL (
-    echo "$1 not found!"
+if not exist "%1" (
+    echo %1 not found!
     exit /b 1
 )
+
+
 (docker build -t scanext --build-arg UID=1000 --build-arg GID=1000 . && ^
-docker run -dit --name scanext_cont -v %cd%\SHARED:/scanext/SHARED scanext) && (
-    echo %finish%
+docker run -dit --name scanext_cont -v "%1":/scanext/SHARED scanext) && (
+    echo !finish!
 )
