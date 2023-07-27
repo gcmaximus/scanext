@@ -4,7 +4,7 @@ setlocal EnableDelayedExpansion
 set usage=^
 
 Usage:^
-    ./setup_lnx.sh [OPTIONS] DIR^
+    setup_win.bat [OPTIONS] DIR^
 
 Args:^
     DIR     The absolute path to a directory used for docker volume.^
