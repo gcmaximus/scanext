@@ -1,39 +1,55 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set usage=^
+set usage= ^
 
 Usage:^
+
     setup_win.bat [OPTIONS] DIR^
 
 Args:^
+
     DIR     The absolute path to a directory used for docker volume.^
+
             This directory is analogous to a shared folder.^
+
             Refer to the user guide for more info on this directory.^
+
 Options:^
+
     -h      Display usage info.
 
+set finish= ^
 
-set finish =^
+Done!^
 
-Done! Docker container scan_cont started. Run this command to start main.py:^
+Docker container scan_cont started. Run this command to start main.py:^
+
     docker exec -it scanext_cont python3 main.py^
 
 Use this command to stop the container:^
+
     docker container stop scan_cont
 
 
-if "%1"=="-h" (
+if "%~1"=="" (
     echo !usage!
     exit /b 0
 )
+
+if "%~1"=="-h" || "%~1"=="" (
+    echo !usage!
+    exit /b 0
+)
+
 if not exist "%1" (
-    echo %1 not found!
+    echo Directory not found: %1
     exit /b 1
 )
 
-
 (docker build -t scanext --build-arg UID=1000 --build-arg GID=1000 . && ^
-docker run -dit --name scanext_cont -v "%1":/scanext/SHARED scanext) && (
+docker run -dit --name scanext_cont -v (cd $1; cd):/scanext/SHARED scanext) && (
     echo !finish!
 )
+
+
