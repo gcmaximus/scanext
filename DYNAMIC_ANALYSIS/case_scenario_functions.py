@@ -1427,14 +1427,6 @@ def window_name_N(args_tuple):
             driver.refresh()
             driver.switch_to.window(example)
 
-            try:
-                if 'post' in payload:
-                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
-                    a.click()
-            except:
-                pass
-            
-
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
 
@@ -1468,7 +1460,7 @@ def window_name_N(args_tuple):
 
     except Exception as e:
         error_logging(source, str(e))
-
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 # new location.href_normal (works)
@@ -1644,6 +1636,7 @@ def location_href_N(args_tuple):
     except Exception as e:
         error_logging(source, str(e))
 
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 # combined contextMenu
@@ -1880,7 +1873,7 @@ def context_menu(args_tuple):
 
         except Exception as e:
             error_logging(source, str(e))
-
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     # new contextMenu.link_Url (works)
@@ -2131,6 +2124,7 @@ def context_menu(args_tuple):
         except Exception as e:
             error_logging(source, str(e))
         
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     # new contextMenu.srcUrl (works)
@@ -2346,6 +2340,7 @@ def context_menu(args_tuple):
         except Exception as e:
             error_logging(source, str(e))
         
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     # new contextMenu.frameUrl (works for jerald but not for me. smlj)
@@ -2551,6 +2546,7 @@ def context_menu(args_tuple):
         except Exception as e:
             error_logging(source, str(e))
 
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     # new contextMenu.pageUrl (works)
@@ -2777,7 +2773,7 @@ def context_menu(args_tuple):
 
         except Exception as e:
             error_logging(source, str(e))
-    
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     source = result['taintsource']
@@ -2962,7 +2958,8 @@ def chromeTabQuery(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, str(e))
-
+        
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     # new chromeTabQuery.url (works)
@@ -3131,7 +3128,7 @@ def chromeTabQuery(args_tuple):
 
         except Exception as e:
             error_logging(source, str(e))
-
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     # new chromeTabQuery.favIconUrl (works)
@@ -3324,7 +3321,7 @@ def chromeTabQuery(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, str(e))
-
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     source = result['taintsource']
@@ -3496,7 +3493,7 @@ def locationSearch_N(args_tuple):
 
     except Exception as e:
         error_logging(source, str(e))
-
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 # combined chromeDebugger
@@ -3692,7 +3689,7 @@ def chromeDebugger(args_tuple):
 
         except Exception as e:
             error_logging(source, str(e))
-
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     # # new chrome.Debugger.GetTargets (works, but loaded extension first instead of browser)
@@ -4000,6 +3997,7 @@ def chromeDebugger(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, str(e))
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     # new chromeDebugger_favIconUrl (works)
@@ -4200,7 +4198,7 @@ def chromeDebugger(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, str(e))
-
+        requests.delete("http://127.0.0.1:8000/data")
         return logs
 
     source = result['taintsource']
@@ -4396,7 +4394,7 @@ def windowAddEventListenerMessage(args_tuple):
 
     except Exception as e:
         error_logging(source, str(e))
-
+    requests.delete("http://127.0.0.1:8000/data")
     return logs
 
 
