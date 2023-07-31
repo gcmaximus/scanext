@@ -1,11 +1,13 @@
 @echo off
-setlocal EnableDelayedExpansion
+
 
 set usage= ^
 
 Usage:^
 
     setup_win.bat [OPTIONS] DIR^
+
+^
 
 Args:^
 
@@ -15,6 +17,8 @@ Args:^
 
             Refer to the user guide for more info on this directory.^
 
+^
+
 Options:^
 
     -h      Display usage info.^
@@ -22,17 +26,18 @@ Options:^
 
 set finish= ^
 
-Done!^
-
-Docker container scan_cont started. Run this command to start main.py:^
+Done! Docker container scan_cont started. Run this command to start main.py:^
 
     docker exec -it scanext_cont python3 main.py^
+
+^
 
 Use this command to stop the container:^
 
     docker container stop scan_cont^
 
 
+setlocal EnableDelayedExpansion
 
 if "%~1"=="" (
     echo !usage!
