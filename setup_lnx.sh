@@ -18,7 +18,7 @@ Done! Docker container scan_cont started. Run this command to start main.py:
     docker exec -it scanext_cont python3 main.py
 
 Use this command to stop the container:
-    docker container stop scan_cont
+    docker container stop scanext_cont
 "
 
 if test "$1" = "-h" || test $# -eq 0

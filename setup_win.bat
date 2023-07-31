@@ -34,7 +34,7 @@ Done! Docker container scan_cont started. Run this command to start main.py:^
 
 Use this command to stop the container:^
 
-    docker container stop scan_cont^
+    docker container stop scanext_cont^
 
 
 setlocal EnableDelayedExpansion
