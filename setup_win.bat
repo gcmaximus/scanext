@@ -54,7 +54,12 @@ if not exist "%1" (
     exit /b 1
 )
 
+set p=%cd%
+cd %1
+set v=%cd%
+cd %p%
+
 (docker build -t scanext --build-arg UID=1000 --build-arg GID=1000 . && ^
-docker run -dit --name scanext_cont -v %(cd $1; cd)%:/scanext/SHARED scanext) && (
+docker run -dit --name scanext_cont -v %v%:/scanext/SHARED scanext) && (
     echo !finish!
 )
