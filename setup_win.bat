@@ -17,7 +17,8 @@ Args:^
 
 Options:^
 
-    -h      Display usage info.
+    -h      Display usage info.^
+
 
 set finish= ^
 
@@ -29,7 +30,8 @@ Docker container scan_cont started. Run this command to start main.py:^
 
 Use this command to stop the container:^
 
-    docker container stop scan_cont
+    docker container stop scan_cont^
+
 
 
 if "%~1"=="" (
