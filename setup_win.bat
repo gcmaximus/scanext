@@ -58,5 +58,3 @@ if not exist "%1" (
 docker run -dit --name scanext_cont -v %(cd $1; cd)%:/scanext/SHARED scanext) && (
     echo !finish!
 )
-
-
