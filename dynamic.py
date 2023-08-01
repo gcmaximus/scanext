@@ -162,7 +162,6 @@ def main(config, path_to_extension, semgrep_results):
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(sourcelist[source], args):
                         for log in logs:
-                            print(log)
                             a, b = log["timeOfInjection"], log["timeOfAlert"]
                             if a != "nil":
                                 log["timeOfInjection"] = fdt(a.astimezone(tz(timezone)))
@@ -187,28 +186,29 @@ def main(config, path_to_extension, semgrep_results):
         
 
 if __name__ == '__main__':
+    pass
     
-    # testing
-    with open("results.json", "r") as file:
-        semgrep_results = json.load(file)["results"]
+    # # testing
+    # with open("results.json", "r") as file:
+    #     semgrep_results = json.load(file)["results"]
 
-    window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
-    location_href_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
-    context_menu_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu' 
-    context_menu_path_test_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/test'
-    chromeTabQuery_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query'
-    location_search_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location_search'
-    chromeDebugGetTarget_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chromeDebuggerGetTarget'
-    windowAddEventListenerMessage_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_window.addEventListernerMessage'
+    # window_name_path = 'EXTENSIONS/h1-replacer(v3)_window.name'
+    # location_href_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location.href'
+    # context_menu_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_context_menu' 
+    # context_menu_path_test_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/test'
+    # chromeTabQuery_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chrome_tab_query'
+    # location_search_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_location_search'
+    # chromeDebugGetTarget_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_chromeDebuggerGetTarget'
+    # windowAddEventListenerMessage_path = 'DYNAMIC_ANALYSIS/wm_donttouch/Extensions/h1-replacer/h1-replacer(v3)_window.addEventListernerMessage'
 
 
-    path_to_extension = window_name_path
+    # path_to_extension = window_name_path
 
-    config = {
-        "percentage_of_payloads" : 0.1,
-        "number_of_instances": 5,
-        "custom_payload_file": 'nil',
-        'timezone': 'Asia/Singapore'
-    }
+    # config = {
+    #     "percentage_of_payloads" : 0.1,
+    #     "number_of_instances": 5,
+    #     "custom_payload_file": 'nil',
+    #     'timezone': 'Asia/Singapore'
+    # }
 
-    main(config, path_to_extension, semgrep_results)
+    # main(config, path_to_extension, semgrep_results)
