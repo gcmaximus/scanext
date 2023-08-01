@@ -49,7 +49,7 @@ def main(config, path_to_extension, semgrep_results):
     timezone = config["timezone"]
 
     # set payload file
-    if custom_payload_file == "nil":
+    if custom_payload_file == "auto":
         # default file
         alert_payload_file = "DYNAMIC_ANALYSIS/payloads/big_payload.txt"
     else:
