@@ -55,8 +55,8 @@ def preconfigure(dir):
     #                         line = line.replace(a, "active: false")
     #                     print(line, end="")
 
-# source separater function
-def separater(inter_results: list[dict]):
+# source separator function
+def separator(inter_results: list[dict]):
     output = {}
     for d in inter_results:
         source = d["source"]

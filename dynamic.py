@@ -51,12 +51,12 @@ def main(config, path_to_extension, semgrep_results):
     # set payload file
     if custom_payload_file == "auto":
         # default file
-        alert_payload_file = "DYNAMIC_ANALYSIS/payloads/big_payload.txt"
+        alert_payload_file = "DYNAMIC_ANALYSIS/payloads/scanext_payloads.txt"
     else:
         # user file
         alert_payload_file = f"SHARED/{custom_payload_file}"
 
-    server_payloads_file = "DYNAMIC_ANALYSIS/payloads/serverpayload.txt"
+    server_payloads_file = "DYNAMIC_ANALYSIS/payloads/scanext_server_payloads.txt"
     print(f"Using payload file (check for alerts): {alert_payload_file}")
     print(f"Using payload file (check for HTTP requests): {server_payloads_file}")
 
