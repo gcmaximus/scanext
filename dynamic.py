@@ -162,7 +162,6 @@ def main(config, path_to_extension, semgrep_results):
                 with ThreadPoolExecutor(number_of_instances) as executor:
                     for logs in executor.map(sourcelist[source], args):
                         for log in logs:
-                            print(log)
                             a, b = log["timeOfInjection"], log["timeOfAlert"]
                             if a != "nil":
                                 log["timeOfInjection"] = fdt(a.astimezone(tz(timezone)))
