@@ -3184,6 +3184,9 @@ def chromeTabQuery(args_tuple):
 
         progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
 
+        # automatically populate server_progressbar
+        progress_bar.update(len(server_payloads))
+
         logs = []
         source = 'chromeTabsQuery.favIconUrl'
 
@@ -3955,6 +3958,9 @@ def chromeDebugger(args_tuple):
     def chromeDebugger_favIconUrl_N(args_tuple):
         
         progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
+        
+        # automatically populate server_progressbar 
+        progress_bar.update(len(server_payloads))
 
         logs = []
         source = 'chromeTabsQuery.favIconUrl'
