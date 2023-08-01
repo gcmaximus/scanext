@@ -13,7 +13,7 @@ from pyvirtualdisplay.display import Display
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.chrome.service import Service
 
-import report_gen
+from report_gen import static_results_report, dynamic_results_report
 from banners import get_banner
 from constants import *
 from dynamic import main as dynamic
@@ -84,7 +84,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config, report_path):
         sorted_results = sorted(results, key=lambda e: e["path"])
         sorted_results = sorted(sorted_results, key=lambda e: e["check_id"])
 
-    report_gen.static_results_report(
+    static_results_report(
         sorted_results, extension, soup, config, report_path
     )
 
@@ -120,8 +120,8 @@ def dynamic_analysis(
     # Sort by source (window.name, etc.)
     source_sorted_logs = sorted(filtered_logs, key=lambda x: x["source"])
 
-    report_gen.dynamic_results_report(
-        source_sorted_logs, extension, soup, config, report_path
+    dynamic_results_report(
+        source_sorted_logs, soup, report_path
     )
 
 
@@ -195,7 +195,7 @@ def load_config():
         user_file = config[key]
 
         # Check if set to default "nil"
-        if user_file != "nil":
+        if user_file != "auto":
             # Check if file exists inside SHARED
             file_path = Path(f"SHARED/{user_file}")
             if not file_path.exists():
@@ -204,7 +204,7 @@ def load_config():
                 exit()
 
             # Check if file ends with .txt
-            if not str(file_path).endswith(".txt"):
+            if file_path.suffix != ".txt":
                 print(f"Error: {key} ({file_path}) does not end with .txt")
                 print("Exiting program...")
                 exit()
@@ -233,7 +233,7 @@ def load_config():
     tests = (
         isValidInt(key="report_display_adjacent_lines", min=0),
         isValidInt(key="percentage_of_payloads", min=1, max=100),
-        isValidFile(key="custom_payload_file"),
+        isValidFile(key="payload_file_path"),
         isValidTimezone(key="timezone"),
         isThreadValid(key="number_of_instances"),
     )

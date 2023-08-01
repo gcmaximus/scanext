@@ -308,7 +308,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
         file.write(str(soup))
 
 # interpret dynamic analysis results and inserts results into report
-def dynamic_results_report(source_sorted_logs, extension, soup, config, report_path):
+def dynamic_results_report(source_sorted_logs, soup, report_path):
 
     # remove "in progress" message
     wait_msg_tag = soup.find(id="wait-msg")
