@@ -100,17 +100,6 @@ def payload_logging(outcome, source, extension_id, extension_name, url_of_websit
 #   Updated functions    #
 ####################################################################################
 
-def handle_multiple_alerts(driver):
-    while True:
-        try:
-            # Check if an alert is present
-            alert = driver.switch_to.alert
-            # If an alert is present, accept it
-            alert.accept()
-        except NoAlertPresentException:
-            # If no alert is present, exit the loop
-            break
-
 # 1) runtime.onMessage
 def runtime_onM(args_tuple):
     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
