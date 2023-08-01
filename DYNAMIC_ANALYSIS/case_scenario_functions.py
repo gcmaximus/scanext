@@ -150,7 +150,7 @@ def runtime_onM(args_tuple):
         taintsink = result["sink"]
         obj = {}
         var = ""
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         try:
             if result["metavars"]["MESSAGEPROPERTY"]:
                 msgproperty = result["metavars"]["MESSAGEPROPERTY"]
@@ -345,7 +345,7 @@ def runtime_onC(args_tuple):
         var = ""
         func = ""
         connect = ""
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         try:
             if result["metavars"]["PORT"]:
                 port = result["metavars"]["PORT"]
@@ -552,7 +552,7 @@ def cookie_get(args_tuple):
         taintsource = result["taintsource"]
         cookie = ""
         x = ""
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         try:
             if result["metavars"]["COOKIE"]:
                 cookie = result["metavars"]["COOKIE"]
@@ -748,7 +748,7 @@ def location_hash(args_tuple):
         payload[payload_no] = i
     
     for payload_no, i in enumerate(server_payloads):
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         script = f"window.location.hash = '{i}'"
         scripts_s.append(script)
         payload_s[payload_no] = i
@@ -920,7 +920,7 @@ def runtime_onME(args_tuple):
         taintsink = result["sink"]
         obj = ""
         var = "" 
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         if dots in taintsink:
             obj = nomagic(taintsink,i,obj)
             var = f"obj = JSON.parse('{obj}');"
@@ -1124,7 +1124,7 @@ def runtime_onCE(args_tuple):
         var = ""
         func = ""
         connect = ""
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         try:
             if result["metavars"]["PORT"]:
                 port = result["metavars"]["PORT"]
