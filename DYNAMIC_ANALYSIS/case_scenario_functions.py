@@ -1416,6 +1416,10 @@ def window_name_N(args_tuple):
             except Exception as e:
                 continue
             
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
             try:
                 if 'post' in payload_s[num]:
                     a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
@@ -1423,9 +1427,6 @@ def window_name_N(args_tuple):
             except:
                 pass
 
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
@@ -1600,6 +1601,13 @@ def location_href_N(args_tuple):
             driver.switch_to.window(extension)
             driver.refresh()
             driver.switch_to.window(example)
+
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                    a.click()
+            except:
+                pass
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
@@ -1835,6 +1843,13 @@ def context_menu(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2082,6 +2097,12 @@ def context_menu(args_tuple):
                 driver.refresh()
                 driver.switch_to.window(example)
 
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2300,6 +2321,13 @@ def context_menu(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2529,6 +2557,12 @@ def context_menu(args_tuple):
                 driver.refresh()
                 driver.switch_to.window(example)
 
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2735,6 +2769,13 @@ def context_menu(args_tuple):
                 driver.refresh()
                 driver.switch_to.window(example)
 
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
+
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
 
@@ -2924,6 +2965,13 @@ def chromeTabQuery(args_tuple):
                 driver.refresh()
                 driver.switch_to.window(example)
 
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
+
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
 
@@ -3092,6 +3140,13 @@ def chromeTabQuery(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -3457,6 +3512,13 @@ def locationSearch_N(args_tuple):
             driver.refresh()
             driver.switch_to.window(example)
 
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                    a.click()
+            except:
+                pass
+
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
 
@@ -3652,6 +3714,13 @@ def chromeDebugger(args_tuple):
                 driver.refresh()
                 driver.switch_to.window(example)
 
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
+
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
 
@@ -3691,127 +3760,6 @@ def chromeDebugger(args_tuple):
             error_logging(source, str(e))
         requests.delete("http://127.0.0.1:8000/data")
         return logs
-
-    # # new chrome.Debugger.GetTargets (works, but loaded extension first instead of browser)
-    # def chromeDebugger_title_N_EXT_FIRST(args_tuple):
-    #     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
-
-    #     logs = []
-    #     source = 'chromeDebugger.GetTargets.title'
-
-    #     url_of_injection_example = 'https://www.example.com'
-        
-
-    #     driver = Chrome(service=Service(), options=option)
-
-    #     try:
-    #         website = 'https://www.example.com'
-
-    #         driver.get(url_path)
-    #         extension = driver.current_window_handle
-    #         extension_source_code = driver.page_source
-
-    #         driver.switch_to.new_window('tab')
-
-    #         # navigate to example.com
-    #         driver.get(website)
-    #         example = driver.current_window_handle
-    #         example_source_code = driver.page_source
-
-
-    #         for payload in payloads:
-
-    #             # update progress bar
-    #             progress_bar.update(1) 
-
-    #             # change to example.com to change document.title property
-    #             driver.switch_to.window(example)
-    #             driver.refresh()    
-
-    #             try:
-    #                 driver.execute_script(f'document.title = `{payload}`;')
-
-    #                 # get time of injection
-    #                 time_of_injection = dt.utcnow()
-
-    #             except Exception as e:
-    #                 error_logging(source, str(e))
-    #                 continue
-
-
-    #             # Press the F12 key to open the developer tools
-    #             try:
-    #                 subprocess.call(['xdotool', 'keydown', 'F12'])
-    #                 subprocess.call(['xdotool', 'keyup', 'F12'])
-    #             except Exception as e:
-    #                 error_logging(source, str(e))
-    #                 continue
-
-
-    #             # observe behavior after payload injection
-    #             # 1) Check for alerts in example.com
-    #             driver.switch_to.window(example)
-    #             try:
-    #                 # wait 2 seconds to see if alert is detected
-    #                 WebDriverWait(driver, 2).until(EC.alert_is_present())
-    #                 alert = driver.switch_to.alert
-    #                 alert.accept()
-
-    #                 time_of_success = dt.utcnow()
-    #                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
-
-    #             except TimeoutException:
-    #                 logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"'document.title = `{payload}`;'",time_of_injection, 'nil', payload_file, 'nil'))
-
-    #                 # 2) Check for alerts in example after refreshing extension
-    #                 driver.switch_to.window(extension)
-    #                 driver.refresh()
-    #                 driver.switch_to.window(example)
-
-    #                 try:
-    #                     # wait 2 seconds to see if alert is detected
-    #                     WebDriverWait(driver, 2).until(EC.alert_is_present())
-    #                     alert = driver.switch_to.alert
-    #                     alert.accept()
-
-    #                     time_of_success = dt.utcnow()
-    #                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
-
-    #                 except TimeoutException:
-    #                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"'document.title = `{payload}`;'",time_of_injection, 'nil', payload_file, 'nil'))
-                        
-
-    #             try: 
-    #                 # [1] check modifications for example.com
-    #                 driver.switch_to.window(example)
-    #                 if example_source_code != driver.page_source:
-    #                     driver.get(website)
-    #                     # print(f"Navigated back to '{website}' due to page source changes")
-
-    #             except Exception as e:
-    #                 # print('Error: ', str(e))
-    #                 pass
-
-    #             try: 
-    #                 # [2] check modifications for extension
-    #                 driver.switch_to.window(extension)
-    #                 if extension_source_code != driver.page_source:
-    #                     driver.get(url_path)
-    #                     # print(f"Navigated back to '{url_path}' due to extension page source changes")
-
-    #             except Exception as e:
-    #                 # print('Error: ', str(e))
-    #                 pass
-
-    #     except TimeoutException:
-    #         # Handle TimeoutException when title condition is not met
-    #         error_logging(source, f'Failed to resolve https://www.example.com')
-
-    #     except Exception as e:
-    #         # Handle any other exceptions that occur
-    #         error_logging(source, str(e))
-
-    #     return logs
 
     # new chrome.Debugger.GetTargets (works)
     def chromeDebugger_url_N(args_tuple):
@@ -3961,6 +3909,13 @@ def chromeDebugger(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -4361,6 +4316,17 @@ def windowAddEventListenerMessage(args_tuple):
                 except Exception as e:
                     error_logging(source, str(e))
                     continue
+
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                    a.click()
+            except:
+                pass
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
