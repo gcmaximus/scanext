@@ -5,7 +5,7 @@ Usage:
     ./setup_lnx.sh [OPTIONS] DIR
 
 Args:
-    DIR     The absolute path to a directory used for docker volume.
+    DIR     The [rel | abs] path to a directory used for docker volume.
             This directory is analogous to a shared folder.
             Refer to the user guide for more info on this directory.
 

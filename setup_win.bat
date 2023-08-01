@@ -11,7 +11,7 @@ Usage:^
 
 Args:^
 
-    DIR     The absolute path to a directory used for docker volume.^
+    DIR     The [rel | abs] path to a directory used for docker volume.^
 
             This directory is analogous to a shared folder.^
 
