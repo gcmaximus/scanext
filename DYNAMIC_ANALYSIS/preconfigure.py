@@ -163,20 +163,6 @@ def get_ext_id(path_to_extension):
     ext_name = path.basename(abs_path)
     return url_path, abs_path, ext_id, ext_name
 
-# definind payloads
-def payloads(path_to_payload):
-    payload_array = []
-    try:
-        with open(path_to_payload, 'r') as file:
-            # Read the contents of the file
-            for line in file:
-                payload_array.append(line)
-    except FileNotFoundError:
-        print("File not found.")
-    except IOError:
-        print("An error occurred while reading the file.")
-    
-    return payload_array
 
 
 # new payload function (use this)
