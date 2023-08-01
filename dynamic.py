@@ -80,7 +80,7 @@ def main(config, path_to_extension, semgrep_results):
     server_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, server_payloads_file)
 
     # interprete semgrep scan results
-    interpreted_results = separater(interpreter(semgrep_results))
+    interpreted_results = separator(interpreter(semgrep_results))
 
     # solo var list
     sololist = [
