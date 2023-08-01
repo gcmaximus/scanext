@@ -47,17 +47,22 @@ def nomagic(chain, payload, msg):
 # Logging Framework #
 #####################
 
-def setup_logger(logger_name, log_file, log_level=logging.ERROR):
+def setup_logger_error(logger_name, log_file, log_level=logging.ERROR):
     logger = logging.getLogger(logger_name)
     handler = logging.FileHandler(log_file)
     formatter = logging.Formatter('%(asctime)s - [%(name)s] - %(message)s')
     handler.setFormatter(formatter)
+    
+    # Clear any existing handlers 
+    if (logger.hasHandlers()):
+        logger.handlers.clear()
+    
     logger.addHandler(handler)
     logger.setLevel(log_level)
     return logger
 
 # Setup the logger for the other file
-error_logger = setup_logger('error_logger', 'DYNAMIC_ANALYSIS/Logs/error_log.log', logging.ERROR)
+error_logger = setup_logger_error('error_logger', 'DYNAMIC_ANALYSIS/Logs/error_log.log', logging.ERROR)
 
 
 def error_logging(source, error, max_chars=200):

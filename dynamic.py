@@ -15,7 +15,7 @@ from multiprocessing import Process
 from server import main as server
 
 
-def setup_loggerV2(log_file):
+def setup_logger(log_file):
     # Create a logger with a specific name (using an empty string for the root logger)
     logger = logging.getLogger('dynamic')
     logger.setLevel(logging.ERROR)
@@ -62,7 +62,7 @@ def main(config, path_to_extension, semgrep_results):
 
 
 
-    dynamic_logger = setup_loggerV2('DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt')
+    dynamic_logger = setup_logger('DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt')
 
 
     # preconfiguration (set active to false)
@@ -96,7 +96,8 @@ def main(config, path_to_extension, semgrep_results):
         "chrome_debugger_getTargets",
         "chrome_tabs_get",
         "chrome_tabs_getCurrent",
-        "chrome_tabs_query"
+        "chrome_tabs_query",
+        "window_addEventListener_message"
     ]
     results = []
     for result, occurences in interpreted_results.items():

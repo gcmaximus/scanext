@@ -1,7 +1,7 @@
 <img src=x onerror=alert(1)>
 kurt tay
 hello
-<script>alert(1)</script>
+<sc:e24:::;;ript>alert(1)</script>
 "-prompt(8)-"
 '-prompt(8)-'
 ";a=prompt,a()//
