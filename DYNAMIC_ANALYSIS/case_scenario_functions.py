@@ -150,7 +150,7 @@ def runtime_onM(args_tuple):
         taintsink = result["sink"]
         obj = {}
         var = ""
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         try:
             if result["metavars"]["MESSAGEPROPERTY"]:
                 msgproperty = result["metavars"]["MESSAGEPROPERTY"]
@@ -345,7 +345,7 @@ def runtime_onC(args_tuple):
         var = ""
         func = ""
         connect = ""
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         try:
             if result["metavars"]["PORT"]:
                 port = result["metavars"]["PORT"]
@@ -552,7 +552,7 @@ def cookie_get(args_tuple):
         taintsource = result["taintsource"]
         cookie = ""
         x = ""
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         try:
             if result["metavars"]["COOKIE"]:
                 cookie = result["metavars"]["COOKIE"]
@@ -652,13 +652,11 @@ def cookie_get(args_tuple):
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
                     alert = driver.switch_to.alert
                     alert.accept()
-                    # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
                     time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
-                    # print('[example] = No alerts detected =')
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload[num], script, time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
@@ -666,7 +664,6 @@ def cookie_get(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-                    # print("Navigated back to 'https://www.example.com' due to page source changes")
             except:
                 driver.refresh()
 
@@ -675,7 +672,6 @@ def cookie_get(args_tuple):
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
                 driver.refresh()
 
@@ -752,7 +748,7 @@ def location_hash(args_tuple):
         payload[payload_no] = i
     
     for payload_no, i in enumerate(server_payloads):
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         script = f"window.location.hash = '{i}'"
         scripts_s.append(script)
         payload_s[payload_no] = i
@@ -834,7 +830,6 @@ def location_hash(args_tuple):
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
                 driver.refresh()
 
@@ -925,7 +920,7 @@ def runtime_onME(args_tuple):
         taintsink = result["sink"]
         obj = ""
         var = "" 
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         if dots in taintsink:
             obj = nomagic(taintsink,i,obj)
             var = f"obj = JSON.parse('{obj}');"
@@ -1005,7 +1000,6 @@ def runtime_onME(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-                    print("Navigated back to 'https://www.example.com' due to page source changes")
             except:
                 driver.refresh()
 
@@ -1014,7 +1008,6 @@ def runtime_onME(args_tuple):
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    print(f"Navigated back to '{url_path}' due to extension page source changes")
             except:
                 driver.refresh()
 
@@ -1131,7 +1124,7 @@ def runtime_onCE(args_tuple):
         var = ""
         func = ""
         connect = ""
-        i = i.format(order,payload_no)
+        i.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
         try:
             if result["metavars"]["PORT"]:
                 port = result["metavars"]["PORT"]
@@ -1351,14 +1344,12 @@ def window_name_N(args_tuple):
                 WebDriverWait(driver, 2).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
                 alert.accept()
-                # print('[example] + Alert Detected +')
 
                 # get time of success [1) example]
                 time_of_success = dt.utcnow()
                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, time_of_success, payload_file, 'nil'))
             
             except TimeoutException:
-                # print('[example] = No alerts detected =')
                 logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, 'nil', payload_file, 'nil'))
 
                 # 2) Check for alerts in example after refreshing extension
@@ -1371,13 +1362,11 @@ def window_name_N(args_tuple):
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
                     alert = driver.switch_to.alert
                     alert.accept()
-                    # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
                     time_of_success = dt.utcnow()
                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, time_of_success, payload_file, 'nil'))
                 except TimeoutException:
-                    # print('[example] = No alerts detected =')
                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r'window.name = `{payload}`;', time_of_injection, 'nil', payload_file, 'nil'))
 
             try: 
@@ -1385,7 +1374,6 @@ def window_name_N(args_tuple):
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-                    # print("Navigated back to 'https://www.example.com' due to page source changes")
             except Exception as e:
                 error_logging(source, str(e))
                 
@@ -1394,7 +1382,6 @@ def window_name_N(args_tuple):
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except Exception as e:
                 error_logging(source, str(e))
 
@@ -1406,8 +1393,8 @@ def window_name_N(args_tuple):
             # since window.name is obtained from the website url, we will inject javascript to change the window.name
             driver.switch_to.window(example)
             driver.refresh()
-            payload = payload.format(order, payload_no)
 
+            payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
             try:
                 driver.execute_script(f'window.name = `{payload}`;')
                 # get time of injection
@@ -1416,6 +1403,10 @@ def window_name_N(args_tuple):
             except Exception as e:
                 continue
             
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
             try:
                 if 'post' in payload_s[num]:
                     a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
@@ -1423,9 +1414,6 @@ def window_name_N(args_tuple):
             except:
                 pass
 
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
@@ -1455,7 +1443,6 @@ def window_name_N(args_tuple):
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
-        # print("Timeout: Title was not resolved to 'Example Domain'")
         error_logging(source, 'Failed to resolve https://www.example.com')
 
     except Exception as e:
@@ -1566,7 +1553,6 @@ def location_href_N(args_tuple):
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
                         driver.get("https://www.example.com")
-                        # print("Navigated back to 'https://www.example.com' due to page source changes")
                 except:
                     pass
 
@@ -1583,10 +1569,10 @@ def location_href_N(args_tuple):
 
         for payload_no, payload in enumerate(server_payloads):
             progress_bar.upadate(1)
-        
-            driver.switch_to.window(extension)
-            driver.refresh()
             driver.switch_to.window(example)
+            driver.refresh()
+        
+            payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
             try:
                 driver.execute_script(f"location.href = `https://www.example.com/?p={payload}`")
@@ -1600,6 +1586,13 @@ def location_href_N(args_tuple):
             driver.switch_to.window(extension)
             driver.refresh()
             driver.switch_to.window(example)
+
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                    a.click()
+            except:
+                pass
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
@@ -1788,6 +1781,8 @@ def context_menu(args_tuple):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
+                driver.refresh()
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
                 # inject
                 try:
@@ -1835,6 +1830,13 @@ def context_menu(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2037,7 +2039,7 @@ def context_menu(args_tuple):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
-                payload = payload.format(order, payload_no)
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
                 # using selenium to find element by ID
                 target_element = driver.find_element(By.ID, 'linkUrl')
@@ -2082,6 +2084,12 @@ def context_menu(args_tuple):
                 driver.refresh()
                 driver.switch_to.window(example)
 
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2265,6 +2273,7 @@ def context_menu(args_tuple):
                 driver.switch_to.window(example)
                 driver.refresh()
 
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
                 try:
                     # using javascript, change the SRC value of an oredefined image element
                     target_element = driver.find_element(By.ID, 'srcUrl')
@@ -2300,6 +2309,13 @@ def context_menu(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2494,7 +2510,7 @@ def context_menu(args_tuple):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
-                payload = payload.format(order, payload_no)
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
                 iframeElement = driver.find_element(By.ID, 'frameUrl')
 
@@ -2529,6 +2545,12 @@ def context_menu(args_tuple):
                 driver.refresh()
                 driver.switch_to.window(example)
 
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2702,7 +2724,7 @@ def context_menu(args_tuple):
 
 
                 driver.switch_to.window(example)
-                payload = payload.format(order, payload_no)
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
                 try:    
                     driver.execute_script(f"window.history.replaceState(null, null, `{website}?qureyParam={payload}`)")
@@ -2734,6 +2756,13 @@ def context_menu(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -2907,7 +2936,7 @@ def chromeTabQuery(args_tuple):
 
                 driver.switch_to.window(example)
                 driver.refresh()
-                payload = payload.format(order, payload_no)
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
 
                 try:
@@ -2923,6 +2952,13 @@ def chromeTabQuery(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -3076,7 +3112,7 @@ def chromeTabQuery(args_tuple):
                 driver.switch_to.window(example)
                 driver.refresh()
 
-                payload = payload.format(order, payload_no)
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
 
                 try:
@@ -3092,6 +3128,13 @@ def chromeTabQuery(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -3436,13 +3479,17 @@ def locationSearch_N(args_tuple):
                 pass
 
 
+        
+        
+
         for payload_no, payload in enumerate(server_payloads):
             progress_bar.update(1)
             driver.switch_to.window(example)
             driver.refresh()
 
-            payload = payload.format(order, payload_no)
-            
+
+            payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
+
             try:
                 driver.execute_script(f'window.location.search=`?q={payload}`')
 
@@ -3457,12 +3504,18 @@ def locationSearch_N(args_tuple):
             driver.refresh()
             driver.switch_to.window(example)
 
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                    a.click()
+            except:
+                pass
+
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
 
             packets: list = requests.get(url).json()["data"]
             if packets != []:
-
                 logs.append(payload_logging('SUCCESS', source, ext_id, ext_name, url_of_injection_example, 'server', payload, r"window.location.search=`?q={payload}`", time_of_injection, 'nil', payload_file, packets))
             else:
                 logs.append(payload_logging('FAILURE', source, ext_id, ext_name, url_of_injection_example, 'server', payload, r"window.location.search=`?q={payload}`", time_of_injection, 'nil', payload_file, packets))
@@ -3626,7 +3679,7 @@ def chromeDebugger(args_tuple):
                 progress_bar.update(1)
                 driver.switch_to.window(example)
                 driver.refresh()
-                payload = payload.format(order, payload_no)
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
 
                 try:
@@ -3651,6 +3704,13 @@ def chromeDebugger(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -3691,127 +3751,6 @@ def chromeDebugger(args_tuple):
             error_logging(source, str(e))
         requests.delete("http://127.0.0.1:8000/data")
         return logs
-
-    # # new chrome.Debugger.GetTargets (works, but loaded extension first instead of browser)
-    # def chromeDebugger_title_N_EXT_FIRST(args_tuple):
-    #     progress_bar, order, option, payloads, url_path, ext_id, ext_name, payload_file, result, server_payloads = args_tuple
-
-    #     logs = []
-    #     source = 'chromeDebugger.GetTargets.title'
-
-    #     url_of_injection_example = 'https://www.example.com'
-        
-
-    #     driver = Chrome(service=Service(), options=option)
-
-    #     try:
-    #         website = 'https://www.example.com'
-
-    #         driver.get(url_path)
-    #         extension = driver.current_window_handle
-    #         extension_source_code = driver.page_source
-
-    #         driver.switch_to.new_window('tab')
-
-    #         # navigate to example.com
-    #         driver.get(website)
-    #         example = driver.current_window_handle
-    #         example_source_code = driver.page_source
-
-
-    #         for payload in payloads:
-
-    #             # update progress bar
-    #             progress_bar.update(1) 
-
-    #             # change to example.com to change document.title property
-    #             driver.switch_to.window(example)
-    #             driver.refresh()    
-
-    #             try:
-    #                 driver.execute_script(f'document.title = `{payload}`;')
-
-    #                 # get time of injection
-    #                 time_of_injection = dt.utcnow()
-
-    #             except Exception as e:
-    #                 error_logging(source, str(e))
-    #                 continue
-
-
-    #             # Press the F12 key to open the developer tools
-    #             try:
-    #                 subprocess.call(['xdotool', 'keydown', 'F12'])
-    #                 subprocess.call(['xdotool', 'keyup', 'F12'])
-    #             except Exception as e:
-    #                 error_logging(source, str(e))
-    #                 continue
-
-
-    #             # observe behavior after payload injection
-    #             # 1) Check for alerts in example.com
-    #             driver.switch_to.window(example)
-    #             try:
-    #                 # wait 2 seconds to see if alert is detected
-    #                 WebDriverWait(driver, 2).until(EC.alert_is_present())
-    #                 alert = driver.switch_to.alert
-    #                 alert.accept()
-
-    #                 time_of_success = dt.utcnow()
-    #                 logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
-
-    #             except TimeoutException:
-    #                 logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"'document.title = `{payload}`;'",time_of_injection, 'nil', payload_file, 'nil'))
-
-    #                 # 2) Check for alerts in example after refreshing extension
-    #                 driver.switch_to.window(extension)
-    #                 driver.refresh()
-    #                 driver.switch_to.window(example)
-
-    #                 try:
-    #                     # wait 2 seconds to see if alert is detected
-    #                     WebDriverWait(driver, 2).until(EC.alert_is_present())
-    #                     alert = driver.switch_to.alert
-    #                     alert.accept()
-
-    #                     time_of_success = dt.utcnow()
-    #                     logs.append(payload_logging("SUCCESS", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"document.title = `{payload}`;",time_of_injection, time_of_success, payload_file, 'nil'))
-
-    #                 except TimeoutException:
-    #                     logs.append(payload_logging("FAILURE", source, ext_id, ext_name, url_of_injection_example, 'normal', payload, r"'document.title = `{payload}`;'",time_of_injection, 'nil', payload_file, 'nil'))
-                        
-
-    #             try: 
-    #                 # [1] check modifications for example.com
-    #                 driver.switch_to.window(example)
-    #                 if example_source_code != driver.page_source:
-    #                     driver.get(website)
-    #                     # print(f"Navigated back to '{website}' due to page source changes")
-
-    #             except Exception as e:
-    #                 # print('Error: ', str(e))
-    #                 pass
-
-    #             try: 
-    #                 # [2] check modifications for extension
-    #                 driver.switch_to.window(extension)
-    #                 if extension_source_code != driver.page_source:
-    #                     driver.get(url_path)
-    #                     # print(f"Navigated back to '{url_path}' due to extension page source changes")
-
-    #             except Exception as e:
-    #                 # print('Error: ', str(e))
-    #                 pass
-
-    #     except TimeoutException:
-    #         # Handle TimeoutException when title condition is not met
-    #         error_logging(source, f'Failed to resolve https://www.example.com')
-
-    #     except Exception as e:
-    #         # Handle any other exceptions that occur
-    #         error_logging(source, str(e))
-
-    #     return logs
 
     # new chrome.Debugger.GetTargets (works)
     def chromeDebugger_url_N(args_tuple):
@@ -3936,7 +3875,7 @@ def chromeDebugger(args_tuple):
 
                 driver.switch_to.window(example)
                 driver.refresh()
-                payload = payload.format(order, payload_no)
+                payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
 
                 try:
@@ -3961,6 +3900,13 @@ def chromeDebugger(args_tuple):
                 driver.switch_to.window(extension)
                 driver.refresh()
                 driver.switch_to.window(example)
+
+                try:
+                    if 'post' in payload_s[num]:
+                        a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                        a.click()
+                except:
+                    pass
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
                 time.sleep(3)
@@ -4338,7 +4284,7 @@ def windowAddEventListenerMessage(args_tuple):
             progress_bar.update(1)
             driver.switch_to.window(example)
             driver.refresh()
-            payload = payload.format(order, payload_no)
+            payload.replace('mhudogbhrqrjxjxelug',f'http://127.0.0.1:8000/xss/{order}/{payload_no}')
 
 
             try:
@@ -4361,6 +4307,17 @@ def windowAddEventListenerMessage(args_tuple):
                 except Exception as e:
                     error_logging(source, str(e))
                     continue
+
+            driver.switch_to.window(extension)
+            driver.refresh()
+            driver.switch_to.window(example)
+
+            try:
+                if 'post' in payload_s[num]:
+                    a = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID,'a')))
+                    a.click()
+            except:
+                pass
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
             time.sleep(3)
