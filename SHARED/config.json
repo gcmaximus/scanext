@@ -1,6 +1,6 @@
 {
     "report_display_adjacent_lines": 3,
-    "number_of_instances": "auto",
+    "number_of_instances": 1,
     "payload_file_path": "payloads.txt",
     "percentage_of_payloads": 50,
     "timezone": "Asia/Singapore"

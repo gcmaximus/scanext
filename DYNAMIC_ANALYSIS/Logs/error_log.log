@@ -65,3 +65,4 @@
 2023-08-01 14:56:42,376 - [error_logger] - [window.name] - 'font-family'
 2023-08-01 14:56:44,356 - [error_logger] - [window.name] - ' eval(location'
 2023-08-01 14:56:51,227 - [error_logger] - [window.name] - 'console'
+2023-08-01 16:25:31,075 - [error_logger] - [chromeTabsQuery.favIconUrl] - HTTPConnectionPool(host='localhost', port=47333): Max retries exceeded with url: /session/e136c831378ff1760d179a834853006c/alert/text (Caused by NewConnectionError('<urllib3.connection.HTTPConnection 
