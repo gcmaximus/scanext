@@ -45,7 +45,7 @@ def main(config, path_to_extension, semgrep_results):
     # load configs
     percentage_of_payloads = config["percentage_of_payloads"]
     number_of_instances = config["number_of_instances"]
-    custom_payload_file = config["custom_payload_file"]
+    custom_payload_file = config["payload_file_path"]
     timezone = config["timezone"]
 
     # set payload file
@@ -77,7 +77,7 @@ def main(config, path_to_extension, semgrep_results):
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/payload.txt')
     # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/test.txt')
     meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, alert_payload_file)
-    server_payloads = payloads_cycle(number_of_instances, 100, server_payloads_file)
+    server_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, server_payloads_file)
 
     # interprete semgrep scan results
     interpreted_results = separater(interpreter(semgrep_results))
@@ -144,6 +144,7 @@ def main(config, path_to_extension, semgrep_results):
                 # options.add_argument("--disable-gpu")
 
                 source = result["source"]
+                print()
                 print('SOURCE: ', source)
                 
                 progress_bars = [
@@ -169,6 +170,8 @@ def main(config, path_to_extension, semgrep_results):
                                 log["timeOfAlert"] = fdt(b.astimezone(tz(timezone)))
                             dynamic_logger.critical(json.dumps(log))
 
+                for bar in progress_bars:
+                    bar.close()
 
         except Exception as e:
             print("Error while initializing headless chrome driver ")
