@@ -269,11 +269,17 @@ def main():
     print(get_banner())
     config = load_config()
     test_selenium()
+    dynamic_logfile = Path(DYNAMIC_LOGFILE)
+    error_logfile = Path(ERROR_LOGFILE)
+
 
     # clear log file before logging
-    with open(DYNAMIC_LOGFILE, "w") as f1, open(ERROR_LOGFILE, "w") as f2:
-        f1.truncate(0)
-        f2.truncate(0)
+    if dynamic_logfile.exists():
+        with dynamic_logfile.open("w") as f:
+            f.truncate(0)
+    if error_logfile.exists():
+        with error_logfile.open("w") as f:
+            f.truncate(0)
     
     timezone = config["timezone"]
     whole_scan_start = fdt(dt.now(tz(timezone)))
@@ -311,7 +317,7 @@ def main():
     shared_log_dir = Path("SHARED/LOGS")
     if not shared_log_dir.exists():
         shared_log_dir.mkdir()
-    shutil.copyfile(DYNAMIC_LOGFILE, shared_log_file)
+    shutil.copyfile(dynamic_logfile, shared_log_file)
     print()
     print(f"Logs from this scan are available in `{shared_log_file}`")
 
