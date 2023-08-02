@@ -2,7 +2,7 @@ from pathlib import Path
 import json
 from bs4 import BeautifulSoup
 import html
-from constants import * 
+from constants import *
 
 
 # interpret static analysis results and inserts results into report
@@ -33,9 +33,9 @@ def static_results_report(results, extension: Path, soup, config, report_path):
     # No of vulnerabilities found
     vulns_len = len(results)
 
-    print(f'Found {vulns_len} potential XSS vulnerabilities.')
+    print(f"Found {vulns_len} potential XSS vulnerabilities.")
 
-    soup.find('title').string += f' - {scanned_dir}'
+    soup.find("title").string += f" - {scanned_dir}"
 
     soup.find(id="scanned-folder").string = scanned_dir
     soup.find(id="ext-name").string = ext_name
@@ -45,7 +45,6 @@ def static_results_report(results, extension: Path, soup, config, report_path):
 
     # append semgrep info to report
     if vulns_len == 0:
-
         # no static results
         add = f"""
             <div class="card m-auto static-none border-success">
@@ -59,7 +58,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="static-main").append(add_parsed)
 
-        soup.find(id='pocs').string = '0 found'
+        soup.find(id="pocs").string = "0 found"
 
         # no dynamic results
         add = f"""
@@ -70,11 +69,9 @@ def static_results_report(results, extension: Path, soup, config, report_path):
                     <p class="card-text">Our tool did not find any payloads that can exploit potential XSS vulnerabilities in the code.</p>
                 </div>
             </div>"""
-        
+
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
-
-        
 
     else:
         # loop through & append 1 card for each result
@@ -91,8 +88,8 @@ def static_results_report(results, extension: Path, soup, config, report_path):
             # find desc for source & sink
             with open(descs, "r") as f:
                 content = json.load(f)
-                source_desc = content["sources"][source.replace('_', '.')]
-                sink_desc = content["sinks"][sink.replace('_', '.')]
+                source_desc = content["sources"][source.replace("_", ".")]
+                sink_desc = content["sinks"][sink.replace("_", ".")]
 
             # find line no. of vuln + the line itself
 
@@ -114,10 +111,6 @@ def static_results_report(results, extension: Path, soup, config, report_path):
             source_line = vulnerable_lines.setdefault("source_line", "")
             sink_line = vulnerable_lines.setdefault("sink_line", "")
             line_diff = abs(source_line_no - sink_line_no)
-
-
-            
-
 
             # check if:
             # line difference < 1?
@@ -168,7 +161,9 @@ def static_results_report(results, extension: Path, soup, config, report_path):
                             with vuln_file.open("r") as f:
                                 for i, line in enumerate(f):
                                     if i == line_no - 1:
-                                        tainted_lines[line_no] = html.escape(line.rstrip())
+                                        tainted_lines[line_no] = html.escape(
+                                            line.rstrip()
+                                        )
                                         break
 
                     more_details = """
@@ -194,47 +189,58 @@ def static_results_report(results, extension: Path, soup, config, report_path):
                     code_segment += more_details
 
             soup_code_segment = BeautifulSoup(code_segment, "html.parser")
-            
+
             # check no. of adjacent lines to display in report
-            report_display_adjacent_lines = config['report_display_adjacent_lines']
+            report_display_adjacent_lines = config["report_display_adjacent_lines"]
 
             # if 1 or more adj lines to display
             if report_display_adjacent_lines:
-                
-
                 # check file length
-                with open(vuln_file, 'r') as f:
+                with open(vuln_file, "r") as f:
                     total_file_len = len(f.readlines())
 
+                prepend_lines = {
+                    source_line_no - x - 1: ""
+                    for x in range(report_display_adjacent_lines)
+                    if source_line_no - x - 1 > 0
+                }
+                append_lines = {
+                    sink_line_no + x + 1: ""
+                    for x in range(report_display_adjacent_lines)
+                    if sink_line_no + x + 1 <= total_file_len
+                }
 
-                
-                prepend_lines = {source_line_no - x - 1: "" for x in range(report_display_adjacent_lines) if source_line_no - x - 1 > 0}
-                append_lines = {sink_line_no + x + 1: "" for x in range(report_display_adjacent_lines) if sink_line_no + x + 1 <= total_file_len}
-
-                with open(vuln_file, 'r') as f:
+                with open(vuln_file, "r") as f:
                     for i, line in enumerate(f):
-                        if i+1 in prepend_lines.keys():
-                            prepend_lines[i+1] = html.escape(line.rstrip())
-                        if i+1 in append_lines.keys():
-                            append_lines[i+1] = html.escape(line.rstrip())
-                            
+                        if i + 1 in prepend_lines.keys():
+                            prepend_lines[i + 1] = html.escape(line.rstrip())
+                        if i + 1 in append_lines.keys():
+                            append_lines[i + 1] = html.escape(line.rstrip())
+
                 prepend_lines = dict(sorted(prepend_lines.items(), reverse=True))
 
                 # Prepending lines
                 for line_no, line in prepend_lines.items():
-                    soup_prepend_content = BeautifulSoup(f"""<code>
-    {line_no}&#9;&#9;{line}</code>""", 'html.parser')
-                    soup_code_segment.find(id=f'code-block-{result_no}').insert(0, soup_prepend_content)
-                    
-
+                    soup_prepend_content = BeautifulSoup(
+                        f"""<code>
+    {line_no}&#9;&#9;{line}</code>""",
+                        "html.parser",
+                    )
+                    soup_code_segment.find(id=f"code-block-{result_no}").insert(
+                        0, soup_prepend_content
+                    )
 
                 # Appending lines
                 for line_no, line in append_lines.items():
-                    soup_append_content = BeautifulSoup(f"""<code>
-    {line_no}&#9;&#9;{line}</code>""", 'html.parser')
-                    soup_code_segment.find(id=f'code-block-{result_no}').insert(-1, soup_append_content)
+                    soup_append_content = BeautifulSoup(
+                        f"""<code>
+    {line_no}&#9;&#9;{line}</code>""",
+                        "html.parser",
+                    )
+                    soup_code_segment.find(id=f"code-block-{result_no}").insert(
+                        -1, soup_append_content
+                    )
 
-            
             add = f"""
 <!-- Source-Sink pair -->
         <div class="card static-result">
@@ -290,15 +296,15 @@ def static_results_report(results, extension: Path, soup, config, report_path):
 
         # dynamic is starting
 
-        soup.find(id='pocs').string = 'In Progress'
-        dynamic_in_prog = '''        
+        soup.find(id="pocs").string = "In Progress"
+        dynamic_in_prog = """        
             <div class="card m-auto border-warning" id="wait-msg">
                 <div class="card-header bg-warning">In Progress</div>
                 <div class="card-body">
                     <h5 class="card-title">Please Wait...</h5>
                     <p class="card-text">ScanExt is currently conducting dynamic analysis and will update this report upon completion.</p>
                 </div>
-            </div>'''
+            </div>"""
         dynamic_in_prog_parsed = BeautifulSoup(dynamic_in_prog, "html.parser")
         soup.find(id="dynamic-main").append(dynamic_in_prog_parsed)
 
@@ -307,9 +313,9 @@ def static_results_report(results, extension: Path, soup, config, report_path):
     with open(report_path, "w") as file:
         file.write(str(soup))
 
+
 # interpret dynamic analysis results and inserts results into report
 def dynamic_results_report(source_sorted_logs, soup, report_path):
-
     # remove "in progress" message
     wait_msg_tag = soup.find(id="wait-msg")
 
@@ -320,23 +326,28 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
 
     separated_objects = {}
     succ_counter = 0
-    unique_payloads = []
     for obj in source_sorted_logs:
-        source = obj['source']
-        payload = obj['payload']
-        source_dict = separated_objects.setdefault(source, {"results":[], "total number": 0, "total success":0})
-        if payload not in unique_payloads:
+        source = obj["source"]
+        payload = obj["payload"]
+        source_dict = separated_objects.setdefault(
+            source,
+            {"results": [], "total number": 0, "total success": 0, "u_payloads": []},
+        )
+        u_payload_list = source_dict["u_payloads"]
+
+        if payload not in u_payload_list:
             source_dict["total number"] += 1
-            unique_payloads.append(payload)
+            u_payload_list.append(payload)
+
         if obj["outcome"] == "SUCCESS":
             source_dict["results"].append(obj)
             source_dict["total success"] += 1
             succ_counter += 1
 
     # Update no. of POCs found
-    soup.find(id='pocs').string = str(succ_counter) + ' found'
-    
-    '''
+    soup.find(id="pocs").string = str(succ_counter) + " found"
+
+    """
     {
         'window.name': [
             {'name': 'Object 1', 'source': 'window.name'},
@@ -347,7 +358,7 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
             {'name': 'Object 4', 'source': 'location.hash'}
         ]
     }
-    '''
+    """
 
     # 1 or more POCs
     if succ_counter == 0:
@@ -360,12 +371,12 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
                     <p class="card-text">Our tool did not find any payloads that can exploit potential XSS vulnerabilities in the code.</p>
                 </div>
             </div>"""
-        
+
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
 
     # no POCs
-    else: 
+    else:
         # loop through dynamic results
         add = ""
         source_no = 1
@@ -377,37 +388,35 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
             results: list = source_dict["results"]
 
             # retrieve information for one source
-            payload_list = results[0]['payload_fileName']
+            payload_list = results[0]["payload_fileName"]
             tested_payloads: int = source_dict["total number"]
             success_payloads: int = source_dict["total success"]
 
-            payload_table = ''
-            
-            for i, result in enumerate(results):
+            payload_table = ""
 
+            for i, result in enumerate(results):
                 # Retrieve information
-                payload = html.escape(result['payload'])
-                url = result['Url']
-                time_of_injection = result['timeOfInjection']
-                time_of_alert = result['timeOfAlert']
+                payload = html.escape(result["payload"])
+                url = result["Url"]
+                time_of_injection = result["timeOfInjection"]
+                time_of_alert = result["timeOfAlert"]
 
                 # Format script for multiline scripts
-                script = html.escape(result['script'])
+                script = html.escape(result["script"])
 
                 # Format packet info for payloadType:"server"
-                payload_type = result['payloadType']
-                
+                payload_type = result["payloadType"]
 
-                if payload_type == 'server':
-                    packet_info_obj = result['packetInfo'][0]
+                if payload_type == "server":
+                    packet_info_obj = result["packetInfo"][0]
                     packet_info = ""
                     for key in packet_info_obj:
-                        packet_info += f'<b>{key}</b>: {packet_info_obj[key]}; '
-                    
-                else:
-                    packet_info = result['packetInfo']
+                        packet_info += f"<b>{key}</b>: {packet_info_obj[key]}; "
 
-                payload_table += f'''
+                else:
+                    packet_info = result["packetInfo"]
+
+                payload_table += f"""
     <!-- Payload Info -->
 
     <h3 id="payload-no-1"><u><b>Payload #{i + 1}</b></u></h3>
@@ -451,11 +460,9 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
     </tbody>
 
     </table>
-    '''
+    """
 
-
-
-            add += f'''
+            add += f"""
     <!-- Source -->
     <div class="card dynamic-result">
     <div class="card-header">
@@ -508,15 +515,9 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
 
     </div>
     </div>
-    '''
-            
-            
+    """
 
             source_no += 1
-
-
-
-
 
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
