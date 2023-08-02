@@ -274,12 +274,9 @@ def main():
 
 
     # clear log file before logging
-    if dynamic_logfile.exists():
-        with dynamic_logfile.open("w") as f:
-            f.truncate(0)
-    if error_logfile.exists():
-        with error_logfile.open("w") as f:
-            f.truncate(0)
+    with dynamic_logfile.open("w") as f1, error_logfile.open("w") as f2:
+        f1.truncate(0)
+        f2.truncate(0)
     
     timezone = config["timezone"]
     whole_scan_start = fdt(dt.now(tz(timezone)))
