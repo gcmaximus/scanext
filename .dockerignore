@@ -7,4 +7,6 @@ Dockerfile
 EXTENSIONS
 README.md
 STATIC_ANALYSIS/semgrep_rules/*/test_codes
+SHARED/TMP_EXTENSIONS
 tmp
+

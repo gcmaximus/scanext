@@ -107,12 +107,10 @@ def dynamic_analysis(
     # Retrieve information from log file
     logs_obj = []
 
-    # initialise logfile path
-    dynamic_logfile = "DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt"
-
-    with open(dynamic_logfile, "r") as f:
+    with open(DYNAMIC_LOGFILE, "r") as f:
         for line in f:
             logs_obj.append(json.loads(line))
+    
 
     # Filter by ext name
     filtered_logs = filter(lambda ext: ext["extensionName"] == extension.name, logs_obj)
@@ -273,12 +271,10 @@ def main():
     test_selenium()
 
     # clear log file before logging
-    logfile = "DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt"
-    err_logfile = "DYNAMIC_ANALYSIS/Logs/error_log.log"
-    with open(logfile, "w") as f1, open(err_logfile, "w") as f2:
+    with open(DYNAMIC_LOGFILE, "w") as f1, open(ERROR_LOGFILE, "w") as f2:
         f1.truncate(0)
         f2.truncate(0)
-
+    
     timezone = config["timezone"]
     whole_scan_start = fdt(dt.now(tz(timezone)))
 
@@ -307,15 +303,15 @@ def main():
         if results:
             dynamic_analysis(results, extension, soup, config, report_path)
 
-    # Copy logfile to SHARED
+    # Copy log files to SHARED
 
     # Initialise user dynamic logfile path
-    shared_log_file = Path(f"SHARED/LOGS/{whole_scan_start.replace(':','-')}.txt")
+    shared_log_file = Path(f"SHARED/LOGS/{whole_scan_start.replace(':','-')}.log")
 
     shared_log_dir = Path("SHARED/LOGS")
     if not shared_log_dir.exists():
         shared_log_dir.mkdir()
-    shutil.copyfile(logfile, shared_log_file)
+    shutil.copyfile(DYNAMIC_LOGFILE, shared_log_file)
     print()
     print(f"Logs from this scan are available in `{shared_log_file}`")
 

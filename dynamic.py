@@ -1,9 +1,8 @@
 import logging
 import shutil
 from concurrent.futures import ThreadPoolExecutor
-from email.utils import format_datetime as fdt
+from constants import *
 
-from pytz import timezone as tz
 from pyvirtualdisplay.display import Display
 from selenium.webdriver import ChromeOptions
 from tqdm import tqdm
@@ -15,33 +14,66 @@ from multiprocessing import Process
 from server import main as server
 
 
-def setup_logger(log_file):
-    # Create a logger with a specific name (using an empty string for the root logger)
-    logger = logging.getLogger('dynamic')
-    logger.setLevel(logging.ERROR)
+# def setup_logger(log_file):
+#     # Create a logger with a specific name (using an empty string for the root logger)
+#     logger = logging.getLogger('dynamic')
+#     logger.setLevel(logging.ERROR)
 
-    # Create a file handler and set the log level
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setLevel(logging.CRITICAL)
+#     # Create a file handler and set the log level
+#     file_handler = logging.FileHandler(log_file)
+#     file_handler.setLevel(logging.CRITICAL)
 
-    # Create a formatter and add it to the handler
-    log_format = '%(message)s'
-    formatter = logging.Formatter(log_format)
-    file_handler.setFormatter(formatter)
+#     # Create a formatter and add it to the handler
+#     log_format = '%(message)s'
+#     formatter = logging.Formatter(log_format)
+#     file_handler.setFormatter(formatter)
+
+#     # Clear any existing handlers 
+#     if (logger.hasHandlers()):
+#         logger.handlers.clear()
+    
+#     # Add the handler to the logger
+#     logger.addHandler(file_handler)
+
+#     return logger
+
+
+def setup_logger(logger_name, log_file, timezone):
+    match logger_name:
+        case "dynamic":
+            # define log level
+            log_level = logging.CRITICAL
+
+            # Create a formatter
+            formatter = logging.Formatter('%(message)s')
+            
+        case "error":
+            # define log level
+            log_level = logging.ERROR
+
+            # Create a formatter
+            formatter = logging.Formatter('%(asctime)s - [%(name)s] - %(message)s')
+
+        case _:
+            raise Exception(f"{logger_name} must be 'dynamic' or 'error'")
+
+    # Create a logger with a specific name
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(log_level)
 
     # Clear any existing handlers 
     if (logger.hasHandlers()):
         logger.handlers.clear()
-    
-    # Add the handler to the logger
+
+    # Set a file handler
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(log_level)
+    file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
-
-    return logger
-
+    setattr(logger, "timezone", timezone)
 
 
 def main(config, path_to_extension, semgrep_results):
-
     # load configs
     percentage_of_payloads = config["percentage_of_payloads"]
     number_of_instances = config["number_of_instances"]
@@ -51,18 +83,18 @@ def main(config, path_to_extension, semgrep_results):
     # set payload file
     if custom_payload_file == "auto":
         # default file
-        alert_payload_file = "DYNAMIC_ANALYSIS/payloads/scanext_payloads.txt"
+        alert_payload_file = ALERT_PAYLOAD_FILE
     else:
         # user file
         alert_payload_file = f"SHARED/{custom_payload_file}"
 
-    server_payloads_file = "DYNAMIC_ANALYSIS/payloads/scanext_server_payloads.txt"
+    server_payloads_file = SERVER_PAYLAOD_FILE
     print(f"Using payload file (check for alerts): {alert_payload_file}")
     print(f"Using payload file (check for HTTP requests): {server_payloads_file}")
 
 
-
-    dynamic_logger = setup_logger('DYNAMIC_ANALYSIS/Logs/dynamic_logs.txt')
+    setup_logger("dynamic", DYNAMIC_LOGFILE, timezone)
+    setup_logger('error', ERROR_LOGFILE, timezone)
 
 
     # preconfiguration (set active to false)
@@ -73,9 +105,7 @@ def main(config, path_to_extension, semgrep_results):
     url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_extension)
 
     
-    # new payloads
-    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/payload.txt')
-    # meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, 'DYNAMIC_ANALYSIS/payloads/test.txt')
+    # Split payloads into groups for each thread
     meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, alert_payload_file)
     server_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, server_payloads_file)
 
@@ -162,14 +192,8 @@ def main(config, path_to_extension, semgrep_results):
 
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
-                    for logs in executor.map(sourcelist[source], args):
-                        for log in logs:
-                            a, b = log["timeOfInjection"], log["timeOfAlert"]
-                            if a != "nil":
-                                log["timeOfInjection"] = fdt(a.astimezone(tz(timezone)))
-                            if b != "nil":
-                                log["timeOfAlert"] = fdt(b.astimezone(tz(timezone)))
-                            dynamic_logger.critical(json.dumps(log))
+                    for _ in executor.map(sourcelist[source], args):
+                        pass
 
                 for bar in progress_bars:
                     bar.close()
@@ -190,7 +214,7 @@ def main(config, path_to_extension, semgrep_results):
         
 
 if __name__ == '__main__':
-    pass
+    print("testing")
     
     # # testing
     # with open("results.json", "r") as file:
