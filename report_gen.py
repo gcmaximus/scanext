@@ -347,6 +347,9 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
     # Update no. of POCs found
     soup.find(id="pocs").string = str(succ_counter) + " found"
 
+    # print to terminal
+    print(f"Found {succ_counter} PoC exploits.")
+
     """
     {
         'window.name': [
