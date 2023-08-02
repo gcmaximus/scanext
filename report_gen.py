@@ -331,9 +331,9 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
         payload = obj["payload"]
         source_dict = separated_objects.setdefault(
             source,
-            {"results": [], "total number": 0, "total success": 0, "u_payloads": []},
+            {"results": [], "total number": 0, "total success": 0, "unique payloads": []},
         )
-        u_payload_list = source_dict["u_payloads"]
+        u_payload_list = source_dict["unique payloads"]
 
         if payload not in u_payload_list:
             source_dict["total number"] += 1
