@@ -1947,7 +1947,7 @@ def window_name_N(args_tuple):
             driver.switch_to.window(example)
             driver.refresh()
 
-            payload.replace(
+            payload = payload.replace(
                 "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
             )
             try:
@@ -2218,7 +2218,7 @@ def location_href_N(args_tuple):
             driver.switch_to.window(example)
             driver.refresh()
 
-            payload.replace(
+            payload = payload.replace(
                 "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
             )
 
@@ -2531,7 +2531,7 @@ def context_menu(args_tuple):
 
                 driver.switch_to.window(example)
                 driver.refresh()
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -2891,7 +2891,7 @@ def context_menu(args_tuple):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -3229,7 +3229,7 @@ def context_menu(args_tuple):
                 driver.switch_to.window(example)
                 driver.refresh()
 
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -3569,7 +3569,7 @@ def context_menu(args_tuple):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -3881,7 +3881,7 @@ def context_menu(args_tuple):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -4199,7 +4199,7 @@ def chromeTabQuery(args_tuple):
 
                 driver.switch_to.window(example)
                 driver.refresh()
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -4468,7 +4468,7 @@ def chromeTabQuery(args_tuple):
                 driver.switch_to.window(example)
                 driver.refresh()
 
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -5010,7 +5010,7 @@ def locationSearch_N(args_tuple):
             driver.switch_to.window(example)
             driver.refresh()
 
-            payload.replace(
+            payload = payload.replace(
                 "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
             )
 
@@ -5298,7 +5298,7 @@ def chromeDebugger(args_tuple):
                 progress_bar.update(1)
                 driver.switch_to.window(example)
                 driver.refresh()
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -5585,7 +5585,7 @@ def chromeDebugger(args_tuple):
 
                 driver.switch_to.window(example)
                 driver.refresh()
-                payload.replace(
+                payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
@@ -6155,7 +6155,7 @@ def windowAddEventListenerMessage(args_tuple):
             progress_bar.update(1)
             driver.switch_to.window(example)
             driver.refresh()
-            payload.replace(
+            payload = payload.replace(
                 "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
             )
 
