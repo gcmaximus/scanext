@@ -14,30 +14,6 @@ from multiprocessing import Process
 from server import main as server
 
 
-# def setup_logger(log_file):
-#     # Create a logger with a specific name (using an empty string for the root logger)
-#     logger = logging.getLogger('dynamic')
-#     logger.setLevel(logging.ERROR)
-
-#     # Create a file handler and set the log level
-#     file_handler = logging.FileHandler(log_file)
-#     file_handler.setLevel(logging.CRITICAL)
-
-#     # Create a formatter and add it to the handler
-#     log_format = '%(message)s'
-#     formatter = logging.Formatter(log_format)
-#     file_handler.setFormatter(formatter)
-
-#     # Clear any existing handlers 
-#     if (logger.hasHandlers()):
-#         logger.handlers.clear()
-    
-#     # Add the handler to the logger
-#     logger.addHandler(file_handler)
-
-#     return logger
-
-
 def setup_logger(logger_name, log_file, timezone):
     match logger_name:
         case "dynamic":
