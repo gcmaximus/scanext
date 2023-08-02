@@ -360,7 +360,7 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
     }
     """
 
-    # 1 or more POCs
+    # no POCs
     if succ_counter == 0:
         # no dynamic results
         add = f"""
@@ -375,7 +375,7 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
         add_parsed = BeautifulSoup(add, "html.parser")
         soup.find(id="dynamic-main").append(add_parsed)
 
-    # no POCs
+    # 1 or more POCs
     else:
         # loop through dynamic results
         add = ""
