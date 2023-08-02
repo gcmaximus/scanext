@@ -65,10 +65,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Payload we might be using:
-#
-# <form action="http://127.0.0.1:8000/xss" method="post">
-#     <label for="data">Data:</label>
-#     <input type="text" id="data" name="data">
-#     <input type="submit" value="Submit">
-# </form>
+
