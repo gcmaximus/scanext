@@ -1,5 +1,6 @@
 import json
 import shutil
+import subprocess
 from datetime import datetime as dt
 from email.utils import format_datetime as fdt
 from os import cpu_count
@@ -13,10 +14,10 @@ from pyvirtualdisplay.display import Display
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.chrome.service import Service
 
-from report_gen import static_results_report, dynamic_results_report
 from banners import get_banner
 from constants import *
 from dynamic import main as dynamic
+from report_gen import dynamic_results_report, static_results_report
 from static import main as static
 
 
@@ -317,6 +318,8 @@ def main():
     shutil.copyfile(dynamic_logfile, shared_log_file)
     print()
     print(f"Logs from this scan are available in `{shared_log_file}`")
+    print()
+    subprocess.run(["jp2a", "--color", "logo.png"])
 
 
 if __name__ == "__main__":

@@ -2222,7 +2222,7 @@ def location_href_N(args_tuple):
                     pass
 
         for payload_no, payload in enumerate(server_payloads[1]):
-            progress_bar.upadate(1)
+            progress_bar.update(1)
             driver.switch_to.window(example)
             driver.refresh()
 
@@ -4864,7 +4864,7 @@ def chromeTabQuery(args_tuple):
 
 
 # new location.search (works)
-def locationSearch_N(args_tuple):
+def location_search_N(args_tuple):
     (
         progress_bar,
         order,

@@ -1,3 +1,4 @@
+jp2a
 python3-pip
 wget
 xdotool
