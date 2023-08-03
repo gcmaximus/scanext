@@ -132,6 +132,7 @@ def runtime_onM(args_tuple):
         server_payloads,
     ) = args_tuple
 
+
     scripts = []
     scripts_s = []
     payload = {}
@@ -139,7 +140,7 @@ def runtime_onM(args_tuple):
     source = "chrome.runtime.onMessage"
     url_of_injection_example = "https://www.example.com"
 
-    for payload_no, i in enumerate(payloads):
+    for payload_no, i in enumerate(payloads[1]):
         dots = "."
         taintsink = result["sink"]
         obj = {}
@@ -166,12 +167,12 @@ def runtime_onM(args_tuple):
         scripts.append(script)
         payload[payload_no] = i
 
-    for payload_no, i in enumerate(server_payloads):
+    for payload_no, i in enumerate(server_payloads[1]):
         dots = "."
         taintsink = result["sink"]
         obj = {}
         var = ""
-        i.replace(
+        i = i.replace(
             "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
         )
         try:
@@ -366,7 +367,7 @@ def runtime_onM(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    requests.delete("http://127.0.0.1:8000/data")
+    
 
 
 # 2) runtime.onConnect
@@ -383,6 +384,7 @@ def runtime_onC(args_tuple):
         result,
         server_payloads,
     ) = args_tuple
+
     
     scripts = []
     scripts_s = []
@@ -391,7 +393,7 @@ def runtime_onC(args_tuple):
     source = "chrome.runtime.onConnect"
     url_of_injection_example = "https://www.example.com"
 
-    for payload_no, i in enumerate(payloads):
+    for payload_no, i in enumerate(payloads[1]):
         dots = "."
         taintsink = result["sink"]
         obj = {}
@@ -430,14 +432,14 @@ def runtime_onC(args_tuple):
         scripts.append(script)
         payload[payload_no] = i
 
-    for payload_no, i in enumerate(server_payloads):
+    for payload_no, i in enumerate(server_payloads[1]):
         dots = "."
         taintsink = result["sink"]
         obj = {}
         var = ""
         func = ""
         connect = ""
-        i.replace(
+        i = i.replace(
             "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
         )
         try:
@@ -638,7 +640,7 @@ def runtime_onC(args_tuple):
     except Exception as e:
         # Handle any other exceptions that occur
         pass
-    requests.delete("http://127.0.0.1:8000/data")
+    
 
 
 # 3) cookies.get && cookies.getAll
@@ -655,6 +657,7 @@ def cookie_get(args_tuple):
         result,
         server_payloads,
     ) = args_tuple
+
     
     scripts = []
     scripts_s = []
@@ -663,7 +666,7 @@ def cookie_get(args_tuple):
     source = "cookies.get/cookies.getAll"
     url_of_injection_example = "https://www.example.com"
 
-    for payload_no, i in enumerate(payloads):
+    for payload_no, i in enumerate(payloads[1]):
         dots = "."
         taintsource = result["taintsource"]
         cookie = ""
@@ -710,12 +713,12 @@ def cookie_get(args_tuple):
         scripts.append(script)
         payload[payload_no] = i
 
-    for payload_no, i in enumerate(server_payloads):
+    for payload_no, i in enumerate(server_payloads[1]):
         dots = "."
         taintsource = result["taintsource"]
         cookie = ""
         x = ""
-        i.replace(
+        i = i.replace(
             "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
         )
         try:
@@ -964,7 +967,7 @@ def cookie_get(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    requests.delete("http://127.0.0.1:8000/data")
+    
 
 
 # 4) location.hash
@@ -981,6 +984,7 @@ def location_hash(args_tuple):
         result,
         server_payloads,
     ) = args_tuple
+
     
     scripts = []
     scripts_s = []
@@ -989,13 +993,13 @@ def location_hash(args_tuple):
     source = "location.hash"
     url_of_injection_example = "https://www.example.com"
 
-    for payload_no, i in enumerate(payloads):
+    for payload_no, i in enumerate(payloads[1]):
         script = f"window.location.hash = '{i}'"
         scripts.append(script)
         payload[payload_no] = i
 
-    for payload_no, i in enumerate(server_payloads):
-        i.replace(
+    for payload_no, i in enumerate(server_payloads[1]):
+        i = i.replace(
             "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
         )
         script = f"window.location.hash = '{i}'"
@@ -1206,7 +1210,7 @@ def location_hash(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    requests.delete("http://127.0.0.1:8000/data")
+    
 
 
 #  5) runtime.onMessageExternal
@@ -1223,6 +1227,7 @@ def runtime_onME(args_tuple):
         result,
         server_payloads,
     ) = args_tuple
+
     
     scripts = []
     scripts_s = []
@@ -1231,7 +1236,7 @@ def runtime_onME(args_tuple):
     source = "chrome.runtime.onMessageExternal"
     url_of_injection_example = "https://www.example.com"
 
-    for payload_no, i in enumerate(payloads):
+    for payload_no, i in enumerate(payloads[1]):
         dots = "."
         taintsink = result["sink"]
         obj = ""
@@ -1246,12 +1251,12 @@ def runtime_onME(args_tuple):
         scripts.append(script)
         payload[payload_no] = i
 
-    for payload_no, i in enumerate(server_payloads):
+    for payload_no, i in enumerate(server_payloads[1]):
         dots = "."
         taintsink = result["sink"]
         obj = ""
         var = ""
-        i.replace(
+        i = i.replace(
             "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
         )
         if dots in taintsink:
@@ -1468,7 +1473,7 @@ def runtime_onME(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    requests.delete("http://127.0.0.1:8000/data")
+    
 
 
 # 6) runtime.onConnectExternal
@@ -1485,6 +1490,7 @@ def runtime_onCE(args_tuple):
         result,
         server_payloads,
     ) = args_tuple
+
     
     scripts = []
     scripts_s = []
@@ -1493,7 +1499,7 @@ def runtime_onCE(args_tuple):
     source = "chrome.runtime.onConnectExternal"
     url_of_injection_example = "https://www.example.com"
 
-    for payload_no, i in enumerate(payloads):
+    for payload_no, i in enumerate(payloads[1]):
         dots = "."
         taintsink = result["sink"]
         obj = {}
@@ -1532,14 +1538,14 @@ def runtime_onCE(args_tuple):
         scripts.append(script)
         payload[payload_no] = i
 
-    for payload_no, i in enumerate(server_payloads):
+    for payload_no, i in enumerate(server_payloads[1]):
         dots = "."
         taintsink = result["sink"]
         obj = {}
         var = ""
         func = ""
         connect = ""
-        i.replace(
+        i = i.replace(
             "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
         )
         try:
@@ -1778,7 +1784,6 @@ def runtime_onCE(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    requests.delete("http://127.0.0.1:8000/data")
 
 
 # new window.name_normal (works)
@@ -1795,6 +1800,7 @@ def window_name_N(args_tuple):
         result,
         server_payloads,
     ) = args_tuple
+
 
     
     source = "window.name"
@@ -1821,7 +1827,7 @@ def window_name_N(args_tuple):
         # get page source code of extension
         extension_source_code = driver.page_source
 
-        for payload_no, payload in enumerate(payloads):
+        for payload_no, payload in enumerate(payloads[1]):
             # update progress bar
             progress_bar.update(1)
             # since window.name is obtained from the website url, we will inject javascript to change the window.name
@@ -1940,7 +1946,7 @@ def window_name_N(args_tuple):
             except Exception as e:
                 error_logging(source, str(e))
 
-        for payload_no, payload in enumerate(server_payloads):
+        for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
 
             # since window.name is obtained from the website url, we will inject javascript to change the window.name
@@ -2030,7 +2036,6 @@ def window_name_N(args_tuple):
 
     except Exception as e:
         error_logging(source, str(e))
-    requests.delete("http://127.0.0.1:8000/data")
 
 
 # new location.href_normal (works)
@@ -2042,9 +2047,12 @@ def location_href_N(args_tuple):
         payloads,
         url_path,
         ext_id,
+        ext_name,
+        payload_file,
         result,
         server_payloads,
     ) = args_tuple
+
 
     
     source = "location.href"
@@ -2073,7 +2081,7 @@ def location_href_N(args_tuple):
         extension_source_code = driver.page_source
 
         # we can inject a script to change the location.href variable using query parameters or fragment Idenfiers
-        for payload_no, payload in enumerate(payloads):
+        for payload_no, payload in enumerate(payloads[1]):
             # update progress bar
             progress_bar.update(1)
 
@@ -2213,7 +2221,7 @@ def location_href_N(args_tuple):
                 except:
                     pass
 
-        for payload_no, payload in enumerate(server_payloads):
+        for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.upadate(1)
             driver.switch_to.window(example)
             driver.refresh()
@@ -2306,23 +2314,23 @@ def location_href_N(args_tuple):
     except Exception as e:
         error_logging(source, str(e))
 
-    requests.delete("http://127.0.0.1:8000/data")
-
 
 # combined contextMenu
 def context_menu(args_tuple):
     (
         progress_bar,
-        order,
-        option,
+        _,
+        _,
         payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
+        _,
+        _,
+        _,
+        _,
         result,
         server_payloads,
     ) = args_tuple
+
+
 
     # new contextMenu.selectionText_normal (works)
     def context_menu_selectionText_N(args_tuple):
@@ -2338,6 +2346,9 @@ def context_menu(args_tuple):
             result,
             server_payloads,
         ) = args_tuple
+
+        
+        progress_bar = progress_bars[order]
 
         
         source = "contextMenu.selectionText"
@@ -2370,7 +2381,7 @@ def context_menu(args_tuple):
             # get page source code of extension
             extension_source_code = driver.page_source
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -2526,7 +2537,7 @@ def context_menu(args_tuple):
                 except:
                     pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
@@ -2653,8 +2664,7 @@ def context_menu(args_tuple):
 
         except Exception as e:
             error_logging(source, str(e))
-        requests.delete("http://127.0.0.1:8000/data")
-        
+
 
     # new contextMenu.link_Url (works)
     def context_menu_link_url_N(args_tuple):
@@ -2671,6 +2681,8 @@ def context_menu(args_tuple):
             server_payloads,
         ) = args_tuple
 
+        
+        progress_bar = progress_bars[order]
         
         source = "contextMenu.linkUrl"
 
@@ -2704,7 +2716,7 @@ def context_menu(args_tuple):
 
             cases = ["queryParams", "fragementIdentifier"]
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -2887,7 +2899,7 @@ def context_menu(args_tuple):
                     except:
                         pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
@@ -3017,8 +3029,6 @@ def context_menu(args_tuple):
         except Exception as e:
             error_logging(source, str(e))
 
-        requests.delete("http://127.0.0.1:8000/data")
-        
 
     # new contextMenu.srcUrl (works)
     def context_menu_src_url_N(args_tuple):
@@ -3035,6 +3045,8 @@ def context_menu(args_tuple):
             server_payloads,
         ) = args_tuple
 
+        
+        progress_bar = progress_bars[order]
         
         source = "contextMenu.srcUrl"
 
@@ -3067,7 +3079,7 @@ def context_menu(args_tuple):
             # get page source code of extension
             extension_source_code = driver.page_source
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -3223,7 +3235,7 @@ def context_menu(args_tuple):
                 except:
                     pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
@@ -3350,8 +3362,6 @@ def context_menu(args_tuple):
         except Exception as e:
             error_logging(source, str(e))
 
-        requests.delete("http://127.0.0.1:8000/data")
-        
 
     # new contextMenu.frameUrl (works for jerald but not for me. smlj)
     def context_menu_frame_url_N(args_tuple):
@@ -3369,6 +3379,8 @@ def context_menu(args_tuple):
         ) = args_tuple
 
         
+        progress_bar = progress_bars[order]
+
         source = "contextMenu.frameUrl"
 
         url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -3401,7 +3413,7 @@ def context_menu(args_tuple):
 
             cases = ["queryParams", "fragementIdentifier"]
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -3565,7 +3577,7 @@ def context_menu(args_tuple):
                     except:
                         pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
@@ -3661,8 +3673,6 @@ def context_menu(args_tuple):
         except Exception as e:
             error_logging(source, str(e))
 
-        requests.delete("http://127.0.0.1:8000/data")
-        
 
     # new contextMenu.pageUrl (works)
     def context_menu_pageUrl_N(args_tuple):
@@ -3679,6 +3689,8 @@ def context_menu(args_tuple):
             server_payloads,
         ) = args_tuple
 
+        
+        progress_bar = progress_bars[order]
         
         source = "contextMenu.pageUrl"
 
@@ -3713,7 +3725,7 @@ def context_menu(args_tuple):
 
             cases = ["queryParams", "fragementIdentifier"]
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -3877,7 +3889,7 @@ def context_menu(args_tuple):
                     except Exception as e:
                         pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
@@ -3992,39 +4004,40 @@ def context_menu(args_tuple):
 
         except Exception as e:
             error_logging(source, str(e))
-        requests.delete("http://127.0.0.1:8000/data")
-        
+
 
     source = result["taintsource"]
-    if "selectionText" in result["taintsource"]:
-        return context_menu_selectionText_N(args_tuple)
-    elif "linkUrl" in result["taintsource"]:
-        return ontext_menu_link_url_N(args_tuple)
-    elif "srcUrl" in result["taintsource"]:
-        return context_menu_src_url_N(args_tuple)
-    elif "frameUrl" in result["taintsource"]:
-        return context_menu_frame_url_N(args_tuple)
-    elif "pageUrl" in result["taintsource"]:
-        return context_menu_pageUrl_N(args_tuple)
-    else:
-        progress_bar.update(len(payloads))
-        return []
+    match source:
+        case "selectionText":
+            return context_menu_selectionText_N(args_tuple)
+        case "linkUrl":
+            return ontext_menu_link_url_N(args_tuple)
+        case "srcUrl":
+            return context_menu_src_url_N(args_tuple)
+        case "frameUrl":
+            return context_menu_frame_url_N(args_tuple)
+        case "pageUrl":
+            return context_menu_pageUrl_N(args_tuple)
+        case _:
+            progress_bar.update(payloads[0]+server_payloads[0])
+            return
 
 
 # combined chromeTabQuery
 def chromeTabQuery(args_tuple):
     (
         progress_bar,
-        order,
-        option,
+        _,
+        _,
         payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
+        _,
+        _,
+        _,
+        _,
         result,
         server_payloads,
     ) = args_tuple
+
 
     # new chromeTabsQuery.title (works)
     def chromeTabsQuery_title_N(args_tuple):
@@ -4041,6 +4054,8 @@ def chromeTabQuery(args_tuple):
             server_payloads,
         ) = args_tuple
 
+        
+        progress_bar = progress_bars[order]
         
         source = "chromeTabsQuery.title"
 
@@ -4070,7 +4085,7 @@ def chromeTabQuery(args_tuple):
             # get page source code of extension
             extension_source_code = driver.page_source
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -4194,7 +4209,7 @@ def chromeTabQuery(args_tuple):
                 except:
                     pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
@@ -4288,7 +4303,7 @@ def chromeTabQuery(args_tuple):
             # Handle any other exceptions that occur
             error_logging(source, str(e))
 
-        requests.delete("http://127.0.0.1:8000/data")
+        
         
 
     # new chromeTabQuery.url (works)
@@ -4307,6 +4322,8 @@ def chromeTabQuery(args_tuple):
         ) = args_tuple
 
         
+        progress_bar = progress_bars[order]
+
         source = "chromeTabQuery.url"
 
         url_of_injection_example = "https://www.example.com"
@@ -4335,7 +4352,7 @@ def chromeTabQuery(args_tuple):
             # get page source code of extension
             extension_source_code = driver.page_source
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -4463,7 +4480,7 @@ def chromeTabQuery(args_tuple):
                 except:
                     pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
                 driver.switch_to.window(example)
                 driver.refresh()
@@ -4560,7 +4577,7 @@ def chromeTabQuery(args_tuple):
 
         except Exception as e:
             error_logging(source, str(e))
-        requests.delete("http://127.0.0.1:8000/data")
+        
         
 
     # new chromeTabQuery.favIconUrl (works)
@@ -4578,8 +4595,11 @@ def chromeTabQuery(args_tuple):
             server_payloads,
         ) = args_tuple
 
+        
+        progress_bar = progress_bars[order]
+
         # automatically populate server_progressbar
-        progress_bar.update(len(server_payloads))
+        progress_bar.update(server_payloads[0])
 
         
         source = "chromeTabsQuery.favIconUrl"
@@ -4688,7 +4708,7 @@ def chromeTabQuery(args_tuple):
             # get page source code of extension
             extension_source_code = driver.page_source
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -4827,19 +4847,20 @@ def chromeTabQuery(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, str(e))
-        requests.delete("http://127.0.0.1:8000/data")
+        
         
 
     source = result["taintsource"]
-    if "title" in result["taintsource"]:
-        return chromeTabsQuery_title_N(args_tuple)
-    elif "faviconUrl" in result["taintsource"]:
-        return chromeTabQuery_favIconUrl_N(args_tuple)
-    elif "url" in result["taintsource"]:
-        return chromeTabQuery_url_N(args_tuple)
-    else:
-        progress_bar.update(len(payloads))
-        return []
+    match source:
+        case "title":
+            return chromeTabsQuery_title_N(args_tuple)
+        case "faviconUrl":
+            return chromeTabQuery_favIconUrl_N(args_tuple)
+        case "url":
+            return chromeTabQuery_url_N(args_tuple)
+        case _:
+            progress_bar.update(payloads[0] + server_payloads[0])
+            return
 
 
 # new location.search (works)
@@ -4856,6 +4877,7 @@ def locationSearch_N(args_tuple):
         result,
         server_payloads,
     ) = args_tuple
+
 
     source = "location.search"
     url_of_injection_example = "https://www.example.com"
@@ -4883,7 +4905,7 @@ def locationSearch_N(args_tuple):
         # get page source code of extension
         extension_source_code = driver.page_source
 
-        for payload in payloads:
+        for payload in payloads[1]:
             # update progress bar
             progress_bar.update(1)
 
@@ -5005,7 +5027,7 @@ def locationSearch_N(args_tuple):
             except:
                 pass
 
-        for payload_no, payload in enumerate(server_payloads):
+        for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
             driver.switch_to.window(example)
             driver.refresh()
@@ -5097,23 +5119,23 @@ def locationSearch_N(args_tuple):
 
     except Exception as e:
         error_logging(source, str(e))
-    requests.delete("http://127.0.0.1:8000/data")
 
 
 # combined chromeDebugger
 def chromeDebugger(args_tuple):
     (
         progress_bar,
-        order,
-        option,
+        _,
+        _,
         payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
+        _,
+        _,
+        _,
+        _,
         result,
         server_payloads,
     ) = args_tuple
+
 
     # new chrome.Debugger.GetTargets (works)
     def chromeDebugger_title_N(args_tuple):
@@ -5130,6 +5152,8 @@ def chromeDebugger(args_tuple):
             server_payloads,
         ) = args_tuple
 
+        
+        progress_bar = progress_bars[order]
         
         source = "chromeDebugger.GetTargets.title"
 
@@ -5160,7 +5184,7 @@ def chromeDebugger(args_tuple):
             # get page source code of extension
             extension_source_code = driver.page_source
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -5294,7 +5318,7 @@ def chromeDebugger(args_tuple):
                 except Exception as e:
                     pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
                 driver.switch_to.window(example)
                 driver.refresh()
@@ -5397,7 +5421,7 @@ def chromeDebugger(args_tuple):
 
         except Exception as e:
             error_logging(source, str(e))
-        requests.delete("http://127.0.0.1:8000/data")
+        
         
 
     # new chrome.Debugger.GetTargets (works)
@@ -5415,6 +5439,8 @@ def chromeDebugger(args_tuple):
             server_payloads,
         ) = args_tuple
 
+        
+        progress_bar = progress_bars[order]
         
         source = "chromeTabQuery.url"
 
@@ -5442,7 +5468,7 @@ def chromeDebugger(args_tuple):
             # get page source code of extension
             extension_source_code = driver.page_source
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -5580,7 +5606,7 @@ def chromeDebugger(args_tuple):
                 except:
                     pass
 
-            for payload_no, payload in enumerate(server_payloads):
+            for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
 
                 driver.switch_to.window(example)
@@ -5683,7 +5709,7 @@ def chromeDebugger(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, str(e))
-        requests.delete("http://127.0.0.1:8000/data")
+        
         
 
     # new chromeDebugger_favIconUrl (works)
@@ -5701,8 +5727,11 @@ def chromeDebugger(args_tuple):
             server_payloads,
         ) = args_tuple
 
+        
+        progress_bar = progress_bars[order]
+
         # automatically populate server_progressbar
-        progress_bar.update(len(server_payloads))
+        progress_bar.update(server_payloads[0])
 
         
         source = "chromeTabsQuery.favIconUrl"
@@ -5812,7 +5841,7 @@ def chromeDebugger(args_tuple):
             # get page source code of extension
             extension_source_code = driver.page_source
 
-            for payload in payloads:
+            for payload in payloads[1]:
                 # update progress bar
                 progress_bar.update(1)
 
@@ -5957,19 +5986,20 @@ def chromeDebugger(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, str(e))
-        requests.delete("http://127.0.0.1:8000/data")
+        
         
 
     source = result["taintsource"]
-    if "title" in result["taintsource"]:
-        return chromeDebugger_title_N(args_tuple)
-    elif "favIconUrl" in result["taintsource"]:
-        return chromeDebugger_favIconUrl_N(args_tuple)
-    elif "url" in result["taintsource"]:
-        return chromeDebugger_url_N(args_tuple)
-    else:
-        progress_bar.update(len(payloads))
-        return []
+    match source:
+        case "title":
+            return chromeDebugger_title_N(args_tuple)
+        case "favIconUrl":
+            return chromeDebugger_favIconUrl_N(args_tuple)
+        case "url":
+            return chromeDebugger_url_N(args_tuple)
+        case _:
+            progress_bar.update(payloads[0] + server_payloads[0])
+            return
 
 
 # new window.addEventListernerMessage (shd work (old ver))
@@ -6016,7 +6046,7 @@ def windowAddEventListenerMessage(args_tuple):
         # get page source code of extension
         extension_source_code = driver.page_source
 
-        for payload in payloads:
+        for payload in payloads[1]:
             progress_bar.update(1)
 
             driver.switch_to.window(example)
@@ -6151,7 +6181,7 @@ def windowAddEventListenerMessage(args_tuple):
             except Exception as e:
                 error_logging(source, str(e))
 
-        for payload_no, payload in enumerate(server_payloads):
+        for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
             driver.switch_to.window(example)
             driver.refresh()
@@ -6252,4 +6282,3 @@ def windowAddEventListenerMessage(args_tuple):
 
     except Exception as e:
         error_logging(source, str(e))
-    requests.delete("http://127.0.0.1:8000/data")

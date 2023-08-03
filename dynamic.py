@@ -1,16 +1,16 @@
 import logging
 import shutil
 from concurrent.futures import ThreadPoolExecutor
-from constants import *
+from multiprocessing import Process
 
+import requests
 from pyvirtualdisplay.display import Display
 from selenium.webdriver import ChromeOptions
 from tqdm import tqdm
 
+from constants import *
 from DYNAMIC_ANALYSIS.case_scenario_functions import *
 from DYNAMIC_ANALYSIS.preconfigure import *
-
-from multiprocessing import Process
 from server import main as server
 
 
@@ -164,7 +164,8 @@ def main(config, path_to_extension, semgrep_results):
                     for order in range(number_of_instances)
                 ]
 
-                args = [(progress_bars[order], order, options, meta_payloads[order][1], url_path, ext_id, ext_name, alert_payload_file, result, server_payloads[order][1]) for order in range(number_of_instances)]
+                # 10 args
+                args = [(progress_bars[order], order, options, meta_payloads[order], url_path, ext_id, ext_name, alert_payload_file, result, server_payloads[order]) for order in range(number_of_instances)]
 
                 
                 with ThreadPoolExecutor(number_of_instances) as executor:
@@ -173,6 +174,9 @@ def main(config, path_to_extension, semgrep_results):
 
                 for bar in progress_bars:
                     bar.close()
+                
+                # Clear local server's data
+                requests.delete("http://127.0.0.1:8000/data")
 
         except Exception as e:
             print("Error while initializing headless chrome driver ")
