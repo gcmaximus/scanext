@@ -319,7 +319,7 @@ def main():
     print()
     print(f"Logs from this scan are available in `{shared_log_file}`")
     print()
-    subprocess.run(["jp2a", "--colors", "--color-depth=24", "--height=32",  "logo.png"])
+    subprocess.run(["jp2a", "--colors", "--color-depth=24", "--term-width",  "logo.png"])
 
 if __name__ == "__main__":
     main()

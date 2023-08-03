@@ -182,7 +182,7 @@ def main(config, path_to_extension, semgrep_results):
             print("Error while initializing headless chrome driver ")
             print(str(e))
     
-    local_server.kill()
+    local_server.terminate()
 
     # remove all miscellaneous files (directories only)
     shutil.rmtree("tmp")
