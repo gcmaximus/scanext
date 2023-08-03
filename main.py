@@ -134,12 +134,6 @@ def load_config():
                 print("Error: Unable to determine the number of threads the CPU has.")
                 print("Exiting ... ")
                 exit()
-            print(
-                f"Warning: For your CPU, {thread_count} instances will be ran."
-            )
-            print("Other services on your device may be slowed down.")
-            print("Continuing ...")
-            print()
             config[key] = thread_count
             return True
         isValidInt(key=key, min=1)
