@@ -11,7 +11,7 @@ from tqdm import tqdm
 from constants import *
 from DYNAMIC_ANALYSIS.case_scenario_functions import *
 from DYNAMIC_ANALYSIS.preconfigure import *
-from server import main as server
+from server import server
 
 
 def setup_logger(logger_name, log_file, timezone):

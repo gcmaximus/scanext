@@ -1,13 +1,5 @@
-from fastapi import FastAPI, Request
-
-# from fastapi import FastAPI, Form
-# from typing import Annotated
 import uvicorn
-
-# from pydantic import BaseModel
-
-# class InputData(BaseModel):
-#     data: str
+from fastapi import FastAPI, Request
 
 
 async def extract_data(req: Request):
@@ -29,7 +21,7 @@ async def extract_data(req: Request):
     return obj
 
 
-def main():
+def server():
     data: dict[int, dict[int, list[dict]]] = {}
 
     app = FastAPI()
@@ -63,6 +55,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    server()
 
 
