@@ -85,9 +85,7 @@ def static_analysis(extension: Path, soup: BeautifulSoup, config, report_path):
         sorted_results = sorted(results, key=lambda e: e["path"])
         sorted_results = sorted(sorted_results, key=lambda e: e["check_id"])
 
-    static_results_report(
-        sorted_results, extension, soup, config, report_path
-    )
+    static_results_report(sorted_results, extension, soup, config, report_path)
 
     return sorted_results
 
@@ -111,7 +109,6 @@ def dynamic_analysis(
     with open(DYNAMIC_LOGFILE, "r") as f:
         for line in f:
             logs_obj.append(json.loads(line))
-    
 
     # Filter by ext name
     filtered_logs = filter(lambda ext: ext["extensionName"] == extension.name, logs_obj)
@@ -119,9 +116,7 @@ def dynamic_analysis(
     # Sort by source (window.name, etc.)
     source_sorted_logs = sorted(filtered_logs, key=lambda x: x["source"])
 
-    dynamic_results_report(
-        source_sorted_logs, soup, report_path
-    )
+    dynamic_results_report(source_sorted_logs, soup, report_path)
 
 
 # load configurations set by user
@@ -133,29 +128,28 @@ def load_config():
     # Check thread count requested
     def isThreadValid(key):
         number_of_instances = config[key]
-        thread_count = cpu_count()
-        if thread_count is None:
-            print("Error: Unable to determine the number of threads the CPU has.")
-            print("Exiting ... ")
-            exit()
         if number_of_instances == "auto":
-            config[key] = thread_count // 4
+            thread_count = cpu_count()
+            if thread_count is None:
+                print("Error: Unable to determine the number of threads the CPU has.")
+                print("Exiting ... ")
+                exit()
+            print(
+                f"Warning: For your CPU, {thread_count} instances will be ran."
+            )
+            print("Other services on your device may be slowed down.")
+            print("Continuing ...")
+            print()
+            config[key] = thread_count
             return True
         isValidInt(key=key, min=1)
-        if number_of_instances > round(0.5 * thread_count):
-            print(
-                f"Error: {number_of_instances} instances requested is > than 50% of your CPU's thread count."
-            )
-            print("Exiting ... ")
-            exit()
-        thread_count //= 4
-        if number_of_instances > thread_count:
-            print(
-                f"Warning: {number_of_instances} instances requested is > than the {thread_count} recommended for your CPU."
-            )
-            print("Recommendation = CPU's thread count // 4")
-            print("Unexpected errors may occur.")
-            print("Continuing ...")
+        print(f"Warning: {number_of_instances} instances has been manually configured.")
+        print(
+            "If int is small, it may take a long time for Dynamic to finish all the payloads."
+        )
+        print("If int is too big, your device may experience unexpected errors.")
+        print("Continuing ...")
+        print()
         return True
 
     # Check validity of config [int]
@@ -249,7 +243,9 @@ def test_selenium():
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--no-sandbox")
             with Chrome(service=Service(), options=options) as driver:
-                webpage_url = "file://" + str(Path("DYNAMIC_ANALYSIS/miscellaneous/xss_website.html").absolute())
+                webpage_url = "file://" + str(
+                    Path("DYNAMIC_ANALYSIS/miscellaneous/xss_website.html").absolute()
+                )
                 driver.get(webpage_url)
                 if driver.title != "Xss Website":
                     print(CROSS)
@@ -273,12 +269,11 @@ def main():
     dynamic_logfile = Path(DYNAMIC_LOGFILE)
     error_logfile = Path(ERROR_LOGFILE)
 
-
     # clear log file before logging
     with dynamic_logfile.open("w") as f1, error_logfile.open("w") as f2:
         f1.truncate(0)
         f2.truncate(0)
-    
+
     timezone = config["timezone"]
     whole_scan_start = fdt(dt.now(tz(timezone)))
 
@@ -319,7 +314,8 @@ def main():
     print()
     print(f"Logs from this scan are available in `{shared_log_file}`")
     print()
-    subprocess.run(["jp2a", "--colors", "--color-depth=24", "--term-width",  "logo.png"])
+    subprocess.run(["jp2a", "--colors", "--color-depth=24", "--term-width", "logo.png"])
+
 
 if __name__ == "__main__":
     main()
