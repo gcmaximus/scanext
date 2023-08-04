@@ -1,0 +1,369 @@
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ScanExt Report - 2-vulns</title>
+<!-- Bootstrap -->
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet"/>
+<!-- Poppins -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap" rel="stylesheet"/>
+<!-- Bebas Neue -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;display=swap" rel="stylesheet"/>
+<!-- Raleway -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<style>
+        body {
+            background-color: rgb(0, 0, 0);
+            margin: auto;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 100px;
+        }
+
+        #logo {
+            width: 750px;
+            margin: auto;
+            padding: 50px;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        #scanned-folder {
+            margin: 1px;
+        }
+
+        h2 {
+            margin: 50px 0 !important;
+        }
+
+        .card.static-result {
+            padding: 0;
+            text-align: left;
+        }
+
+        .card-header {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+        }
+
+        .static-result, .dynamic-result {
+            margin-bottom: 50px;
+        }
+
+        .consolas {
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .header p {
+            font-size: 1.3em;
+        }
+
+        .analysis-header {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            border-radius: 15px;
+            box-shadow: 2px 2px black;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .analysis-header>h2 {
+            font-size: 3em;
+            letter-spacing: 3px;
+        }
+
+        .static-header {
+            background-color: rgba(0, 0, 0, 0.15);
+            color: white;
+            font-weight: bolder;
+        }
+
+        .dynamic-header {
+            background-color: rgba(0, 0, 0, 0.15);
+            color: white;
+            font-weight: bolder;
+        }
+
+        mark {
+            background-color: rgb(250, 250, 147);
+        }
+
+        .code-block {
+            background-color: #e6e6e6;
+            border: 1px solid black;
+        }
+
+        .code-comment {
+            color: rgb(15, 140, 15);
+        }
+
+        hr {
+            margin: 0;
+        }
+
+
+        .main-heading {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .files-header {
+            margin-bottom: 50px;
+        }
+
+        tr {
+            text-align: center;
+        }
+
+        .table-head {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        td {
+            width: 50%;
+            text-align: center;
+        }
+
+        tbody {
+            background-color: white;
+        }
+
+        .source-desc {
+            border-right: 1px solid rgb(195, 195, 195);
+        }
+
+        u {
+            text-underline-offset: 5px;
+        }
+
+        .payload-table {
+            width: 90%;
+            margin: auto;
+        }
+
+        i {
+            font-size: 0.8em;
+        }
+
+        .dynamic-info {
+            margin: auto;
+            justify-content: center;
+        }
+
+        code {
+            font-weight: bold;
+        }
+
+        .dynamic-result table {
+            margin-top: 25px;
+        }
+
+        .mark-taint {
+            background-color: aquamarine;
+        }
+
+        .static-none,
+        .dynamic-none,
+        #wait-msg {
+            width: 550px;
+        }
+
+        .none-header {
+            background-color: rgba(25, 135, 84, 0.9) !important;
+        }
+
+        .filename {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .payload-table * {
+            vertical-align: middle;
+        }
+
+        .dynamic-info-icons {
+            margin: 8px;
+        }
+        
+        table,th,td {
+            border: 2px solid black;
+        }
+
+        .table-row {
+            margin-top: 25px;
+        }
+
+        .table-row h3 {
+            margin-top:35px;
+        }
+
+        pre {
+            overflow:hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<!-- Header -->
+<div class="header">
+<div class="row">
+<img alt="ScanExt Logo" id="logo" src="https://raw.githubusercontent.com/gcmaximus/scanext/main/logo.png"/>
+</div>
+<div class="row files-header">
+<p style="color: white">Folder scanned:</p>
+<p><code id="scanned-folder">2-vulns</code></p>
+</div>
+<div class="row main-heading">
+<table class="table table-secondary table-bordered border-dark table-striped">
+<tbody>
+<tr>
+<td><b>Extension Name</b></td>
+<td id="ext-name">Query Parameter Extension</td>
+</tr>
+<tr>
+<td><b>Extension Version</b></td>
+<td id="ext-version">1.0</td>
+</tr>
+<tr>
+<td><b>Manifest Version</b></td>
+<td id="manifest-version">3</td>
+</tr>
+<tr>
+<td><b>Date of Scan</b></td>
+<td id="scan-date">Fri, 04 Aug 2023 15:39:52 +0800</td>
+</tr>
+<tr>
+<td><b>Vulnerabilities detected</b></td>
+<td id="vulns">2 found</td>
+</tr>
+<tr>
+<td><b>POCs generated</b></td>
+<td id="pocs">In Progress</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Static -->
+<div id="static-main">
+<!-- Static Analysis Header -->
+<div class="row analysis-header static-header">
+<h2>Static Analysis Results</h2>
+</div>
+<!-- Static Results -->
+
+<!-- Source-Sink pair -->
+<div class="card static-result">
+<div class="card-header">
+<span class="float-start">
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-1"><b>File:</b> 2-vulns/popup.js</span>
+</span>
+</div>
+<div class="card-body">
+<p class="card-text">
+<div class="row">
+<div class="col-6 source-desc">
+<!-- Source -->
+<h5><u>Source ID: <code id="source-1">location_search</code></u></h5>
+<p id="source-desc-1"><code>location.search</code> can be used as an entry point for user-controlled data. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
+</div>
+<div class="col-6 sink-desc">
+<!-- Sink -->
+<h5><u>Sink ID: <code id="sink-1">innerHTML</code></u></h5>
+<p id="sink-desc-1"><code>.innerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
+</div>
+</div>
+<br/><br/>
+<!-- Location -->
+<h5><u>Location of vulnerability</u></h5>
+<p>The following code segment shows the location of the source and sink.</p>
+<pre class="code-block" id="code-block-1"><code>
+    1		function toDo(tab) {</code><code>
+    2		    //location.search</code><code class="code-source">
+    3		<mark id="code-source-1">    query = window.location.search</mark>	<span class="code-comment">/* Source */</span></code><code>
+    ...		...</code><code class="code-sink">
+    15		<mark id="code-sink-1">        elements[i].innerHTML = `Your query is: ${query}`</mark>	<span class="code-comment">/* Sink */</span></code><code>
+    16		    }</code><code>
+    17		</code><code>
+    18		    var elements = document.getElementsByTagName('div');</code>
+    </pre>
+<br>
+<h5><u>Tainted variables</u></h5>
+<p>Tainted data is transmitted from the source to sink along the following route.</p>
+<pre class="code-block"><code class="code-taint">
+    13		<mark class="mark-taint" id="code-taint-1">        var query = decodeURI(query)</mark>	<span class="code-comment">/* Tainted */</span></code>
+                    </pre>
+<i>*This code has been beautified by js-beautify.</i>
+</br></p>
+</div>
+</div>
+
+<!-- Source-Sink pair -->
+<div class="card static-result">
+<div class="card-header">
+<span class="float-start">
+<i class="fa fa-file-code-o" style="font-size:20px"></i> <span class="filename" id="vuln-file-2"><b>File:</b> 2-vulns/popup.js</span>
+</span>
+</div>
+<div class="card-body">
+<p class="card-text">
+<div class="row">
+<div class="col-6 source-desc">
+<!-- Source -->
+<h5><u>Source ID: <code id="source-2">window_name</code></u></h5>
+<p id="source-desc-2"><code>window.name</code> can be used as an entry point for user-controlled data due the fact that it's accessible cross-origin. Useful when combined with a resource specified under <code>web_accessible_resources</code>.</p>
+</div>
+<div class="col-6 sink-desc">
+<!-- Sink -->
+<h5><u>Sink ID: <code id="sink-2">outerHTML</code></u></h5>
+<p id="sink-desc-2"><code>.outerHTML</code> when combined with user input can lead to Cross-site Scripting (XSS) vulnerabilities.</p>
+</div>
+</div>
+<br/><br/>
+<!-- Location -->
+<h5><u>Location of vulnerability</u></h5>
+<p>The following code segment shows the location of the source and sink.</p>
+<pre class="code-block" id="code-block-2"><code>
+    3		    query = window.location.search</code><code>
+    4		</code><code>
+    5		    // surprise: window.name</code><code class="code-source">
+    6		<mark id="code-source-2">    hi = window.name</mark>	<span class="code-comment">/* Source */</span></code><code>
+    ...		...</code><code class="code-sink">
+    20		<mark id="code-sink-2">        elements[i].outerHTML = hi</mark>	<span class="code-comment">/* Sink */</span></code><code>
+    21		    }</code><code>
+    22		</code><code>
+    23		}</code>
+    </pre>
+<i>*This code has been beautified by js-beautify.</i>
+</p>
+</div>
+</div>
+</div>
+<!-- Dynamic -->
+<div id="dynamic-main">
+<!-- Dynamic Analysis Header -->
+<div class="row analysis-header dynamic-header">
+<h2>Dynamic Analysis Results</h2>
+</div>
+<!-- Dynamic Results -->
+
+<div class="card m-auto border-warning" id="wait-msg">
+<div class="card-header bg-warning">In Progress</div>
+<div class="card-body">
+<h5 class="card-title">Please Wait...</h5>
+<p class="card-text">ScanExt is currently conducting dynamic analysis and will update this report upon completion.</p>
+</div>
+</div></div>
+</div>
+</body>
+<!-- Bootstrap -->
+<script crossorigin="anonymous" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</html>
