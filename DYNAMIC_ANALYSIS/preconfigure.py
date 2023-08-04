@@ -156,7 +156,20 @@ def get_ext_id(path_to_extension):
     m = hashlib.sha256()
     m.update(abs_path.encode("utf-8"))
     ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
-    url_path = f"chrome-extension://{ext_id}/popup.html"
+    try:
+        file = abs_path+'/manifest.json'
+        with open(file,'r') as f:
+            manifest: dict = json.load(f)
+        try:
+            popup = manifest["action"]["default_popup"]
+        except:
+            try:
+                popup = manifest["browser_action"]["default_popup"]
+            except:
+                popup = 'popup.html'
+    except:
+        popup = 'popup.html'
+    url_path = f"chrome-extension://{ext_id}/{popup}"
     ext_name = path.basename(abs_path)
     return url_path, abs_path, ext_id, ext_name
 
