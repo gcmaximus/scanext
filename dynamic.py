@@ -94,6 +94,7 @@ def main(config, path_to_extension, semgrep_results):
                 driver.get(url_path)
         except Exception as e:
             print(CROSS)
+            print()
             print(f"Error: Unable to load extension into Chrome: {e}")
             print("Extension probably contains some errors.")
             print("Exiting ...")
