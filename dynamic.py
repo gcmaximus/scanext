@@ -82,7 +82,7 @@ def main(config, path_to_extension, semgrep_results):
 
     # Test loading of extension into Chrome
     print()
-    print("Test loading of extension ... ", end="")
+    print("Test loading of extension ... ", end="", flush=True)
     load_ext_arg = "--load-extension=" + abs_path
     with Display():
         try:

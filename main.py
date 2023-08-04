@@ -237,7 +237,7 @@ def test_selenium():
         print("Exiting ...")
         exit()
 
-    print("Testing Selenium ... ", end="")
+    print("Testing Selenium ... ", end="", flush=True)
     ext_path = "DYNAMIC_ANALYSIS/miscellaneous/init_test_ext"
     load_ext_arg = "--load-extension=" + ext_path
     url_path, _, _, _ = get_ext_id(ext_path)

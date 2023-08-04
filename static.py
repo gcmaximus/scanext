@@ -1,14 +1,9 @@
 import subprocess
 from pathlib import Path
-from spinner import main as spinner
 
 from constants import *
+from spinner import main as spinner
 
-# return CROSS or TICK icon
-def icon(boolean: bool):
-    if boolean:
-        return TICK
-    return CROSS
 
 # run Semgrep scan for static analysis
 def main(extension: Path):
