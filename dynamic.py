@@ -187,11 +187,9 @@ def main(config, path_to_extension, semgrep_results):
     # remove all miscellaneous files (directories only)
     shutil.rmtree("tmp")
     for f in Path("DYNAMIC_ANALYSIS/miscellaneous").glob("*"):
-        if f.is_dir():
+        if f.is_dir() and f.root != "init_test_ext":
             shutil.rmtree(f)
 
-    
-        
 
 if __name__ == '__main__':
     print("testing")

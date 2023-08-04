@@ -17,6 +17,7 @@ from selenium.webdriver.chrome.service import Service
 from banners import get_banner
 from constants import *
 from dynamic import main as dynamic
+from DYNAMIC_ANALYSIS.preconfigure import get_ext_id
 from report_gen import dynamic_results_report, static_results_report
 from static import main as static
 
@@ -134,9 +135,7 @@ def load_config():
                 print("Error: Unable to determine the number of threads the CPU has.")
                 print("Exiting ... ")
                 exit()
-            print(
-                f"Warning: For your CPU, {thread_count} instances will be ran."
-            )
+            print(f"Warning: For your CPU, {thread_count} instances will be ran.")
             print("Other services on your device may be slowed down.")
             print("Continuing ...")
             print()
@@ -159,7 +158,7 @@ def load_config():
         # check if int
         if not isinstance(user_value, int):
             print(f"Error: {key} ({user_value}) is not an integer.")
-            print("Exiting program...")
+            print("Exiting programme...")
             exit()
 
         # if int, check if within range of min and max
@@ -170,7 +169,7 @@ def load_config():
                 print(
                     f"Error: {key} ({user_value}) must be an integer between {min} and {max}."
                 )
-                print("Exiting program...")
+                print("Exiting programme...")
                 exit()
         # max not set
         else:
@@ -178,7 +177,7 @@ def load_config():
                 print(
                     f"Error: {key} ({user_value}) must be an integer more than {min}."
                 )
-                print("Exiting program...")
+                print("Exiting programme...")
                 exit()
 
         return True
@@ -193,19 +192,19 @@ def load_config():
             file_path = Path(f"SHARED/{user_file}")
             if not file_path.exists():
                 print(f"Error: {key} ({file_path}) does not exist.")
-                print("Exiting program...")
+                print("Exiting programme...")
                 exit()
 
             # Check if file ends with .txt
             if file_path.suffix != ".txt":
                 print(f"Error: {key} ({file_path}) does not end with .txt")
-                print("Exiting program...")
+                print("Exiting programme...")
                 exit()
 
             # Check if file is at least 1 payload long
             if file_path.stat().st_size == 0:
                 print(f"Error: {key} ({file_path}) is empty.")
-                print("Exiting program...")
+                print("Exiting programme...")
                 exit()
 
         return True
@@ -218,7 +217,7 @@ def load_config():
             fdt(dt.now(tz(user_timezone)))
         except:
             print(f"Error: {key} ({user_timezone}) is not a valid timezone.")
-            print("Exiting program...")
+            print("Exiting programme...")
             exit()
 
         return True
@@ -236,10 +235,20 @@ def load_config():
 
 # Test selenium / cache driver
 def test_selenium():
+    def fail(msg):
+        print(f"{CROSS} {msg}")
+        print("Error: Selenium test failed!")
+        print("Exiting ...")
+        exit()
+
     print("Testing Selenium ... ", end="")
+    ext_path = "DYNAMIC_ANALYSIS/miscellaneous/init_test_ext"
+    load_ext_arg = "--load-extension=" + ext_path
+    url_path, _, _, _ = get_ext_id(ext_path)
     with Display():
         try:
             options = ChromeOptions()
+            options.add_argument(load_ext_arg)
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--no-sandbox")
             with Chrome(service=Service(), options=options) as driver:
@@ -248,10 +257,10 @@ def test_selenium():
                 )
                 driver.get(webpage_url)
                 if driver.title != "Xss Website":
-                    print(CROSS)
-                    print("Error: Selenium test failed!")
-                    print("Exiting ...")
-                    exit()
+                    fail("failed to fetch local file")
+                driver.get(url_path)
+                if driver.title != "init_test_ext":
+                    fail("failed to fetch local extension")
         except Exception as e:
             print(CROSS)
             print(f"Error: Selenium test error: {e}")
@@ -261,7 +270,7 @@ def test_selenium():
     return True
 
 
-# main program
+# main programme
 def main():
     print(get_banner())
     config = load_config()

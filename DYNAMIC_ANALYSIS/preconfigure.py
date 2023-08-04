@@ -1,8 +1,5 @@
-import fileinput
-import os
 from os import path
 import hashlib
-import logging
 import json
 from itertools import cycle
 from random import sample
@@ -181,10 +178,10 @@ def payloads_cycle(n: int, pct: int, file_path: str):
 
 
 def manifest_rewrite(file_path):
-    manifest_path = os.path.join(file_path, "manifest.json")
+    manifest_path = path.join(file_path, "manifest.json")
 
     # Check if the manifest.json file exists in the given directory
-    if not os.path.exists(manifest_path):
+    if not path.exists(manifest_path):
         return
 
     # Load the existing manifest.json content

@@ -41,7 +41,7 @@ def main(extension: Path):
         spinner_event.clear()
         spinner_thread.join()
         print(f"Scanning {extension.name} for vulnerabilities ... {CROSS}  ")
-        print("Terminating program ...")
+        print("Terminating programme ...")
         exit()
     spinner_event.clear()
     spinner_thread.join()
