@@ -81,6 +81,7 @@ def main(config, path_to_extension, semgrep_results):
     url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_extension)
 
     # Test loading of extension into Chrome
+    print()
     print("Test loading of extension ... ", end="")
     load_ext_arg = "--load-extension=" + abs_path
     with Display():
