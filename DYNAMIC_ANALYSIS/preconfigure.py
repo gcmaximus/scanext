@@ -163,10 +163,7 @@ def get_ext_id(path_to_extension):
         try:
             popup = manifest["action"]["default_popup"]
         except:
-            try:
-                popup = manifest["browser_action"]["default_popup"]
-            except:
-                popup = 'popup.html'
+            pass
     except:
         popup = 'popup.html'
     url_path = f"chrome-extension://{ext_id}/{popup}"
