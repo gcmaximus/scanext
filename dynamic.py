@@ -73,22 +73,40 @@ def main(config, path_to_extension, semgrep_results):
     setup_logger('error', ERROR_LOGFILE, timezone)
 
 
-    # preconfiguration (set active to false)
+    # Preconfiguration (set active to false)
     path_to_extension = preconfigure(path_to_extension)
 
 
-    # obtain relevant extension information
+    # Obtain relevant extension information
     url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_extension)
 
-    
+    # Test loading of extension into Chrome
+    print("Test loading of extension ... ", end="")
+    load_ext_arg = "--load-extension=" + abs_path
+    with Display():
+        try:
+            options = ChromeOptions()
+            options.add_argument(load_ext_arg)
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--no-sandbox")
+            with Chrome(service=Service(), options=options) as driver:
+                driver.get(url_path)
+        except Exception as e:
+            print(CROSS)
+            print(f"Error: Unable to load extension into Chrome: {e}")
+            print("Extension probably contains some errors.")
+            print("Exiting ...")
+            exit()
+    print(TICK)
+
     # Split payloads into groups for each thread
     meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, alert_payload_file)
     server_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, server_payloads_file)
 
-    # interprete semgrep scan results
+    # Interprete semgrep scan results
     interpreted_results = separator(interpreter(semgrep_results))
 
-    # solo var list
+    # Solo var list
     sololist = [
         "chrome_cookies_get",
         "chrome_cookies_getAll",
@@ -143,7 +161,7 @@ def main(config, path_to_extension, semgrep_results):
             with Display() as disp:
                 options = ChromeOptions()
                 # options.add_experimental_option('detach', True)
-                load_ext_arg = "load-extension=" + abs_path
+                load_ext_arg = "--load-extension=" + abs_path
                 options.add_argument(load_ext_arg)
                 options.add_argument("--enable-logging")
                 options.add_argument("--disable-dev-shm-usage")

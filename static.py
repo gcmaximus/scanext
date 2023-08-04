@@ -20,7 +20,6 @@ def main(extension: Path):
     output_file = "STATIC_ANALYSIS/semgrep_results.json"
 
 
-
     # Command to run on CLI
     command = [
         "semgrep",
@@ -41,7 +40,7 @@ def main(extension: Path):
         spinner_event.clear()
         spinner_thread.join()
         print(f"Scanning {extension.name} for vulnerabilities ... {CROSS}  ")
-        print("Terminating programme ...")
+        print("Exiting programme ...")
         exit()
     spinner_event.clear()
     spinner_thread.join()
