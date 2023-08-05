@@ -1,1 +1,0 @@
-console.log("init_test_ext")
