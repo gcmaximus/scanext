@@ -14,8 +14,8 @@ A report will be generated for you, providing comprehensive information about th
 There are 2 ways of running ScanExt:
 1. Build and run on docker
 
-> For Linux/macOS:
-> ```
+For Linux/macOS:
+```
 chmod +x setup_lnx.sh
 ./setup_lnx.sh PATH_TO_SHARED_DIR
 docker exec -it scanext_cont python3 main.py
