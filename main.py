@@ -5,8 +5,8 @@ from datetime import datetime as dt
 from email.utils import format_datetime as fdt
 from os import cpu_count
 from pathlib import Path
+from time import sleep
 from zipfile import ZipFile
-from time import sleep 
 
 import jsbeautifier
 from bs4 import BeautifulSoup
@@ -118,7 +118,7 @@ def dynamic_analysis(
     # Sort by source (window.name, etc.)
     source_sorted_logs = sorted(filtered_logs, key=lambda x: x["source"])
 
-    dynamic_results_report(source_sorted_logs, soup, report_path)
+    dynamic_results_report(source_sorted_logs, soup, config["timezone"], report_path)
 
 
 # load configurations set by user

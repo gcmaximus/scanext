@@ -3,21 +3,23 @@ import logging
 import os
 import shutil
 import subprocess
-import time
 import urllib.parse
-from datetime import datetime as dt
-from email.utils import format_datetime as fdt
 from functools import reduce
 from pathlib import Path
+from time import sleep, time
 
 import requests
-from pytz import timezone as tz
-from selenium.common.exceptions import NoAlertPresentException, TimeoutException
-from selenium.webdriver import ActionChains, Chrome, ChromeOptions
+from selenium.common.exceptions import (JavascriptException,
+                                        NoSuchWindowException,
+                                        TimeoutException,
+                                        UnexpectedAlertPresentException,
+                                        WebDriverException)
+from selenium.webdriver import ActionChains, Chrome
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from urllib3.exceptions import MaxRetryError, ProtocolError
 
 # from main import payload_logging
 
@@ -68,17 +70,8 @@ def payload_logging(
 ):
     # Get logger and timezone
     logger = logging.getLogger("dynamic")
-    timezone = logger.timezone
-
-
-    # Format timezone
-    if time_of_injection != "nil":
-        time_of_injection = fdt(time_of_injection.astimezone(tz(timezone)))
-    if time_of_alert != "nil":
-        time_of_alert= fdt(time_of_alert.astimezone(tz(timezone)))
 
     # Log
-    
     logger.critical(json.dumps({
         "outcome": outcome,
         "source": source,
@@ -95,26 +88,27 @@ def payload_logging(
     }))
 
 
-def error_logging(source, error, max_chars=200):
+def error_logging(source, msg, max_chars=400):
     # Remove newline characters from the error message
-    error = error.replace("\n", " ")
+    msg = str(msg).replace("\n", " ")
 
     # Truncate the error message to the specified maximum characters
-    error = error[:max_chars]
+    msg = msg[:max_chars]
 
     # Get logger
     logger = logging.getLogger("error")
 
     # Log
-    datetime = fdt(dt.now(tz(logger.timezone)))
-    logger.error(f"[{source}] - [{datetime}] - {error}")
+    # datetime = fdt(dt.now(tz(logger.timezone)))
+    # logger.error(f"[{source}][{datetime}] {msg}")
+    logger.error(f"[{source}] {msg}")
 
 
 ##########################
 # Case Scenario headless #
 ##########################
 #   Updated functions    #
-####################################################################################
+##########################
 
 
 # 1) runtime.onMessage
@@ -138,7 +132,7 @@ def runtime_onM(args_tuple):
     payload = {}
     payload_s = {}
     source = "chrome.runtime.onMessage"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -201,8 +195,6 @@ def runtime_onM(args_tuple):
 
     try:
         # Navigate to example.com
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -301,7 +293,7 @@ def runtime_onM(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
             packets: list = requests.get(url).json()["data"]
             if packets != []:
                 payload_logging(
@@ -360,8 +352,6 @@ def runtime_onM(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    
-
 
 # 2) runtime.onConnect
 def runtime_onC(args_tuple):
@@ -384,7 +374,7 @@ def runtime_onC(args_tuple):
     payload = {}
     payload_s = {}
     source = "chrome.runtime.onConnect"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -470,8 +460,6 @@ def runtime_onC(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -569,7 +557,7 @@ def runtime_onC(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
             packets: list = requests.get(url).json()["data"]
             if packets != []:
                 payload_logging(
@@ -626,7 +614,6 @@ def runtime_onC(args_tuple):
     except Exception as e:
         # Handle any other exceptions that occur
         pass
-    
 
 
 # 3) cookies.get && cookies.getAll
@@ -650,7 +637,7 @@ def cookie_get(args_tuple):
     payload = {}
     payload_s = {}
     source = "cookies.get/cookies.getAll"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -752,8 +739,6 @@ def cookie_get(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -887,7 +872,7 @@ def cookie_get(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
             packets: list = requests.get(url).json()["data"]
             if packets != []:
                 payload_logging(
@@ -946,8 +931,6 @@ def cookie_get(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    
-
 
 # 4) location.hash
 def location_hash(args_tuple):
@@ -970,7 +953,7 @@ def location_hash(args_tuple):
     payload = {}
     payload_s = {}
     source = "location.hash"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         script = f"window.location.hash = '{i}'"
@@ -988,8 +971,6 @@ def location_hash(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -1123,7 +1104,7 @@ def location_hash(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
             packets: list = requests.get(url).json()["data"]
             if packets != []:
                 payload_logging(
@@ -1182,8 +1163,6 @@ def location_hash(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    
-
 
 #  5) runtime.onMessageExternal
 def runtime_onME(args_tuple):
@@ -1206,7 +1185,7 @@ def runtime_onME(args_tuple):
     payload = {}
     payload_s = {}
     source = "chrome.runtime.onMessageExternal"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -1244,8 +1223,6 @@ def runtime_onME(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -1379,7 +1356,7 @@ def runtime_onME(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
             packets: list = requests.get(url).json()["data"]
             if packets != []:
                 payload_logging(
@@ -1438,8 +1415,6 @@ def runtime_onME(args_tuple):
         # Handle any other exceptions that occur
         pass
 
-    
-
 
 # 6) runtime.onConnectExternal
 def runtime_onCE(args_tuple):
@@ -1462,7 +1437,7 @@ def runtime_onCE(args_tuple):
     payload = {}
     payload_s = {}
     source = "chrome.runtime.onConnectExternal"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -1548,8 +1523,6 @@ def runtime_onCE(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -1683,7 +1656,7 @@ def runtime_onCE(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
             packets: list = requests.get(url).json()["data"]
             if packets != []:
                 payload_logging(
@@ -1743,7 +1716,6 @@ def runtime_onCE(args_tuple):
         pass
 
 
-
 # new window.name_normal (works)
 def window_name_N(args_tuple):
     (
@@ -1762,14 +1734,12 @@ def window_name_N(args_tuple):
 
     
     source = "window.name"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
-        driver.get(url_of_injection_example)
+        driver.get("https://www.example.com")
         example = driver.current_window_handle
 
         # Wait up to 5 seconds for the title to become "Example Domain"
@@ -1799,7 +1769,7 @@ def window_name_N(args_tuple):
                 # get time of injection
                 time_of_injection = dt.utcnow()
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
                 continue
 
             # observe behavior after payload injection
@@ -1896,7 +1866,7 @@ def window_name_N(args_tuple):
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
             try:
                 # check modifications for extension
@@ -1904,7 +1874,7 @@ def window_name_N(args_tuple):
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
@@ -1929,7 +1899,7 @@ def window_name_N(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
 
             packets: list = requests.get(url).json()["data"]
             if packets != []:
@@ -1986,7 +1956,7 @@ def window_name_N(args_tuple):
         error_logging(source, "Failed to resolve https://www.example.com")
 
     except Exception as e:
-        error_logging(source, str(e))
+        error_logging(source, f"{e.__class__.__name__}: {e}")
 
 
 # new location.href_normal (works)
@@ -2007,14 +1977,12 @@ def location_href_N(args_tuple):
 
     
     source = "location.href"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
-        driver.get(url_of_injection_example)
+        driver.get("https://www.example.com")
         # set handler for example.com
         example = driver.current_window_handle
 
@@ -2053,7 +2021,7 @@ def location_href_N(args_tuple):
                         # get time of injection
                         time_of_injection = dt.utcnow()
                     except Exception as e:
-                        error_logging(source, str(e))
+                        error_logging(source, f"{e.__class__.__name__}: {e}")
                         continue
                 else:
                     try:
@@ -2065,7 +2033,7 @@ def location_href_N(args_tuple):
                         time_of_injection = dt.utcnow()
 
                     except Exception as e:
-                        error_logging(source, str(e))
+                        error_logging(source, f"{e.__class__.__name__}: {e}")
                         continue
 
                 # observe behavior after payload injection
@@ -2191,7 +2159,7 @@ def location_href_N(args_tuple):
                 # get time of injection
                 time_of_injection = dt.utcnow()
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
                 continue
 
             driver.switch_to.window(extension)
@@ -2199,7 +2167,7 @@ def location_href_N(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
 
             packets: list = requests.get(url).json()["data"]
 
@@ -2256,7 +2224,7 @@ def location_href_N(args_tuple):
         error_logging(source, "Failed to resolve https://www.example.com")
 
     except Exception as e:
-        error_logging(source, str(e))
+        error_logging(source, f"{e.__class__.__name__}: {e}")
 
 
 # combined contextMenu
@@ -2340,7 +2308,7 @@ def context_menu(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 target_element = driver.find_element(By.ID, "h1_element")
@@ -2352,7 +2320,7 @@ def context_menu(args_tuple):
                         target_element,
                     )
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # usage of context menu
@@ -2369,7 +2337,7 @@ def context_menu(args_tuple):
                     subprocess.call(["xdotool", "key", "Return"])
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # observe behavior after payload injection
@@ -2501,7 +2469,7 @@ def context_menu(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 target_element = driver.find_element(By.ID, "h1_element")
@@ -2514,7 +2482,7 @@ def context_menu(args_tuple):
                         target_element,
                     )
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # usage of context menu
@@ -2531,7 +2499,7 @@ def context_menu(args_tuple):
                     subprocess.call(["xdotool", "key", "Return"])
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -2539,7 +2507,7 @@ def context_menu(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
                 packets: list = requests.get(url).json()["data"]
 
                 if packets != []:
@@ -2598,7 +2566,7 @@ def context_menu(args_tuple):
             error_logging(source, f"Failed to resolve {website}")
 
         except Exception as e:
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
 
 
     # new contextMenu.link_Url (works)
@@ -2675,7 +2643,7 @@ def context_menu(args_tuple):
                             # get time of injection
                             time_of_injection = dt.utcnow()
                         except Exception as e:
-                            error_logging(source, str(e))
+                            error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
                     else:
                         try:
@@ -2691,7 +2659,7 @@ def context_menu(args_tuple):
                             time_of_injection = dt.utcnow()
 
                         except Exception as e:
-                            error_logging(source, str(e))
+                            error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
 
                     # Seleting Text using javascript
@@ -2716,11 +2684,11 @@ def context_menu(args_tuple):
                             subprocess.call(["xdotool", "key", "Return"])
 
                         except Exception as e:
-                            error_logging(source, str(e))
+                            error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
 
                     except Exception as e:
-                        error_logging(source, str(e))
+                        error_logging(source, f"{e.__class__.__name__}: {e}")
                         continue
 
                     # observe behavior after payload injection
@@ -2854,7 +2822,7 @@ def context_menu(args_tuple):
                     # get time of injection
                     time_of_injection = dt.utcnow()
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # Seleting Text using javascript
@@ -2879,11 +2847,11 @@ def context_menu(args_tuple):
                         subprocess.call(["xdotool", "key", "Return"])
 
                     except Exception as e:
-                        error_logging(source, str(e))
+                        error_logging(source, f"{e.__class__.__name__}: {e}")
                         continue
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -2891,7 +2859,7 @@ def context_menu(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
 
                 packets: list = requests.get(url).json()["data"]
 
@@ -2953,7 +2921,7 @@ def context_menu(args_tuple):
             pass
 
         except Exception as e:
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
 
 
     # new contextMenu.srcUrl (works)
@@ -3023,7 +2991,7 @@ def context_menu(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # usage of contextMenu
@@ -3042,7 +3010,7 @@ def context_menu(args_tuple):
                     ).context_click().perform()
 
                     # navigate to extension context menu option
-                    time.sleep(1)
+                    sleep(1)
                     for _ in range(7):
                         subprocess.call(["xdotool", "key", "Down"])
 
@@ -3050,7 +3018,7 @@ def context_menu(args_tuple):
                     subprocess.call(["xdotool", "key", "Return"])
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # observe behavior after payload injection
@@ -3182,7 +3150,7 @@ def context_menu(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # usage of contextMenu
@@ -3201,7 +3169,7 @@ def context_menu(args_tuple):
                     ).context_click().perform()
 
                     # navigate to extension context menu option
-                    time.sleep(1)
+                    sleep(1)
                     for _ in range(7):
                         subprocess.call(["xdotool", "key", "Down"])
 
@@ -3209,7 +3177,7 @@ def context_menu(args_tuple):
                     subprocess.call(["xdotool", "key", "Return"])
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -3217,7 +3185,7 @@ def context_menu(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
 
                 packets: list = requests.get(url).json()["data"]
 
@@ -3277,7 +3245,7 @@ def context_menu(args_tuple):
             pass
 
         except Exception as e:
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
 
 
     # new contextMenu.frameUrl (works for jerald but not for me. smlj)
@@ -3349,7 +3317,7 @@ def context_menu(args_tuple):
                             # get time of injection
                             time_of_injection = dt.utcnow()
                         except Exception as e:
-                            error_logging(source, str(e))
+                            error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
                     else:
                         try:
@@ -3360,7 +3328,7 @@ def context_menu(args_tuple):
                             # get time of injection
                             time_of_injection = dt.utcnow()
                         except Exception as e:
-                            error_logging(source, str(e))
+                            error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
 
                     # usage of context menu
@@ -3379,7 +3347,7 @@ def context_menu(args_tuple):
                         subprocess.call(["xdotool", "key", "Return"])
 
                     except Exception as e:
-                        error_logging(source, str(e))
+                        error_logging(source, f"{e.__class__.__name__}: {e}")
                         continue
 
                     # observe behavior after payload injection
@@ -3512,7 +3480,7 @@ def context_menu(args_tuple):
                     # get time of injection
                     time_of_injection = dt.utcnow()
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # usage of context menu
@@ -3531,7 +3499,7 @@ def context_menu(args_tuple):
                     subprocess.call(["xdotool", "key", "Return"])
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -3539,7 +3507,7 @@ def context_menu(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
 
                 packets: list = requests.get(url).json()["data"]
                 if packets != []:
@@ -3579,7 +3547,7 @@ def context_menu(args_tuple):
             error_logging(source, f"Failed to resolve {website}")
 
         except Exception as e:
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
 
 
     # new contextMenu.pageUrl (works)
@@ -3652,7 +3620,7 @@ def context_menu(args_tuple):
                             # get time of injection
                             time_of_injection = dt.utcnow()
                         except Exception as e:
-                            error_logging(source, str(e))
+                            error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
                     else:
                         try:
@@ -3664,7 +3632,7 @@ def context_menu(args_tuple):
                             # get time of injection
                             time_of_injection = dt.utcnow()
                         except Exception as e:
-                            error_logging(source, str(e))
+                            error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
 
                     PageUrlElement = driver.find_element(By.ID, "pageUrl")
@@ -3683,7 +3651,7 @@ def context_menu(args_tuple):
                         subprocess.call(["xdotool", "key", "Return"])
 
                     except Exception as e:
-                        error_logging(source, str(e))
+                        error_logging(source, f"{e.__class__.__name__}: {e}")
                         continue
 
                     # observe behavior after payload injection
@@ -3813,7 +3781,7 @@ def context_menu(args_tuple):
                     # get time of injection
                     time_of_injection = dt.utcnow()
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 PageUrlElement = driver.find_element(By.ID, "pageUrl")
@@ -3832,7 +3800,7 @@ def context_menu(args_tuple):
                     subprocess.call(["xdotool", "key", "Return"])
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -3840,7 +3808,7 @@ def context_menu(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
 
                 packets: list = requests.get(url).json()["data"]
                 if packets != []:
@@ -3902,7 +3870,7 @@ def context_menu(args_tuple):
             error_logging(source, f"Failed to resolve {website}")
 
         except Exception as e:
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
 
 
     source = result["taintsource"]
@@ -3958,15 +3926,13 @@ def chromeTabQuery(args_tuple):
         
         source = "chromeTabsQuery.title"
 
-        # url_of_injection_example = "https://www.example.com"
+        url_of_injection_example = "https://www.example.com"
 
         driver = Chrome(service=Service(), options=option)
 
         try:
             # get www.example.com
-            relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-            url_of_injection_example = "file://" + os.path.abspath(relative_path)
-            driver.get(url_of_injection_example)
+            driver.get("https://www.example.com")
 
             # set handler for example.com
             example = driver.current_window_handle
@@ -4001,7 +3967,7 @@ def chromeTabQuery(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # observe behavior after payload injection
@@ -4126,7 +4092,7 @@ def chromeTabQuery(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -4134,7 +4100,7 @@ def chromeTabQuery(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
 
                 packets: list = requests.get(url).json()["data"]
                 if packets != []:
@@ -4193,7 +4159,7 @@ def chromeTabQuery(args_tuple):
 
         except Exception as e:
             # Handle any other exceptions that occur
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
 
         
         
@@ -4218,16 +4184,14 @@ def chromeTabQuery(args_tuple):
 
         source = "chromeTabQuery.url"
 
-        # url_of_injection_example = "https://www.example.com"
+        url_of_injection_example = "https://www.example.com"
 
         driver = Chrome(service=Service(), options=option)
 
         # Case Secnario for chromeTabQuery_url_new
         try:
             # Navigate to example.com
-            relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-            url_of_injection_example = "file://" + os.path.abspath(relative_path)
-            driver.get(url_of_injection_example)
+            driver.get("https://www.example.com")
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -4263,7 +4227,7 @@ def chromeTabQuery(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # observe behavior after payload injection
@@ -4393,7 +4357,7 @@ def chromeTabQuery(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -4401,7 +4365,7 @@ def chromeTabQuery(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
 
                 packets: list = requests.get(url).json()["data"]
                 if packets != []:
@@ -4461,7 +4425,7 @@ def chromeTabQuery(args_tuple):
             error_logging(source, f"Failed to resolve https://www.example.com")
 
         except Exception as e:
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
         
         
 
@@ -4539,7 +4503,7 @@ def chromeTabQuery(args_tuple):
                 """
                 )
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
             try:
                 # set new favIconUrl
@@ -4554,7 +4518,7 @@ def chromeTabQuery(args_tuple):
                 )
 
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
         # preconfigure files required
         access_directory()
@@ -4614,7 +4578,7 @@ def chromeTabQuery(args_tuple):
                     # get time of injection
                     time_of_injection = dt.utcnow()
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(example)
@@ -4731,7 +4695,7 @@ def chromeTabQuery(args_tuple):
 
         except Exception as e:
             # Handle any other exceptions that occur
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
         
         
 
@@ -4749,32 +4713,29 @@ def chromeTabQuery(args_tuple):
 
 
 # new location.search (works)
-def location_search_N(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
+def location_search_N(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
 
 
     source = "location.search"
-    # url_of_injection_example = "https://www.example.com"
+    url_of_injection_example = "https://www.example.com"
 
-    driver = Chrome(service=Service(), options=option)
-
+    driver = Chrome(service=Service(log_path="/home/john/fyp/repo/chrome-ext-scanner/test/driver.log"), options=option)
     try:
         # navigate to example.com
-        # driver.get("https://www.example.com")
-        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
+        
         # set handler for example.com
         example = driver.current_window_handle
 
@@ -4793,76 +4754,26 @@ def location_search_N(args_tuple):
         # get page source code of extension
         extension_source_code = driver.page_source
 
+
         for payload in payloads[1]:
+            # with rlock:
             # update progress bar
             progress_bar.update(1)
-
-            # define a query parameter
-            driver.switch_to.window(example)
-
             try:
-                driver.execute_script(f"window.location.search=`?q={payload}`")
-
-                # get time of injection
-                time_of_injection = dt.utcnow()
-            except Exception as e:
-                error_logging(source, str(e))
-                continue
-
-            # 1) Check for alerts in example
-            try:
-                # wait 2 seconds to see if alert is detected
-                WebDriverWait(driver, 2).until(EC.alert_is_present())
-                alert = driver.switch_to.alert
-                alert.accept()
-
-                time_of_success = dt.utcnow()
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "normal",
-                    payload,
-                    r"window.location.search=`?q={payload}`",
-                    time_of_injection,
-                    time_of_success,
-                    payload_file,
-                    "nil",
-                )
-                
-
-            except TimeoutException:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "normal",
-                    payload,
-                    r"window.location.search=`?q={payload}`",
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    "nil",
-                )
-                
-
-                # 2) Check for alerts in example after refreshing extension
-
-                driver.switch_to.window(extension)
-                driver.refresh()
+                # navigate to example.com
                 driver.switch_to.window(example)
 
+                # get time of injection
+                time_of_injection = time()
+
+                # define a query parameter
+                driver.execute_script(f"window.location.search=`?q={payload}`")
                 try:
                     # wait 2 seconds to see if alert is detected
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -4873,11 +4784,10 @@ def location_search_N(args_tuple):
                         payload,
                         r"window.location.search=`?q={payload}`",
                         time_of_injection,
-                        time_of_success,
+                        time(),
                         payload_file,
                         "nil",
                     )
-                    
                 except TimeoutException:
                     payload_logging(
                         "FAILURE",
@@ -4894,25 +4804,80 @@ def location_search_N(args_tuple):
                         "nil",
                     )
                     
+                    try:
+                        # 2) Check for alerts in example after refreshing extension
+                        driver.switch_to.window(extension)
+                        driver.refresh()
+                        driver.switch_to.window(example)
+                        
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
 
-            try:
-                driver.get(url_of_injection_example)
-                example = driver.current_window_handle
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "normal",
+                            payload,
+                            r"window.location.search=`?q={payload}`",
+                            time_of_injection,
+                            time(),
+                            payload_file,
+                            "nil",
+                        )
+                    except TimeoutException:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "normal",
+                            payload,
+                            r"window.location.search=`?q={payload}`",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            "nil",
+                        )
                 
-            except:
-                pass
+                # check modifications for example
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get(url_of_injection_example)
 
-            try:
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                    # print(f"Navigated back to '{url_path}' due to extension page source changes")
-
-            except:
+            
+            except JavascriptException:
                 pass
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(log_path="/home/john/fyp/repo/chrome-ext-scanner/test/driver.log"), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
+            except MaxRetryError:
+                return
+            except Exception as e:
+                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+
 
         for payload_no, payload in enumerate(server_payloads[1]):
+            # with rlock:
+            # update progress bar
             progress_bar.update(1)
             driver.switch_to.window(example)
             driver.refresh()
@@ -4921,13 +4886,14 @@ def location_search_N(args_tuple):
                 "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
             )
 
+            # get time of injection
+            time_of_injection = time()
             try:
                 driver.execute_script(f"window.location.search=`?q={payload}`")
-
-                # get time of injection
-                time_of_injection = dt.utcnow()
+            except JavascriptException:
+                pass
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}[{order} server]: {e}")
                 continue
 
             driver.switch_to.window(extension)
@@ -4935,7 +4901,7 @@ def location_search_N(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
 
             packets: list = requests.get(url).json()["data"]
             if packets != []:
@@ -4953,7 +4919,6 @@ def location_search_N(args_tuple):
                     payload_file,
                     packets,
                 )
-                
             else:
                 payload_logging(
                     "FAILURE",
@@ -4969,7 +4934,6 @@ def location_search_N(args_tuple):
                     payload_file,
                     packets,
                 )
-                
 
             try:
                 # check modifications for example.com
@@ -4977,24 +4941,23 @@ def location_search_N(args_tuple):
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
                     # print("Navigated back to 'https://www.example.com' due to page source changes")
-            except:
-                pass
-
-            try:
+            
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
                     # print(f"Navigated back to '{url_path}' due to extension page source changes")
-            except:
-                pass
+            except Exception as e:
+                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
     except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com")
-        pass
-
+        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
-        error_logging(source, str(e))
+        error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
+    finally:
+        error_logging(source, f"{order} finally")
+        driver.quit()
+        # progress_bar.close()
 
 
 # combined chromeDebugger
@@ -5033,15 +4996,15 @@ def chromeDebugger(args_tuple):
         
         source = "chromeDebugger.GetTargets.title"
 
-        # url_of_injection_example = "https://www.example.com"
+        url_of_injection_example = "https://www.example.com"
 
         driver = Chrome(service=Service(), options=option)
 
         try:
+            website = "https://www.example.com"
+
             # navigate to example.com
-            relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-            url_of_injection_example = "file://" + os.path.abspath(relative_path)
-            driver.get(url_of_injection_example)
+            driver.get(website)
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -5075,7 +5038,7 @@ def chromeDebugger(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 try:
@@ -5083,7 +5046,7 @@ def chromeDebugger(args_tuple):
                     subprocess.call(["xdotool", "keydown", "F12"])
                     subprocess.call(["xdotool", "keyup", "F12"])
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # observe behavior after payload injection
@@ -5210,7 +5173,7 @@ def chromeDebugger(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 try:
@@ -5218,7 +5181,7 @@ def chromeDebugger(args_tuple):
                     subprocess.call(["xdotool", "keydown", "F12"])
                     subprocess.call(["xdotool", "keyup", "F12"])
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -5226,7 +5189,7 @@ def chromeDebugger(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
 
                 packets: list = requests.get(url).json()["data"]
                 if packets != []:
@@ -5287,7 +5250,7 @@ def chromeDebugger(args_tuple):
             error_logging(source, f"Failed to resolve https://www.example.com")
 
         except Exception as e:
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
         
         
 
@@ -5311,14 +5274,12 @@ def chromeDebugger(args_tuple):
         
         source = "chromeTabQuery.url"
 
-        # url_of_injection_example = "https://www.example.com"
+        url_of_injection_example = "https://www.example.com"
 
         driver = Chrome(service=Service(), options=option)
         try:
             # Navigate to example.com
-            relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
-            url_of_injection_example = "file://" + os.path.abspath(relative_path)
-            driver.get(url_of_injection_example)
+            driver.get("https://www.example.com")
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -5356,7 +5317,7 @@ def chromeDebugger(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # Press the F12 key to open the developer tools
@@ -5364,7 +5325,7 @@ def chromeDebugger(args_tuple):
                     subprocess.call(["xdotool", "keydown", "F12"])
                     subprocess.call(["xdotool", "keyup", "F12"])
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # observe behavior after payload injection
@@ -5494,7 +5455,7 @@ def chromeDebugger(args_tuple):
                     time_of_injection = dt.utcnow()
 
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 # Press the F12 key to open the developer tools
@@ -5502,7 +5463,7 @@ def chromeDebugger(args_tuple):
                     subprocess.call(["xdotool", "keydown", "F12"])
                     subprocess.call(["xdotool", "keyup", "F12"])
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 driver.switch_to.window(extension)
@@ -5510,7 +5471,7 @@ def chromeDebugger(args_tuple):
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                time.sleep(3)
+                sleep(3)
 
                 packets: list = requests.get(url).json()["data"]
                 if packets != []:
@@ -5568,7 +5529,7 @@ def chromeDebugger(args_tuple):
 
         except Exception as e:
             # Handle any other exceptions that occur
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
         
         
 
@@ -5646,7 +5607,7 @@ def chromeDebugger(args_tuple):
                 """
                 )
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
             try:
                 # set new favIconUrl
@@ -5661,7 +5622,7 @@ def chromeDebugger(args_tuple):
                 )
 
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
         # preconfigure files required
         access_directory()
@@ -5722,7 +5683,7 @@ def chromeDebugger(args_tuple):
                     # get time of injection
                     time_of_injection = dt.utcnow()
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
                 try:
@@ -5730,7 +5691,7 @@ def chromeDebugger(args_tuple):
                     subprocess.call(["xdotool", "keydown", "F12"])
                     subprocess.call(["xdotool", "keyup", "F12"])
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
 
                 # observe behavior after payload injection
                 # 1) Check for alerts in example.com
@@ -5845,7 +5806,7 @@ def chromeDebugger(args_tuple):
 
         except Exception as e:
             # Handle any other exceptions that occur
-            error_logging(source, str(e))
+            error_logging(source, f"{e.__class__.__name__}: {e}")
         
         
 
@@ -5923,14 +5884,14 @@ def windowAddEventListenerMessage(args_tuple):
                 # get time of injection
                 time_of_injection = dt.utcnow()
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
                 try:
                     driver.execute_script(f"window.postMessage(`{payload}`,'*')")
                     # get time of injection
                     time_of_injection = dt.utcnow()
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
             # observe behavior after payload injection
@@ -6030,7 +5991,7 @@ def windowAddEventListenerMessage(args_tuple):
                     driver.get(website)
                     # print("Navigated back to 'https://www.example.com' due to page source changes")
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
             try:
                 # check modifications for extension
@@ -6039,7 +6000,7 @@ def windowAddEventListenerMessage(args_tuple):
                     driver.get(url_path)
                     # print(f"Navigated back to '{url_path}' due to extension page source changes")
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
@@ -6060,14 +6021,14 @@ def windowAddEventListenerMessage(args_tuple):
                 # get time of injection
                 time_of_injection = dt.utcnow()
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
                 try:
                     driver.execute_script(f"window.postMessage(`{payload}`,'*')")
                     # get time of injection
                     time_of_injection = dt.utcnow()
                 except Exception as e:
-                    error_logging(source, str(e))
+                    error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
 
             driver.switch_to.window(extension)
@@ -6075,7 +6036,7 @@ def windowAddEventListenerMessage(args_tuple):
             driver.switch_to.window(example)
 
             url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            time.sleep(3)
+            sleep(3)
 
             packets: list = requests.get(url).json()["data"]
             if packets != []:
@@ -6117,7 +6078,7 @@ def windowAddEventListenerMessage(args_tuple):
                 if example_source_code != driver.page_source:
                     driver.get(website)
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
             try:
                 # check modifications for extension
@@ -6125,11 +6086,34 @@ def windowAddEventListenerMessage(args_tuple):
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
             except Exception as e:
-                error_logging(source, str(e))
+                error_logging(source, f"{e.__class__.__name__}: {e}")
 
     except TimeoutException:
         # Handle TimeoutException when title condition is not met
         error_logging(source, f"Failed to resolve {website}")
 
     except Exception as e:
-        error_logging(source, str(e))
+        error_logging(source, f"{e.__class__.__name__}: {e}")
+
+
+# store functions in dict
+sourcelist = {
+    "chrome_contextMenu_create": context_menu,
+    "chrome_contextMenu_onClicked_addListener": context_menu,
+    "chrome_contextMenu_update": context_menu,
+    "chrome_cookies_get": cookie_get,
+    "chrome_cookies_getAll": cookie_get,
+    "chrome_debugger_getTargets": chromeDebugger,
+    "chrome_runtime_onConnect": runtime_onC,
+    "chrome_runtime_onConnectExternal": runtime_onCE,
+    "chrome_runtime_onMessage": runtime_onM,
+    "chrome_runtime_onMessageExternal": runtime_onME,
+    "chrome_tabs_get": chromeTabQuery,
+    "chrome_tabs_getCurrent": chromeTabQuery,
+    "chrome_tabs_query": chromeTabQuery,
+    "location_hash": location_hash,
+    "location_href": location_href_N,
+    "location_search": location_search_N,
+    "window_addEventListener_message": windowAddEventListenerMessage,
+    "window_name": window_name_N,
+}

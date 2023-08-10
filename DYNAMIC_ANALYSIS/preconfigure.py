@@ -6,9 +6,9 @@ from random import sample
 from pathlib import Path
 import shutil
 
+
 # preconfigure
 def preconfigure(dir):
-
     a = ""
     extracted_path = Path(dir)
     tmp_dir = Path("tmp")
@@ -34,23 +34,6 @@ def preconfigure(dir):
             shutil.copyfile(file, t)
     return tmp_ext_dir
 
-    # for root, dirs, files in os.walk(folder_path):
-    #     # Perform the find and replace operation on each JavaScript file in the folder
-    #     for filename in files:
-    #         if filename.endswith(".js"):
-    #             file_path = os.path.join(root, filename)
-
-    #             # Perform the find and replace operation
-    #             with fileinput.FileInput(file_path, inplace=True,) as file:
-    #                 for line in file:
-    #                     # Replace "active: true" with "active: false"
-    #                     if "active: !0" in line:
-    #                         a = "active: !0"
-    #                         line = line.replace(a, "active: false")
-    #                     elif "active: true" in line:
-    #                         a = "active: true"
-    #                         line = line.replace(a, "active: false")
-    #                     print(line, end="")
 
 # source separator function
 def separator(inter_results: list[dict]):
@@ -60,6 +43,7 @@ def separator(inter_results: list[dict]):
         source_list = output.setdefault(source, [])
         source_list.append(d)
     return output
+
 
 # interpreter
 def interpreter(data):
@@ -150,26 +134,43 @@ def interpreter(data):
         tainted.append(taint)
     return tainted
 
+
 # obtain relevant extension information'
 def get_ext_id(path_to_extension):
     abs_path = path.abspath(path_to_extension)
     m = hashlib.sha256()
     m.update(abs_path.encode("utf-8"))
     ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
-    try:
-        file = abs_path+'/manifest.json'
-        with open(file,'r') as f:
-            manifest: dict = json.load(f)
-        try:
-            popup = manifest["action"]["default_popup"]
-        except:
-            pass
-    except:
-        popup = 'popup.html'
+    file = abs_path+'/manifest.json'
+    with open(file, 'r') as f:
+        manifest: dict = json.load(f)
+        popup = manifest.get("action", {}).get("default_popup", "popup.html")
     url_path = f"chrome-extension://{ext_id}/{popup}"
     ext_name = path.basename(abs_path)
     return url_path, abs_path, ext_id, ext_name
 
+
+# ======= old ======== #
+# # obtain relevant extension information'
+# def get_ext_id(path_to_extension):
+#     abs_path = path.abspath(path_to_extension)
+#     m = hashlib.sha256()
+#     m.update(abs_path.encode("utf-8"))
+#     ext_id = "".join([chr(int(i, base=16) + 97) for i in m.hexdigest()][:32])
+#     try:
+#         file = abs_path+'/manifest.json'
+#         with open(file,'r') as f:
+#             manifest: dict = json.load(f)
+#         try:
+#             popup = manifest["action"]["default_popup"]
+#         except:
+#             pass
+#     except:
+#         popup = 'popup.html'
+#     url_path = f"chrome-extension://{ext_id}/{popup}"
+#     ext_name = path.basename(abs_path)
+#     return url_path, abs_path, ext_id, ext_name
+# ======= old ======== #
 
 
 # new payload function (use this)
@@ -183,7 +184,6 @@ def payloads_cycle(n: int, pct: int, file_path: str):
     for line in lines:
         meta_payloads[c.__next__()].append(line.rstrip())
     del lines
-
     return tuple((len(pylds), tuple(pylds)) for pylds in meta_payloads)
 
 
@@ -233,6 +233,3 @@ def manifest_rewrite(file_path):
     # Save the updated manifest.json content back to the file
     with open(manifest_path, "w") as manifest_file:
         json.dump(manifest_data, manifest_file, indent=2)
-
-
-
