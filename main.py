@@ -6,6 +6,7 @@ from email.utils import format_datetime as fdt
 from os import cpu_count
 from pathlib import Path
 from zipfile import ZipFile
+from time import sleep 
 
 import jsbeautifier
 from bs4 import BeautifulSoup
@@ -318,6 +319,7 @@ def main():
     shutil.copyfile(dynamic_logfile, shared_log_file)
     print()
     print(f"Logs from this scan are available in `{shared_log_file}`")
+    sleep(2)
     print()
     subprocess.run(["jp2a", "--colors", "--color-depth=24", "--term-width", "logo.png"])
 
