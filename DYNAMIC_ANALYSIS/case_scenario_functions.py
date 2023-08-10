@@ -138,7 +138,7 @@ def runtime_onM(args_tuple):
     payload = {}
     payload_s = {}
     source = "chrome.runtime.onMessage"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -201,6 +201,8 @@ def runtime_onM(args_tuple):
 
     try:
         # Navigate to example.com
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -382,7 +384,7 @@ def runtime_onC(args_tuple):
     payload = {}
     payload_s = {}
     source = "chrome.runtime.onConnect"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -468,6 +470,8 @@ def runtime_onC(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -646,7 +650,7 @@ def cookie_get(args_tuple):
     payload = {}
     payload_s = {}
     source = "cookies.get/cookies.getAll"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -748,6 +752,8 @@ def cookie_get(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -964,7 +970,7 @@ def location_hash(args_tuple):
     payload = {}
     payload_s = {}
     source = "location.hash"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         script = f"window.location.hash = '{i}'"
@@ -982,6 +988,8 @@ def location_hash(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -1198,7 +1206,7 @@ def runtime_onME(args_tuple):
     payload = {}
     payload_s = {}
     source = "chrome.runtime.onMessageExternal"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -1236,6 +1244,8 @@ def runtime_onME(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -1452,7 +1462,7 @@ def runtime_onCE(args_tuple):
     payload = {}
     payload_s = {}
     source = "chrome.runtime.onConnectExternal"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     for payload_no, i in enumerate(payloads[1]):
         dots = "."
@@ -1538,6 +1548,8 @@ def runtime_onCE(args_tuple):
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
         driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
@@ -1750,12 +1762,14 @@ def window_name_N(args_tuple):
 
     
     source = "window.name"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        driver.get("https://www.example.com")
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
+        driver.get(url_of_injection_example)
         example = driver.current_window_handle
 
         # Wait up to 5 seconds for the title to become "Example Domain"
@@ -1993,12 +2007,14 @@ def location_href_N(args_tuple):
 
     
     source = "location.href"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     driver = Chrome(service=Service(), options=option)
     try:
         # Navigate to example.com
-        driver.get("https://www.example.com")
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
+        driver.get(url_of_injection_example)
         # set handler for example.com
         example = driver.current_window_handle
 
@@ -3942,13 +3958,15 @@ def chromeTabQuery(args_tuple):
         
         source = "chromeTabsQuery.title"
 
-        url_of_injection_example = "https://www.example.com"
+        # url_of_injection_example = "https://www.example.com"
 
         driver = Chrome(service=Service(), options=option)
 
         try:
             # get www.example.com
-            driver.get("https://www.example.com")
+            relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+            url_of_injection_example = "file://" + os.path.abspath(relative_path)
+            driver.get(url_of_injection_example)
 
             # set handler for example.com
             example = driver.current_window_handle
@@ -4200,14 +4218,16 @@ def chromeTabQuery(args_tuple):
 
         source = "chromeTabQuery.url"
 
-        url_of_injection_example = "https://www.example.com"
+        # url_of_injection_example = "https://www.example.com"
 
         driver = Chrome(service=Service(), options=option)
 
         # Case Secnario for chromeTabQuery_url_new
         try:
             # Navigate to example.com
-            driver.get("https://www.example.com")
+            relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+            url_of_injection_example = "file://" + os.path.abspath(relative_path)
+            driver.get(url_of_injection_example)
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -4745,13 +4765,16 @@ def location_search_N(args_tuple):
 
 
     source = "location.search"
-    url_of_injection_example = "https://www.example.com"
+    # url_of_injection_example = "https://www.example.com"
 
     driver = Chrome(service=Service(), options=option)
 
     try:
         # navigate to example.com
-        driver.get("https://www.example.com")
+        # driver.get("https://www.example.com")
+        relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
+        driver.get(url_of_injection_example)
         # set handler for example.com
         example = driver.current_window_handle
 
@@ -4873,12 +4896,9 @@ def location_search_N(args_tuple):
                     
 
             try:
-                # check modifications for example.com
-                driver.switch_to.window(example)
-                if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
-                    # print("Navigated back to 'https://www.example.com' due to page source changes")
-
+                driver.get(url_of_injection_example)
+                example = driver.current_window_handle
+                
             except:
                 pass
 
@@ -5013,15 +5033,15 @@ def chromeDebugger(args_tuple):
         
         source = "chromeDebugger.GetTargets.title"
 
-        url_of_injection_example = "https://www.example.com"
+        # url_of_injection_example = "https://www.example.com"
 
         driver = Chrome(service=Service(), options=option)
 
         try:
-            website = "https://www.example.com"
-
             # navigate to example.com
-            driver.get(website)
+            relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+            url_of_injection_example = "file://" + os.path.abspath(relative_path)
+            driver.get(url_of_injection_example)
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -5291,12 +5311,14 @@ def chromeDebugger(args_tuple):
         
         source = "chromeTabQuery.url"
 
-        url_of_injection_example = "https://www.example.com"
+        # url_of_injection_example = "https://www.example.com"
 
         driver = Chrome(service=Service(), options=option)
         try:
             # Navigate to example.com
-            driver.get("https://www.example.com")
+            relative_path = 'DYNAMIC_ANALYSIS/miscellaneous/example.html'
+            url_of_injection_example = "file://" + os.path.abspath(relative_path)
+            driver.get(url_of_injection_example)
             # set handler for example.com
             example = driver.current_window_handle
 

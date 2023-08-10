@@ -76,6 +76,8 @@ def main(config, path_to_extension, semgrep_results):
     # Preconfiguration (set active to false)
     path_to_extension = preconfigure(path_to_extension)
 
+    # manifest rewrite in tmp
+    manifest_rewrite(path_to_extension)
 
     # Obtain relevant extension information
     url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_extension)
@@ -207,7 +209,7 @@ def main(config, path_to_extension, semgrep_results):
     # remove all miscellaneous files (directories only)
     shutil.rmtree("tmp")
     for f in Path("DYNAMIC_ANALYSIS/miscellaneous").glob("*"):
-        if f.is_dir() and f.root != "init_test_ext":
+        if f.is_dir() and f.name != "init_test_ext":
             shutil.rmtree(f)
 
 
