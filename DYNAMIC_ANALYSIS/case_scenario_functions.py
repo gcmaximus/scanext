@@ -41,8 +41,7 @@ from urllib3.exceptions import MaxRetryError, ProtocolError
 # logging framework
 
 
-# magic function (name to be changed)
-def nomagic(chain, payload, msg):
+def nomagic(chain: str, payload: str, msg: dict):
     keys = chain.split(".")[1:]
     msg.update(reduce(lambda x, y: {y: x}, reversed(keys), payload))
     obj = json.dumps(msg)
@@ -112,21 +111,19 @@ def error_logging(source, msg, max_chars=400):
 
 
 # 1) runtime.onMessage
-def runtime_onM(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-
+def runtime_onM(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     scripts = []
     scripts_s = []
     payload = {}
@@ -219,7 +216,7 @@ def runtime_onM(args_tuple):
             # for runtime.onMessage, scripts shall be executed in the chrome extension popup
             try:
                 driver.execute_script(script)
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -232,7 +229,7 @@ def runtime_onM(args_tuple):
                 alert.accept()
 
                 # get time of success [2) extension]
-                time_of_success = dt.utcnow()
+                time_of_success = time()
                 
                 payload_logging(
                     "SUCCESS",
@@ -286,7 +283,7 @@ def runtime_onM(args_tuple):
             progress_bar.update(1)
             try:
                 driver.execute_script(script)
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -354,21 +351,19 @@ def runtime_onM(args_tuple):
 
 
 # 2) runtime.onConnect
-def runtime_onC(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-    
+def runtime_onC(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     scripts = []
     scripts_s = []
     payload = {}
@@ -484,7 +479,7 @@ def runtime_onC(args_tuple):
             # for runtime.onConnect, scripts shall be executed in the chrome extension popup
             try:
                 driver.execute_script(script)
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -497,7 +492,7 @@ def runtime_onC(args_tuple):
                 alert.accept()
 
                 # get time of success [2) extension]
-                time_of_success = dt.utcnow()
+                time_of_success = time()
                 payload_logging(
                     "SUCCESS",
                     source,
@@ -550,7 +545,7 @@ def runtime_onC(args_tuple):
             progress_bar.update(1)
             try:
                 driver.execute_script(script)
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -617,21 +612,19 @@ def runtime_onC(args_tuple):
 
 
 # 3) cookies.get && cookies.getAll
-def cookie_get(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-    
+def cookie_get(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     scripts = []
     scripts_s = []
     payload = {}
@@ -766,7 +759,7 @@ def cookie_get(args_tuple):
                 driver.execute_script(script)
 
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -779,7 +772,7 @@ def cookie_get(args_tuple):
                 alert.accept()
 
                 # get time of success [1) example]
-                time_of_success = dt.utcnow()
+                time_of_success = time()
                 payload_logging(
                     "SUCCESS",
                     source,
@@ -809,7 +802,7 @@ def cookie_get(args_tuple):
                     alert.accept()
 
                     # get time of success [3) example]
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -863,7 +856,7 @@ def cookie_get(args_tuple):
             driver.switch_to.window(example)
             try:
                 driver.execute_script(script)
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -933,21 +926,19 @@ def cookie_get(args_tuple):
 
 
 # 4) location.hash
-def location_hash(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-    
+def location_hash(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     scripts = []
     scripts_s = []
     payload = {}
@@ -998,7 +989,7 @@ def location_hash(args_tuple):
                 driver.execute_script(script)
 
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
 
             except Exception as e:
                 driver.refresh()
@@ -1011,7 +1002,7 @@ def location_hash(args_tuple):
                 alert = driver.switch_to.alert
                 alert.accept()
                 # get time of success [1) example]
-                time_of_success = dt.utcnow()
+                time_of_success = time()
                 payload_logging(
                     "SUCCESS",
                     source,
@@ -1041,7 +1032,7 @@ def location_hash(args_tuple):
                     alert.accept()
 
                     # get time of success [3) example]
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -1095,7 +1086,7 @@ def location_hash(args_tuple):
             driver.switch_to.window(example)
             try:
                 driver.execute_script(script)
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -1165,21 +1156,19 @@ def location_hash(args_tuple):
 
 
 #  5) runtime.onMessageExternal
-def runtime_onME(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-    
+def runtime_onME(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     scripts = []
     scripts_s = []
     payload = {}
@@ -1250,7 +1239,7 @@ def runtime_onME(args_tuple):
                 driver.execute_script(script)
 
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
 
             except Exception as e:
                 driver.refresh()
@@ -1263,7 +1252,7 @@ def runtime_onME(args_tuple):
                 alert = driver.switch_to.alert
                 alert.accept()
                 # get time of success [1) example]
-                time_of_success = dt.utcnow()
+                time_of_success = time()
                 payload_logging(
                     "SUCCESS",
                     source,
@@ -1293,7 +1282,7 @@ def runtime_onME(args_tuple):
                     alert.accept()
 
                     # get time of success [3) example]
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -1347,7 +1336,7 @@ def runtime_onME(args_tuple):
             driver.switch_to.window(example)
             try:
                 driver.execute_script(script)
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -1417,21 +1406,19 @@ def runtime_onME(args_tuple):
 
 
 # 6) runtime.onConnectExternal
-def runtime_onCE(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-    
+def runtime_onCE(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     scripts = []
     scripts_s = []
     payload = {}
@@ -1550,7 +1537,7 @@ def runtime_onCE(args_tuple):
                 driver.execute_script(script)
 
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
 
             except Exception as e:
                 driver.refresh()
@@ -1563,7 +1550,7 @@ def runtime_onCE(args_tuple):
                 alert = driver.switch_to.alert
                 alert.accept()
                 # get time of success [1) example]
-                time_of_success = dt.utcnow()
+                time_of_success = time()
                 payload_logging(
                     "SUCCESS",
                     source,
@@ -1593,7 +1580,7 @@ def runtime_onCE(args_tuple):
                     alert.accept()
 
                     # get time of success [3) example]
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -1647,7 +1634,7 @@ def runtime_onCE(args_tuple):
             driver.switch_to.window(example)
             try:
                 driver.execute_script(script)
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 driver.refresh()
                 continue
@@ -1717,22 +1704,19 @@ def runtime_onCE(args_tuple):
 
 
 # new window.name_normal (works)
-def window_name_N(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-
-    
+def window_name_N(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     source = "window.name"
     url_of_injection_example = "https://www.example.com"
 
@@ -1767,7 +1751,7 @@ def window_name_N(args_tuple):
                 driver.execute_script(f"window.name = `{payload}`;")
 
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}: {e}")
                 continue
@@ -1781,7 +1765,7 @@ def window_name_N(args_tuple):
                 alert.accept()
 
                 # get time of success [1) example]
-                time_of_success = dt.utcnow()
+                time_of_success = time()
                 payload_logging(
                     "SUCCESS",
                     source,
@@ -1827,7 +1811,7 @@ def window_name_N(args_tuple):
                     alert.accept()
 
                     # get time of success [3) example]
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -1889,7 +1873,7 @@ def window_name_N(args_tuple):
             try:
                 driver.execute_script(f"window.name = `{payload}`;")
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
 
             except Exception as e:
                 continue
@@ -1960,22 +1944,19 @@ def window_name_N(args_tuple):
 
 
 # new location.href_normal (works)
-def location_href_N(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-
-    
+def location_href_N(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     source = "location.href"
     url_of_injection_example = "https://www.example.com"
 
@@ -2019,7 +2000,7 @@ def location_href_N(args_tuple):
                         )
 
                         # get time of injection
-                        time_of_injection = dt.utcnow()
+                        time_of_injection = time()
                     except Exception as e:
                         error_logging(source, f"{e.__class__.__name__}: {e}")
                         continue
@@ -2030,7 +2011,7 @@ def location_href_N(args_tuple):
                         )
 
                         # get time of injection
-                        time_of_injection = dt.utcnow()
+                        time_of_injection = time()
 
                     except Exception as e:
                         error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -2045,7 +2026,7 @@ def location_href_N(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -2091,7 +2072,7 @@ def location_href_N(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -2157,7 +2138,7 @@ def location_href_N(args_tuple):
                 )
 
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}: {e}")
                 continue
@@ -2228,41 +2209,37 @@ def location_href_N(args_tuple):
 
 
 # combined contextMenu
-def context_menu(args_tuple):
-    (
-        progress_bar,
-        _,
-        _,
-        payloads,
-        _,
-        _,
-        _,
-        _,
-        result,
-        server_payloads,
-    ) = args_tuple
-
+def context_menu(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
+    # save args
+    args = locals()
 
 
     # new contextMenu.selectionText_normal (works)
-    def context_menu_selectionText_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-
-        
+    def context_menu_selectionText_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "contextMenu.selectionText"
 
         url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -2305,7 +2282,7 @@ def context_menu(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -2349,7 +2326,7 @@ def context_menu(args_tuple):
                     alert.accept()
                     # print('[example] + Alert Detected +')
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -2395,7 +2372,7 @@ def context_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -2466,7 +2443,7 @@ def context_menu(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -2570,23 +2547,19 @@ def context_menu(args_tuple):
 
 
     # new contextMenu.link_Url (works)
-    def context_menu_link_url_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-        
+    def context_menu_link_url_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "contextMenu.linkUrl"
 
         url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -2641,7 +2614,7 @@ def context_menu(args_tuple):
                             )
 
                             # get time of injection
-                            time_of_injection = dt.utcnow()
+                            time_of_injection = time()
                         except Exception as e:
                             error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
@@ -2656,7 +2629,7 @@ def context_menu(args_tuple):
                             )
 
                             # get time of injection
-                            time_of_injection = dt.utcnow()
+                            time_of_injection = time()
 
                         except Exception as e:
                             error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -2702,7 +2675,7 @@ def context_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -2748,7 +2721,7 @@ def context_menu(args_tuple):
                             alert = driver.switch_to.alert
                             alert.accept()
 
-                            time_of_success = dt.utcnow()
+                            time_of_success = time()
                             payload_logging(
                                 "SUCCESS",
                                 source,
@@ -2820,7 +2793,7 @@ def context_menu(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
@@ -2925,23 +2898,19 @@ def context_menu(args_tuple):
 
 
     # new contextMenu.srcUrl (works)
-    def context_menu_src_url_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-        
+    def context_menu_src_url_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "contextMenu.srcUrl"
 
         url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -2988,7 +2957,7 @@ def context_menu(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -3030,7 +2999,7 @@ def context_menu(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -3077,7 +3046,7 @@ def context_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -3147,7 +3116,7 @@ def context_menu(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -3249,23 +3218,19 @@ def context_menu(args_tuple):
 
 
     # new contextMenu.frameUrl (works for jerald but not for me. smlj)
-    def context_menu_frame_url_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-
+    def context_menu_frame_url_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "contextMenu.frameUrl"
 
         url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -3315,7 +3280,7 @@ def context_menu(args_tuple):
                             )
                             script = r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`;'
                             # get time of injection
-                            time_of_injection = dt.utcnow()
+                            time_of_injection = time()
                         except Exception as e:
                             error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
@@ -3326,7 +3291,7 @@ def context_menu(args_tuple):
                             )
                             script = r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS#{payload}`;'
                             # get time of injection
-                            time_of_injection = dt.utcnow()
+                            time_of_injection = time()
                         except Exception as e:
                             error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
@@ -3361,7 +3326,7 @@ def context_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -3407,7 +3372,7 @@ def context_menu(args_tuple):
                             alert = driver.switch_to.alert
                             alert.accept()
 
-                            time_of_success = dt.utcnow()
+                            time_of_success = time()
                             payload_logging(
                                 "SUCCESS",
                                 source,
@@ -3478,7 +3443,7 @@ def context_menu(args_tuple):
                         f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`'
                     )
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
@@ -3551,23 +3516,19 @@ def context_menu(args_tuple):
 
 
     # new contextMenu.pageUrl (works)
-    def context_menu_pageUrl_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-        
+    def context_menu_pageUrl_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "contextMenu.pageUrl"
 
         url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -3618,7 +3579,7 @@ def context_menu(args_tuple):
                             )
                             script = r"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`);"
                             # get time of injection
-                            time_of_injection = dt.utcnow()
+                            time_of_injection = time()
                         except Exception as e:
                             error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
@@ -3630,7 +3591,7 @@ def context_menu(args_tuple):
                             script = r"window.history.replaceState(null, null, `{website}#{encoded_payload}`);"
 
                             # get time of injection
-                            time_of_injection = dt.utcnow()
+                            time_of_injection = time()
                         except Exception as e:
                             error_logging(source, f"{e.__class__.__name__}: {e}")
                             continue
@@ -3664,7 +3625,7 @@ def context_menu(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -3710,7 +3671,7 @@ def context_menu(args_tuple):
                             alert = driver.switch_to.alert
                             alert.accept()
 
-                            time_of_success = dt.utcnow()
+                            time_of_success = time()
                             payload_logging(
                                 "SUCCESS",
                                 source,
@@ -3779,7 +3740,7 @@ def context_menu(args_tuple):
                         f"window.history.replaceState(null, null, `{website}?qureyParam={payload}`)"
                     )
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
@@ -3876,54 +3837,51 @@ def context_menu(args_tuple):
     source = result["taintsource"]
     match source:
         case "selectionText":
-            return context_menu_selectionText_N(args_tuple)
+            return context_menu_selectionText_N(**args)
         case "linkUrl":
-            return ontext_menu_link_url_N(args_tuple)
+            return context_menu_link_url_N(**args)
         case "srcUrl":
-            return context_menu_src_url_N(args_tuple)
+            return context_menu_src_url_N(**args)
         case "frameUrl":
-            return context_menu_frame_url_N(args_tuple)
+            return context_menu_frame_url_N(**args)
         case "pageUrl":
-            return context_menu_pageUrl_N(args_tuple)
+            return context_menu_pageUrl_N(**args)
         case _:
             progress_bar.update(payloads[0]+server_payloads[0])
             return
 
 
 # combined chromeTabQuery
-def chromeTabQuery(args_tuple):
-    (
-        progress_bar,
-        _,
-        _,
-        payloads,
-        _,
-        _,
-        _,
-        _,
-        result,
-        server_payloads,
-    ) = args_tuple
-
+def chromeTabQuery(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
+    # save args
+    args = locals()
 
     # new chromeTabsQuery.title (works)
-    def chromeTabsQuery_title_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-        
+    def chromeTabsQuery_title_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "chromeTabsQuery.title"
 
         url_of_injection_example = "https://www.example.com"
@@ -3964,7 +3922,7 @@ def chromeTabQuery(args_tuple):
                     driver.execute_script(f"document.title = `{payload}`;")
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -3979,7 +3937,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -4024,7 +3982,7 @@ def chromeTabQuery(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -4089,7 +4047,7 @@ def chromeTabQuery(args_tuple):
                 try:
                     driver.execute_script(f"document.title = `{payload}`;")
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -4161,27 +4119,21 @@ def chromeTabQuery(args_tuple):
             # Handle any other exceptions that occur
             error_logging(source, f"{e.__class__.__name__}: {e}")
 
-        
-        
 
     # new chromeTabQuery.url (works)
-    def chromeTabQuery_url_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-
+    def chromeTabQuery_url_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "chromeTabQuery.url"
 
         url_of_injection_example = "https://www.example.com"
@@ -4224,7 +4176,7 @@ def chromeTabQuery(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -4239,7 +4191,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -4284,7 +4236,7 @@ def chromeTabQuery(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -4354,7 +4306,7 @@ def chromeTabQuery(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -4426,31 +4378,25 @@ def chromeTabQuery(args_tuple):
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}: {e}")
-        
-        
+
 
     # new chromeTabQuery.favIconUrl (works)
-    def chromeTabQuery_favIconUrl_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-
+    def chromeTabQuery_favIconUrl_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         # automatically populate server_progressbar
         progress_bar.update(server_payloads[0])
 
-        
         source = "chromeTabsQuery.favIconUrl"
 
         url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -4576,7 +4522,7 @@ def chromeTabQuery(args_tuple):
                     changeFavIconUrl(driver, order, payload)
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
@@ -4590,7 +4536,7 @@ def chromeTabQuery(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -4635,7 +4581,7 @@ def chromeTabQuery(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -4696,17 +4642,16 @@ def chromeTabQuery(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, f"{e.__class__.__name__}: {e}")
-        
-        
+
 
     source = result["taintsource"]
     match source:
         case "title":
-            return chromeTabsQuery_title_N(args_tuple)
+            return chromeTabsQuery_title_N(**args)
         case "faviconUrl":
-            return chromeTabQuery_favIconUrl_N(args_tuple)
+            return chromeTabQuery_favIconUrl_N(**args)
         case "url":
-            return chromeTabQuery_url_N(args_tuple)
+            return chromeTabQuery_url_N(**args)
         case _:
             progress_bar.update(payloads[0] + server_payloads[0])
             return
@@ -4726,12 +4671,10 @@ def location_search_N(
     result,
     server_payloads
 ):
-
-
     source = "location.search"
     url_of_injection_example = "https://www.example.com"
 
-    driver = Chrome(service=Service(log_path="/home/john/fyp/repo/chrome-ext-scanner/test/driver.log"), options=option)
+    driver = Chrome(service=Service(), options=option)
     try:
         # navigate to example.com
         driver.get(url_of_injection_example)
@@ -4961,39 +4904,36 @@ def location_search_N(
 
 
 # combined chromeDebugger
-def chromeDebugger(args_tuple):
-    (
-        progress_bar,
-        _,
-        _,
-        payloads,
-        _,
-        _,
-        _,
-        _,
-        result,
-        server_payloads,
-    ) = args_tuple
-
+def chromeDebugger(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
+    # save args
+    args = locals()
 
     # new chrome.Debugger.GetTargets (works)
-    def chromeDebugger_title_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-        
+    def chromeDebugger_title_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "chromeDebugger.GetTargets.title"
 
         url_of_injection_example = "https://www.example.com"
@@ -5035,7 +4975,7 @@ def chromeDebugger(args_tuple):
                     driver.execute_script(f"document.title = `{payload}`;")
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -5058,7 +4998,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -5103,7 +5043,7 @@ def chromeDebugger(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -5170,7 +5110,7 @@ def chromeDebugger(args_tuple):
                     driver.execute_script(f"document.title = `{payload}`;")
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -5251,27 +5191,22 @@ def chromeDebugger(args_tuple):
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}: {e}")
-        
-        
+
 
     # new chrome.Debugger.GetTargets (works)
-    def chromeDebugger_url_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-        
+    def chromeDebugger_url_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         source = "chromeTabQuery.url"
 
         url_of_injection_example = "https://www.example.com"
@@ -5314,7 +5249,7 @@ def chromeDebugger(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -5337,7 +5272,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -5382,7 +5317,7 @@ def chromeDebugger(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -5452,7 +5387,7 @@ def chromeDebugger(args_tuple):
                     )
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
 
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
@@ -5530,31 +5465,25 @@ def chromeDebugger(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, f"{e.__class__.__name__}: {e}")
-        
-        
+
 
     # new chromeDebugger_favIconUrl (works)
-    def chromeDebugger_favIconUrl_N(args_tuple):
-        (
-            progress_bar,
-            order,
-            option,
-            payloads,
-            url_path,
-            ext_id,
-            ext_name,
-            payload_file,
-            result,
-            server_payloads,
-        ) = args_tuple
-
-        
-        progress_bar = progress_bars[order]
-
+    def chromeDebugger_favIconUrl_N(
+        rlock,
+        progress_bar,
+        order,
+        option,
+        payloads,
+        url_path,
+        ext_id,
+        ext_name,
+        payload_file,
+        result,
+        server_payloads
+    ):
         # automatically populate server_progressbar
         progress_bar.update(server_payloads[0])
 
-        
         source = "chromeTabsQuery.favIconUrl"
 
         url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -5681,7 +5610,7 @@ def chromeDebugger(args_tuple):
                     changeFavIconUrl(driver, order, payload)
 
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
@@ -5702,7 +5631,7 @@ def chromeDebugger(args_tuple):
                     alert = driver.switch_to.alert
                     alert.accept()
 
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -5747,7 +5676,7 @@ def chromeDebugger(args_tuple):
                         alert = driver.switch_to.alert
                         alert.accept()
 
-                        time_of_success = dt.utcnow()
+                        time_of_success = time()
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -5807,38 +5736,35 @@ def chromeDebugger(args_tuple):
         except Exception as e:
             # Handle any other exceptions that occur
             error_logging(source, f"{e.__class__.__name__}: {e}")
-        
-        
+
 
     source = result["taintsource"]
     match source:
         case "title":
-            return chromeDebugger_title_N(args_tuple)
+            return chromeDebugger_title_N(**args)
         case "favIconUrl":
-            return chromeDebugger_favIconUrl_N(args_tuple)
+            return chromeDebugger_favIconUrl_N(**args)
         case "url":
-            return chromeDebugger_url_N(args_tuple)
+            return chromeDebugger_url_N(**args)
         case _:
             progress_bar.update(payloads[0] + server_payloads[0])
             return
 
 
 # new window.addEventListernerMessage (shd work (old ver))
-def windowAddEventListenerMessage(args_tuple):
-    (
-        progress_bar,
-        order,
-        option,
-        payloads,
-        url_path,
-        ext_id,
-        ext_name,
-        payload_file,
-        result,
-        server_payloads,
-    ) = args_tuple
-
-    
+def windowAddEventListenerMessage(
+    rlock,
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
     source = "window.addEventListerner('message')"
     url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
 
@@ -5882,14 +5808,14 @@ def windowAddEventListenerMessage(args_tuple):
                 driver.execute_script(f"window.postMessage({script},'*')")
 
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}: {e}")
 
                 try:
                     driver.execute_script(f"window.postMessage(`{payload}`,'*')")
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
@@ -5904,7 +5830,7 @@ def windowAddEventListenerMessage(args_tuple):
                 # print('[example] + Alert Detected +')
 
                 # get time of success [1) example]
-                time_of_success = dt.utcnow()
+                time_of_success = time()
                 payload_logging(
                     "SUCCESS",
                     source,
@@ -5951,7 +5877,7 @@ def windowAddEventListenerMessage(args_tuple):
                     # print('[example] + Alert Detected +')
 
                     # get time of success [3) example]
-                    time_of_success = dt.utcnow()
+                    time_of_success = time()
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -6019,14 +5945,14 @@ def windowAddEventListenerMessage(args_tuple):
                 driver.execute_script(f"window.postMessage({script},'*')")
 
                 # get time of injection
-                time_of_injection = dt.utcnow()
+                time_of_injection = time()
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}: {e}")
 
                 try:
                     driver.execute_script(f"window.postMessage(`{payload}`,'*')")
                     # get time of injection
-                    time_of_injection = dt.utcnow()
+                    time_of_injection = time()
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
                     continue
