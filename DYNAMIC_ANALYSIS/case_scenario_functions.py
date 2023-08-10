@@ -21,7 +21,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from urllib3.exceptions import MaxRetryError, ProtocolError
 
-# from main import payload_logging
 
 # Chrome Extension Entry points
 # 1) window.name
@@ -38,7 +37,6 @@ from urllib3.exceptions import MaxRetryError, ProtocolError
 # 12) chrome.runtime.onConnectExternal
 # 13) chrome.debugger.getTargets
 # 14) chrome.runtime.onMessageExternal
-# logging framework
 
 
 def nomagic(chain: str, payload: str, msg: dict):
