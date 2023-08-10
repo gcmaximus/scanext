@@ -74,11 +74,12 @@ def main(config, path_to_extension, semgrep_results):
 
 
     # Preconfiguration (set active to false)
-    path_to_extension = preconfigure(path_to_extension)
+    path_to_ext = preconfigure(path_to_extension)
 
-
+    # manifest rewriting in tmp
+    manifest_rewrite(path_to_ext)
     # Obtain relevant extension information
-    url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_extension)
+    url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_ext)
 
     # Test loading of extension into Chrome
     print()
@@ -219,7 +220,7 @@ if __name__ == '__main__':
             "percentage_of_payloads": 100,
             "timezone": "Asia/Singapore"
         },
-        "SHARED/EXTRACTED/search-params",
+        "SHARED/EXTRACTED/2-vulns",
         sorted_results
     )
     s1 = perf_counter()
