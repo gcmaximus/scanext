@@ -214,7 +214,7 @@ if __name__ == '__main__':
     main(
         {
             "report_display_adjacent_lines": 3,
-            "number_of_instances": 12,
+            "number_of_instances": 8,
             "payload_file_path": "auto",
             "percentage_of_payloads": 100,
             "timezone": "Asia/Singapore"
