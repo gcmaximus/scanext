@@ -272,7 +272,7 @@ def runtime_onM(
                 
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -284,8 +284,6 @@ def runtime_onM(
                     driver.get(url_path) # browse to new extension popup
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
-            except MaxRetryError:
-                return
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -543,7 +541,7 @@ def runtime_onC(
 
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -555,8 +553,6 @@ def runtime_onC(
                     driver.get(url_path) # browse to new extension popup
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
-            except MaxRetryError:
-                return
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -863,7 +859,7 @@ def cookie_get(
 
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -875,8 +871,6 @@ def cookie_get(
                     driver.get(url_path) # browse to new extension popup
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
-            except MaxRetryError:
-                return
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -1101,7 +1095,7 @@ def location_hash(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -1113,8 +1107,6 @@ def location_hash(
                     driver.get(url_path) # browse to new extension popup
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
-            except MaxRetryError:
-                return
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -1359,7 +1351,7 @@ def runtime_onME(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -1371,8 +1363,6 @@ def runtime_onME(
                     driver.get(url_path) # browse to new extension popup
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
-            except MaxRetryError:
-                return
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -1666,7 +1656,7 @@ def runtime_onCE(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -1678,8 +1668,6 @@ def runtime_onCE(
                     driver.get(url_path) # browse to new extension popup
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
-            except MaxRetryError:
-                return
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -1907,7 +1895,7 @@ def window_name_N(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -1919,8 +1907,6 @@ def window_name_N(
                     driver.get(url_path) # browse to new extension popup
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
-            except MaxRetryError:
-                return
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -2164,7 +2150,7 @@ def location_href_N(
                         driver.get(url_path)
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -2176,8 +2162,7 @@ def location_href_N(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -2463,7 +2448,7 @@ def context_menu(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -2475,8 +2460,7 @@ def context_menu(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -2786,7 +2770,7 @@ def context_menu(
 
                     except JavascriptException:
                         pass
-                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                         with rlock:
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
@@ -2798,8 +2782,7 @@ def context_menu(
                             driver.get(url_path) # browse to new extension popup
                             extension = driver.current_window_handle # set new extension handle
                             extension_source_code = driver.page_source # set new extension page source
-                    except MaxRetryError:
-                        return
+    
                     except Exception as e:
                         error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -3091,7 +3074,7 @@ def context_menu(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -3103,8 +3086,7 @@ def context_menu(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -3403,7 +3385,7 @@ def context_menu(
 
                     except JavascriptException:
                         pass
-                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                         with rlock:
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
@@ -3415,8 +3397,7 @@ def context_menu(
                             driver.get(url_path) # browse to new extension popup
                             extension = driver.current_window_handle # set new extension handle
                             extension_source_code = driver.page_source # set new extension page source
-                    except MaxRetryError:
-                        return
+    
                     except Exception as e:
                         error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -3701,7 +3682,7 @@ def context_menu(
                     
                     except JavascriptException:
                         pass
-                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                         with rlock:
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
@@ -3713,8 +3694,7 @@ def context_menu(
                             driver.get(url_path) # browse to new extension popup
                             extension = driver.current_window_handle # set new extension handle
                             extension_source_code = driver.page_source # set new extension page source
-                    except MaxRetryError:
-                        return
+    
                     except Exception as e:
                         error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -4010,7 +3990,7 @@ def chromeTabQuery(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -4022,8 +4002,7 @@ def chromeTabQuery(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -4263,7 +4242,7 @@ def chromeTabQuery(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -4275,8 +4254,7 @@ def chromeTabQuery(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -4597,7 +4575,7 @@ def chromeTabQuery(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -4609,8 +4587,7 @@ def chromeTabQuery(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -4780,7 +4757,7 @@ def location_search_N(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -4792,8 +4769,6 @@ def location_search_N(
                     driver.get(url_path) # browse to new extension popup
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
-            except MaxRetryError:
-                return
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -5057,7 +5032,7 @@ def chromeDebugger(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -5069,8 +5044,7 @@ def chromeDebugger(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -5321,7 +5295,7 @@ def chromeDebugger(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -5333,8 +5307,7 @@ def chromeDebugger(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -5664,7 +5637,7 @@ def chromeDebugger(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -5676,8 +5649,7 @@ def chromeDebugger(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
@@ -5862,7 +5834,7 @@ def windowAddEventListenerMessage(
                         driver.get(url_path)
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError) as e:
+                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -5874,8 +5846,7 @@ def windowAddEventListenerMessage(
                         driver.get(url_path) # browse to new extension popup
                         extension = driver.current_window_handle # set new extension handle
                         extension_source_code = driver.page_source # set new extension page source
-                except MaxRetryError:
-                    return
+
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 

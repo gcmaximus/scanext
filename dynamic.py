@@ -178,8 +178,12 @@ def main(config, path_to_extension, semgrep_results):
                 func = sourcelist[source]
                 
                 with ThreadPool(number_of_instances, initargs=(rlock,), initializer=tqdm.set_lock) as pool:
-                    for _ in pool.starmap(func, args, 1):
-                        pass
+                    try:
+                        for _ in pool.starmap(func, args, 1):
+                            pass
+                    except KeyboardInterrupt:
+                        pool.terminate()
+                        raise KeyboardInterrupt
 
                 # Close progress bars
                 for bar in progress_bars:
