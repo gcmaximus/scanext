@@ -33,7 +33,14 @@ def static_results_report(results, extension: Path, soup, config, report_path):
     # No of vulnerabilities found
     vulns_len = len(results)
 
-    print(f"Found {vulns_len} potential XSS vulnerabilities.")
+    terminal_found = f"Found {vulns_len} potential XSS vulnerabilities.\033[0m"
+
+    if vulns_len == 0:
+        terminal_found = "\033[32m" + terminal_found
+    else:
+        terminal_found = "\033[31m" + terminal_found
+
+    print(terminal_found)
 
     soup.find("title").string += f" - {scanned_dir}"
 
@@ -348,7 +355,15 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
     soup.find(id="pocs").string = str(succ_counter) + " found"
 
     # print to terminal
-    print(f"Found {succ_counter} PoC exploits.")
+
+    terminal_found = f"Found {succ_counter} PoC exploits.\033[0m"
+
+    if succ_counter == 0:
+        terminal_found = "\033[32m" + terminal_found
+    else:
+        terminal_found = "\033[31m" + terminal_found
+
+    print(terminal_found)
 
     """
     {
