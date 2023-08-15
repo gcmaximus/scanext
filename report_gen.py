@@ -1,7 +1,13 @@
-from pathlib import Path
-import json
-from bs4 import BeautifulSoup
 import html
+import json
+from datetime import datetime as dt
+from email.utils import format_datetime as fdt
+from pathlib import Path
+
+from bs4 import BeautifulSoup
+from pytz import UTC
+from pytz import timezone as tz
+
 from constants import *
 
 
@@ -322,7 +328,7 @@ def static_results_report(results, extension: Path, soup, config, report_path):
 
 
 # interpret dynamic analysis results and inserts results into report
-def dynamic_results_report(source_sorted_logs, soup, report_path):
+def dynamic_results_report(source_sorted_logs, soup, timezone, report_path):
     # remove "in progress" message
     wait_msg_tag = soup.find(id="wait-msg")
 
@@ -330,7 +336,7 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
         wait_msg_tag.decompose()
 
     # creating dict of key(source) to value (list of objs with source)
-
+    tzinfo = tz(timezone)
     separated_objects = {}
     succ_counter = 0
     for obj in source_sorted_logs:
@@ -347,6 +353,10 @@ def dynamic_results_report(source_sorted_logs, soup, report_path):
             u_payload_list.append(payload)
 
         if obj["outcome"] == "SUCCESS":
+            if obj["timeOfInjection"] != "nil":
+                obj["timeOfInjection"] = fdt(dt.fromtimestamp(obj["timeOfInjection"], tz=tzinfo))
+            if obj["timeOfAlert"] != "nil":
+                obj["timeOfAlert"] = fdt(dt.fromtimestamp(obj["timeOfAlert"], tz=tzinfo))
             source_dict["results"].append(obj)
             source_dict["total success"] += 1
             succ_counter += 1

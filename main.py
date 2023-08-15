@@ -5,6 +5,7 @@ from datetime import datetime as dt
 from email.utils import format_datetime as fdt
 from os import cpu_count
 from pathlib import Path
+from time import sleep
 from zipfile import ZipFile
 
 import jsbeautifier
@@ -117,7 +118,7 @@ def dynamic_analysis(
     # Sort by source (window.name, etc.)
     source_sorted_logs = sorted(filtered_logs, key=lambda x: x["source"])
 
-    dynamic_results_report(source_sorted_logs, soup, report_path)
+    dynamic_results_report(source_sorted_logs, soup, config["timezone"], report_path)
 
 
 # load configurations set by user
@@ -237,7 +238,7 @@ def test_selenium():
         print("Exiting ...")
         exit()
 
-    print("Testing Selenium ... ", end="")
+    print("Testing Selenium ... ", end="", flush=True)
     ext_path = "DYNAMIC_ANALYSIS/miscellaneous/init_test_ext"
     load_ext_arg = "--load-extension=" + ext_path
     url_path, _, _, _ = get_ext_id(ext_path)
@@ -318,6 +319,7 @@ def main():
     shutil.copyfile(dynamic_logfile, shared_log_file)
     print()
     print(f"Logs from this scan are available in `{shared_log_file}`")
+    sleep(2)
     print()
     subprocess.run(["jp2a", "--colors", "--color-depth=24", "--term-width", "logo.png"])
 

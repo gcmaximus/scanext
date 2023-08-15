@@ -1,20 +1,22 @@
 import logging
 import shutil
-from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Process
+from multiprocessing.pool import ThreadPool
+from threading import RLock
 
 import requests
 from pyvirtualdisplay.display import Display
-from selenium.webdriver import ChromeOptions
+from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver.chrome.service import Service
 from tqdm import tqdm
 
 from constants import *
-from DYNAMIC_ANALYSIS.case_scenario_functions import *
+from DYNAMIC_ANALYSIS.case_scenario_functions import sourcelist
 from DYNAMIC_ANALYSIS.preconfigure import *
 from server import server
 
 
-def setup_logger(logger_name, log_file, timezone):
+def setup_logger(logger_name, log_file):
     match logger_name:
         case "dynamic":
             # define log level
@@ -46,7 +48,6 @@ def setup_logger(logger_name, log_file, timezone):
     file_handler.setLevel(log_level)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
-    setattr(logger, "timezone", timezone)
 
 
 def main(config, path_to_extension, semgrep_results):
@@ -54,7 +55,6 @@ def main(config, path_to_extension, semgrep_results):
     percentage_of_payloads = config["percentage_of_payloads"]
     number_of_instances = config["number_of_instances"]
     custom_payload_file = config["payload_file_path"]
-    timezone = config["timezone"]
 
     # set payload file
     if custom_payload_file == "auto":
@@ -69,20 +69,21 @@ def main(config, path_to_extension, semgrep_results):
     print(f"Using payload file (check for HTTP requests): {server_payloads_file}")
 
 
-    setup_logger("dynamic", DYNAMIC_LOGFILE, timezone)
-    setup_logger('error', ERROR_LOGFILE, timezone)
+    setup_logger("dynamic", DYNAMIC_LOGFILE)
+    setup_logger('error', ERROR_LOGFILE)
 
 
     # Preconfiguration (set active to false)
-    path_to_extension = preconfigure(path_to_extension)
+    path_to_ext = preconfigure(path_to_extension)
 
-
+    # manifest rewriting in tmp
+    manifest_rewrite(path_to_ext)
     # Obtain relevant extension information
-    url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_extension)
+    url_path, abs_path, ext_id, ext_name = get_ext_id(path_to_ext)
 
     # Test loading of extension into Chrome
     print()
-    print("Test loading of extension ... ", end="")
+    print("Test loading of extension ... ", end="", flush=True)
     load_ext_arg = "--load-extension=" + abs_path
     with Display():
         try:
@@ -90,6 +91,8 @@ def main(config, path_to_extension, semgrep_results):
             options.add_argument(load_ext_arg)
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--no-sandbox")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--disable-infobars")
             with Chrome(service=Service(), options=options) as driver:
                 driver.get(url_path)
         except Exception as e:
@@ -133,65 +136,56 @@ def main(config, path_to_extension, semgrep_results):
             for occurence in occurences:
                 results.append(occurence)
 
-    sourcelist = {
-        "chrome_contextMenu_create":context_menu,
-        "chrome_contextMenu_onClicked_addListener":context_menu,
-        "chrome_contextMenu_update":context_menu,
-        "chrome_cookies_get":cookie_get,
-        "chrome_cookies_getAll":cookie_get,
-        "chrome_debugger_getTargets":chromeDebugger,
-        "chrome_runtime_onConnect":runtime_onC,
-        "chrome_runtime_onConnectExternal":runtime_onCE,
-        "chrome_runtime_onMessage":runtime_onM,
-        "chrome_runtime_onMessageExternal":runtime_onME,
-        "chrome_tabs_get":chromeTabQuery,
-        "chrome_tabs_getCurrent":chromeTabQuery,
-        "chrome_tabs_query":chromeTabQuery,
-        "location_hash":location_hash,
-        "location_href":location_href_N,
-        "location_search":location_search_N,
-        "window_addEventListener_message":windowAddEventListenerMessage,
-        "window_name":window_name_N,
-    }
-    
+    # Start local API server
     local_server = Process(target=server)
     local_server.start()
 
+    # Start of attack 
     for result in results:
-        # initialize chrome driver
         try:
-            with Display() as disp:
+            with Display():
                 options = ChromeOptions()
-                # options.add_experimental_option('detach', True)
                 load_ext_arg = "--load-extension=" + abs_path
                 options.add_argument(load_ext_arg)
                 options.add_argument("--enable-logging")
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--no-sandbox")
-                # options.add_argument("--disable-gpu")
-
+                options.add_argument("--disable-gpu")
+                options.add_argument("--disable-infobars")
+                
                 source = result["source"]
                 print()
                 print('SOURCE: ', source)
                 
+                # Start progress bars
                 progress_bars = [
                     tqdm(
                         colour="#00ff00",
                         total=meta_payloads[order][0]+server_payloads[order][0],
                         desc=f"Instance {order}",
                         bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
+                        # leave=False,
+                        # position=order
                     )
                     for order in range(number_of_instances)
                 ]
 
-                # 10 args
-                args = [(progress_bars[order], order, options, meta_payloads[order], url_path, ext_id, ext_name, alert_payload_file, result, server_payloads[order]) for order in range(number_of_instances)]
-
+                # Agrs for each thread
+                rlock = RLock()
+                args = ([rlock, progress_bars[order], order, options, meta_payloads[order], url_path, ext_id, ext_name, alert_payload_file, result, server_payloads[order]] for order in range(number_of_instances))
                 
-                with ThreadPoolExecutor(number_of_instances) as executor:
-                    for _ in executor.map(sourcelist[source], args):
-                        pass
+                # Thread worker function
+                func = sourcelist[source]
+                
+                with ThreadPool(number_of_instances, initargs=(rlock,), initializer=tqdm.set_lock) as pool:
+                    try:
+                        for _ in pool.starmap(func, args, 1):
+                            pass
+                    except KeyboardInterrupt:
+                        pool.terminate()
+                        raise KeyboardInterrupt
 
+                # Close progress bars
                 for bar in progress_bars:
                     bar.close()
                 
@@ -199,17 +193,39 @@ def main(config, path_to_extension, semgrep_results):
                 requests.delete("http://127.0.0.1:8000/data")
 
         except Exception as e:
-            print("Error while initializing headless chrome driver ")
-            print(str(e))
+            print("Error during dynamic phase")
+            print(f"{e.__class__.__name__}: {e}")
     
-    local_server.terminate()
+    # Kill local API server
+    local_server.kill()
 
     # remove all miscellaneous files (directories only)
     shutil.rmtree("tmp")
     for f in Path("DYNAMIC_ANALYSIS/miscellaneous").glob("*"):
-        if f.is_dir() and f.root != "init_test_ext":
+        if f.is_dir() and f.name != "init_test_ext":
             shutil.rmtree(f)
 
 
 if __name__ == '__main__':
-    print("testing")
+    # set_start_method("spawn")
+    with open("STATIC_ANALYSIS/semgrep_results.json", "r") as f:
+        results: list[dict] = json.load(f)["results"]
+        sorted_results = sorted(results, key=lambda e: e["path"])
+        sorted_results = sorted(sorted_results, key=lambda e: e["check_id"])
+    with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.log", "w") as dlogs:
+        dlogs.truncate(0)
+    from time import perf_counter
+    s0 = perf_counter()
+    main(
+        {
+            "report_display_adjacent_lines": 3,
+            "number_of_instances": 8,
+            "payload_file_path": "auto",
+            "percentage_of_payloads": 100,
+            "timezone": "Asia/Singapore"
+        },
+        "SHARED/EXTRACTED/2-vulns",
+        sorted_results
+    )
+    s1 = perf_counter()
+    print(f"{s0=} - {s1=} | dif: {s1-s0}")
