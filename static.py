@@ -35,8 +35,9 @@ def main(extension: Path):
         spinner_event.clear()
         spinner_thread.join()
         print(f"Scanning {extension.name} for vulnerabilities ... {CROSS}  ")
-        print("Exiting programme ...")
-        exit()
+
+        raise KeyboardInterrupt
+
     spinner_event.clear()
     spinner_thread.join()
     print(f"Scanning {extension.name} for vulnerabilities ... {TICK}")

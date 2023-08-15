@@ -158,40 +158,49 @@ def main(config, path_to_extension, semgrep_results):
                 print('SOURCE: ', source)
                 
                 # Start progress bars
-                progress_bars = [
-                    tqdm(
-                        colour="#00ff00",
-                        total=meta_payloads[order][0]+server_payloads[order][0],
-                        desc=f"Instance {order}",
-                        bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
-                        # leave=False,
-                        # position=order
-                    )
-                    for order in range(number_of_instances)
-                ]
 
-                # Agrs for each thread
-                rlock = RLock()
-                args = ([rlock, progress_bars[order], order, options, meta_payloads[order], url_path, ext_id, ext_name, alert_payload_file, result, server_payloads[order]] for order in range(number_of_instances))
-                
-                # Thread worker function
-                func = sourcelist[source]
-                
-                with ThreadPool(number_of_instances, initargs=(rlock,), initializer=tqdm.set_lock) as pool:
-                    try:
-                        for _ in pool.starmap(func, args, 1):
-                            pass
-                    except KeyboardInterrupt:
-                        pool.terminate()
-                        raise KeyboardInterrupt
+                try:
+                    progress_bars = [
+                        tqdm(
+                            colour="#00ff00",
+                            total=meta_payloads[order][0]+server_payloads[order][0],
+                            desc=f"Instance {order}",
+                            bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
+                            # leave=False,
+                            # position=order
+                        )
+                        for order in range(number_of_instances)
+                    ]
 
-                # Close progress bars
-                for bar in progress_bars:
-                    bar.close()
-                
+                    # Agrs for each thread
+                    rlock = RLock()
+                    args = ([rlock, progress_bars[order], order, options, meta_payloads[order], url_path, ext_id, ext_name, alert_payload_file, result, server_payloads[order]] for order in range(number_of_instances))
+                    
+                    # Thread worker function
+                    func = sourcelist[source]
+                    
+                    with ThreadPool(number_of_instances, initargs=(rlock,), initializer=tqdm.set_lock) as pool:
+                        try:
+                            for _ in pool.starmap(func, args, 1):
+                                pass
+                        except KeyboardInterrupt:
+                            pool.terminate()
+                            raise KeyboardInterrupt
+
+                except KeyboardInterrupt:
+                    raise KeyboardInterrupt
+
+                finally:
+                    # Close progress bars
+                    for bar in progress_bars:
+                        bar.close()
+
+                    
                 # Clear local server's data
                 requests.delete("http://127.0.0.1:8000/data")
 
+        except KeyboardInterrupt:
+            raise KeyboardInterrupt
         except Exception as e:
             print("Error during dynamic phase")
             print(f"{e.__class__.__name__}: {e}")
