@@ -23,14 +23,14 @@ def setup_logger(logger_name, log_file):
             log_level = logging.CRITICAL
 
             # Create a formatter
-            formatter = logging.Formatter('%(message)s')
-            
+            formatter = logging.Formatter("%(message)s")
+
         case "error":
             # define log level
             log_level = logging.ERROR
 
             # Create a formatter
-            formatter = logging.Formatter('%(asctime)s - [%(name)s] - %(message)s')
+            formatter = logging.Formatter("%(asctime)s - [%(name)s] - %(message)s")
 
         case _:
             raise Exception(f"{logger_name} must be 'dynamic' or 'error'")
@@ -39,8 +39,8 @@ def setup_logger(logger_name, log_file):
     logger = logging.getLogger(logger_name)
     logger.setLevel(log_level)
 
-    # Clear any existing handlers 
-    if (logger.hasHandlers()):
+    # Clear any existing handlers
+    if logger.hasHandlers():
         logger.handlers.clear()
 
     # Set a file handler
@@ -68,10 +68,8 @@ def main(config, path_to_extension, semgrep_results):
     print(f"Using payload file (check for alerts): {alert_payload_file}")
     print(f"Using payload file (check for HTTP requests): {server_payloads_file}")
 
-
     setup_logger("dynamic", DYNAMIC_LOGFILE)
-    setup_logger('error', ERROR_LOGFILE)
-
+    setup_logger("error", ERROR_LOGFILE)
 
     # Preconfiguration (set active to false)
     path_to_ext = preconfigure(path_to_extension)
@@ -105,8 +103,12 @@ def main(config, path_to_extension, semgrep_results):
     print(TICK)
 
     # Split payloads into groups for each thread
-    meta_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, alert_payload_file)
-    server_payloads = payloads_cycle(number_of_instances, percentage_of_payloads, server_payloads_file)
+    meta_payloads = payloads_cycle(
+        number_of_instances, percentage_of_payloads, alert_payload_file
+    )
+    server_payloads = payloads_cycle(
+        number_of_instances, percentage_of_payloads, server_payloads_file
+    )
 
     # Interprete semgrep scan results
     interpreted_results = separator(interpreter(semgrep_results))
@@ -126,7 +128,7 @@ def main(config, path_to_extension, semgrep_results):
         "chrome_tabs_get",
         "chrome_tabs_getCurrent",
         "chrome_tabs_query",
-        "window_addEventListener_message"
+        "window_addEventListener_message",
     ]
     results = []
     for result, occurences in interpreted_results.items():
@@ -140,7 +142,7 @@ def main(config, path_to_extension, semgrep_results):
     local_server = Process(target=server)
     local_server.start()
 
-    # Start of attack 
+    # Start of attack
     for result in results:
         try:
             with Display():
@@ -152,50 +154,65 @@ def main(config, path_to_extension, semgrep_results):
                 options.add_argument("--no-sandbox")
                 options.add_argument("--disable-gpu")
                 options.add_argument("--disable-infobars")
-                
+
                 source = result["source"]
                 print()
-                print('SOURCE: ', source)
-                
+                print("SOURCE: ", source)
+
                 # Start progress bars
 
+                progress_bars = [
+                    tqdm(
+                        colour="#00ff00",
+                        total=meta_payloads[order][0] + server_payloads[order][0],
+                        desc=f"Instance {order}",
+                        bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
+                        # leave=False,
+                        # position=order
+                    )
+                    for order in range(number_of_instances)
+                ]
                 try:
-                    progress_bars = [
-                        tqdm(
-                            colour="#00ff00",
-                            total=meta_payloads[order][0]+server_payloads[order][0],
-                            desc=f"Instance {order}",
-                            bar_format="{desc}: {bar} {percentage:3.0f}%|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]",
-                            # leave=False,
-                            # position=order
-                        )
-                        for order in range(number_of_instances)
-                    ]
-
                     # Agrs for each thread
                     rlock = RLock()
-                    args = ([rlock, progress_bars[order], order, options, meta_payloads[order], url_path, ext_id, ext_name, alert_payload_file, result, server_payloads[order]] for order in range(number_of_instances))
-                    
+                    args = (
+                        [
+                            rlock,
+                            progress_bars[order],
+                            order,
+                            options,
+                            meta_payloads[order],
+                            url_path,
+                            ext_id,
+                            ext_name,
+                            alert_payload_file,
+                            result,
+                            server_payloads[order],
+                        ]
+                        for order in range(number_of_instances)
+                    )
+
                     # Thread worker function
                     func = sourcelist[source]
-                    
-                    with ThreadPool(number_of_instances, initargs=(rlock,), initializer=tqdm.set_lock) as pool:
+
+                    with ThreadPool(
+                        number_of_instances,
+                        initargs=(rlock,),
+                        initializer=tqdm.set_lock,
+                    ) as pool:
                         try:
                             for _ in pool.starmap(func, args, 1):
                                 pass
                         except KeyboardInterrupt:
                             pool.terminate()
                             raise KeyboardInterrupt
-
                 except KeyboardInterrupt:
                     raise KeyboardInterrupt
-
                 finally:
                     # Close progress bars
                     for bar in progress_bars:
                         bar.close()
 
-                    
                 # Clear local server's data
                 requests.delete("http://127.0.0.1:8000/data")
 
@@ -204,7 +221,7 @@ def main(config, path_to_extension, semgrep_results):
         except Exception as e:
             print("Error during dynamic phase")
             print(f"{e.__class__.__name__}: {e}")
-    
+
     # Kill local API server
     local_server.kill()
 
@@ -215,7 +232,7 @@ def main(config, path_to_extension, semgrep_results):
             shutil.rmtree(f)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # set_start_method("spawn")
     with open("STATIC_ANALYSIS/semgrep_results.json", "r") as f:
         results: list[dict] = json.load(f)["results"]
@@ -224,6 +241,7 @@ if __name__ == '__main__':
     with open("DYNAMIC_ANALYSIS/Logs/dynamic_logs.log", "w") as dlogs:
         dlogs.truncate(0)
     from time import perf_counter
+
     s0 = perf_counter()
     main(
         {
@@ -231,10 +249,10 @@ if __name__ == '__main__':
             "number_of_instances": 8,
             "payload_file_path": "auto",
             "percentage_of_payloads": 100,
-            "timezone": "Asia/Singapore"
+            "timezone": "Asia/Singapore",
         },
         "SHARED/EXTRACTED/2-vulns",
-        sorted_results
+        sorted_results,
     )
     s1 = perf_counter()
     print(f"{s0=} - {s1=} | dif: {s1-s0}")
