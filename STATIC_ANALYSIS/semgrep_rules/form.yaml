@@ -3,5 +3,5 @@ rules:
     languages:
       - html
     message: Source:form;
-    pattern: <form...</form>
+    pattern: <form>...</form>
     severity: WARNING
