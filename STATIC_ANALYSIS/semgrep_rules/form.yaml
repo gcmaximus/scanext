@@ -1,7 +1,7 @@
 rules:
   - id: form
     languages:
-      - generic
+      - html
     message: Source:form;
     pattern: <form...</form>
     severity: WARNING
