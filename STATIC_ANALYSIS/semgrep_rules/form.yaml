@@ -1,1 +1,7 @@
-
+rules:
+  - id: form
+    languages:
+      - generic
+    message: Source:form;
+    pattern: <form...</form>
+    severity: WARNING
