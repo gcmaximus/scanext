@@ -30,7 +30,7 @@ def setup_logger(logger_name, log_file):
             log_level = logging.ERROR
 
             # Create a formatter
-            formatter = logging.Formatter("%(asctime)s - [%(name)s] - %(message)s")
+            formatter = logging.Formatter('[%(asctime)s][%(name)s]%(message)s')
 
         case _:
             raise Exception(f"{logger_name} must be 'dynamic' or 'error'")

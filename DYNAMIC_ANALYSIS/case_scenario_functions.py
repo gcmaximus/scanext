@@ -9,11 +9,7 @@ from pathlib import Path
 from time import sleep, time
 
 import requests
-from selenium.common.exceptions import (JavascriptException,
-                                        NoSuchWindowException,
-                                        TimeoutException,
-                                        UnexpectedAlertPresentException,
-                                        WebDriverException)
+from selenium.common.exceptions import JavascriptException, TimeoutException, WebDriverException
 from selenium.webdriver import ActionChains, Chrome
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -272,7 +268,7 @@ def runtime_onM(
                 
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -285,7 +281,7 @@ def runtime_onM(
                     extension = driver.current_window_handle # set new extension handle
                     extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                error_logging(source, f"{e.__class__.__name__}[Thd {order}]: {e}")
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -348,8 +344,8 @@ def runtime_onM(
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
+    # except TimeoutException:
+    #     error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -541,7 +537,7 @@ def runtime_onC(
 
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -616,7 +612,6 @@ def runtime_onC(
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
         error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
@@ -859,7 +854,7 @@ def cookie_get(
 
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -937,7 +932,6 @@ def cookie_get(
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
         error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
@@ -1095,7 +1089,7 @@ def location_hash(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -1351,7 +1345,7 @@ def runtime_onME(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -1656,7 +1650,7 @@ def runtime_onCE(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -1895,7 +1889,7 @@ def window_name_N(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -2150,7 +2144,7 @@ def location_href_N(
                         driver.get(url_path)
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -2448,7 +2442,7 @@ def context_menu(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -2770,7 +2764,7 @@ def context_menu(
 
                     except JavascriptException:
                         pass
-                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                    except (WebDriverException, ProtocolError, MaxRetryError) as e:
                         with rlock:
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
@@ -3074,7 +3068,7 @@ def context_menu(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -3385,7 +3379,7 @@ def context_menu(
 
                     except JavascriptException:
                         pass
-                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                    except (WebDriverException, ProtocolError, MaxRetryError) as e:
                         with rlock:
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
@@ -3682,7 +3676,7 @@ def context_menu(
                     
                     except JavascriptException:
                         pass
-                    except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                    except (WebDriverException, ProtocolError, MaxRetryError) as e:
                         with rlock:
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
@@ -3990,7 +3984,7 @@ def chromeTabQuery(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -4242,7 +4236,7 @@ def chromeTabQuery(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -4575,7 +4569,7 @@ def chromeTabQuery(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -4757,7 +4751,7 @@ def location_search_N(
             
             except JavascriptException:
                 pass
-            except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
                 with rlock:
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
@@ -5032,7 +5026,7 @@ def chromeDebugger(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -5295,7 +5289,7 @@ def chromeDebugger(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -5637,7 +5631,7 @@ def chromeDebugger(
 
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -5834,7 +5828,7 @@ def windowAddEventListenerMessage(
                         driver.get(url_path)
                 except JavascriptException:
                     pass
-                except (UnexpectedAlertPresentException, NoSuchWindowException, WebDriverException, ProtocolError, MaxRetryError) as e:
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
@@ -5925,8 +5919,6 @@ def windowAddEventListenerMessage(
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
 
-    except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
