@@ -6294,7 +6294,7 @@ def form(
     source = "form"
 
     # obtain path to ext (where form is present)
-    path = result["path"][23 + len(ext_name) :]
+    path = result["path"][17 + len(ext_name) :]
     url_path = f"chrome-extension://{ext_id}{path}"
 
     # automatically populate server_progressbar
