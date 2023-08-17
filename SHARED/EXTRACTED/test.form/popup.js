@@ -20,6 +20,14 @@ function toDo(tab) {
         elements[i].outerHTML = hi
     }
 
+    window.addEventListener("message", (event) => {
+        console.log("Event Data: ", event)
+        xyz = event.data
+        tags = document.getElementsByTagName('h1')
+        tags[0].innerHTML = xyz.message + ' abc '
+
+    })
+
 }
 async function getCurrentTab() {
     let queryOptions = {
