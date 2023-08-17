@@ -44,7 +44,7 @@ def separator(inter_results: list[dict]):
         if source == "form":
             path = d["path"]
             d = {"source": "form", "path": path}
-            if d in s:
+            if d in source_list:
                 continue
         source_list.append(d)
     return output
