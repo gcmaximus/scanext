@@ -210,6 +210,7 @@ def runtime_onM(
             progress_bar.update(1)
             # for runtime.onMessage, scripts shall be executed in the chrome extension popup
             try:
+                driver.switch_to.window(extension)
                 driver.execute_script(script)
                 time_of_injection = time()
                 
@@ -286,36 +287,33 @@ def runtime_onM(
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
             try:
+                driver.switch_to.window(extension)
                 driver.execute_script(script)
                 time_of_injection = time()
-            except JavascriptException:
-                pass
-            except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order} server]: {e}")
-                continue
-            driver.switch_to.window(example)
-
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
-            packets: list = requests.get(url).json()["data"]
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
                 
-            else:
-                payload_logging(
+                driver.switch_to.window(example)
+
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
+                packets: list = requests.get(url).json()["data"]
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+                else:
+                    payload_logging(
                     "FAILURE",
                     source,
                     ext_id,
@@ -329,23 +327,35 @@ def runtime_onM(
                     payload_file,
                     packets,
                 )
-                
 
-            try:
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
+                    driver.get(url_of_injection_example)
 
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
+            
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
+
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    # except TimeoutException:
-    #     error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -482,6 +492,7 @@ def runtime_onC(
             progress_bar.update(1)
             # for runtime.onConnect, scripts shall be executed in the chrome extension popup
             try:
+                driver.switch_to.window(extension)
                 driver.execute_script(script)
                 time_of_injection = time()
                 # check for alerts in example
@@ -555,64 +566,75 @@ def runtime_onC(
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
             try:
+                driver.switch_to.window(extension)
                 driver.execute_script(script)
                 time_of_injection = time()
-            except Exception as e:
-                driver.refresh()
-                continue
-            driver.switch_to.window(example)
 
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
-            packets: list = requests.get(url).json()["data"]
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
-            else:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
+                driver.switch_to.window(example)
 
-            try:
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
+                packets: list = requests.get(url).json()["data"]
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+                else:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
+                    driver.get(url_of_injection_example)
             
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
 
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -871,68 +893,78 @@ def cookie_get(
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
-            driver.switch_to.window(example)
             try:
+                driver.switch_to.window(example)
                 driver.execute_script(script)
                 time_of_injection = time()
-            except Exception as e:
+
+                driver.switch_to.window(extension)
                 driver.refresh()
-                continue
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                driver.switch_to.window(example)
 
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
-            packets: list = requests.get(url).json()["data"]
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
-            else:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
+                packets: list = requests.get(url).json()["data"]
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+                else:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
 
-            try:
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
+                    driver.get(url_of_injection_example)
             
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
 
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -1106,69 +1138,78 @@ def location_hash(
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
-            driver.switch_to.window(example)
             try:
+                driver.switch_to.window(example)
                 driver.execute_script(script)
                 time_of_injection = time()
-            except Exception as e:
+
+                driver.switch_to.window(extension)
                 driver.refresh()
-                continue
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                driver.switch_to.window(example)
 
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
-            packets: list = requests.get(url).json()["data"]
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
-            else:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
+                packets: list = requests.get(url).json()["data"]
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+                else:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
 
-            try:
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
+                    driver.get(url_of_injection_example)
             
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
 
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -1363,69 +1404,78 @@ def runtime_onME(
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
-            driver.switch_to.window(example)
             try:
+                driver.switch_to.window(example)
                 driver.execute_script(script)
                 time_of_injection = time()
-            except Exception as e:
+
+                driver.switch_to.window(extension)
                 driver.refresh()
-                continue
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                driver.switch_to.window(example)
 
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
-            packets: list = requests.get(url).json()["data"]
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
-            else:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
+                packets: list = requests.get(url).json()["data"]
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+                else:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
 
-            try:
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
+                    driver.get(url_of_injection_example)
             
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
 
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -1667,69 +1717,78 @@ def runtime_onCE(
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
-            driver.switch_to.window(example)
             try:
+                driver.switch_to.window(example)
                 driver.execute_script(script)
                 time_of_injection = time()
-            except Exception as e:
+
+                driver.switch_to.window(extension)
                 driver.refresh()
-                continue
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                driver.switch_to.window(example)
 
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
-            packets: list = requests.get(url).json()["data"]
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
-            else:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
+                packets: list = requests.get(url).json()["data"]
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+                else:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
 
-            try:
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
+                    driver.get(url_of_injection_example)
             
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
 
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -1877,7 +1936,7 @@ def window_name_N(
                             "nil",
                         )
                         
-            # check modifications for example
+                # check modifications for example
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(url_of_injection_example)
@@ -1906,79 +1965,86 @@ def window_name_N(
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
-
-            # since window.name is obtained from the website url, we will inject javascript to change the window.name
-            driver.switch_to.window(example)
-            driver.refresh()
-
             payload = payload.replace(
                 "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
             )
             try:
+                # since window.name is obtained from the website url, we will inject javascript to change the window.name
+                driver.switch_to.window(example)
+                driver.refresh()
+
                 driver.execute_script(f"window.name = `{payload}`;")
                 # get time of injection
                 time_of_injection = time()
 
-            except Exception as e:
-                continue
+                driver.switch_to.window(extension)
+                driver.refresh()
+                driver.switch_to.window(example)
 
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
 
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
+                packets: list = requests.get(url).json()["data"]
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload,
+                        r"window.name = `{payload}`",
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+                else:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload,
+                        r"window.name = `{payload}`",
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
 
-            packets: list = requests.get(url).json()["data"]
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload,
-                    r"window.name = `{payload}`",
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
-            else:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload,
-                    r"window.name = `{payload}`",
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
-
-            try:
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
-                    driver.get("https://www.example.com")
+                    driver.get(url_of_injection_example)
             
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
 
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -2162,67 +2228,62 @@ def location_href_N(
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
-            driver.switch_to.window(example)
-            driver.refresh()
-
             payload = payload.replace(
                 "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
             )
 
             try:
+                driver.switch_to.window(example)
+                driver.refresh()
                 driver.execute_script(
                     f"location.href = `https://www.example.com/?p={payload}`"
                 )
 
                 # get time of injection
                 time_of_injection = time()
-            except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}: {e}")
-                continue
 
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                driver.switch_to.window(extension)
+                driver.refresh()
+                driver.switch_to.window(example)
 
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
 
-            packets: list = requests.get(url).json()["data"]
+                packets: list = requests.get(url).json()["data"]
 
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload,
-                    r"location.hash = `{payload}`",
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
-            else:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload,
-                    r"location.hash = `{payload}`",
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-                
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload,
+                        r"location.hash = `{payload}`",
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
+                else:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload,
+                        r"location.hash = `{payload}`",
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                    
 
-            try:
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
@@ -2233,11 +2294,23 @@ def location_href_N(
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
 
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -2426,19 +2499,15 @@ def context_menu(
                             
 
                     # check for any modifications (snapshot back to original)
-                    try:
-                        # [1] check modifications for example.com
-                        driver.switch_to.window(example)
-                        if example_source_code != driver.page_source:
-                            driver.get(website)
+                    # [1] check modifications for example.com
+                    driver.switch_to.window(example)
+                    if example_source_code != driver.page_source:
+                        driver.get(website)
 
-                        # [2] check modifications for extension
-                        driver.switch_to.window(extension)
-                        if extension_source_code != driver.page_source:
-                            driver.get(url_path)
-
-                    except Exception as e:
-                        error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    # [2] check modifications for extension
+                    driver.switch_to.window(extension)
+                    if extension_source_code != driver.page_source:
+                        driver.get(url_path)
 
                 except JavascriptException:
                     pass
@@ -2460,9 +2529,6 @@ def context_menu(
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
-
-                driver.switch_to.window(example)
-                driver.refresh()
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
@@ -2470,6 +2536,8 @@ def context_menu(
 
                 # inject
                 try:
+                    driver.switch_to.window(example)
+                    driver.refresh()
                     driver.execute_script(
                         f'document.getElementById("h1_element").innerText = `{payload}`'
                     )
@@ -2477,29 +2545,18 @@ def context_menu(
                     # get time of injection
                     time_of_injection = time()
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    target_element = driver.find_element(By.ID, "h1_element")
 
-                target_element = driver.find_element(By.ID, "h1_element")
-
-                # select element
-                try:
+                    # select element
                     # Select the text using JavaScript
                     driver.execute_script(
                         "window.getSelection().selectAllChildren(arguments[0]);",
                         target_element,
                     )
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
 
-                # usage of context menu
-                try:
+                    # usage of context menu
                     actions = ActionChains(driver)
                     actions.context_click(target_element).perform()
-
-                    # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
 
                     for _ in range(6):
                         with rlock:
@@ -2509,53 +2566,48 @@ def context_menu(
                     with rlock:
                         subprocess.call(["xdotool", "key", "Return"])
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
+                    packets: list = requests.get(url).json()["data"]
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
-                packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r'document.getElementById("h1_element").innerText = `{payload}`',
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r'document.getElementById("h1_element").innerText = `{payload}`',
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r'document.getElementById("h1_element").innerText = `{payload}`',
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r'document.getElementById("h1_element").innerText = `{payload}`',
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-
-                # check for any modifications (snapshot back to original)
-                try:
+                    # check for any modifications (snapshot back to original)
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -2566,11 +2618,24 @@ def context_menu(
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
                         # print(f"Navigated back to '{url_path}' due to extension page source changes")
+                
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -2783,16 +2848,15 @@ def context_menu(
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
 
-                driver.switch_to.window(example)
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
-
-                # using selenium to find element by ID
-                target_element = driver.find_element(By.ID, "linkUrl")
-
                 try:
+                    driver.switch_to.window(example)
+                    # using selenium to find element by ID
+                    target_element = driver.find_element(By.ID, "linkUrl")
+
                     driver.execute_script(
                         f'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`'
                     )
@@ -2821,54 +2885,49 @@ def context_menu(
                     with rlock:
                         subprocess.call(["xdotool", "key", "Return"])
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    packets: list = requests.get(url).json()["data"]
 
-                packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`',
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`',
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`',
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`',
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-
-                # check for any modifications (snapshot back to original)
-                try:
+                    # check for any modifications (snapshot back to original)
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -2878,11 +2937,24 @@ def context_menu(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
+                
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -3085,16 +3157,14 @@ def context_menu(
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
             for payload_no, payload in enumerate(server_payloads[1]):
-                progress_bar.update(1)
-
-                driver.switch_to.window(example)
-                driver.refresh()
-
+                progress_bar.update(1) 
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
                 try:
+                    driver.switch_to.window(example)
+                    driver.refresh()
                     # using javascript, change the SRC value of an oredefined image element
                     target_element = driver.find_element(By.ID, "srcUrl")
                     driver.execute_script(
@@ -3104,12 +3174,7 @@ def context_menu(
                     # get time of injection
                     time_of_injection = time()
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
-
-                # usage of contextMenu
-                try:
+                    # usage of contextMenu
                     # # perform right click to open context menu
                     actions = ActionChains(driver)
                     actions.drag_and_drop_by_offset(
@@ -3133,53 +3198,48 @@ def context_menu(
                     with rlock:
                         subprocess.call(["xdotool", "key", "Return"])
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    packets: list = requests.get(url).json()["data"]
 
-                packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"document.getElementById('srcUrl').src = `{payload}`",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"document.getElementById('srcUrl').src = `{payload}`",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"document.getElementById('srcUrl').src = `{payload}`",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"document.getElementById('srcUrl').src = `{payload}`",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-
-                try:
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -3189,11 +3249,24 @@ def context_menu(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
+                
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -3397,27 +3470,21 @@ def context_menu(
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
-
-                driver.switch_to.window(example)
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
 
-                iframeElement = driver.find_element(By.ID, "frameUrl")
-
                 try:
+                    driver.switch_to.window(example)
+                    iframeElement = driver.find_element(By.ID, "frameUrl")
                     driver.execute_script(
                         f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`'
                     )
                     # get time of injection
                     time_of_injection = time()
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
 
-                # usage of context menu
-                try:
+                    # usage of context menu
                     # # perform right click to open context menu
                     actions = ActionChains(driver)
                     actions.move_to_element(iframeElement)
@@ -3433,52 +3500,47 @@ def context_menu(
                     with rlock:
                         subprocess.call(["xdotool", "key", "Return"])
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`',
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`',
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
 
-                packets: list = requests.get(url).json()["data"]
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`',
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`',
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-
-                # check for any modifications (snapshot back to original)
-                try:
+                    # check for any modifications (snapshot back to original)
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -3488,11 +3550,24 @@ def context_menu(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
+                
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -3621,7 +3696,6 @@ def context_menu(
                             driver.switch_to.window(extension)
                             driver.refresh()
                             driver.switch_to.window(example)
-                            # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
 
                             try:
                                 # wait 2 seconds to see if alert is detected
@@ -3694,27 +3768,22 @@ def context_menu(
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
-
-                driver.switch_to.window(example)
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
 
                 try:
+                    driver.switch_to.window(example)
                     driver.execute_script(
                         f"window.history.replaceState(null, null, `{website}?qureyParam={payload}`)"
                     )
                     # get time of injection
                     time_of_injection = time()
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
 
-                PageUrlElement = driver.find_element(By.ID, "pageUrl")
+                    PageUrlElement = driver.find_element(By.ID, "pageUrl")
 
-                # usage of context menu
-                try:
+                    # usage of context menu
                     # # perform right click to open context menu
                     actions = ActionChains(driver)
                     actions.move_to_element(PageUrlElement)
@@ -3728,53 +3797,48 @@ def context_menu(
                     with rlock:
                         subprocess.call(["xdotool", "key", "Return"])
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"window.history.replaceState(null, null, `{website}?qureyParam={payload}`);",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"window.history.replaceState(null, null, `{website}?qureyParam={payload}`);",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                packets: list = requests.get(url).json()["data"]
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"window.history.replaceState(null, null, `{website}?qureyParam={payload}`);",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"window.history.replaceState(null, null, `{website}?qureyParam={payload}`);",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-
-                # check for any modifications (snapshot back to original)
-                try:
+                    # check for any modifications (snapshot back to original)
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -3785,11 +3849,23 @@ def context_menu(
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
 
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -4002,65 +4078,59 @@ def chromeTabQuery(
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
-
-                driver.switch_to.window(example)
-                driver.refresh()
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
 
                 try:
+                    driver.switch_to.window(example)
+                    driver.refresh()
                     driver.execute_script(f"document.title = `{payload}`;")
                     # get time of injection
                     time_of_injection = time()
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"document.title = `{payload}`;",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"document.title = `{payload}`;",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                packets: list = requests.get(url).json()["data"]
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"document.title = `{payload}`;",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"document.title = `{payload}`;",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-
-                try:
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -4070,11 +4140,24 @@ def chromeTabQuery(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
+                
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -4254,15 +4337,14 @@ def chromeTabQuery(
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
-                driver.switch_to.window(example)
-                driver.refresh()
-
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
 
                 try:
+                    driver.switch_to.window(example)
+                    driver.refresh()
                     driver.execute_script(
                         f"location.href = `https://www.example.com/?p={payload}`"
                     )
@@ -4270,52 +4352,47 @@ def chromeTabQuery(
                     # get time of injection
                     time_of_injection = time()
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"location.href = `https://www.example.com/?p={payload}`",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"location.href = `https://www.example.com/?p={payload}`",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                packets: list = requests.get(url).json()["data"]
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"location.href = `https://www.example.com/?p={payload}`",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"location.href = `https://www.example.com/?p={payload}`",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-
-                try:
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -4325,11 +4402,24 @@ def chromeTabQuery(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
+                
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -4585,8 +4675,6 @@ def chromeTabQuery(
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -4771,9 +4859,6 @@ def location_search_N(
             # with rlock:
             # update progress bar
             progress_bar.update(1)
-            driver.switch_to.window(example)
-            driver.refresh()
-
             payload = payload.replace(
                 "mhudogbhrqrjxjxelug", f"http://127.0.0.1:8000/xss/{order}/{payload_no}"
             )
@@ -4781,53 +4866,49 @@ def location_search_N(
             # get time of injection
             time_of_injection = time()
             try:
+                driver.switch_to.window(example)
+                driver.refresh()
                 driver.execute_script(f"window.location.search=`?q={payload}`")
-            except JavascriptException:
-                pass
-            except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order} server]: {e}")
-                continue
 
-            driver.switch_to.window(extension)
-            driver.refresh()
-            driver.switch_to.window(example)
+                driver.switch_to.window(extension)
+                driver.refresh()
+                driver.switch_to.window(example)
 
-            url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-            sleep(3)
+                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                sleep(3)
 
-            packets: list = requests.get(url).json()["data"]
-            if packets != []:
-                payload_logging(
-                    "SUCCESS",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload,
-                    r"window.location.search=`?q={payload}`",
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
-            else:
-                payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload,
-                    r"window.location.search=`?q={payload}`",
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
+                packets: list = requests.get(url).json()["data"]
+                if packets != []:
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload,
+                        r"window.location.search=`?q={payload}`",
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
+                else:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload,
+                        r"window.location.search=`?q={payload}`",
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
 
-            try:
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
@@ -4838,11 +4919,23 @@ def location_search_N(
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
 
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-    except TimeoutException:
-        error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
@@ -5044,71 +5137,67 @@ def chromeDebugger(
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
-                driver.switch_to.window(example)
-                driver.refresh()
+                
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
 
                 try:
+                    driver.switch_to.window(example)
+                    driver.refresh()
                     driver.execute_script(f"document.title = `{payload}`;")
 
                     # get time of injection
                     time_of_injection = time()
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
-
-                with rlock:
-                    # Press the F12 key to open the developer tools
-                    subprocess.call(["xdotool", "keydown", "F12"])
-                    subprocess.call(["xdotool", "keyup", "F12"])
+                    with rlock:
+                        # Press the F12 key to open the developer tools
+                        subprocess.call(["xdotool", "keydown", "F12"])
+                        subprocess.call(["xdotool", "keyup", "F12"])
 
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                packets: list = requests.get(url).json()["data"]
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"document.title = `{payload}`;",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"document.title = `{payload}`;",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
+                    packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"document.title = `{payload}`;",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"document.title = `{payload}`;",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                try:
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -5119,11 +5208,23 @@ def chromeDebugger(
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
 
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -5307,15 +5408,14 @@ def chromeDebugger(
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
-
-                driver.switch_to.window(example)
-                driver.refresh()
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
                 )
 
                 try:
+                    driver.switch_to.window(example)
+                    driver.refresh()
                     driver.execute_script(
                         f"location.href = `https://www.example.com/?p={payload}`"
                     )
@@ -5323,57 +5423,52 @@ def chromeDebugger(
                     # get time of injection
                     time_of_injection = time()
 
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
+                    # Press the F12 key to open the developer tools
+                    with rlock:
+                        subprocess.call(["xdotool", "keydown", "F12"])
+                        subprocess.call(["xdotool", "keyup", "F12"])
 
-                # Press the F12 key to open the developer tools
-                with rlock:
-                    subprocess.call(["xdotool", "keydown", "F12"])
-                    subprocess.call(["xdotool", "keyup", "F12"])
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"location.href = `https://www.example.com/?p={payload}`",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"location.href = `https://www.example.com/?p={payload}`",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                packets: list = requests.get(url).json()["data"]
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"location.href = `https://www.example.com/?p={payload}`",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"location.href = `https://www.example.com/?p={payload}`",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-
-                try:
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -5383,11 +5478,24 @@ def chromeDebugger(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
+                
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[2]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -5647,8 +5755,6 @@ def chromeDebugger(
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
 
-        except TimeoutException:
-            error_logging(source, f"Failed to resolve https://www.example.com") # TO-DO STOP USING EXAMPLE.COM, COPY PAGE SOURCE TO LOCAL FILE
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
@@ -5861,52 +5967,48 @@ def windowAddEventListenerMessage(
                     driver.execute_script(i)
                     # get time of injection
                     time_of_injection = time()
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}: {e}")
-                    continue
 
-                driver.switch_to.window(extension)
-                driver.refresh()
-                driver.switch_to.window(example)
+                    driver.switch_to.window(extension)
+                    driver.refresh()
+                    driver.switch_to.window(example)
 
-                url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
-                sleep(3)
+                    url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
+                    sleep(3)
 
-                packets: list = requests.get(url).json()["data"]
-                if packets != []:
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"window.postMessage({payload},'*')",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
-                else:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "server",
-                        payload,
-                        r"window.postMessage({payload},'*')",
-                        time_of_injection,
-                        "nil",
-                        payload_file,
-                        packets,
-                    )
-                    
+                    packets: list = requests.get(url).json()["data"]
+                    if packets != []:
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"window.postMessage({payload},'*')",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
+                    else:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "server",
+                            payload,
+                            r"window.postMessage({payload},'*')",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            packets,
+                        )
+                        
 
-                try:
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -5916,6 +6018,21 @@ def windowAddEventListenerMessage(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
+                
+                except JavascriptException:
+                    pass
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(url_of_injection_example) # browse to example.com
+                        example_source_code = driver.page_source # set new example page source
+                        example = driver.current_window_handle # set new example handle
+                        driver.switch_to.new_window("tab") # switch to new tab
+                        driver.get(url_path) # browse to new extension popup
+                        extension = driver.current_window_handle # set new extension handle
+                        extension_source_code = driver.page_source # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
 
