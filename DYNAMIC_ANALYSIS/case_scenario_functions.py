@@ -17,6 +17,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from urllib3.exceptions import MaxRetryError, ProtocolError
 
+from selenium.webdriver.support.ui import Select
+
 
 # Chrome Extension Entry points
 # 1) window.name
@@ -6041,6 +6043,258 @@ def windowAddEventListenerMessage(
     finally:
         error_logging(source, f"{order} finally")
         driver.quit()
+
+def forms(
+    rlock,  
+    progress_bar,
+    order,
+    option,
+    payloads,
+    url_path,
+    ext_id,
+    ext_name,
+    payload_file,
+    result,
+    server_payloads
+):
+    # automatically populate server_progressbar
+    progress_bar.update(server_payloads[0])
+
+    source = 'input fields (forms)'
+    url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/example.html"
+
+    driver = Chrome(service=Service(), options=option)
+
+    try:
+        website = "file://" + os.path.abspath(url_of_injection_example)
+
+        # get www.example.com
+        driver.get(website)
+        # set handler for example.com
+        example = driver.current_window_handle
+
+        # Wait up to 5 seconds for the title to become "Xss Website"
+        title_condition = EC.title_is("Xss Website")
+        WebDriverWait(driver, 5).until(title_condition)
+
+        # get page source code of example.com
+        example_source_code = driver.page_source
+
+        # get extension popup.html (! OR INTERPRETE THE VULNRABILITY LOCATION)
+        driver.switch_to.new_window("tab")
+        extension = driver.current_window_handle
+        driver.get(url_path)
+
+        # get page source code of extension
+        extension_source_code = driver.page_source
+
+        def find_input_elements():
+            driver.switch_to.window(extension)
+            elements = []
+            # Find all <input> elements
+            elements.extend(driver.find_elements(By.TAG_NAME, 'input'))
+            # Find all <textarea> elements
+            elements.extend(driver.find_elements(By.TAG_NAME, 'textarea'))
+            # Find all <select> elements
+            elements.extend(driver.find_elements(By.TAG_NAME, 'select'))
+            return elements   
+
+        elements = find_input_elements()
+
+        for payload in payloads[1]:
+            progress_bar.update(1)
+
+            # fill up entire form. (for input type=file, dk should ignore or actually give a file (maybe can give a txt) )
+            try:
+                try:
+                    driver.switch_to.window(extension)
+
+                    # get time of injection
+                    time_of_injection = time()
+
+                    for element in elements:
+                        match element.get_attribute('type'):
+                            case 'text':
+                                element.send_keys(payload)
+                            case 'textarea':
+                                element.send_keys(payload)
+                            case 'password':
+                                element.send_keys(payload)
+                            case 'textarea':
+                                element.send_keys(payload)
+                            case 'checkbox':
+                                if not element.is_selected():
+                                    element.click()
+                            case 'radio':
+                                if not element.is_selected():
+                                    element.click()
+                            case 'reset':
+                                pass
+                            case 'button':
+                                pass
+                            case 'file':
+                                pass
+                            case 'date':
+                                # some random date
+                                element.send_keys('2023-08-16')
+                            case 'time':
+                                # some random time
+                                element.send_keys('15:30')
+                            case 'number':
+                                # some random number
+                                element.send_keys('69')
+                            case 'email':
+                                # some random email
+                                element.send_keys('scanext@gmail.com')
+                            case 'url':
+                                # some random url
+                                element.send_keys('https://scanext.com')
+                            case 'tel':
+                                # some random tel
+                                element.send_keys('999')
+                            case 'color':
+                                pass
+                            case 'range':
+                                pass
+                            case 'hidden':
+                                pass
+                            case 'search':
+                                element.send_keys(payload)
+                            case 'image':
+                                pass
+                            case 'month':
+                                # some random month
+                                element.send_keys('2023-08')
+                            case 'week':
+                                # some random week
+                                element.send_keys('2023-W33')
+                            case 'datetime-local':
+                                # some random month
+                                element.send_keys('2023-08-16T15:30')
+                            case 'select-one':
+                                select = Select(element)
+                                select.select_by_index(0)
+                                pass
+                            case default:
+                                pass
+                    # submit form
+                    element.submit()
+                except Exception as e:
+                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    pass
+
+                try:
+                    # wait 2 seconds to see if alert is detected
+                    WebDriverWait(driver, 2).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    payload_logging(
+                        "SUCCESS",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "normal",
+                        payload,
+                        r"[Automated Pentesting Input Fields with Selenium]",
+                        time_of_injection,
+                        time(),
+                        payload_file,
+                        "nil",
+                    )
+                except TimeoutException:
+                    payload_logging(
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "normal",
+                        payload,
+                        r"[Automated Pentesting Input Fields with Selenium]",
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        "nil",
+                    )
+
+                    try:
+                        # 2) Check for alerts in example after refreshing extension
+                        driver.switch_to.window(extension)
+                        driver.refresh()
+                        driver.switch_to.window(example)
+                        
+                        # wait 2 seconds to see if alert is detected
+                        WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert = driver.switch_to.alert
+                        alert.accept()
+
+                        payload_logging(
+                            "SUCCESS",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "normal",
+                            payload,
+                            r"[Automated Pentesting Input Fields with Selenium]",
+                            time_of_injection,
+                            time(),
+                            payload_file,
+                            "nil",
+                        )
+                    except TimeoutException:
+                        payload_logging(
+                            "FAILURE",
+                            source,
+                            ext_id,
+                            ext_name,
+                            url_of_injection_example,
+                            "normal",
+                            payload,
+                            r"[Automated Pentesting Input Fields with Selenium]",
+                            time_of_injection,
+                            "nil",
+                            payload_file,
+                            "nil",
+                        )
+
+                # check modifications for example
+                driver.switch_to.window(example)
+                if example_source_code != driver.page_source:
+                    driver.get(url_of_injection_example)
+
+                # check modifications for extension
+                driver.switch_to.window(extension)
+                if extension_source_code != driver.page_source:
+                    driver.get(url_path)
+
+            except JavascriptException:
+                pass
+            except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                with rlock:
+                    error_logging(source, f"{order} {e.__class__.__name__}")
+                    driver.quit()
+                    driver = Chrome(service=Service(), options=option)
+                    driver.get(url_of_injection_example) # browse to example.com
+                    example_source_code = driver.page_source # set new example page source
+                    example = driver.current_window_handle # set new example handle
+                    driver.switch_to.new_window("tab") # switch to new tab
+                    driver.get(url_path) # browse to new extension popup
+                    extension = driver.current_window_handle # set new extension handle
+                    extension_source_code = driver.page_source # set new extension page source
+            except Exception as e:
+                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+
+    except Exception as e:
+        error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
+    finally:
+        error_logging(source, f"{order} finally")
+        driver.quit()
+
+
+
+
 
 
 # store functions in dict
