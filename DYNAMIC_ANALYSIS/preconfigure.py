@@ -60,7 +60,9 @@ def interpreter(data):
         taint["message"] = message
         source = taint["message"].split(";")[0][7:]
         taint["source"] = source
-        if source == "form": continue
+        if source == "form": 
+            tainted.append(taint)
+            continue
         taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
         taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
         metavars = {}

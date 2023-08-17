@@ -11,6 +11,7 @@ from time import sleep, time
 import requests
 from selenium.common.exceptions import (
     JavascriptException,
+    InvalidArgumentException,
     TimeoutException,
     WebDriverException,
 )
@@ -21,7 +22,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from urllib3.exceptions import MaxRetryError, ProtocolError
 
-from selenium.webdriver.support.ui import Select # error
+from selenium.webdriver.support.select import Select
 
 
 # Chrome Extension Entry points
@@ -284,7 +285,7 @@ def runtime_onM(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -359,7 +360,7 @@ def runtime_onM(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -572,7 +573,7 @@ def runtime_onC(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -647,7 +648,7 @@ def runtime_onC(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -908,7 +909,7 @@ def cookie_get(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -985,7 +986,7 @@ def cookie_get(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -1160,7 +1161,7 @@ def location_hash(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -1237,7 +1238,7 @@ def location_hash(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -1432,7 +1433,7 @@ def runtime_onME(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -1509,7 +1510,7 @@ def runtime_onME(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -1752,7 +1753,7 @@ def runtime_onCE(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -1829,7 +1830,7 @@ def runtime_onCE(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -2006,7 +2007,7 @@ def window_name_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -2091,7 +2092,7 @@ def window_name_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -2276,7 +2277,7 @@ def location_href_N(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -2367,7 +2368,7 @@ def location_href_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -2584,7 +2585,7 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -2699,7 +2700,7 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -2916,7 +2917,7 @@ def context_menu(
                             driver = Chrome(service=Service(), options=option)
                             driver.get(
                                 url_of_injection_example
-                            )  # browse to example.com
+                            )
                             example_source_code = (
                                 driver.page_source
                             )  # set new example page source
@@ -3036,7 +3037,7 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -3240,7 +3241,7 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -3357,7 +3358,7 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -3562,7 +3563,7 @@ def context_menu(
                             driver = Chrome(service=Service(), options=option)
                             driver.get(
                                 url_of_injection_example
-                            )  # browse to example.com
+                            )
                             example_source_code = (
                                 driver.page_source
                             )  # set new example page source
@@ -3673,7 +3674,7 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -3876,7 +3877,7 @@ def context_menu(
                             driver = Chrome(service=Service(), options=option)
                             driver.get(
                                 url_of_injection_example
-                            )  # browse to example.com
+                            )
                             example_source_code = (
                                 driver.page_source
                             )  # set new example page source
@@ -3986,7 +3987,7 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -4199,7 +4200,7 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -4287,7 +4288,7 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -4467,7 +4468,7 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -4558,7 +4559,7 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -4816,7 +4817,7 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -4999,7 +5000,7 @@ def location_search_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -5084,7 +5085,7 @@ def location_search_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
+                    driver.get(url_of_injection_example)
                     example_source_code = (
                         driver.page_source
                     )  # set new example page source
@@ -5284,7 +5285,7 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -5379,7 +5380,7 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -5563,7 +5564,7 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -5659,7 +5660,7 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -5920,7 +5921,7 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -6119,7 +6120,7 @@ def windowAddEventListenerMessage(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -6214,7 +6215,7 @@ def windowAddEventListenerMessage(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example)  # browse to example.com
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
@@ -6249,14 +6250,15 @@ def form(
     result,
     server_payloads,
 ):
+    source = "form"
+
     # obtain path to ext (where form is present)
     path = result["path"][17 + len(ext_name):]
-    url_path = url_path = f"chrome-extension://{ext_id}{path}"
+    url_path = f"chrome-extension://{ext_id}{path}"
 
     # automatically populate server_progressbar
     progress_bar.update(server_payloads[0])
 
-    source = "input fields (forms)"
     url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/example.html"
     website = "file://" + os.path.abspath(url_of_injection_example)
     driver = Chrome(service=Service(), options=option)
@@ -6279,48 +6281,44 @@ def form(
         # get page source code of extension
         extension_source_code = driver.page_source
 
-
         driver.switch_to.window(extension)
-        elements = []
+
+        test = []
         # Find all <input> elements
-        elements.extend(driver.find_elements(By.TAG_NAME, "input"))
+        test.extend(driver.find_elements(By.TAG_NAME, "input"))
         # Find all <textarea> elements
-        elements.extend(driver.find_elements(By.TAG_NAME, "textarea"))
+        test.extend(driver.find_elements(By.TAG_NAME, "textarea"))
         # Find all <select> elements
-        elements.extend(driver.find_elements(By.TAG_NAME, "select"))
+        test.extend(driver.find_elements(By.TAG_NAME, "select"))
 
+        if test:
+            for payload in payloads[1]:
+                progress_bar.update(1)
 
-        for payload in payloads[1]:
-            progress_bar.update(1)
-
-            # fill up entire form. (for input type=file, dk should ignore or actually give a file (maybe can give a txt) )
-            try:
                 try:
                     driver.switch_to.window(extension)
 
                     # get time of injection
                     time_of_injection = time()
+                    
+                    elements = []
+                    # Find all <input> elements
+                    elements.extend(driver.find_elements(By.TAG_NAME, "input"))
+                    # Find all <textarea> elements
+                    elements.extend(driver.find_elements(By.TAG_NAME, "textarea"))
+                    # Find all <select> elements
+                    elements.extend(driver.find_elements(By.TAG_NAME, "select"))
 
                     for element in elements:
                         match element.get_attribute("type"):
                             case "text" | "textarea" | "password" | "search":
                                 element.send_keys(payload)
-                            # case 'textarea':
-                            #     element.send_keys(payload)
-                            # case 'password':
-                            #     element.send_keys(payload)
                             case "checkbox":
                                 if not element.is_selected():
                                     element.click()
                             case "radio":
                                 if not element.is_selected():
                                     element.click()
-                            # case 'reset':
-                            #     pass
-                            # case 'button':
-                            #     pass
-                            # case 'file':
-                            #     pass
                             case "date":
                                 # some random date
                                 element.send_keys("2023-08-16")
@@ -6339,16 +6337,6 @@ def form(
                             case "tel":
                                 # some random tel
                                 element.send_keys("999")
-                            # case 'color':
-                            #     pass
-                            # case 'range':
-                            #     pass
-                            # case 'hidden':
-                            #     pass
-                            # case 'search':
-                            #     element.send_keys(payload)
-                            # case 'image':
-                            #     pass
                             case "month":
                                 # some random month
                                 element.send_keys("2023-08")
@@ -6359,62 +6347,18 @@ def form(
                                 # some random month
                                 element.send_keys("2023-08-16T15:30")
                             case "select-one":
-                                select = Select(element)
-                                select.select_by_index(0)
+                                Select(element).select_by_index(0)
                             case _:
                                 pass
                     # submit form
-                    element.submit() # YOU SURE SUBMIT FORM LIKE THIS?
-                except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
-                    pass
+                    elements[-1].submit()
 
-                try:
-                    # wait 2 seconds to see if alert is detected
-                    WebDriverWait(driver, 2).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
-                    payload_logging(
-                        "SUCCESS",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "normal",
-                        payload,
-                        r"[Automated Pentesting Input Fields with Selenium]",
-                        time_of_injection, # UNBOUND
-                        time(),
-                        payload_file,
-                        "nil",
-                    )
-                except TimeoutException:
-                    payload_logging(
-                        "FAILURE",
-                        source,
-                        ext_id,
-                        ext_name,
-                        url_of_injection_example,
-                        "normal",
-                        payload,
-                        r"[Automated Pentesting Input Fields with Selenium]",
-                        time_of_injection, # UNBOUND
-                        "nil",
-                        payload_file,
-                        "nil",
-                    )
 
                     try:
-                        # 2) Check for alerts in example after refreshing extension
-                        driver.switch_to.window(extension)
-                        driver.refresh()
-                        driver.switch_to.window(example)
-
                         # wait 2 seconds to see if alert is detected
                         WebDriverWait(driver, 2).until(EC.alert_is_present())
                         alert = driver.switch_to.alert
                         alert.accept()
-
                         payload_logging(
                             "SUCCESS",
                             source,
@@ -6445,36 +6389,82 @@ def form(
                             "nil",
                         )
 
-                # check modifications for example
-                driver.switch_to.window(example)
-                if example_source_code != driver.page_source:
-                    driver.get(url_of_injection_example)
+                        try:
+                            # 2) Check for alerts in example after refreshing extension
+                            driver.switch_to.window(extension)
+                            driver.refresh()
+                            driver.switch_to.window(example)
 
-                # check modifications for extension
-                driver.switch_to.window(extension)
-                if extension_source_code != driver.page_source:
-                    driver.get(url_path)
+                            # wait 2 seconds to see if alert is detected
+                            WebDriverWait(driver, 2).until(EC.alert_is_present())
+                            alert = driver.switch_to.alert
+                            alert.accept()
 
-            except JavascriptException:
-                pass
-            except (WebDriverException, ProtocolError, MaxRetryError) as e:
-                with rlock:
-                    error_logging(source, f"{order} {e.__class__.__name__}")
-                    driver.quit()
-                    driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example)  # browse to example.com
-                    example_source_code = (
-                        driver.page_source
-                    )  # set new example page source
-                    example = driver.current_window_handle  # set new example handle
-                    driver.switch_to.new_window("tab")  # switch to new tab
-                    driver.get(url_path)  # browse to new extension popup
-                    extension = driver.current_window_handle  # set new extension handle
-                    extension_source_code = (
-                        driver.page_source
-                    )  # set new extension page source
-            except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                            payload_logging(
+                                "SUCCESS",
+                                source,
+                                ext_id,
+                                ext_name,
+                                url_of_injection_example,
+                                "normal",
+                                payload,
+                                "[Automated Pentesting Input Fields with Selenium]",
+                                time_of_injection, # UNBOUND
+                                time(),
+                                payload_file,
+                                "nil",
+                            )
+                        except TimeoutException:
+                            payload_logging(
+                                "FAILURE",
+                                source,
+                                ext_id,
+                                ext_name,
+                                url_of_injection_example,
+                                "normal",
+                                payload,
+                                "[Automated Pentesting Input Fields with Selenium]",
+                                time_of_injection, # UNBOUND
+                                "nil",
+                                payload_file,
+                                "nil",
+                            )
+
+                    # check modifications for example
+                    driver.switch_to.window(example)
+                    if example_source_code != driver.page_source:
+                        driver.get(website)
+
+                    # check modifications for extension
+                    driver.switch_to.window(extension)
+                    if extension_source_code != driver.page_source:
+                        driver.get(url_path)
+
+                except (JavascriptException, InvalidArgumentException):
+                    pass
+                # except InvalidArgumentException:
+                #     driver.refresh()
+                except (WebDriverException, ProtocolError, MaxRetryError) as e:
+                    with rlock:
+                        error_logging(source, f"{order} {e.__class__.__name__}")
+                        driver.quit()
+                        driver = Chrome(service=Service(), options=option)
+                        driver.get(website)
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = driver.current_window_handle  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
+                except Exception as e:
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+        else:
+            error_logging(source, f"[Thread {order}]: No inputs or textareas or selects found")
+            progress_bar.update(payloads[0])
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")

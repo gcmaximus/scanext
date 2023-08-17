@@ -251,7 +251,7 @@ if __name__ == "__main__":
             "percentage_of_payloads": 100,
             "timezone": "Asia/Singapore",
         },
-        "SHARED/EXTRACTED/2-vulns",
+        "SHARED/EXTRACTED/forms_input_xss_extension",
         sorted_results,
     )
     s1 = perf_counter()
