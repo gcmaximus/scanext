@@ -107,9 +107,14 @@ def static_results_report(results, extension: Path, soup, config, report_path):
             # find line no. of vuln + the line itself
 
             # get SS line numbers
-            dataflow_trace: dict = result["extra"]["dataflow_trace"]
-            source_line_no = dataflow_trace["taint_source"][1][0]["start"]["line"]
-            sink_line_no = dataflow_trace["taint_sink"][1][0]["start"]["line"]
+            dataflow_trace = {}
+            if source == "form":
+                source_line_no = result["start"]["line"]
+                sink_line_no = result["end"]["line"]
+            else: 
+                dataflow_trace: dict = result["extra"]["dataflow_trace"]
+                source_line_no = dataflow_trace["taint_source"][1][0]["start"]["line"]
+                sink_line_no = dataflow_trace["taint_sink"][1][0]["start"]["line"]
 
             # get source and sink lines
             vulnerable_lines = {}

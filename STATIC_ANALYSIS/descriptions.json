@@ -34,7 +34,9 @@
 
         "chrome.cookies.getAll": "<code>chrome.cookies.getAll</code> retrieves information about browser cookies. The metadata for these cookies can possible be user-controller, mainly the <code>name</code> and <code>value</code> of the <a target=\"_blank\" href=\"https://developer.chrome.com/extensions/cookies#type-Cookie\"><code>Cookie</code> object.",
 
-        "chrome.debugger.getTargets": "The <code>TargetInfo</code> object passed to the callback of this function has user-controllable parameters of <code>title</code>, <code>url</code> and <code>faviconUrl</code>."
+        "chrome.debugger.getTargets": "The <code>TargetInfo</code> object passed to the callback of this function has user-controllable parameters of <code>title</code>, <code>url</code> and <code>faviconUrl</code>.",
+
+        "form": "HTML forms are used to collect user input. The user input is most often sent to a server for processing. These are possible entry points for XSS"
     },
 
     "sinks": {
@@ -82,6 +84,8 @@
 
         "jQuery.globalEval": "When user-controlled input is mixed unsafely with JavaScript code and passed to <code>globalEval</code>, Cross-site Scripting (XSS) vulnerabilities can occur.",
 
-        "Handlebars.SafeString": "When user-controlled input is mixed unsafely with HTML markup and passed to <code>SafeString</code>, Cross-site Scripting (XSS) vulnerabilities can occur."
+        "Handlebars.SafeString": "When user-controlled input is mixed unsafely with HTML markup and passed to <code>SafeString</code>, Cross-site Scripting (XSS) vulnerabilities can occur.",
+
+        "None": "Undefined"
     }
 }
