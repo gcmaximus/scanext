@@ -6317,4 +6317,5 @@ sourcelist = {
     "location_search": location_search_N,
     "window_addEventListener_message": windowAddEventListenerMessage,
     "window_name": window_name_N,
+    "forms": forms
 }
