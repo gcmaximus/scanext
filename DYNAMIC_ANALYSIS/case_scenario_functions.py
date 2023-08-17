@@ -585,7 +585,9 @@ def runtime_onC(
                         driver.page_source
                     )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                error_logging(
+                    source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                )
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -921,7 +923,9 @@ def cookie_get(
                         driver.page_source
                     )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                error_logging(
+                    source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                )
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -1173,7 +1177,9 @@ def location_hash(
                         driver.page_source
                     )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                error_logging(
+                    source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                )
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -1445,7 +1451,9 @@ def runtime_onME(
                         driver.page_source
                     )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                error_logging(
+                    source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                )
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -1765,7 +1773,9 @@ def runtime_onCE(
                         driver.page_source
                     )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                error_logging(
+                    source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                )
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -2019,7 +2029,9 @@ def window_name_N(
                         driver.page_source
                     )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                error_logging(
+                    source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                )
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
@@ -2292,7 +2304,10 @@ def location_href_N(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
@@ -2600,7 +2615,10 @@ def context_menu(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -2915,9 +2933,7 @@ def context_menu(
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
                             driver = Chrome(service=Service(), options=option)
-                            driver.get(
-                                url_of_injection_example
-                            )
+                            driver.get(url_of_injection_example)
                             example_source_code = (
                                 driver.page_source
                             )  # set new example page source
@@ -2935,7 +2951,8 @@ def context_menu(
 
                     except Exception as e:
                         error_logging(
-                            source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                            source,
+                            f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
                         )
 
             for payload_no, payload in enumerate(server_payloads[1]):
@@ -3256,7 +3273,10 @@ def context_menu(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -3561,9 +3581,7 @@ def context_menu(
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
                             driver = Chrome(service=Service(), options=option)
-                            driver.get(
-                                url_of_injection_example
-                            )
+                            driver.get(url_of_injection_example)
                             example_source_code = (
                                 driver.page_source
                             )  # set new example page source
@@ -3581,7 +3599,8 @@ def context_menu(
 
                     except Exception as e:
                         error_logging(
-                            source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                            source,
+                            f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
                         )
 
             for payload_no, payload in enumerate(server_payloads[1]):
@@ -3875,9 +3894,7 @@ def context_menu(
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
                             driver = Chrome(service=Service(), options=option)
-                            driver.get(
-                                url_of_injection_example
-                            )
+                            driver.get(url_of_injection_example)
                             example_source_code = (
                                 driver.page_source
                             )  # set new example page source
@@ -3895,7 +3912,8 @@ def context_menu(
 
                     except Exception as e:
                         error_logging(
-                            source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                            source,
+                            f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
                         )
 
             for payload_no, payload in enumerate(server_payloads[1]):
@@ -4215,7 +4233,10 @@ def chromeTabQuery(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -4483,7 +4504,10 @@ def chromeTabQuery(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -4832,7 +4856,10 @@ def chromeTabQuery(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
@@ -5012,7 +5039,9 @@ def location_search_N(
                         driver.page_source
                     )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                error_logging(
+                    source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                )
 
         for payload_no, payload in enumerate(server_payloads[1]):
             # with rlock:
@@ -5300,7 +5329,10 @@ def chromeDebugger(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -5579,7 +5611,10 @@ def chromeDebugger(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -5936,7 +5971,10 @@ def chromeDebugger(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
@@ -6135,7 +6173,10 @@ def windowAddEventListenerMessage(
                         )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
@@ -6253,7 +6294,7 @@ def form(
     source = "form"
 
     # obtain path to ext (where form is present)
-    path = result["path"][23 + len(ext_name):]
+    path = result["path"][23 + len(ext_name) :]
     url_path = f"chrome-extension://{ext_id}{path}"
 
     # automatically populate server_progressbar
@@ -6292,7 +6333,7 @@ def form(
         test.extend(driver.find_elements(By.TAG_NAME, "select"))
         # Find all <form> elements
         test.extend(driver.find_elements(By.TAG_NAME, "form"))
-    
+
         if test:
             for payload in payloads[1]:
                 progress_bar.update(1)
@@ -6302,7 +6343,7 @@ def form(
 
                     # get time of injection
                     time_of_injection = time()
-                    
+
                     form_elements = []
                     form_elements.extend(driver.find_elements(By.TAG_NAME, "form"))
 
@@ -6356,10 +6397,9 @@ def form(
                                     Select(element).select_by_index(0)
                                 case _:
                                     pass
-                    
+
                         # submit form
                         form.submit()
-
 
                     try:
                         # wait 2 seconds to see if alert is detected
@@ -6375,7 +6415,7 @@ def form(
                             "normal",
                             payload,
                             "[Automated Pentesting Input Fields with Selenium]",
-                            time_of_injection, # UNBOUND
+                            time_of_injection,
                             time(),
                             payload_file,
                             "nil",
@@ -6390,7 +6430,7 @@ def form(
                             "normal",
                             payload,
                             "[Automated Pentesting Input Fields with Selenium]",
-                            time_of_injection, # UNBOUND
+                            time_of_injection,
                             "nil",
                             payload_file,
                             "nil",
@@ -6416,7 +6456,7 @@ def form(
                                 "normal",
                                 payload,
                                 "[Automated Pentesting Input Fields with Selenium]",
-                                time_of_injection, # UNBOUND
+                                time_of_injection,
                                 time(),
                                 payload_file,
                                 "nil",
@@ -6431,7 +6471,7 @@ def form(
                                 "normal",
                                 payload,
                                 "[Automated Pentesting Input Fields with Selenium]",
-                                time_of_injection, # UNBOUND
+                                time_of_injection,
                                 "nil",
                                 payload_file,
                                 "nil",
@@ -6449,8 +6489,6 @@ def form(
 
                 except (JavascriptException, InvalidArgumentException):
                     pass
-                # except InvalidArgumentException:
-                #     driver.refresh()
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
                     with rlock:
                         error_logging(source, f"{order} {e.__class__.__name__}")
@@ -6463,14 +6501,21 @@ def form(
                         example = driver.current_window_handle  # set new example handle
                         driver.switch_to.new_window("tab")  # switch to new tab
                         driver.get(url_path)  # browse to new extension popup
-                        extension = driver.current_window_handle  # set new extension handle
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
                         extension_source_code = (
                             driver.page_source
                         )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} norm payload]: {e}",
+                    )
         else:
-            error_logging(source, f"[Thread {order}]: No inputs or textareas or selects found")
+            error_logging(
+                source, f"[Thread {order}]: No inputs or textareas or selects found"
+            )
             progress_bar.update(payloads[0])
 
     except Exception as e:
