@@ -55,6 +55,7 @@ def interpreter(data):
     tainted = []
     for i in data:
         taint = {}
+        taint["path"] = i["path"]
         taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
         taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
         metavars = {}
