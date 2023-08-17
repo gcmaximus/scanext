@@ -56,6 +56,11 @@ def interpreter(data):
     for i in data:
         taint = {}
         taint["path"] = i["path"]
+        message = i["extra"]["message"]
+        taint["message"] = message
+        source = taint["message"].split(";")[0][7:]
+        taint["source"] = source
+        if source == "form": continue
         taint_sink = i["extra"]["dataflow_trace"]["taint_sink"][1][1]
         taint_source = i["extra"]["dataflow_trace"]["taint_source"][1][1]
         metavars = {}
@@ -127,10 +132,6 @@ def interpreter(data):
         line_start = i["extra"]["dataflow_trace"]["taint_source"][1][0]['start']['line']
         line_end = i["extra"]["dataflow_trace"]["taint_sink"][1][0]['end']['line']
         # added this
-        message = i["extra"]["message"]
-        taint["message"] = message
-        source = taint["message"].split(";")[0][7:]
-        taint["source"] = source
         taint["taintsource"] = taint_source
         taint["sink"] = taint_sink
         # added this
