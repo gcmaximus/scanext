@@ -6057,6 +6057,11 @@ def forms(
     result,
     server_payloads
 ):
+    # obtain path to ext (where form is present)
+    path = result['path'].split(ext_name)
+    url_path = f'{ext_id}/{ext_name}/{path[1]}'
+
+
     # automatically populate server_progressbar
     progress_bar.update(server_payloads[0])
 
