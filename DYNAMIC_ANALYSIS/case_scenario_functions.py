@@ -21,7 +21,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from urllib3.exceptions import MaxRetryError, ProtocolError
 
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import Select # error
 
 
 # Chrome Extension Entry points
@@ -6250,8 +6250,8 @@ def form(
     server_payloads,
 ):
     # obtain path to ext (where form is present)
-    path = result["path"].split(ext_name)
-    url_path = f"{ext_id}/{ext_name}/{path[1]}" # SEEMS WRONG NEED FIX
+    path = result["path"][17 + len(ext_name):]
+    url_path = url_path = f"chrome-extension://{ext_id}{path}"
 
     # automatically populate server_progressbar
     progress_bar.update(server_payloads[0])
@@ -6279,18 +6279,16 @@ def form(
         # get page source code of extension
         extension_source_code = driver.page_source
 
-        def find_input_elements():
-            driver.switch_to.window(extension)
-            elements = []
-            # Find all <input> elements
-            elements.extend(driver.find_elements(By.TAG_NAME, "input"))
-            # Find all <textarea> elements
-            elements.extend(driver.find_elements(By.TAG_NAME, "textarea"))
-            # Find all <select> elements
-            elements.extend(driver.find_elements(By.TAG_NAME, "select"))
-            return elements
 
-        elements = find_input_elements()
+        driver.switch_to.window(extension)
+        elements = []
+        # Find all <input> elements
+        elements.extend(driver.find_elements(By.TAG_NAME, "input"))
+        # Find all <textarea> elements
+        elements.extend(driver.find_elements(By.TAG_NAME, "textarea"))
+        # Find all <select> elements
+        elements.extend(driver.find_elements(By.TAG_NAME, "select"))
+
 
         for payload in payloads[1]:
             progress_bar.update(1)
