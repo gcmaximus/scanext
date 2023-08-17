@@ -6253,7 +6253,7 @@ def form(
     source = "form"
 
     # obtain path to ext (where form is present)
-    path = result["path"][17 + len(ext_name):]
+    path = result["path"][23 + len(ext_name):]
     url_path = f"chrome-extension://{ext_id}{path}"
 
     # automatically populate server_progressbar
@@ -6290,7 +6290,9 @@ def form(
         test.extend(driver.find_elements(By.TAG_NAME, "textarea"))
         # Find all <select> elements
         test.extend(driver.find_elements(By.TAG_NAME, "select"))
-
+        # Find all <form> elements
+        test.extend(driver.find_elements(By.TAG_NAME, "form"))
+    
         if test:
             for payload in payloads[1]:
                 progress_bar.update(1)
@@ -6301,6 +6303,9 @@ def form(
                     # get time of injection
                     time_of_injection = time()
                     
+                    form_elements = []
+                    form_elements.extend(driver.find_elements(By.TAG_NAME, "form"))
+
                     elements = []
                     # Find all <input> elements
                     elements.extend(driver.find_elements(By.TAG_NAME, "input"))
@@ -6309,49 +6314,51 @@ def form(
                     # Find all <select> elements
                     elements.extend(driver.find_elements(By.TAG_NAME, "select"))
 
-                    for element in elements:
-                        match element.get_attribute("type"):
-                            case "text" | "textarea" | "password" | "search":
-                                element.send_keys(payload)
-                            case "checkbox":
-                                if not element.is_selected():
-                                    element.click()
-                            case "radio":
-                                if not element.is_selected():
-                                    element.click()
-                            case "date":
-                                # some random date
-                                element.send_keys("2023-08-16")
-                            case "time":
-                                # some random time
-                                element.send_keys("15:30")
-                            case "number":
-                                # some random number
-                                element.send_keys("69")
-                            case "email":
-                                # some random email
-                                element.send_keys("scanext@gmail.com")
-                            case "url":
-                                # some random url
-                                element.send_keys("https://scanext.com")
-                            case "tel":
-                                # some random tel
-                                element.send_keys("999")
-                            case "month":
-                                # some random month
-                                element.send_keys("2023-08")
-                            case "week":
-                                # some random week
-                                element.send_keys("2023-W33")
-                            case "datetime-local":
-                                # some random month
-                                element.send_keys("2023-08-16T15:30")
-                            case "select-one":
-                                Select(element).select_by_index(0)
-                            case _:
-                                pass
-                    # submit form
-                    elements[-1].submit()
+                    for form in form_elements:
+                        for element in elements:
+                            match element.get_attribute("type"):
+                                case "text" | "textarea" | "password" | "search":
+                                    element.send_keys(payload)
+                                case "checkbox":
+                                    if not element.is_selected():
+                                        element.click()
+                                case "radio":
+                                    if not element.is_selected():
+                                        element.click()
+                                case "date":
+                                    # some random date
+                                    element.send_keys("2023-08-16")
+                                case "time":
+                                    # some random time
+                                    element.send_keys("15:30")
+                                case "number":
+                                    # some random number
+                                    element.send_keys("69")
+                                case "email":
+                                    # some random email
+                                    element.send_keys("scanext@gmail.com")
+                                case "url":
+                                    # some random url
+                                    element.send_keys("https://scanext.com")
+                                case "tel":
+                                    # some random tel
+                                    element.send_keys("999")
+                                case "month":
+                                    # some random month
+                                    element.send_keys("2023-08")
+                                case "week":
+                                    # some random week
+                                    element.send_keys("2023-W33")
+                                case "datetime-local":
+                                    # some random month
+                                    element.send_keys("2023-08-16T15:30")
+                                case "select-one":
+                                    Select(element).select_by_index(0)
+                                case _:
+                                    pass
+                    
+                        # submit form
+                        form.submit()
 
 
                     try:
