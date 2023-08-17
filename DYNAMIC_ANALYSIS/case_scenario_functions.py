@@ -9,7 +9,11 @@ from pathlib import Path
 from time import sleep, time
 
 import requests
-from selenium.common.exceptions import JavascriptException, TimeoutException, WebDriverException
+from selenium.common.exceptions import (
+    JavascriptException,
+    TimeoutException,
+    WebDriverException,
+)
 from selenium.webdriver import ActionChains, Chrome
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -67,20 +71,24 @@ def payload_logging(
     logger = logging.getLogger("dynamic")
 
     # Log
-    logger.critical(json.dumps({
-        "outcome": outcome,
-        "source": source,
-        "extensionId": extension_id,
-        "extensionName": extension_name,
-        "Url": url_of_website,
-        "payloadType": payload_type,
-        "payload": payload,
-        "script": script,
-        "timeOfInjection": time_of_injection,
-        "timeOfAlert": time_of_alert,
-        "payload_fileName": payload_filename,
-        "packetInfo": packet_info,
-    }))
+    logger.critical(
+        json.dumps(
+            {
+                "outcome": outcome,
+                "source": source,
+                "extensionId": extension_id,
+                "extensionName": extension_name,
+                "Url": url_of_website,
+                "payloadType": payload_type,
+                "payload": payload,
+                "script": script,
+                "timeOfInjection": time_of_injection,
+                "timeOfAlert": time_of_alert,
+                "payload_fileName": payload_filename,
+                "packetInfo": packet_info,
+            }
+        )
+    )
 
 
 def error_logging(source, msg, max_chars=400):
@@ -118,7 +126,7 @@ def runtime_onM(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     scripts = []
     scripts_s = []
@@ -215,7 +223,7 @@ def runtime_onM(
                 driver.switch_to.window(extension)
                 driver.execute_script(script)
                 time_of_injection = time()
-                
+
                 # check for alerts in example
                 driver.switch_to.window(example)
                 try:
@@ -226,7 +234,7 @@ def runtime_onM(
 
                     # get time of success [2) extension]
                     time_of_success = time()
-                    
+
                     payload_logging(
                         "SUCCESS",
                         source,
@@ -241,9 +249,9 @@ def runtime_onM(
                         payload_file,
                         "nil",
                     )
-                    
+
                 except TimeoutException:
-                    # log for failed payloads                
+                    # log for failed payloads
                     payload_logging(
                         "FAILURE",
                         source,
@@ -258,7 +266,7 @@ def runtime_onM(
                         payload_file,
                         "nil",
                     )
-                
+
                 # check modifications for example
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
@@ -268,7 +276,7 @@ def runtime_onM(
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-                
+
             except JavascriptException:
                 pass
             except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -276,13 +284,17 @@ def runtime_onM(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
                 error_logging(source, f"{e.__class__.__name__}[Thd {order}]: {e}")
 
@@ -292,7 +304,7 @@ def runtime_onM(
                 driver.switch_to.window(extension)
                 driver.execute_script(script)
                 time_of_injection = time()
-                
+
                 driver.switch_to.window(example)
 
                 url = "http://127.0.0.1:8000/data/{}/{}".format(order, payload_no)
@@ -313,22 +325,22 @@ def runtime_onM(
                         payload_file,
                         packets,
                     )
-                    
+
                 else:
                     payload_logging(
-                    "FAILURE",
-                    source,
-                    ext_id,
-                    ext_name,
-                    url_of_injection_example,
-                    "server",
-                    payload_s[num],
-                    script,
-                    time_of_injection,
-                    "nil",
-                    payload_file,
-                    packets,
-                )
+                        "FAILURE",
+                        source,
+                        ext_id,
+                        ext_name,
+                        url_of_injection_example,
+                        "server",
+                        payload_s[num],
+                        script,
+                        time_of_injection,
+                        "nil",
+                        payload_file,
+                        packets,
+                    )
 
                 # check modifications for example.com
                 driver.switch_to.window(example)
@@ -339,7 +351,7 @@ def runtime_onM(
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-            
+
             except JavascriptException:
                 pass
             except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -347,21 +359,26 @@ def runtime_onM(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
 
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
-
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -377,7 +394,7 @@ def runtime_onC(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     scripts = []
     scripts_s = []
@@ -521,7 +538,7 @@ def runtime_onC(
                         payload_file,
                         "nil",
                     )
-                    
+
                 except TimeoutException:
                     payload_logging(
                         "FAILURE",
@@ -537,7 +554,7 @@ def runtime_onC(
                         payload_file,
                         "nil",
                     )
-                    
+
                 # check modifications for example
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
@@ -555,15 +572,19 @@ def runtime_onC(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -592,7 +613,7 @@ def runtime_onC(
                         payload_file,
                         packets,
                     )
-                    
+
                 else:
                     payload_logging(
                         "FAILURE",
@@ -608,13 +629,12 @@ def runtime_onC(
                         payload_file,
                         packets,
                     )
-                    
 
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(url_of_injection_example)
-            
+
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
@@ -627,20 +647,26 @@ def runtime_onC(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -656,7 +682,7 @@ def cookie_get(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     scripts = []
     scripts_s = []
@@ -787,7 +813,7 @@ def cookie_get(
         for num, script in enumerate(scripts):
             # update progress bar
             progress_bar.update(1)
-            
+
             try:
                 # cookie case scenario will start from injecting script into example.com
                 driver.switch_to.window(example)
@@ -819,7 +845,6 @@ def cookie_get(
                         payload_file,
                         "nil",
                     )
-                    
 
                 except TimeoutException:
                     driver.switch_to.window(extension)
@@ -849,7 +874,7 @@ def cookie_get(
                             payload_file,
                             "nil",
                         )
-                        
+
                     except TimeoutException:
                         payload_logging(
                             "FAILURE",
@@ -865,7 +890,7 @@ def cookie_get(
                             payload_file,
                             "nil",
                         )
-                        
+
                 # check modifications for example
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
@@ -883,15 +908,19 @@ def cookie_get(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -922,7 +951,7 @@ def cookie_get(
                         payload_file,
                         packets,
                     )
-                    
+
                 else:
                     payload_logging(
                         "FAILURE",
@@ -938,13 +967,12 @@ def cookie_get(
                         payload_file,
                         packets,
                     )
-                    
 
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(url_of_injection_example)
-            
+
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
@@ -957,20 +985,26 @@ def cookie_get(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -986,7 +1020,7 @@ def location_hash(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     scripts = []
     scripts_s = []
@@ -1063,7 +1097,6 @@ def location_hash(
                         payload_file,
                         "nil",
                     )
-                    
 
                 except TimeoutException:
                     driver.switch_to.window(extension)
@@ -1093,7 +1126,7 @@ def location_hash(
                             payload_file,
                             "nil",
                         )
-                        
+
                     except TimeoutException:
                         payload_logging(
                             "FAILURE",
@@ -1109,7 +1142,6 @@ def location_hash(
                             payload_file,
                             "nil",
                         )
-                        
 
                 # check modifications for example
                 driver.switch_to.window(example)
@@ -1120,7 +1152,7 @@ def location_hash(
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-            
+
             except JavascriptException:
                 pass
             except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -1128,15 +1160,19 @@ def location_hash(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -1167,7 +1203,7 @@ def location_hash(
                         payload_file,
                         packets,
                     )
-                    
+
                 else:
                     payload_logging(
                         "FAILURE",
@@ -1183,13 +1219,12 @@ def location_hash(
                         payload_file,
                         packets,
                     )
-                    
 
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(url_of_injection_example)
-            
+
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
@@ -1202,20 +1237,26 @@ def location_hash(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -1231,7 +1272,7 @@ def runtime_onME(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     scripts = []
     scripts_s = []
@@ -1328,7 +1369,6 @@ def runtime_onME(
                         payload_file,
                         "nil",
                     )
-                    
 
                 except TimeoutException:
                     driver.switch_to.window(extension)
@@ -1358,7 +1398,7 @@ def runtime_onME(
                             payload_file,
                             "nil",
                         )
-                        
+
                     except TimeoutException:
                         payload_logging(
                             "FAILURE",
@@ -1374,7 +1414,6 @@ def runtime_onME(
                             payload_file,
                             "nil",
                         )
-                    
 
                 # check modifications for example
                 driver.switch_to.window(example)
@@ -1385,7 +1424,7 @@ def runtime_onME(
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-            
+
             except JavascriptException:
                 pass
             except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -1393,16 +1432,19 @@ def runtime_onME(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
-
+                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -1433,7 +1475,7 @@ def runtime_onME(
                         payload_file,
                         packets,
                     )
-                    
+
                 else:
                     payload_logging(
                         "FAILURE",
@@ -1449,13 +1491,12 @@ def runtime_onME(
                         payload_file,
                         packets,
                     )
-                    
 
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(url_of_injection_example)
-            
+
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
@@ -1468,20 +1509,26 @@ def runtime_onME(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -1497,7 +1544,7 @@ def runtime_onCE(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     scripts = []
     scripts_s = []
@@ -1642,7 +1689,6 @@ def runtime_onCE(
                         payload_file,
                         "nil",
                     )
-                    
 
                 except TimeoutException:
                     driver.switch_to.window(extension)
@@ -1672,7 +1718,7 @@ def runtime_onCE(
                             payload_file,
                             "nil",
                         )
-                        
+
                     except TimeoutException:
                         payload_logging(
                             "FAILURE",
@@ -1688,7 +1734,6 @@ def runtime_onCE(
                             payload_file,
                             "nil",
                         )
-                        
 
                 # check modifications for example
                 driver.switch_to.window(example)
@@ -1699,7 +1744,7 @@ def runtime_onCE(
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-            
+
             except JavascriptException:
                 pass
             except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -1707,15 +1752,19 @@ def runtime_onCE(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for num, script in enumerate(scripts_s):
             progress_bar.update(1)
@@ -1746,7 +1795,7 @@ def runtime_onCE(
                         payload_file,
                         packets,
                     )
-                    
+
                 else:
                     payload_logging(
                         "FAILURE",
@@ -1762,13 +1811,12 @@ def runtime_onCE(
                         payload_file,
                         packets,
                     )
-                    
 
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(url_of_injection_example)
-            
+
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
@@ -1781,20 +1829,26 @@ def runtime_onCE(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -1810,7 +1864,7 @@ def window_name_N(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     source = "window.name"
     relative_path = "DYNAMIC_ANALYSIS/miscellaneous/example.html"
@@ -1840,7 +1894,7 @@ def window_name_N(
         for payload_no, payload in enumerate(payloads[1]):
             # update progress bar
             progress_bar.update(1)
-            
+
             try:
                 # since window.name is obtained from the website url, we will inject javascript to change the window.name
                 driver.switch_to.window(example)
@@ -1849,7 +1903,6 @@ def window_name_N(
 
                 # get time of injection
                 time_of_injection = time()
-            
 
                 # observe behavior after payload injection
                 # check for alerts in example
@@ -1875,7 +1928,6 @@ def window_name_N(
                         payload_file,
                         "nil",
                     )
-                    
 
                 except TimeoutException:
                     payload_logging(
@@ -1892,7 +1944,6 @@ def window_name_N(
                         payload_file,
                         "nil",
                     )
-                    
 
                     # 2) Check for alerts in example after refreshing extension
                     driver.switch_to.window(extension)
@@ -1921,7 +1972,7 @@ def window_name_N(
                             payload_file,
                             "nil",
                         )
-                        
+
                     except TimeoutException:
                         payload_logging(
                             "FAILURE",
@@ -1937,7 +1988,7 @@ def window_name_N(
                             payload_file,
                             "nil",
                         )
-                        
+
                 # check modifications for example
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
@@ -1947,7 +1998,7 @@ def window_name_N(
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-            
+
             except JavascriptException:
                 pass
             except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -1955,15 +2006,19 @@ def window_name_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
@@ -2002,7 +2057,7 @@ def window_name_N(
                         payload_file,
                         packets,
                     )
-                    
+
                 else:
                     payload_logging(
                         "FAILURE",
@@ -2018,13 +2073,12 @@ def window_name_N(
                         payload_file,
                         packets,
                     )
-                    
 
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get(url_of_injection_example)
-            
+
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
@@ -2037,20 +2091,26 @@ def window_name_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -2066,7 +2126,7 @@ def location_href_N(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     source = "location.href"
     relative_path = "DYNAMIC_ANALYSIS/miscellaneous/example.html"
@@ -2098,7 +2158,10 @@ def location_href_N(
         for payload_no, payload in enumerate(payloads[1]):
             # update progress bar
             progress_bar.update(1)
-            scripts = (f"location.href = `{url_of_injection_example}/?p={payload}`",f"location.href = `{url_of_injection_example}/#{payload}`")
+            scripts = (
+                f"location.href = `{url_of_injection_example}/?p={payload}`",
+                f"location.href = `{url_of_injection_example}/#{payload}`",
+            )
 
             # we can inject a script to change the location.href variable using query parameters or fragment Idenfiers
             for j in scripts:
@@ -2136,7 +2199,6 @@ def location_href_N(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -2153,7 +2215,6 @@ def location_href_N(
                             payload_file,
                             "nil",
                         )
-                        
 
                     driver.switch_to.window(extension)
 
@@ -2182,7 +2243,6 @@ def location_href_N(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -2199,7 +2259,6 @@ def location_href_N(
                             payload_file,
                             "nil",
                         )
-                        
 
                     # check modifications for example
                     driver.switch_to.window(example)
@@ -2217,16 +2276,22 @@ def location_href_N(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
@@ -2268,7 +2333,7 @@ def location_href_N(
                         payload_file,
                         packets,
                     )
-                    
+
                 else:
                     payload_logging(
                         "FAILURE",
@@ -2284,13 +2349,12 @@ def location_href_N(
                         payload_file,
                         packets,
                     )
-                    
 
                 # check modifications for example.com
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-            
+
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
@@ -2303,20 +2367,26 @@ def location_href_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -2332,7 +2402,7 @@ def context_menu(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     # save args
     args = locals()
@@ -2351,7 +2421,7 @@ def context_menu(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "contextMenu.selectionText"
 
@@ -2435,7 +2505,6 @@ def context_menu(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -2452,7 +2521,6 @@ def context_menu(
                             payload_file,
                             "nil",
                         )
-                        
 
                         driver.switch_to.window(extension)
 
@@ -2481,7 +2549,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -2498,7 +2565,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                     # check for any modifications (snapshot back to original)
                     # [1] check modifications for example.com
@@ -2518,16 +2584,22 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -2591,7 +2663,7 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -2607,7 +2679,6 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
 
                     # check for any modifications (snapshot back to original)
                     # [1] check modifications for example.com
@@ -2620,7 +2691,7 @@ def context_menu(
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
                         # print(f"Navigated back to '{url_path}' due to extension page source changes")
-                
+
                 except JavascriptException:
                     pass
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -2628,20 +2699,28 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
 
     # new contextMenu.link_Url (works)
@@ -2656,7 +2735,7 @@ def context_menu(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "contextMenu.linkUrl"
 
@@ -2687,12 +2766,14 @@ def context_menu(
                 # update progress bar
                 progress_bar.update(1)
                 cases = {
-                    r'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`':f'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`',
-                    r'var linkElement = document.getElementById("linkUrl"); linkElement.href = "?q=" + `{}`':'var linkElement = document.getElementById("linkUrl"); linkElement.href = "?q=" + `{}`'.format(payload.replace('"', '\\"').replace("'", "\\'"))
-                    }
+                    r'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`': f'var linkElement = document.getElementById("linkUrl"); linkElement.href = `{payload}`',
+                    r'var linkElement = document.getElementById("linkUrl"); linkElement.href = "?q=" + `{}`': 'var linkElement = document.getElementById("linkUrl"); linkElement.href = "?q=" + `{}`'.format(
+                        payload.replace('"', '\\"').replace("'", "\\'")
+                    ),
+                }
 
                 # there are 2 possible ways to insert paylaod, either directly or using query parameters.
-                for i,j in cases.items():
+                for i, j in cases.items():
                     try:
                         # for link url, inject our payload into the link.
                         driver.switch_to.window(example)
@@ -2755,7 +2836,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -2772,7 +2852,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                             driver.switch_to.window(extension)
 
@@ -2801,7 +2880,6 @@ def context_menu(
                                     payload_file,
                                     "nil",
                                 )
-                                
 
                             except TimeoutException:
                                 payload_logging(
@@ -2836,16 +2914,28 @@ def context_menu(
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
                             driver = Chrome(service=Service(), options=option)
-                            driver.get(url_of_injection_example) # browse to example.com
-                            example_source_code = driver.page_source # set new example page source
-                            example = driver.current_window_handle # set new example handle
-                            driver.switch_to.new_window("tab") # switch to new tab
-                            driver.get(url_path) # browse to new extension popup
-                            extension = driver.current_window_handle # set new extension handle
-                            extension_source_code = driver.page_source # set new extension page source
-    
+                            driver.get(
+                                url_of_injection_example
+                            )  # browse to example.com
+                            example_source_code = (
+                                driver.page_source
+                            )  # set new example page source
+                            example = (
+                                driver.current_window_handle
+                            )  # set new example handle
+                            driver.switch_to.new_window("tab")  # switch to new tab
+                            driver.get(url_path)  # browse to new extension popup
+                            extension = (
+                                driver.current_window_handle
+                            )  # set new extension handle
+                            extension_source_code = (
+                                driver.page_source
+                            )  # set new extension page source
+
                     except Exception as e:
-                        error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                        error_logging(
+                            source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                        )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -2911,7 +3001,7 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -2927,7 +3017,6 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
 
                     # check for any modifications (snapshot back to original)
                     # [1] check modifications for example.com
@@ -2939,7 +3028,7 @@ def context_menu(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
-                
+
                 except JavascriptException:
                     pass
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -2947,20 +3036,28 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
 
     # new contextMenu.srcUrl (works)
@@ -2975,7 +3072,7 @@ def context_menu(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "contextMenu.srcUrl"
 
@@ -3064,7 +3161,6 @@ def context_menu(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -3081,7 +3177,6 @@ def context_menu(
                             payload_file,
                             "nil",
                         )
-                        
 
                         # 2) Check for alerts in example after refreshing extension\
                         driver.switch_to.window(extension)
@@ -3111,7 +3206,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -3128,7 +3222,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -3147,19 +3240,25 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
             for payload_no, payload in enumerate(server_payloads[1]):
-                progress_bar.update(1) 
+                progress_bar.update(1)
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
@@ -3224,7 +3323,7 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -3240,7 +3339,6 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -3251,7 +3349,7 @@ def context_menu(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
-                
+
                 except JavascriptException:
                     pass
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -3259,20 +3357,28 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
 
     # new contextMenu.frameUrl (works for jerald but not for me. smlj)
@@ -3287,7 +3393,7 @@ def context_menu(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "contextMenu.frameUrl"
 
@@ -3318,11 +3424,11 @@ def context_menu(
                 # update progress bar
                 progress_bar.update(1)
                 cases = {
-                    r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`;':f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`',
-                    r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS#{payload}`;':f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS#{payload}`'
+                    r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`;': f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS?q={payload}`',
+                    r'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS#{payload}`;': f'var frameElement = document.getElementById("frameUrl"); frameElement.src = `https://www.example_xss.com/XSS#{payload}`',
                 }
 
-                for i,j in cases.items():
+                for i, j in cases.items():
                     try:
                         driver.switch_to.window(example)
 
@@ -3333,7 +3439,6 @@ def context_menu(
                         script = i
                         # get time of injection
                         time_of_injection = time()
-
 
                         # usage of context menu
                         # # perform right click to open context menu
@@ -3376,7 +3481,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -3393,7 +3497,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                             # 2) Check for alerts in example after refreshing extension
                             driver.switch_to.window(extension)
@@ -3422,7 +3525,6 @@ def context_menu(
                                     payload_file,
                                     "nil",
                                 )
-                                
 
                             except TimeoutException:
                                 payload_logging(
@@ -3439,7 +3541,6 @@ def context_menu(
                                     payload_file,
                                     "nil",
                                 )
-                                
 
                         # check for any modifications (snapshot back to original)
                         # [1] check modifications for example.com
@@ -3459,16 +3560,28 @@ def context_menu(
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
                             driver = Chrome(service=Service(), options=option)
-                            driver.get(url_of_injection_example) # browse to example.com
-                            example_source_code = driver.page_source # set new example page source
-                            example = driver.current_window_handle # set new example handle
-                            driver.switch_to.new_window("tab") # switch to new tab
-                            driver.get(url_path) # browse to new extension popup
-                            extension = driver.current_window_handle # set new extension handle
-                            extension_source_code = driver.page_source # set new extension page source
-    
+                            driver.get(
+                                url_of_injection_example
+                            )  # browse to example.com
+                            example_source_code = (
+                                driver.page_source
+                            )  # set new example page source
+                            example = (
+                                driver.current_window_handle
+                            )  # set new example handle
+                            driver.switch_to.new_window("tab")  # switch to new tab
+                            driver.get(url_path)  # browse to new extension popup
+                            extension = (
+                                driver.current_window_handle
+                            )  # set new extension handle
+                            extension_source_code = (
+                                driver.page_source
+                            )  # set new extension page source
+
                     except Exception as e:
-                        error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                        error_logging(
+                            source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                        )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -3525,7 +3638,7 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -3552,7 +3665,7 @@ def context_menu(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
-                
+
                 except JavascriptException:
                     pass
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -3560,20 +3673,28 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
 
     # new contextMenu.pageUrl (works)
@@ -3588,7 +3709,7 @@ def context_menu(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "contextMenu.pageUrl"
 
@@ -3624,11 +3745,11 @@ def context_menu(
                 encoded_payload = urllib.parse.quote(payload)
 
                 cases = {
-                    r"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`);":f"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`)",
-                    r"window.history.replaceState(null, null, `{website}#{encoded_payload}`);":f"window.history.replaceState(null, null, `{website}#{encoded_payload}`)"
+                    r"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`);": f"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`)",
+                    r"window.history.replaceState(null, null, `{website}#{encoded_payload}`);": f"window.history.replaceState(null, null, `{website}#{encoded_payload}`)",
                 }
 
-                for i,j in cases.items():
+                for i, j in cases.items():
                     try:
                         driver.switch_to.window(example)
                         driver.execute_script(j)
@@ -3675,7 +3796,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -3692,7 +3812,6 @@ def context_menu(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                             # 2) Check for alerts in example after refreshing extension
                             driver.switch_to.window(extension)
@@ -3720,7 +3839,6 @@ def context_menu(
                                     payload_file,
                                     "nil",
                                 )
-                                
 
                             except TimeoutException:
                                 payload_logging(
@@ -3737,7 +3855,6 @@ def context_menu(
                                     payload_file,
                                     "nil",
                                 )
-                                
 
                         # check for any modifications (snapshot back to original)
                         # [1] check modifications for example.com
@@ -3749,7 +3866,7 @@ def context_menu(
                         driver.switch_to.window(extension)
                         if extension_source_code != driver.page_source:
                             driver.get(url_path)
-                    
+
                     except JavascriptException:
                         pass
                     except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -3757,16 +3874,28 @@ def context_menu(
                             error_logging(source, f"{order} {e.__class__.__name__}")
                             driver.quit()
                             driver = Chrome(service=Service(), options=option)
-                            driver.get(url_of_injection_example) # browse to example.com
-                            example_source_code = driver.page_source # set new example page source
-                            example = driver.current_window_handle # set new example handle
-                            driver.switch_to.new_window("tab") # switch to new tab
-                            driver.get(url_path) # browse to new extension popup
-                            extension = driver.current_window_handle # set new extension handle
-                            extension_source_code = driver.page_source # set new extension page source
-    
+                            driver.get(
+                                url_of_injection_example
+                            )  # browse to example.com
+                            example_source_code = (
+                                driver.page_source
+                            )  # set new example page source
+                            example = (
+                                driver.current_window_handle
+                            )  # set new example handle
+                            driver.switch_to.new_window("tab")  # switch to new tab
+                            driver.get(url_path)  # browse to new extension popup
+                            extension = (
+                                driver.current_window_handle
+                            )  # set new extension handle
+                            extension_source_code = (
+                                driver.page_source
+                            )  # set new extension page source
+
                     except Exception as e:
-                        error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                        error_logging(
+                            source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}"
+                        )
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -3822,7 +3951,7 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -3838,7 +3967,6 @@ def context_menu(
                             payload_file,
                             packets,
                         )
-                        
 
                     # check for any modifications (snapshot back to original)
                     # [1] check modifications for example.com
@@ -3858,22 +3986,29 @@ def context_menu(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
-
 
     source = result["taintsource"]
     match source:
@@ -3888,7 +4023,7 @@ def context_menu(
         case "pageUrl":
             return context_menu_pageUrl_N(**args)
         case _:
-            progress_bar.update(payloads[0]+server_payloads[0])
+            progress_bar.update(payloads[0] + server_payloads[0])
             return
 
 
@@ -3904,7 +4039,7 @@ def chromeTabQuery(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     # save args
     args = locals()
@@ -3923,7 +4058,7 @@ def chromeTabQuery(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "chromeTabsQuery.title"
 
@@ -3987,7 +4122,6 @@ def chromeTabQuery(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -4004,7 +4138,6 @@ def chromeTabQuery(
                             payload_file,
                             "nil",
                         )
-                        
 
                         # 2) Check for alerts in example after refreshing extension
                         driver.switch_to.window(extension)
@@ -4032,7 +4165,6 @@ def chromeTabQuery(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -4049,7 +4181,7 @@ def chromeTabQuery(
                                 payload_file,
                                 "nil",
                             )
-                            
+
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
@@ -4067,16 +4199,22 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -4115,7 +4253,7 @@ def chromeTabQuery(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -4131,7 +4269,6 @@ def chromeTabQuery(
                             payload_file,
                             packets,
                         )
-                        
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -4142,7 +4279,7 @@ def chromeTabQuery(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
-                
+
                 except JavascriptException:
                     pass
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -4150,20 +4287,28 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
 
     # new chromeTabQuery.url (works)
@@ -4178,7 +4323,7 @@ def chromeTabQuery(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "chromeTabQuery.url"
 
@@ -4245,7 +4390,6 @@ def chromeTabQuery(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -4262,7 +4406,6 @@ def chromeTabQuery(
                             payload_file,
                             "nil",
                         )
-                        
 
                         # 2) Check for alerts in example after refreshing extension
                         driver.switch_to.window(extension)
@@ -4290,7 +4433,6 @@ def chromeTabQuery(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -4307,7 +4449,6 @@ def chromeTabQuery(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -4326,16 +4467,22 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -4377,7 +4524,7 @@ def chromeTabQuery(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -4393,7 +4540,6 @@ def chromeTabQuery(
                             payload_file,
                             packets,
                         )
-                        
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -4404,7 +4550,7 @@ def chromeTabQuery(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
-                
+
                 except JavascriptException:
                     pass
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -4412,20 +4558,28 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
 
     # new chromeTabQuery.favIconUrl (works)
@@ -4440,7 +4594,7 @@ def chromeTabQuery(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         # automatically populate server_progressbar
         progress_bar.update(server_payloads[0])
@@ -4534,7 +4688,7 @@ def chromeTabQuery(
                     driver.switch_to.window(example)
                     # change filename to payloads
                     rename_file_with_payloads(payload)
-                    
+
                     payload = payload.strip()
                     # use filename as payload in ext
                     # remove current favIconUrl
@@ -4585,7 +4739,6 @@ def chromeTabQuery(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -4602,7 +4755,6 @@ def chromeTabQuery(
                             payload_file,
                             "nil",
                         )
-                        
 
                         # 2) Check for alerts in example after refreshing extension
                         driver.switch_to.window(extension)
@@ -4630,7 +4782,6 @@ def chromeTabQuery(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -4647,7 +4798,6 @@ def chromeTabQuery(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                     # check modifications for example
                     driver.switch_to.window(example)
@@ -4666,23 +4816,27 @@ def chromeTabQuery(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
-
 
     source = result["taintsource"]
     match source:
@@ -4709,7 +4863,7 @@ def location_search_N(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     source = "location.search"
     relative_path = "DYNAMIC_ANALYSIS/miscellaneous/example.html"
@@ -4719,7 +4873,7 @@ def location_search_N(
     try:
         # navigate to example.com
         driver.get(url_of_injection_example)
-        
+
         # set handler for example.com
         example = driver.current_window_handle
 
@@ -4737,7 +4891,6 @@ def location_search_N(
 
         # get page source code of extension
         extension_source_code = driver.page_source
-
 
         for payload in payloads[1]:
             # with rlock:
@@ -4787,13 +4940,13 @@ def location_search_N(
                         payload_file,
                         "nil",
                     )
-                    
+
                     try:
                         # 2) Check for alerts in example after refreshing extension
                         driver.switch_to.window(extension)
                         driver.refresh()
                         driver.switch_to.window(example)
-                        
+
                         # wait 2 seconds to see if alert is detected
                         WebDriverWait(driver, 2).until(EC.alert_is_present())
                         alert = driver.switch_to.alert
@@ -4828,7 +4981,7 @@ def location_search_N(
                             payload_file,
                             "nil",
                         )
-                
+
                 # check modifications for example
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
@@ -4838,7 +4991,7 @@ def location_search_N(
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
                     driver.get(url_path)
-            
+
             except JavascriptException:
                 pass
             except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -4846,16 +4999,19 @@ def location_search_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
-
+                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for payload_no, payload in enumerate(server_payloads[1]):
             # with rlock:
@@ -4915,7 +5071,7 @@ def location_search_N(
                 driver.switch_to.window(example)
                 if example_source_code != driver.page_source:
                     driver.get("https://www.example.com")
-            
+
                 # check modifications for extension
                 driver.switch_to.window(extension)
                 if extension_source_code != driver.page_source:
@@ -4928,20 +5084,26 @@ def location_search_N(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                error_logging(
+                    source,
+                    f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                )
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
 
@@ -4957,7 +5119,7 @@ def chromeDebugger(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     # save args
     args = locals()
@@ -4976,7 +5138,7 @@ def chromeDebugger(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "chromeDebugger.GetTargets.title"
 
@@ -5045,7 +5207,6 @@ def chromeDebugger(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -5062,7 +5223,6 @@ def chromeDebugger(
                             payload_file,
                             "nil",
                         )
-                        
 
                         # 2) Check for alerts in example after refreshing extension
                         driver.switch_to.window(extension)
@@ -5090,7 +5250,6 @@ def chromeDebugger(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -5107,7 +5266,6 @@ def chromeDebugger(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
@@ -5126,20 +5284,26 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
-                
+
                 payload = payload.replace(
                     "mhudogbhrqrjxjxelug",
                     f"http://127.0.0.1:8000/xss/{order}/{payload_no}",
@@ -5157,7 +5321,6 @@ def chromeDebugger(
                         # Press the F12 key to open the developer tools
                         subprocess.call(["xdotool", "keydown", "F12"])
                         subprocess.call(["xdotool", "keyup", "F12"])
-
 
                     driver.switch_to.window(extension)
                     driver.refresh()
@@ -5182,7 +5345,7 @@ def chromeDebugger(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -5198,13 +5361,12 @@ def chromeDebugger(
                             payload_file,
                             packets,
                         )
-                        
 
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
                         driver.get(url_of_injection_example)
-                        
+
                     # [2] check modifications for extension
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
@@ -5217,20 +5379,28 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
 
     # new chrome.Debugger.GetTargets (works)
@@ -5245,7 +5415,7 @@ def chromeDebugger(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         source = "chromeTabQuery.url"
 
@@ -5316,7 +5486,6 @@ def chromeDebugger(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -5333,7 +5502,6 @@ def chromeDebugger(
                             payload_file,
                             "nil",
                         )
-                        
 
                         # 2) Check for alerts in example after refreshing extension
                         driver.switch_to.window(extension)
@@ -5361,7 +5529,6 @@ def chromeDebugger(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -5378,7 +5545,6 @@ def chromeDebugger(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -5397,16 +5563,22 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
             for payload_no, payload in enumerate(server_payloads[1]):
                 progress_bar.update(1)
@@ -5453,7 +5625,7 @@ def chromeDebugger(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -5469,7 +5641,6 @@ def chromeDebugger(
                             payload_file,
                             packets,
                         )
-                        
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -5480,7 +5651,7 @@ def chromeDebugger(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
-                
+
                 except JavascriptException:
                     pass
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -5488,20 +5659,28 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[2]: {e}")
+                    error_logging(
+                        source,
+                        f"{e.__class__.__name__}[Thread {order} svr payload]: {e}",
+                    )
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
 
     # new chromeDebugger_favIconUrl (works)
@@ -5516,7 +5695,7 @@ def chromeDebugger(
         ext_name,
         payload_file,
         result,
-        server_payloads
+        server_payloads,
     ):
         # automatically populate server_progressbar
         progress_bar.update(server_payloads[0])
@@ -5639,7 +5818,6 @@ def chromeDebugger(
                         # Press the F12 key to open the developer tools
                         subprocess.call(["xdotool", "keydown", "F12"])
                         subprocess.call(["xdotool", "keyup", "F12"])
-                    
 
                     # observe behavior after payload injection
                     # 1) Check for alerts in example.com
@@ -5665,7 +5843,6 @@ def chromeDebugger(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -5682,7 +5859,6 @@ def chromeDebugger(
                             payload_file,
                             "nil",
                         )
-                        
 
                         # 2) Check for alerts in example after refreshing extension
                         driver.switch_to.window(extension)
@@ -5710,7 +5886,6 @@ def chromeDebugger(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                         except TimeoutException:
                             payload_logging(
@@ -5727,7 +5902,6 @@ def chromeDebugger(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -5746,23 +5920,27 @@ def chromeDebugger(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         except Exception as e:
             error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
         finally:
-            error_logging(source, f"{order} finally")
             driver.quit()
-
 
     source = result["taintsource"]
     match source:
@@ -5789,7 +5967,7 @@ def windowAddEventListenerMessage(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     source = "window.addEventListerner('message')"
     url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
@@ -5825,7 +6003,10 @@ def windowAddEventListenerMessage(
             payload = payload.strip()
             taintsink = result["sink"]
             script = nomagic(taintsink, payload, {})
-            cases = (f"window.postMessage({script},'*')",f"window.postMessage(`{payload}`,'*')")
+            cases = (
+                f"window.postMessage({script},'*')",
+                f"window.postMessage(`{payload}`,'*')",
+            )
 
             for i in cases:
                 try:
@@ -5860,7 +6041,6 @@ def windowAddEventListenerMessage(
                             payload_file,
                             "nil",
                         )
-                        
 
                     except TimeoutException:
                         payload_logging(
@@ -5877,7 +6057,6 @@ def windowAddEventListenerMessage(
                             payload_file,
                             "nil",
                         )
-                        
 
                         # 2) Check for alerts in example after refreshing extension
                         driver.switch_to.window(extension)
@@ -5907,7 +6086,7 @@ def windowAddEventListenerMessage(
                                 payload_file,
                                 "nil",
                             )
-                            
+
                         except TimeoutException:
                             payload_logging(
                                 "FAILURE",
@@ -5923,7 +6102,6 @@ def windowAddEventListenerMessage(
                                 payload_file,
                                 "nil",
                             )
-                            
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -5941,16 +6119,22 @@ def windowAddEventListenerMessage(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
 
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
         for payload_no, payload in enumerate(server_payloads[1]):
             progress_bar.update(1)
@@ -5960,7 +6144,10 @@ def windowAddEventListenerMessage(
 
             taintsink = result["sink"]
             script = nomagic(taintsink, payload, {})
-            cases = (f"window.postMessage({script},'*')",f"window.postMessage(`{payload}`,'*')")
+            cases = (
+                f"window.postMessage({script},'*')",
+                f"window.postMessage(`{payload}`,'*')",
+            )
 
             for i in cases:
                 try:
@@ -5993,7 +6180,7 @@ def windowAddEventListenerMessage(
                             payload_file,
                             packets,
                         )
-                        
+
                     else:
                         payload_logging(
                             "FAILURE",
@@ -6009,7 +6196,6 @@ def windowAddEventListenerMessage(
                             payload_file,
                             packets,
                         )
-                        
 
                     # check modifications for example.com
                     driver.switch_to.window(example)
@@ -6020,7 +6206,7 @@ def windowAddEventListenerMessage(
                     driver.switch_to.window(extension)
                     if extension_source_code != driver.page_source:
                         driver.get(url_path)
-                
+
                 except JavascriptException:
                     pass
                 except (WebDriverException, ProtocolError, MaxRetryError) as e:
@@ -6028,24 +6214,30 @@ def windowAddEventListenerMessage(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(url_of_injection_example) # browse to example.com
-                        example_source_code = driver.page_source # set new example page source
-                        example = driver.current_window_handle # set new example handle
-                        driver.switch_to.new_window("tab") # switch to new tab
-                        driver.get(url_path) # browse to new extension popup
-                        extension = driver.current_window_handle # set new extension handle
-                        extension_source_code = driver.page_source # set new extension page source
+                        driver.get(url_of_injection_example)  # browse to example.com
+                        example_source_code = (
+                            driver.page_source
+                        )  # set new example page source
+                        example = driver.current_window_handle  # set new example handle
+                        driver.switch_to.new_window("tab")  # switch to new tab
+                        driver.get(url_path)  # browse to new extension popup
+                        extension = (
+                            driver.current_window_handle
+                        )  # set new extension handle
+                        extension_source_code = (
+                            driver.page_source
+                        )  # set new extension page source
                 except Exception as e:
                     error_logging(source, f"{e.__class__.__name__}: {e}")
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
 
-def forms(
-    rlock,  
+
+def form(
+    rlock,
     progress_bar,
     order,
     option,
@@ -6055,32 +6247,26 @@ def forms(
     ext_name,
     payload_file,
     result,
-    server_payloads
+    server_payloads,
 ):
     # obtain path to ext (where form is present)
-    path = result['path'].split(ext_name)
-    url_path = f'{ext_id}/{ext_name}/{path[1]}'
-
+    path = result["path"].split(ext_name)
+    url_path = f"{ext_id}/{ext_name}/{path[1]}" # SEEMS WRONG NEED FIX
 
     # automatically populate server_progressbar
     progress_bar.update(server_payloads[0])
 
-    source = 'input fields (forms)'
+    source = "input fields (forms)"
     url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/example.html"
-
+    website = "file://" + os.path.abspath(url_of_injection_example)
     driver = Chrome(service=Service(), options=option)
 
     try:
-        website = "file://" + os.path.abspath(url_of_injection_example)
-
         # get www.example.com
         driver.get(website)
+
         # set handler for example.com
         example = driver.current_window_handle
-
-        # Wait up to 5 seconds for the title to become "Xss Website"
-        title_condition = EC.title_is("Xss Website")
-        WebDriverWait(driver, 5).until(title_condition)
 
         # get page source code of example.com
         example_source_code = driver.page_source
@@ -6097,12 +6283,12 @@ def forms(
             driver.switch_to.window(extension)
             elements = []
             # Find all <input> elements
-            elements.extend(driver.find_elements(By.TAG_NAME, 'input'))
+            elements.extend(driver.find_elements(By.TAG_NAME, "input"))
             # Find all <textarea> elements
-            elements.extend(driver.find_elements(By.TAG_NAME, 'textarea'))
+            elements.extend(driver.find_elements(By.TAG_NAME, "textarea"))
             # Find all <select> elements
-            elements.extend(driver.find_elements(By.TAG_NAME, 'select'))
-            return elements   
+            elements.extend(driver.find_elements(By.TAG_NAME, "select"))
+            return elements
 
         elements = find_input_elements()
 
@@ -6118,74 +6304,71 @@ def forms(
                     time_of_injection = time()
 
                     for element in elements:
-                        match element.get_attribute('type'):
-                            case 'text':
+                        match element.get_attribute("type"):
+                            case "text" | "textarea" | "password" | "search":
                                 element.send_keys(payload)
-                            case 'textarea':
-                                element.send_keys(payload)
-                            case 'password':
-                                element.send_keys(payload)
-                            case 'textarea':
-                                element.send_keys(payload)
-                            case 'checkbox':
+                            # case 'textarea':
+                            #     element.send_keys(payload)
+                            # case 'password':
+                            #     element.send_keys(payload)
+                            case "checkbox":
                                 if not element.is_selected():
                                     element.click()
-                            case 'radio':
+                            case "radio":
                                 if not element.is_selected():
                                     element.click()
-                            case 'reset':
-                                pass
-                            case 'button':
-                                pass
-                            case 'file':
-                                pass
-                            case 'date':
+                            # case 'reset':
+                            #     pass
+                            # case 'button':
+                            #     pass
+                            # case 'file':
+                            #     pass
+                            case "date":
                                 # some random date
-                                element.send_keys('2023-08-16')
-                            case 'time':
+                                element.send_keys("2023-08-16")
+                            case "time":
                                 # some random time
-                                element.send_keys('15:30')
-                            case 'number':
+                                element.send_keys("15:30")
+                            case "number":
                                 # some random number
-                                element.send_keys('69')
-                            case 'email':
+                                element.send_keys("69")
+                            case "email":
                                 # some random email
-                                element.send_keys('scanext@gmail.com')
-                            case 'url':
+                                element.send_keys("scanext@gmail.com")
+                            case "url":
                                 # some random url
-                                element.send_keys('https://scanext.com')
-                            case 'tel':
+                                element.send_keys("https://scanext.com")
+                            case "tel":
                                 # some random tel
-                                element.send_keys('999')
-                            case 'color':
-                                pass
-                            case 'range':
-                                pass
-                            case 'hidden':
-                                pass
-                            case 'search':
-                                element.send_keys(payload)
-                            case 'image':
-                                pass
-                            case 'month':
+                                element.send_keys("999")
+                            # case 'color':
+                            #     pass
+                            # case 'range':
+                            #     pass
+                            # case 'hidden':
+                            #     pass
+                            # case 'search':
+                            #     element.send_keys(payload)
+                            # case 'image':
+                            #     pass
+                            case "month":
                                 # some random month
-                                element.send_keys('2023-08')
-                            case 'week':
+                                element.send_keys("2023-08")
+                            case "week":
                                 # some random week
-                                element.send_keys('2023-W33')
-                            case 'datetime-local':
+                                element.send_keys("2023-W33")
+                            case "datetime-local":
                                 # some random month
-                                element.send_keys('2023-08-16T15:30')
-                            case 'select-one':
+                                element.send_keys("2023-08-16T15:30")
+                            case "select-one":
                                 select = Select(element)
                                 select.select_by_index(0)
-                                pass
-                            case default:
+                            case _:
                                 pass
                     # submit form
-                    element.submit()
+                    element.submit() # YOU SURE SUBMIT FORM LIKE THIS?
                 except Exception as e:
-                    error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                    error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
                     pass
 
                 try:
@@ -6202,7 +6385,7 @@ def forms(
                         "normal",
                         payload,
                         r"[Automated Pentesting Input Fields with Selenium]",
-                        time_of_injection,
+                        time_of_injection, # UNBOUND
                         time(),
                         payload_file,
                         "nil",
@@ -6217,7 +6400,7 @@ def forms(
                         "normal",
                         payload,
                         r"[Automated Pentesting Input Fields with Selenium]",
-                        time_of_injection,
+                        time_of_injection, # UNBOUND
                         "nil",
                         payload_file,
                         "nil",
@@ -6228,7 +6411,7 @@ def forms(
                         driver.switch_to.window(extension)
                         driver.refresh()
                         driver.switch_to.window(example)
-                        
+
                         # wait 2 seconds to see if alert is detected
                         WebDriverWait(driver, 2).until(EC.alert_is_present())
                         alert = driver.switch_to.alert
@@ -6242,8 +6425,8 @@ def forms(
                             url_of_injection_example,
                             "normal",
                             payload,
-                            r"[Automated Pentesting Input Fields with Selenium]",
-                            time_of_injection,
+                            "[Automated Pentesting Input Fields with Selenium]",
+                            time_of_injection, # UNBOUND
                             time(),
                             payload_file,
                             "nil",
@@ -6257,8 +6440,8 @@ def forms(
                             url_of_injection_example,
                             "normal",
                             payload,
-                            r"[Automated Pentesting Input Fields with Selenium]",
-                            time_of_injection,
+                            "[Automated Pentesting Input Fields with Selenium]",
+                            time_of_injection, # UNBOUND
                             "nil",
                             payload_file,
                             "nil",
@@ -6281,25 +6464,24 @@ def forms(
                     error_logging(source, f"{order} {e.__class__.__name__}")
                     driver.quit()
                     driver = Chrome(service=Service(), options=option)
-                    driver.get(url_of_injection_example) # browse to example.com
-                    example_source_code = driver.page_source # set new example page source
-                    example = driver.current_window_handle # set new example handle
-                    driver.switch_to.new_window("tab") # switch to new tab
-                    driver.get(url_path) # browse to new extension popup
-                    extension = driver.current_window_handle # set new extension handle
-                    extension_source_code = driver.page_source # set new extension page source
+                    driver.get(url_of_injection_example)  # browse to example.com
+                    example_source_code = (
+                        driver.page_source
+                    )  # set new example page source
+                    example = driver.current_window_handle  # set new example handle
+                    driver.switch_to.new_window("tab")  # switch to new tab
+                    driver.get(url_path)  # browse to new extension popup
+                    extension = driver.current_window_handle  # set new extension handle
+                    extension_source_code = (
+                        driver.page_source
+                    )  # set new extension page source
             except Exception as e:
-                error_logging(source, f"{e.__class__.__name__}[{order}new]: {e}")
+                error_logging(source, f"{e.__class__.__name__}[Thread {order} norm payload]: {e}")
 
     except Exception as e:
         error_logging(source, f"{e.__class__.__name__}[Thread {order} ended]: {e}")
     finally:
-        error_logging(source, f"{order} finally")
         driver.quit()
-
-
-
-
 
 
 # store functions in dict
@@ -6322,5 +6504,5 @@ sourcelist = {
     "location_search": location_search_N,
     "window_addEventListener_message": windowAddEventListenerMessage,
     "window_name": window_name_N,
-    "forms": forms
+    "form": form,
 }
