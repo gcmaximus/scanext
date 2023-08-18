@@ -108,9 +108,13 @@ def static_results_report(results, extension: Path, soup, config, report_path):
 
             # get SS line numbers
             dataflow_trace = {}
+            single_line = "/* Source + Sink */"
+            separated_lines = ["/* Source */", "/* Sink */"]
             if source == "form":
                 source_line_no = result["start"]["line"]
                 sink_line_no = result["end"]["line"]
+                single_line = "/* Form */"
+                separated_lines = ["/* Start of form */", "/* End of form */"]
             else: 
                 dataflow_trace: dict = result["extra"]["dataflow_trace"]
                 source_line_no = dataflow_trace["taint_source"][1][0]["start"]["line"]
@@ -133,27 +137,32 @@ def static_results_report(results, extension: Path, soup, config, report_path):
             # check if:
             # line difference < 1?
             code_segment = ""
+
+            
+
+
+
             if line_diff < 1:
                 code_segment = f"""
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source + Sink */</span></code>
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">{single_line}</span></code>
     </pre>"""
 
             # line difference == 1?
             elif line_diff == 1:
                 code_segment = f"""
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">{separated_lines[0]}</span></code><code>
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">{separated_lines[1]}</span></code>
     </pre>"""
 
             # line difference > 1?
             elif line_diff > 1:
                 code_segment = f"""
 <pre class="code-block" id="code-block-{result_no}"><code class="code-source">
-    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">/* Source */</span></code><code>
+    {source_line_no}&#9;&#9;<mark id="code-source-{result_no}">{source_line}</mark>&#9;<span class="code-comment">{separated_lines[0]}</span></code><code>
     ...&#9;&#9;...</code><code class="code-sink">
-    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">/* Sink */</span></code>
+    {sink_line_no}&#9;&#9;<mark id="code-sink-{result_no}">{sink_line}</mark>&#9;<span class="code-comment">{separated_lines[1]}</span></code>
     </pre>"""
 
             # intermediate vars > 1? (provide detailed tainted path)
