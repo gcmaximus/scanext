@@ -2422,8 +2422,8 @@ def context_menu(
 ):
     # save args
     args = locals()
-    url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
-    website = "file://" + os.path.abspath(url_of_injection_example)
+    relative_path = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
+    url_of_injection_example = "file://" + os.path.abspath(relative_path)
 
     # new contextMenu.selectionText_normal (works)
     def context_menu_selectionText_N(
@@ -2444,7 +2444,7 @@ def context_menu(
         driver = Chrome(service=Service(), options=option)
         try:
             # get www.example.com
-            driver.get(website)
+            driver.get(url_of_injection_example)
 
             # set handler for example.com
             example = driver.current_window_handle
@@ -2586,7 +2586,7 @@ def context_menu(
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # [2] check modifications for extension
                     driver.switch_to.window(extension)
@@ -2703,7 +2703,7 @@ def context_menu(
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # [2] check modifications for extension
                     driver.switch_to.window(extension)
@@ -2762,7 +2762,7 @@ def context_menu(
 
         try:
             # get test xss website
-            driver.get(website)
+            driver.get(url_of_injection_example)
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -2919,7 +2919,7 @@ def context_menu(
                         # [1] check modifications for example.com
                         driver.switch_to.window(example)
                         if example_source_code != driver.page_source:
-                            driver.get(website)
+                            driver.get(url_of_injection_example)
 
                         # [2] check modifications for extension
                         driver.switch_to.window(extension)
@@ -3040,7 +3040,7 @@ def context_menu(
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # [2] check modifications for extension
                     driver.switch_to.window(extension)
@@ -3098,7 +3098,7 @@ def context_menu(
 
         try:
             # get www.example.com
-            driver.get(website)
+            driver.get(url_of_injection_example)
             # set handler for example.com
             example = driver.current_window_handle
             # driver.save_screenshot('DYNAMIC_ANALYSIS/ss.png')
@@ -3244,7 +3244,7 @@ def context_menu(
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # check modifications for extension
                     driver.switch_to.window(extension)
@@ -3364,7 +3364,7 @@ def context_menu(
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # check modifications for extension
                     driver.switch_to.window(extension)
@@ -3422,7 +3422,7 @@ def context_menu(
 
         try:
             # get test xss website
-            driver.get(website)
+            driver.get(url_of_injection_example)
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -3567,7 +3567,7 @@ def context_menu(
                         # [1] check modifications for example.com
                         driver.switch_to.window(example)
                         if example_source_code != driver.page_source:
-                            driver.get(website)
+                            driver.get(url_of_injection_example)
 
                         # [2] check modifications for extension
                         driver.switch_to.window(extension)
@@ -3679,7 +3679,7 @@ def context_menu(
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # [2] check modifications for extension
                     driver.switch_to.window(extension)
@@ -3737,7 +3737,7 @@ def context_menu(
 
         try:
             # get test xss website
-            driver.get(website)
+            driver.get(url_of_injection_example)
 
             # set handler for example.com
             example = driver.current_window_handle
@@ -3765,8 +3765,8 @@ def context_menu(
                 encoded_payload = urllib.parse.quote(payload)
 
                 cases = {
-                    r"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`);": f"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`)",
-                    r"window.history.replaceState(null, null, `{website}#{encoded_payload}`);": f"window.history.replaceState(null, null, `{website}#{encoded_payload}`)",
+                    r"window.history.replaceState(null, null, `{website}?qureyParam={encoded_payload}`);": f"window.history.replaceState(null, null, `{url_of_injection_example}?qureyParam={encoded_payload}`)",
+                    r"window.history.replaceState(null, null, `{website}#{encoded_payload}`);": f"window.history.replaceState(null, null, `{url_of_injection_example}#{encoded_payload}`)",
                 }
 
                 for i, j in cases.items():
@@ -3880,7 +3880,7 @@ def context_menu(
                         # [1] check modifications for example.com
                         driver.switch_to.window(example)
                         if example_source_code != driver.page_source:
-                            driver.get(website)
+                            driver.get(url_of_injection_example)
 
                         # [2] check modifications for extension
                         driver.switch_to.window(extension)
@@ -3926,7 +3926,7 @@ def context_menu(
                 try:
                     driver.switch_to.window(example)
                     driver.execute_script(
-                        f"window.history.replaceState(null, null, `{website}?qureyParam={payload}`)"
+                        f"window.history.replaceState(null, null, `{url_of_injection_example}?qureyParam={payload}`)"
                     )
                     # get time of injection
                     time_of_injection = time()
@@ -3991,7 +3991,7 @@ def context_menu(
                     # [1] check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # [2] check modifications for extension
                     driver.switch_to.window(extension)
@@ -4626,7 +4626,7 @@ def chromeTabQuery(
 
         source = "chromeTabsQuery.favIconUrl"
 
-        url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
+        relative_path = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
 
         driver = Chrome(service=Service(), options=option)
         dir_path = Path(
@@ -4666,10 +4666,10 @@ def chromeTabQuery(
         access_directory()
 
         try:
-            website = "file://" + os.path.abspath(url_of_injection_example)
+            url_of_injection_example = "file://" + os.path.abspath(relative_path)
 
             # get www.example.com
-            driver.get(website)
+            driver.get(url_of_injection_example)
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -4827,7 +4827,7 @@ def chromeTabQuery(
                     # check modifications for example
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # check modifications for extension
                     driver.switch_to.window(extension)
@@ -5737,7 +5737,7 @@ def chromeDebugger(
         progress_bar.update(server_payloads[0])
 
         source = "chromeTabsQuery.favIconUrl"
-        url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
+        relative_path = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
 
         driver = Chrome(service=Service(), options=option)
         dir_path = Path(
@@ -5777,10 +5777,10 @@ def chromeDebugger(
         access_directory()
 
         try:
-            website = "file://" + os.path.abspath(url_of_injection_example)
+            url_of_injection_example = "file://" + os.path.abspath(relative_path)
 
             # get www.example.com
-            driver.get(website)
+            driver.get(url_of_injection_example)
             # set handler for example.com
             example = driver.current_window_handle
 
@@ -5942,7 +5942,7 @@ def chromeDebugger(
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # check modifications for extension
                     driver.switch_to.window(extension)
@@ -6009,15 +6009,15 @@ def windowAddEventListenerMessage(
     server_payloads,
 ):
     source = "window.addEventListerner('message')"
-    url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
+    relative_path = "DYNAMIC_ANALYSIS/miscellaneous/xss_website.html"
 
     driver = Chrome(service=Service(), options=option)
 
     try:
-        website = "file://" + os.path.abspath(url_of_injection_example)
+        url_of_injection_example = "file://" + os.path.abspath(relative_path)
 
         # get www.example.com
-        driver.get(website)
+        driver.get(url_of_injection_example)
         # set handler for example.com
         example = driver.current_window_handle
 
@@ -6145,7 +6145,7 @@ def windowAddEventListenerMessage(
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # check modifications for extension
                     driver.switch_to.window(extension)
@@ -6242,7 +6242,7 @@ def windowAddEventListenerMessage(
                     # check modifications for example.com
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # check modifications for extension
                     driver.switch_to.window(extension)
@@ -6300,13 +6300,13 @@ def form(
     # automatically populate server_progressbar
     progress_bar.update(server_payloads[0])
 
-    url_of_injection_example = "DYNAMIC_ANALYSIS/miscellaneous/example.html"
-    website = "file://" + os.path.abspath(url_of_injection_example)
+    relative_path = "DYNAMIC_ANALYSIS/miscellaneous/example.html"
+    url_of_injection_example = "file://" + os.path.abspath(relative_path)
     driver = Chrome(service=Service(), options=option)
 
     try:
         # get www.example.com
-        driver.get(website)
+        driver.get(url_of_injection_example)
 
         # set handler for example.com
         example = driver.current_window_handle
@@ -6480,7 +6480,7 @@ def form(
                     # check modifications for example
                     driver.switch_to.window(example)
                     if example_source_code != driver.page_source:
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
 
                     # check modifications for extension
                     driver.switch_to.window(extension)
@@ -6494,7 +6494,7 @@ def form(
                         error_logging(source, f"{order} {e.__class__.__name__}")
                         driver.quit()
                         driver = Chrome(service=Service(), options=option)
-                        driver.get(website)
+                        driver.get(url_of_injection_example)
                         example_source_code = (
                             driver.page_source
                         )  # set new example page source
